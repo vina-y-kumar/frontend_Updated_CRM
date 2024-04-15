@@ -39,21 +39,16 @@ const AccountsTable1 = () => {
           <option value="2">Option 2</option>
         </select>
         <select
-          value={viewMode}
-          onChange={handleViewModeChange}
-          className="view-mode-select"
-        >
-          <option value="">View!</option>
-          <option onClick={() => handleViewModeChange("table")} value="">
-            Table View
-          </option>
-          <option onClick={() => handleViewModeChange("tile")}>
-            Tile View
-          </option>
-          <option onClick={() => handleViewModeChange("list")}>
-            List View
-          </option>
-        </select>
+  value={viewMode}
+  onChange={(e) => handleViewModeChange(e.target.value)}
+  className="view-mode-select"
+>
+  <option value="">View!</option>
+  <option value="table">Table View</option>
+  <option value="tile">Tile View</option>
+  <option value="list">List View</option>
+</select>
+
       </div>
 
       <br />

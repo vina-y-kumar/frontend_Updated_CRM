@@ -41,10 +41,11 @@ const MassEmailComponent = ({accessToken}) => {
 
   return (
     <div className="mass-email-container">
-      <h2>Compose Mass Email</h2>
-      <div className="form-group">
-        <label htmlFor="recipients">To:</label>
+      <h2 className='mass-email-heading'>Compose Mass Email</h2>
+      <div className="form-group1">
+        <label className='label_' htmlFor="recipients">To:</label>
         <input
+          className='inp-ut'
           type="text"
           id="recipients"
           value={recipients}
@@ -52,32 +53,34 @@ const MassEmailComponent = ({accessToken}) => {
           placeholder="Enter recipients' email addresses (comma-separated)"
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="template">Select Template:</label>
-        <select id="template" value={template} onChange={(e) => setTemplate(e.target.value)}>
+      <div className="form-group1">
+        <label className='label_' htmlFor="template">Select Template:</label>
+        <select id="template" value={template} className='select' onChange={(e) => setTemplate(e.target.value)}>
           <option value="">Select a template</option>
           <option value="template1">Template 1</option>
           <option value="template2">Template 2</option>
           <option value="template3">Template 3</option>
         </select>
       </div>
-      <div className="form-group">
-        <label htmlFor="from">From:</label>
-        <input type="text" id="from" value={from} onChange={(e) => setFrom(e.target.value)} />
+      <div className="form-group1">
+        <label className='label_' htmlFor="from">From:</label>
+        <input className='inp-ut' type="text" id="from" value={from} onChange={(e) => setFrom(e.target.value)} />
       </div>
-      <div className="form-group">
-        <label htmlFor="replyTo">Reply-To:</label>
-        <input type="text" id="replyTo" value={replyTo} onChange={(e) => setReplyTo(e.target.value)} />
+      <div className="form-group1">
+        <label className='label_' htmlFor="replyTo">Reply-To:</label>
+        <input className='inp-ut' type="text" id="replyTo" value={replyTo} onChange={(e) => setReplyTo(e.target.value)} />
       </div>
-      <div className="form-group">
+      <div className="form-group1">
         <label>Send Option:</label>
         <div>
           <input
+            className='rdio'
             type="radio"
             id="sendNow"
             value="sendNow"
             checked={sendOption === 'sendNow'}
             onChange={() => setSendOption('sendNow')}
+            
           />
           <label htmlFor="sendNow">Send Now</label>
         </div>
@@ -99,7 +102,7 @@ const MassEmailComponent = ({accessToken}) => {
           )}
         </div>
       </div>
-      <div className="form-group">
+      <div className="form-group1">
         <button className="send-email-button" onClick={sendOption === 'sendNow' ? handleSendNow : handleSendLater}>
           {sendOption === 'sendNow' ? 'Send Now' : 'Schedule'}
         </button>

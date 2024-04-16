@@ -1,9 +1,6 @@
-import "./contactsTable.css";
-// import { Header } from "../../components/Header";
 import React, { useEffect, useState } from "react";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
-import "./Form2.jsx";
 import { Card, ListGroup } from "react-bootstrap";
 
 export const ContactsTable = () => {
@@ -16,6 +13,9 @@ export const ContactsTable = () => {
     phone: "",
     createdBy: "",
   });
+  const [filteredContacts, setFilteredContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchAccountTerm, setSearchAccountTerm] = useState(""); // New state for account dropdown search
 
   useEffect(() => {
     fetchContacts();
@@ -27,12 +27,13 @@ export const ContactsTable = () => {
         "https://backendcrmnurenai.azurewebsites.net/contacts/"
       );
       const data = await response.json();
-      console.log(response);
       setContacts(data);
+      setFilteredContacts(data);
     } catch (error) {
       console.error("Error fetching contacts:", error);
     }
   };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewContact((prevState) => ({
@@ -40,32 +41,11 @@ export const ContactsTable = () => {
       [name]: value,
     }));
   };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await post(
-        "https://backendcrmnurenai.azurewebsites.net/contacts/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newContact),
-        }
-      );
-      if (response.ok) {
-        fetchContacts();
-        setNewContact({
-          first_name: "",
-          account: "",
-          email: "",
-          phone: "",
-          createdBy: "",
-        });
-        console.log("New contact created successfully");
-      } else {
-        console.error("Failed to create new contact");
-      }
+      // Your form submission logic here
     } catch (error) {
       console.error("Error creating new contact:", error);
     }
@@ -78,20 +58,72 @@ export const ContactsTable = () => {
   const handleAction = () => {
     console.log("Action required");
   };
+
   const handlePlusClick1 = () => {
     console.log("Plus clicked");
   };
+
   const handleRecords1 = (event) => {
     console.log("Records per page: ", event.target.value);
   };
+
+  const handleFilterChange = (event) => {
+    const filterBy = event.target.value;
+    if (filterBy === "first_name") {
+      setFilteredContacts(
+        contacts.slice().sort((a, b) =>
+          a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1
+        )
+      );
+    } else if (filterBy === "createdBy") {
+      setFilteredContacts(
+        contacts.filter((contact) =>
+          contact.createdBy.toLowerCase().includes(event.target.value.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredContacts(contacts);
+    }
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    if (event.target.value === "") {
+      setFilteredContacts(contacts);
+    } else {
+      setFilteredContacts(
+        contacts.filter((contact) =>
+          contact.first_name.toLowerCase().includes(event.target.value.toLowerCase())
+        )
+      );
+    }
+  };
+
+  const handleAccountSearch = (event) => {
+    setSearchAccountTerm(event.target.value);
+    // Filter dropdown options based on the search term
+    // Assuming your dropdown options are stored in `contacts`
+    const filteredOptions = contacts.filter((contact) =>
+      contact.account.toLowerCase().includes(event.target.value.toLowerCase())
+    );
+    setFilteredContacts(filteredOptions);
+  };
+
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
   };
+
   return (
     <div className="calls1">
-      <div className="home_left_box1">
+       <div className="home_left_box1">
         <Sidebar />
       </div>
+
+      <div >
+
+      </div>
+      <div className="contain1">
+
       <div className="contain1" style={{width:"100%"}}>
         <div className="meet1">
           <div className="Addcalls1">
@@ -147,7 +179,8 @@ export const ContactsTable = () => {
           <div className="filter-container">
             <h2>Filter Contacts by</h2>
             <div className="search-bar">
-              <input type="text" placeholder="Search..." />
+            <input type="text" placeholder="Search..." value={searchTerm} onChange={handleSearch} />
+
             </div>
             <div className="dropdown-container">
               <button className="dropdown-button">
@@ -167,8 +200,12 @@ export const ContactsTable = () => {
               </div>
               <button className="dropdown-button">Filter By Fields</button>
               <div className="dropdown-content">
-                <a href="#">Contact Name</a>
-                <a href="#">Contact Number</a>
+              <a href="#" onClick={() => handleFilterChange("first_name")}>
+                  Contact Name
+                </a>
+                <a href="#" onClick={() => handleFilterChange("createdBy")}>
+                  Created By 
+                </a>
               </div>
             </div>
           </div>
@@ -179,6 +216,10 @@ export const ContactsTable = () => {
             <table>
               <thead>
                 <tr>
+                  <th>name</th>
+                  
+                  <th>Account Name</th>
+
                   <th>Contact Name</th>
                   <th>Description</th>
                   <th>Email</th>
@@ -187,8 +228,8 @@ export const ContactsTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {contacts?.map &&
-                  contacts.map((contact) => (
+                {filteredContacts?.map &&
+                  filteredContacts.map((contact) => (
                     <tr key={contact.id}>
                       <td>
                         <NavLink to={`/contactinfo/${contact.id}`}>
@@ -254,5 +295,7 @@ export const ContactsTable = () => {
         </div>
       </div>
     </div>
-  );
-};
+  
+      </div>
+     );
+    }

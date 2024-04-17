@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
 import axios from "axios";
+import "./task.css";
+
 
 export const TaskTable = () => {
   const handleAllCalls1 = (event) => {

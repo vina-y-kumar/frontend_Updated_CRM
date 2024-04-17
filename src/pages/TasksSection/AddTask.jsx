@@ -5,7 +5,9 @@ import { useParams } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import { Header } from "../../components/Header";
 import CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
-import Select from "react-select"; 
+import Select from "react-select";
+import "./task.css";
+
 
 import "./TaskTable.jsx";
 

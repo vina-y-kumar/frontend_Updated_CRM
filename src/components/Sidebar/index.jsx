@@ -11,6 +11,7 @@ import meet from '../../assets/meet.png';
 import call from '../../assets/call.jpg';
 import Payment from '../../assets/payment.png';
 import Togo from '../../assets/logo1.png';
+import Task from '../../assets/task image.jpg';
 import './sidebar.css';
 
 
@@ -156,6 +157,20 @@ export const Sidebar = () => {
                     height={20}
                   />
                   <p className="sidebar_link_text">Opportunities</p>
+                </span>
+              </NavLink>
+            </li>
+            <li className="sidebar_item">
+              <NavLink className="sidebar_link" to="/tasks">
+                <span style={{ display: 'flex' }}>
+                  <img
+                    src={Task}
+                    alt="icon"
+                    className="sidebar_link_img"
+                    width={20}
+                    height={10}
+                  />
+                  <p className="sidebar_link_text">Tasks</p>
                 </span>
               </NavLink>
             </li>

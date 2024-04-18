@@ -29,6 +29,7 @@ import { useState } from "react";
 import Form3 from "../pages/opportunities/Form3";
 import AddTaskForm from "../pages/TasksSection/AddTask";
 import FlowGraph from "../pages/ReactFlow/Flowgraph";
+import Taskinfo from "../pages/TasksSection/Taskinfo";
 
 
 export const RouteWrapper = () => {
@@ -59,6 +60,7 @@ export const RouteWrapper = () => {
           <Route path="/meetings" element={<Met/>}  />
           <Route path="/opportunity" element={<Form3/>} />
           <Route path="/callpage" element={<CallPage/>}/>
+          <Route path="tasks/:id" element={<Taskinfo/>}/>
           <Route path="/accounts/:id" element={<AccountsPage />} />
           <Route path="/email" element={<EmailComponent/>} />
           <Route path="/tasks" element={<TaskTable/>} />

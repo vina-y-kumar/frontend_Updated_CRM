@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import { Header } from "../../components/Header";
-import   CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
-
+import CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
+import Select from "react-select"; 
 import "./opportunities.css";
 import "./index.jsx";
 
@@ -45,6 +45,7 @@ const Form3=() =>{
     isActive:"",
 
   });
+  
   const leadSourceOptions = [
     { id: 1, value: "NONE", label: "NONE" },
     { id: 2, value: "CALL", label: "CALL" },
@@ -89,21 +90,13 @@ const Form3=() =>{
         }
       };
     
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-      if (name === 'contacts') {
-        const contactsArray = value.split(',').map((item) => item.trim());
-        setOppourtunityData({
-          ...oppourtunityData,
-          [name]: contactsArray,
-        });
-      } else {
-        setOppourtunityData({
-          ...oppourtunityData,
-          [name]: value,
-        });
-      }
-    };
+      const handleChange = (selectedOption) => {
+        if (selectedOption && selectedOption.value === "create-new-account") {
+          handleOpen();
+        } else {
+          setTaskData({ ...taskdata, account: selectedOption });
+        }
+      };
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -231,42 +224,35 @@ const Form3=() =>{
               </div>
               
               <div className="form-group col-md-6">
-                <label htmlFor="name">Account</label>
-                <select
-                  id="name"
-                  name="name"
-                  value={oppourtunityData.name}
-                  onChange={(event) => {
-                    setOppourtunityData({ ...oppourtunityData, name: event.target.value });
-                    if (event.target.value === "create-new-account") {
-                      handleOpen(); 
-                    }
-                  }}
-                
-                  className="form-control"
-                >
-                  <option value="">Select Account</option>
-                  {filteredOptions.map((option) => (
-                    <option key={option.id} value={option.Name}>
-                      {option.Name}
-                    </option>
-                  ))}
-                   <option value="create-new-account">Create New Account</option>
-    
-                </select>
-    
-    
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <CreateNewAccountForm />
-                  </Box>
-                </Modal>
-              </div>
+            <label htmlFor="account">Account</label>
+            <Select
+              options={[
+                ...filteredOptions.map((option) => ({
+                  value: option.Name,
+                  label: option.Name,
+                })),
+                { value: "create-new-account", label: "Create New Account" },
+              ]}
+              onChange={handleChange}
+              styles={{
+                option: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: state.data && state.data.value === "create-new-account" ? "lightblue" : "white",
+                  color: state.data && state.data.value === "create-new-account" ? "black" : "black",
+                }),
+              }}
+            />
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <CreateNewAccountForm />
+              </Box>
+            </Modal>
+          </div>
               <div className="form-group col-md-6">
                 <label htmlFor="closedOn">closed On</label>
                 <input

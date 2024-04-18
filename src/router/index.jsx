@@ -28,6 +28,7 @@ import { useAuth } from "../authContext";
 import { useState } from "react";
 import Form3 from "../pages/opportunities/Form3";
 import AddTaskForm from "../pages/TasksSection/AddTask";
+import FlowGraph from "../pages/ReactFlow/Flowgraph";
 
 
 export const RouteWrapper = () => {
@@ -63,6 +64,7 @@ export const RouteWrapper = () => {
           <Route path="/tasks" element={<TaskTable/>} />
           <Route path="/addtask" element={<AddTaskForm/>}/>
           <Route path="/compose" element={<EmailComponent/>}/>
+          <Route path="/flow" element={<FlowGraph/>}/>
         </>
       )}
 

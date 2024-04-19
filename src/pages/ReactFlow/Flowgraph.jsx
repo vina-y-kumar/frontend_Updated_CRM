@@ -1,68 +1,51 @@
-import React, { useState } from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { useCallback, useState } from "react";
+import ReactFlow, {
+  applyEdgeChanges,
+  applyNodeChanges,
+  addEdge,
+  MiniMap,
+  Controls,
+  Background,
+} from "reactflow";
+import "reactflow/dist/style.css";
+import initialNodes from "./nodes.jsx";
+import initialEdges from "./edges.jsx";
+import { ClassNames } from "@emotion/react";
 
-const FlowGraph = () => {
-  const [showOutputNodes, setShowOutputNodes] = useState(false);
+function FlowGraph() {
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState(initialEdges);
 
-  const handleButtonClick = (option) => {
-    // Logic to handle button clicks and show output nodes
-    setShowOutputNodes(true);
-    // Add more logic based on the selected option if needed
-  };
+  const onNodeChange = useCallback(
+    (x) => setNodes((newNode) => applyNodeChanges(x, newNode)),
+    [setNodes]
+  );
+
+  const onEdgeChange = useCallback(
+    (x) => setEdges((eds) => applyEdgeChanges(x, eds)),
+    [setEdges]
+  );
+
+  const onEdgeConnect = useCallback(
+    (x) => setEdges((eds) => addEdge({ ...x, animated: true }, eds)),
+    [setEdges]
+  );
 
   return (
-    <div className="container mt-4">
-      <Card className="mb-4">
-        <Card.Body>
-          <Card.Title>Starting Card</Card.Title>
-          <Card.Text>
-            This card contains buttons and content.
-          </Card.Text>
-          <Row>
-            <Col>
-              <Button variant="success" onClick={() => handleButtonClick('yes')}>
-                Yes
-              </Button>
-            </Col>
-            <Col>
-              <Button variant="danger" onClick={() => handleButtonClick('no')}>
-                No
-              </Button>
-            </Col>
-            <Col>
-              <Button variant="secondary" onClick={() => handleButtonClick('default')}>
-                Default
-              </Button>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
+    <div style={{height:"100vh",width:'100%', backgroundColor:"white"}}>
+    <ReactFlow
       
-      {showOutputNodes && (
-        <div>
-          {/* Output Node 1 */}
-          <Card className="mb-4">
-            <Card.Body>
-              <Card.Title>Output Node 1</Card.Title>
-              <Card.Text>
-                This is the first output node.
-              </Card.Text>
-            </Card.Body>
-          </Card>
-          
-          {/* Output Node 2 */}
-          <Card className="mb-4">
-            <Card.Body>
-              <Card.Title>Output Node 2</Card.Title>
-              <Card.Text>
-                This is the second output node.
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </div>
-      )}
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodeChange}
+      onEdgesChange={onEdgeChange}
+      onConnect={onEdgeConnect}
+    >
+      <MiniMap />
+      <Controls />
+      <Background />
+    </ReactFlow>
     </div>
   );
-};
-
+}
 export default FlowGraph;

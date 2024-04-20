@@ -21,7 +21,7 @@ import CreateLead from "../pages/Lead/CreateLead";
 import AccountForm from "../pages/AccountsSection/AccountForm";
 import TaskTable from "../pages/TasksSection/TaskTable";
 import ConvertLead from "../pages/Lead/ConvertLead";
-
+import BulkImport from "../pages/BulkImport/BulkImport";
 
 
 import { useAuth } from "../authContext";
@@ -65,6 +65,7 @@ export const RouteWrapper = () => {
           <Route path="/tasks" element={<TaskTable/>} />
           <Route path="/addtask" element={<AddTaskForm/>}/>
           <Route path="/compose" element={<EmailComponent/>}/>
+          <Route path="/bulk-import" element={<BulkImport/>}/>
         </>
       )}
 

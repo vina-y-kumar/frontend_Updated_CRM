@@ -77,6 +77,8 @@
     color: #fff;
     border: none;
     cursor: pointer;
+    margin-top: 25% ;
+    margin-left: 45%;
   }
   
   .mode-toggle {

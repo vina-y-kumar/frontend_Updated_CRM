@@ -4,11 +4,11 @@ import { Sidebar } from "../../components/Sidebar";
 import "./meetings.css";
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
-
 const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
+
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -19,6 +19,8 @@ const Met = () => {
     // host: '',
     // contactName: '',
   });
+  
+  
  
   useEffect(() => {
     axios

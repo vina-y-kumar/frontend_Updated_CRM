@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import RelatedList from "./RelatedList.jsx";
 import "./contactsTable.css";
 import "./index.jsx";
-
 const ContactInfo = () => {
   // const [showCadence, setShowCadence] = useState(false);
   const handleAddCadence = () => {

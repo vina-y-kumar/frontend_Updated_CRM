@@ -28,6 +28,7 @@
     "react-bootstrap": "^2.9.2",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-flow-renderer": "^10.3.17",
     "react-funnel-pipeline": "^0.2.0",
     "react-google-charts": "^4.0.1",
     "react-grid-layout": "^1.4.4",

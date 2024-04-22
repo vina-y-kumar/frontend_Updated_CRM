@@ -11,6 +11,7 @@ import "reactflow/dist/style.css";
 import initialNodes from "./nodes.jsx";
 import initialEdges from "./edges.jsx";
 import { ClassNames } from "@emotion/react";
+import DnDFlow from "./Dnd.jsx";
 
 function FlowGraph() {
   const [nodes, setNodes] = useState(initialNodes);
@@ -33,18 +34,8 @@ function FlowGraph() {
 
   return (
     <div style={{height:"100vh",width:'100%', backgroundColor:"white"}}>
-    <ReactFlow
-      
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodeChange}
-      onEdgesChange={onEdgeChange}
-      onConnect={onEdgeConnect}
-    >
-      <MiniMap />
-      <Controls />
-      <Background />
-    </ReactFlow>
+    
+    <DnDFlow/>
     </div>
   );
 }

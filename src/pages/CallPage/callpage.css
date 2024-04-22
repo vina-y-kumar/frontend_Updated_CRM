@@ -90,17 +90,23 @@
   .save-button1:hover {
     background-color: purple ;
   }
-  .reminder {
+  .reminder-modal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .reminder {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .reminder p {
@@ -108,17 +114,6 @@
   }
   
   .reminder button {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 5px;
+    margin-top: 10px;
   }
-  
-  .reminder button:hover {
-    background-color: #0056b3;
-  }
-  
   

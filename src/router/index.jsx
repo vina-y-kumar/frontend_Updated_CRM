@@ -28,6 +28,7 @@ import { useAuth } from "../authContext";
 import { useState } from "react";
 import Form3 from "../pages/opportunities/Form3";
 import AddTaskForm from "../pages/TasksSection/AddTask";
+import FlowGraph from "../pages/ReactFlow/Flowgraph";
 import Taskinfo from "../pages/TasksSection/Taskinfo";
 
 
@@ -66,6 +67,7 @@ export const RouteWrapper = () => {
           <Route path="/addtask" element={<AddTaskForm/>}/>
           <Route path="/compose" element={<EmailComponent/>}/>
           <Route path="/bulk-import" element={<BulkImport/>}/>
+          <Route path="/flow" element={<FlowGraph/>}/>
         </>
       )}
 

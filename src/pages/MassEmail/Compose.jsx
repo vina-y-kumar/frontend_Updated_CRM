@@ -67,7 +67,7 @@ const ComposeEmail = () => {
   return (
     <div className='oauth-container'>
       {!accessToken ? (
-        <button className='authorize-button' onClick={handleAuthClick}>Authorize</button>
+        <button className='authorize-button' onClick={handleAuthClick}>Authorize Google!</button>
       ) : (
         <div>
           

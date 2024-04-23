@@ -5,7 +5,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, ListGroup } from "react-bootstrap";
 
-const CallPage = () => {
+
+export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }) => {
 
   
   const [modalOpen, setModalOpen] = useState(false);
@@ -14,7 +15,9 @@ const CallPage = () => {
   const [meet, setMeet] = useState([]);
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
-  const [reminders, setReminders] = useState([]);
+  //const [reminders, setReminders] = useState([]);
+  //const [reminderMessage, setReminderMessage] = useState("");
+
   const [callData, setCallData] = useState({
   location: "",
   call_type: "",
@@ -24,6 +27,10 @@ const CallPage = () => {
   createdBy: "",
   outgoing_status: "",
 });
+/*const showReminder = (message) => {
+  setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
+;
+};
 
 
 
@@ -35,14 +42,19 @@ const CallPage = () => {
     is_triggered: false,
     createdBy:"",
   });
-  const Reminder = ({ message, onClose }) => {
+  */
+ /* const Reminder = ({ message, onClose }) => {
     return (
-      <div className="reminder">
-        <p>{message}</p>
-        <button onClick={onClose}>Dismiss</button>
+      <div className="reminder-modal">
+        <div className="reminder">
+          <p>{message}</p>
+          <button onClick={onClose}>Dismiss</button>
+        </div>
       </div>
     );
-  };
+  };*/
+  
+
   
   const handleDropDownChange = (e) => {
     const selectedOption = e.target.value;
@@ -59,7 +71,7 @@ const CallPage = () => {
     setScheduleModalOpen(false);
 
   };
- const scheduleReminder = (reminder) => {
+ /*const scheduleReminder = (reminder) => {
   const now = new Date().getTime(); 
   if (reminder.triggerTime > now) {
     setReminders([...reminders, reminder]);
@@ -81,7 +93,7 @@ const CallPage = () => {
     }, 60000); 
     return () => clearInterval(interval);
   }, [reminders]);
- 
+ */
     const fetchCalls = async () => {
     try {
       const response = await axios.get("https://backendcrmnurenai.azurewebsites.net/calls/", {
@@ -203,7 +215,7 @@ useEffect(() => {
       console.error('Error fetching meet data:', error);
     });
 }, []);
-const handleScheduleMeeting = async (e) => {
+/*const handleScheduleMeeting = async (e) => {
   e.preventDefault();
   try {
     const response = await axios.post(
@@ -227,22 +239,23 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
 
     
     const timeDifference = timeTrigger - now;
-   if (timeDifference > 0) {
-    
+  if (timeDifference > 0) {
       setTimeout(() => {
-        
+        const reminderMessage = `Reminder: Scheduled call '${scheduleData.subject}' starting soon!`;
+        setReminderMessage(reminderMessage);
+
         const reminder = {
           id: response.data.id,
-          message: `Reminder: Scheduled call '${scheduleData.subject}' starting soon!`,
+          message: reminderMessage,
         };
-
         setReminders([...reminders, reminder]);
       }, timeDifference);
     }
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error scheduling meeting:", error);
   }
-};
+};*/
 
 
 
@@ -549,13 +562,16 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
             </div>
           </div>
         )}
-         {reminders.map((reminder) => (
+         {/*{reminders.map((reminder) => (
           <Reminder
             key={reminder.id}
             message={reminder.message}
             onClose={() => dismissReminder(reminder.id)}
           />
-        ))}
+        ))}*/}
+        {/*{reminderMessage && (
+        <Reminder message={reminderMessage} onClose={() => setReminderMessage("")} />
+      )}*/ } 
       </div>
     </div>
   );

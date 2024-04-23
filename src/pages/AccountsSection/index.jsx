@@ -7,7 +7,10 @@ import React, { useState, useEffect } from 'react';
 import './AccountForm.jsx';
 import { NavLink } from 'react-router-dom';
 
+
 export const AccountsTable = () => {
+  const [accounts, setAccounts] = useState([]);
+
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
@@ -23,6 +26,7 @@ export const AccountsTable = () => {
   const handleRecords1 = (event) => {
     console.log("Records per page: ", event.target.value);
   };
+ 
 
   return (
     <div className="all_students">
@@ -32,6 +36,8 @@ export const AccountsTable = () => {
         </div>
         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
+
+        
             <div className="Addcalls1">
               <select className="view-mode-select" onChange={handleAllCalls1}>
                 <option value="">All Accounts</option>

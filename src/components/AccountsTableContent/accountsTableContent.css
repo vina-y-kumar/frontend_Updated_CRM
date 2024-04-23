@@ -1,4 +1,13 @@
 
+.excel-download-btn1{
+  position: relative;
+  left: 67%;
+  top:-57px;
+  background-color: lightblue;
+  border-radius: 4px;
+  width: 60px;
+  height: 30px;
+}
 .table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
@@ -97,3 +106,4 @@
   animation: l3 1s infinite linear;
 }
 @keyframes l3 {to{transform: rotate(1turn)}}
+

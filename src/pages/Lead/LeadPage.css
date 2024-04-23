@@ -1,5 +1,12 @@
 /* .home {} */
-
+.excel-download-btn3{
+  position: relative;
+  left: 72%;
+  top: -30px;
+  background-color: lightblue;
+  width: 70px;
+  border-radius: 4px;
+}
 .pay_inner {
   display: flex;
 }

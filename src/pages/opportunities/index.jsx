@@ -6,6 +6,7 @@ import { Sidebar } from "../../components/Sidebar";
 import { OpportunitiesContent } from "../../components/OpportunitiesContent";
 import "./Form3.jsx";
 import { NavLink } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 
 export const Opportunities = () => {
@@ -77,7 +78,12 @@ export const Opportunities = () => {
   };
 
 
-
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(oppourtunity);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "oppourtunity");
+    XLSX.writeFile(wb, "oppourtunity.xlsx");
+  };
 
 
 
@@ -103,6 +109,9 @@ export const Opportunities = () => {
           <div className="contain">
           
           <div className="meet" >
+          <button onClick={handleDownloadExcel} className="excel-download-btn2">
+            Excel
+          </button>
           <div className="Addcalls">
            <select className="change" onChange={handleAllCalls}>
              <option value="">All Contacts</option>

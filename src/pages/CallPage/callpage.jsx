@@ -4,6 +4,7 @@ import { Sidebar } from "../../components/Sidebar";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, ListGroup } from "react-bootstrap";
+import * as XLSX from "xlsx"; // Importing xlsx library
 
 
 export const CallPage = () => {
@@ -273,6 +274,14 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
     console.log("Records per page: ", event.target.value);
   };
 
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(calls);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "calls");
+    XLSX.writeFile(wb, "calls.xlsx");
+  };
+
+
   return (
     <div className="calls">
       <div className="home_left_box">
@@ -280,6 +289,9 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
       </div>
       <div className="contain">
         <div className="meet">
+        <button onClick={handleDownloadExcel} className="excel-download-btn2">
+            Excel
+          </button>
           <div className="Addcalls">
             <select onChange={handleAllCalls}>
               <option value="">All Calls</option>

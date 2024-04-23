@@ -4,6 +4,10 @@ import { Sidebar } from "../../components/Sidebar";
 import "./meetings.css";
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
+import * as XLSX from "xlsx"; // Importing xlsx library
+
+
+
 const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
@@ -106,6 +110,14 @@ const Met = () => {
     console.log("Action happened");
   };
 
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(meetings);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "meetings");
+    XLSX.writeFile(wb, "meetings.xlsx");
+  };
+
+
   return (
     <div className="calls">
       <div className="home_left_box">
@@ -113,6 +125,9 @@ const Met = () => {
       </div>
       <div className="contain">
         <div className="meet">
+        <button onClick={handleDownloadExcel} className="excel-download-btn2">
+            Excel
+          </button>
           <select onChange={handlePlusClick}>
             <option value="">!!!</option>
             <option value="1">Log in</option>

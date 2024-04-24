@@ -13,7 +13,7 @@ import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
 
 import './dnd.css';
-import initialNodes from "./nodes.jsx";
+import initialNodes, { CustomNode } from "./nodes.jsx";
 import initialEdges from "./edges.jsx";
 import e from 'cors';
 
@@ -31,7 +31,7 @@ const DnDFlow = () => {
   const[id,setId]=useState();
 
   const onNodeClick=(e,val)=>{
-    setEditValue(val.data.label);
+    setEditValue(val.data.content);
     setId(val.id);
   }
   const handleChange=(e)=>{
@@ -43,7 +43,7 @@ const DnDFlow = () => {
       if(item.id===id){
         item.data={
           ...item.data,
-          label:editValue
+          content:editValue
         }
       }
       return item;
@@ -87,7 +87,9 @@ const DnDFlow = () => {
     },
     [reactFlowInstance],
   );
-
+  const nodeTypes = {
+    customNode: CustomNode,
+  };
   return (
     <div className="dndflow">
       <div className="updatenode">
@@ -100,6 +102,7 @@ const DnDFlow = () => {
           <ReactFlow
             nodes={nodes}
             edges={edges}
+            nodeTypes={nodeTypes}
             onNodeClick={(e,val)=>onNodeClick(e,val)}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}

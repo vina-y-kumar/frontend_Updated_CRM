@@ -4,10 +4,9 @@ import { Sidebar } from "../../components/Sidebar";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, ListGroup } from "react-bootstrap";
-import * as XLSX from "xlsx"; // Importing xlsx library
 
 
-export const CallPage = () => {
+export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }) => {
 
   
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,8 +15,8 @@ export const CallPage = () => {
   const [meet, setMeet] = useState([]);
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
-  const [reminders, setReminders] = useState([]);
-  const [reminderMessage, setReminderMessage] = useState("");
+  //const [reminders, setReminders] = useState([]);
+  //const [reminderMessage, setReminderMessage] = useState("");
 
   const [callData, setCallData] = useState({
   location: "",
@@ -28,7 +27,7 @@ export const CallPage = () => {
   createdBy: "",
   outgoing_status: "",
 });
-const showReminder = (message) => {
+/*const showReminder = (message) => {
   setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
 ;
 };
@@ -43,7 +42,8 @@ const showReminder = (message) => {
     is_triggered: false,
     createdBy:"",
   });
-  const Reminder = ({ message, onClose }) => {
+  */
+ /* const Reminder = ({ message, onClose }) => {
     return (
       <div className="reminder-modal">
         <div className="reminder">
@@ -52,7 +52,7 @@ const showReminder = (message) => {
         </div>
       </div>
     );
-  };
+  };*/
   
 
   
@@ -71,7 +71,7 @@ const showReminder = (message) => {
     setScheduleModalOpen(false);
 
   };
- const scheduleReminder = (reminder) => {
+ /*const scheduleReminder = (reminder) => {
   const now = new Date().getTime(); 
   if (reminder.triggerTime > now) {
     setReminders([...reminders, reminder]);
@@ -93,7 +93,7 @@ const showReminder = (message) => {
     }, 60000); 
     return () => clearInterval(interval);
   }, [reminders]);
- 
+ */
     const fetchCalls = async () => {
     try {
       const response = await axios.get("https://backendcrmnurenai.azurewebsites.net/calls/", {
@@ -215,7 +215,7 @@ useEffect(() => {
       console.error('Error fetching meet data:', error);
     });
 }, []);
-const handleScheduleMeeting = async (e) => {
+/*const handleScheduleMeeting = async (e) => {
   e.preventDefault();
   try {
     const response = await axios.post(
@@ -255,7 +255,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
   catch (error) {
     console.error("Error scheduling meeting:", error);
   }
-};
+};*/
 
 
 
@@ -274,14 +274,6 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
     console.log("Records per page: ", event.target.value);
   };
 
-  const handleDownloadExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(calls);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "calls");
-    XLSX.writeFile(wb, "calls.xlsx");
-  };
-
-
   return (
     <div className="calls">
       <div className="home_left_box">
@@ -289,9 +281,6 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
       </div>
       <div className="contain">
         <div className="meet">
-        <button onClick={handleDownloadExcel} className="excel-download-btn2">
-            Excel
-          </button>
           <div className="Addcalls">
             <select onChange={handleAllCalls}>
               <option value="">All Calls</option>
@@ -573,16 +562,16 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
             </div>
           </div>
         )}
-         {reminders.map((reminder) => (
+         {/*{reminders.map((reminder) => (
           <Reminder
             key={reminder.id}
             message={reminder.message}
             onClose={() => dismissReminder(reminder.id)}
           />
-        ))}
-         {reminderMessage && (
+        ))}*/}
+        {/*{reminderMessage && (
         <Reminder message={reminderMessage} onClose={() => setReminderMessage("")} />
-      )}
+      )}*/ } 
       </div>
     </div>
   );

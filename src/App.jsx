@@ -1,19 +1,11 @@
 import { RouteWrapper } from "./router";
 
-
-
-const App = () => {
-  
-  
-  
+function App() {
   return (
     <>
       <RouteWrapper />
-      
-
-      
     </>
   );
-};
+}
 
 export default App;

@@ -4,10 +4,17 @@ import { Sidebar } from "../../components/Sidebar";
 import "./meetings.css";
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
-import * as XLSX from "xlsx"; // Importing xlsx library
 
+import * as XLSX from "xlsx"; 
+import io from 'socket.io-client';
 
-
+const ReminderPopup = ({ subject }) => {
+  return (
+      <div className="reminder-popup">
+          <p>{subject}</p>
+      </div>
+  );
+};
 const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
@@ -26,6 +33,30 @@ const Met = () => {
   
   
  
+  useEffect(() => {
+    const socket = new WebSocket('ws://127.0.0.1:8000/ws/reminders/');
+  socket.onopen = function(event) {
+    console.log('WebSocket connection established.');
+};
+
+socket.onmessage = function(event) {
+    const reminderData = JSON.parse(event.data);
+    console.log('Received reminder:', reminderData);
+    // Handle the reminder data as needed
+};
+
+socket.onclose = function(event) {
+    console.log('WebSocket connection closed.');
+};
+
+socket.onerror = function(event) {
+    console.error('WebSocket error:', event);
+};
+
+    return () => {
+        socket.close();
+    };
+}, []);
   useEffect(() => {
     axios
       .get("https://backendcrmnurenai.azurewebsites.net/meetings/", {

@@ -7,16 +7,23 @@ import React, { useState, useEffect } from 'react';
 import './AccountForm.jsx';
 import { NavLink } from 'react-router-dom';
 
-
 export const AccountsTable = () => {
-  const [accounts, setAccounts] = useState([]);
-
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
 
-  const handleAction = () => {
-    console.log("Action required");
+  const handleAction = (event) => {
+    const selectedValue = event.target.value;
+    console.log("Action required:", selectedValue);
+
+    // Check the selected value and redirect accordingly
+    if (selectedValue === "1") {
+      // Redirect to the bulk import page
+      navigate('/bulk-import');
+    } else if (selectedValue === "2") {
+      // Handle other actions as needed
+      console.log("Logging out...");
+    }
   };
 
   const handlePlusClick1 = () => {
@@ -54,7 +61,7 @@ export const AccountsTable = () => {
               
               <select className="view-mode-select" onChange={handleAction}>
                 <option value="">Action</option>
-                <option value="1">Log in</option>
+                <option value="1">Bulk Import</option>
                 <option value="2">Log out</option>
               </select> 
               <div className="create1">

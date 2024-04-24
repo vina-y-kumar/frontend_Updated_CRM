@@ -116,3 +116,14 @@
 .reminder button {
   margin-top: 10px;
 }
+.excel-download-btn4{
+  border-radius: 4px;
+  background-color: lightblue;
+  width:70px;
+}
+.import-excel-btn{
+  
+  background-color: lightblue;
+  border-radius: 4px;
+  width: 100px;
+}

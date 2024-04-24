@@ -12,6 +12,8 @@ export const TaskTable = () => {
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
+  const modelName = "tasks";
+ 
 
   const handleAction = () => {
     console.log("Action required");
@@ -63,6 +65,9 @@ export const TaskTable = () => {
         </div>
         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
+          <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
+        Import Excel
+      </Link>
           <button onClick={handleDownloadExcel} className="excel-download-btn">
             Excel
           </button>

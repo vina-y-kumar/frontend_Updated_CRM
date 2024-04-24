@@ -85,7 +85,7 @@ const BulkImport = () => {
   return (
     <div className="bulk-import-container">
       <div className="bulk-import-content">
-        <h1>Bulk Import</h1>
+        <h1 className='BulkImport'>Bulk Import</h1>
         <div>
           <input type="file" onChange={handleFileChange} className="bulk-import-input" id="file-input" />
           <button onClick={getExcelColumnNames} className="bulk-import-button">Get Column Names</button>
@@ -102,7 +102,7 @@ const BulkImport = () => {
           )}
         </div>
         <div>
-          <h2>Column Mapping:</h2>
+          <h2 className="mapping">Column Mapping:</h2>
           <ul>
             {columnNames.map((columnName, index) => (
               <li key={index}>

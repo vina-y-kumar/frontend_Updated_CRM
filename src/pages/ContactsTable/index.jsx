@@ -18,6 +18,9 @@ export const ContactsTable = () => {
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchAccountTerm, setSearchAccountTerm] = useState(""); // New state for account dropdown search
+  const modelName = "contacts";
+
+ 
 
   useEffect(() => {
     fetchContacts();
@@ -135,6 +138,9 @@ export const ContactsTable = () => {
 
       <div className="contain1" style={{width:"100%"}}>
         <div className="meet1">
+        <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
+        Import Excel
+      </Link>
           
           <button onClick={handleDownloadExcel} className="excel-download-btn">
             Excel

@@ -9,6 +9,9 @@ import * as XLSX from "xlsx";
 const AccountsTable1 = () => {
   const [accounts, setAccounts] = useState([]);
   const [viewMode, setViewMode] = useState("table"); // Default view mode is table
+  const modelName = "accounts";
+
+  
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -40,6 +43,9 @@ const AccountsTable1 = () => {
 
   return (
     <div>
+       <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn4">
+        Import Excel
+      </Link>
 
           <button onClick={handleDownloadExcel} className="excel-download-btn1">
             Excel

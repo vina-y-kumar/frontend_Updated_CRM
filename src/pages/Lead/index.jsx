@@ -6,7 +6,7 @@ import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import "./LeadPage.css";
 import Kanban from "../../components/Kanban/Kanban";
-import { NavLink } from "react-router-dom";
+import { NavLink ,Link} from "react-router-dom";
 import { useState,useEffect } from "react";
 import * as XLSX from "xlsx"; 
 
@@ -16,6 +16,8 @@ import * as XLSX from "xlsx";
 
 export const LeadPage = () =>
  {
+  const modelName = "leads";
+
   const [leadData, setLeadData] = useState([]);
   useEffect(() => {
     const fetchLeadData = async () => {
@@ -70,6 +72,9 @@ export const LeadPage = () =>
             <br/>
            
 </div>
+<Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+        Import Excel
+      </Link>
 <button onClick={exportToExcel} className="excel-download-btn3">
              Excel
           </button>

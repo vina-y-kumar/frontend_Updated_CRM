@@ -1,12 +1,21 @@
 
 .excel-download-btn1{
   position: relative;
-  left: 67%;
+  left: 58%;
   top:-57px;
   background-color: lightblue;
   border-radius: 4px;
   width: 60px;
   height: 30px;
+}
+.import-excel-btn4{
+  position: relative;
+  left: 57%;
+  top:-57px;
+  background-color: lightblue;
+  border-radius: 4px;
+  width: 150px;
+  height: 40px;
 }
 .table tbody tr:nth-child(even) {
   background-color: #f2f2f2;

@@ -20,6 +20,12 @@ const Met = () => {
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
 
+  const modelName = "Meetings";
+
+  
+
+
+
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -156,6 +162,11 @@ socket.onerror = function(event) {
       </div>
       <div className="contain">
         <div className="meet">
+        
+       <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn">
+        Import Excel
+      </Link>
+
         <button onClick={handleDownloadExcel} className="excel-download-btn2">
             Excel
           </button>

@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import "./accountsTableContent.css";
 import axios from "axios";
 import { Card, ListGroup } from "react-bootstrap";
+import * as XLSX from "xlsx"; 
+
 
 const AccountsTable1 = () => {
   const [accounts, setAccounts] = useState([]);
   const [viewMode, setViewMode] = useState("table"); // Default view mode is table
+  const modelName = "accounts";
+
+  
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -29,9 +34,22 @@ const AccountsTable1 = () => {
   if (!accounts) {
     return <div className="loader"></div>; // Show a loading message while fetching data
   }
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(accounts);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "accounts");
+    XLSX.writeFile(wb, "accounts.xlsx");
+  };
 
   return (
     <div>
+       <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn4">
+        Import Excel
+      </Link>
+
+          <button onClick={handleDownloadExcel} className="excel-download-btn1">
+            Excel
+          </button>
       <div className="records2" style={{ width: "100%" }}>
         <select className="view-mode-select" style={{ float: "left" }}>
           <option value="">50 Records per page</option>

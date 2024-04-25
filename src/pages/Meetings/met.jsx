@@ -4,7 +4,10 @@ import { Sidebar } from "../../components/Sidebar";
 import "./meetings.css";
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
+
+import * as XLSX from "xlsx"; 
 import io from 'socket.io-client';
+
 const ReminderPopup = ({ subject }) => {
   return (
       <div className="reminder-popup">
@@ -16,6 +19,12 @@ const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
+
+  const modelName = "Meetings";
+
+  
+
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -138,6 +147,14 @@ socket.onerror = function(event) {
     console.log("Action happened");
   };
 
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(meetings);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "meetings");
+    XLSX.writeFile(wb, "meetings.xlsx");
+  };
+
+
   return (
     <div className="calls">
       <div className="home_left_box">
@@ -145,6 +162,14 @@ socket.onerror = function(event) {
       </div>
       <div className="contain">
         <div className="meet">
+        
+       <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn">
+        Import Excel
+      </Link>
+
+        <button onClick={handleDownloadExcel} className="excel-download-btn2">
+            Excel
+          </button>
           <select onChange={handlePlusClick}>
             <option value="">!!!</option>
             <option value="1">Log in</option>

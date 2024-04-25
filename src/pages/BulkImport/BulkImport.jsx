@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import './BulkImport.css';
+
 
 const BulkImport = () => {
   const [excelFile, setExcelFile] = useState(null);
@@ -24,6 +25,15 @@ const BulkImport = () => {
     },
     // Define structures for other models
   };
+  useEffect(() => {
+    // Parse URL to extract modal name
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalNameParam = urlParams.get('model');
+    if (modalNameParam) {
+      setModelName(modalNameParam);
+    }
+  }, []);
+
 
   const handleFileChange = (event) => {
     setExcelFile(event.target.files[0]);
@@ -81,11 +91,15 @@ const BulkImport = () => {
         });
     }
   };
+  const navigateToBulkImport = () => {
+    history.push(`/bulk-import?model=${modelName}`);
+  };
+
 
   return (
     <div className="bulk-import-container">
       <div className="bulk-import-content">
-        <h1>Bulk Import</h1>
+        <h1 className='BulkImport'>Bulk Import</h1>
         <div>
           <input type="file" onChange={handleFileChange} className="bulk-import-input" id="file-input" />
           <button onClick={getExcelColumnNames} className="bulk-import-button">Get Column Names</button>
@@ -93,16 +107,11 @@ const BulkImport = () => {
           {modelName ? (
             <button onClick={handleUpload} className="bulk-import-button">Upload</button>
           ) : (
-            <select value={modelName} onChange={(e) => setModelName(e.target.value)} className="bulk-import-select">
-              <option value="">Select Model</option>
-              {validModelNames.map((name) => (
-                <option key={name} value={name}>{name}</option>
-              ))}
-            </select>
+            <button onClick={navigateToBulkImport} className="bulk-import-button">{modelName}</button>
           )}
         </div>
         <div>
-          <h2>Column Mapping:</h2>
+          <h2 className="mapping">Column Mapping:</h2>
           <ul>
             {columnNames.map((columnName, index) => (
               <li key={index}>

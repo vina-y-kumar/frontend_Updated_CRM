@@ -4,6 +4,8 @@ import { Sidebar } from "../../components/Sidebar";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, ListGroup } from "react-bootstrap";
+import * as XLSX from "xlsx"; 
+
 
 
 export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }) => {
@@ -27,10 +29,14 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
   createdBy: "",
   outgoing_status: "",
 });
+const modelName = "calls";
+
+
 /*const showReminder = (message) => {
   setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
 ;
 };
+
 
 
 
@@ -53,7 +59,12 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
       </div>
     );
   };*/
-  
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(calls);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "calls");
+    XLSX.writeFile(wb, "callls.xlsx");
+  };
 
   
   const handleDropDownChange = (e) => {
@@ -281,6 +292,12 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
       </div>
       <div className="contain">
         <div className="meet">
+        <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn">
+        Import Excel
+      </Link>
+        <button onClick={handleDownloadExcel} className="excel-download-btn4">
+            Excel
+          </button>
           <div className="Addcalls">
             <select onChange={handleAllCalls}>
               <option value="">All Calls</option>

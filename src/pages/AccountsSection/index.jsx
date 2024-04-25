@@ -5,10 +5,9 @@ import AccountsTable1 from "../../components/AccountsTableContent/Table.jsx";
 import { AccountTableContent } from "../../components/AccountsTableContent/index.jsx";
 import React, { useState, useEffect } from 'react';
 import './AccountForm.jsx';
-import { NavLink,useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export const AccountsTable = () => {
-  const navigate = useNavigate();
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
@@ -34,6 +33,7 @@ export const AccountsTable = () => {
   const handleRecords1 = (event) => {
     console.log("Records per page: ", event.target.value);
   };
+ 
 
   return (
     <div className="all_students">
@@ -43,6 +43,8 @@ export const AccountsTable = () => {
         </div>
         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
+
+        
             <div className="Addcalls1">
               <select className="view-mode-select" onChange={handleAllCalls1}>
                 <option value="">All Accounts</option>

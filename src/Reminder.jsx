@@ -47,7 +47,7 @@ const Reminder =()=>{
 
   return (
     <>
-             <h1>Richa</h1>
+           
 
     {reminderMessage && (
       <div className="reminder-modal">
@@ -62,4 +62,3 @@ const Reminder =()=>{
 };
 
 export default  Reminder;
-;

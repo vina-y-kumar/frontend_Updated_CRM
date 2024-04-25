@@ -1,5 +1,5 @@
 import ReactFlow from "reactflow";
-// import {MarkerType} from ReactFlow;
+
 
 export default [
     { id: "el1-2", source: "1", target: "2",style:{color:"red"} },
@@ -11,4 +11,3 @@ export default [
     { id: "el7-8", source: "7", target: "8",animated: true, label:"If selected COD"  },
     { id: "el7-9", source: "7", target: "9", animated: true,label:"If selected Online Payment" },
   ];
-

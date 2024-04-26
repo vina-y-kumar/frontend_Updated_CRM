@@ -6,6 +6,13 @@ export default [
 
     data: {
       label: "Thanks for your cart! Would you like to continue with purchase?",
+      id: "100",
+
+      data: {
+        label: "Thanks for your cart! Would you like to continue with purchase?",
+      },
+      position: { x: 250, y: 100 },
+      style:{border:"2px solid yellow", color:"blue", padding:"10px", fontWeight:"600", backgroundColor:"#fdffcd"}
     },
     position: { x: 250, y: 100 },
     style:{border:"2px solid yellow", color:"blue", padding:"10px", fontWeight:"600", backgroundColor:"#fdffcd"}
@@ -66,9 +73,10 @@ export default [
     id: "9",
     type: "output",
     data: {
-      label: "Thanks for your payment. Your product will be shipped soon!",
+      label: " Your product will be shipped soon!",
     },
     position: { x: 400, y: 1100 },
     style:{border:"2px solid #ffb5b5",fontWeight:"600",backgroundColor:"#ffb5b5"}
   },
+  
 ];

@@ -13,9 +13,9 @@ import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
 
 import './dnd.css';
-import initialNodes from "./nodes.jsx";
+import initialNodes, { CustomNode } from "./nodes.jsx";
 import initialEdges from "./edges.jsx";
-import e from 'cors';
+
 
 
 let id = 0;
@@ -33,6 +33,7 @@ const DnDFlow = () => {
   const onNodeClick=(e,val)=>{
     setEditValue(val.data.label);
     setId(val.id);
+    
   }
   const handleChange=(e)=>{
     e.preventDefault();
@@ -87,26 +88,29 @@ const DnDFlow = () => {
     },
     [reactFlowInstance],
   );
-
+  const nodeTypes = {
+    customNode: CustomNode,
+  };
   return (
     <div className="dndflow">
       <div className="updatenode">
         
         <input type="text" placeholder='Update Nodes' value={editValue} onChange={handleChange}/><br/>
-        <button style={{marginLeft:"35px"}} className='btn btn-primary' onClick={handleEdit} >Update:</button>
+        <button style={{marginLeft:"35px"}} className='btn btn-primary' onClick={handleEdit} >Update</button>
       </div>
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
+            nodeTypes={nodeTypes}
             onNodeClick={(e,val)=>onNodeClick(e,val)}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             onInit={setReactFlowInstance}
             onDrop={onDrop}
-            onDragOver={onDragOver}
+            onDragOver={onNodesChange}
             fitView
           >
             <Controls />

@@ -1,5 +1,5 @@
 import ReactFlow from "reactflow";
-// import {MarkerType} from ReactFlow;
+
 
 export default [
     { id: "el1-2", source: "1", target: "2",style:{color:"red"} },

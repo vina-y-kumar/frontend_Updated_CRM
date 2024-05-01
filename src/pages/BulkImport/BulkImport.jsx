@@ -6,7 +6,10 @@ import './BulkImport.css';
 const BulkImport = () => {
   const [excelFile, setExcelFile] = useState(null);
   const [modelName, setModelName] = useState("");
-  const [columnNames, setColumnNames] = useState([]);
+  const [columns, setColumns] = useState([]);
+
+  const [model, setModel] = useState('');
+
   const [columnMappingJson, setColumnMappingJson] = useState({});
   const [startrow, setStartRow] = useState(4);
   const validModelNames = ["Lead", "Contact", "Account", "calls", "meetings", "Opportunity"];
@@ -15,15 +18,74 @@ const BulkImport = () => {
       first_name: "",
       last_name: "",
       email: "",
+      createdBy:"",
+      assigned_to:"",
       // Add more fields as needed
     },
     Contact: {
       // Define fields for Contact model
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone:"",
+      createdBy:"", 
     },
     Account: {
       // Define fields for Account model
+      Name:"",
+      email:"",
+      phone:""
     },
     // Define structures for other models
+    meetings:{
+
+      title: "",
+      location: "",
+      from_time: "",
+      to_time: "",
+      related_to: "",
+      createdBy: "",
+    },
+
+    Opportunity:{
+      name: "",
+      createdBy: "",
+      contacts: [''],
+      closedOn:"",
+      stage:"",
+      probability :"",
+      isActive:"",
+    }
+  };
+
+  const handleGetColumns = async () => {
+    try {
+      const response = await axios.get('https://backendcrmnurenai.azurewebsites.net/excel-column/');
+      setColumns(response.data.columns);
+    } catch (error) {
+      console.error('Error fetching columns:', error);
+    }
+  };
+  const handleUploadExcel = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('model', model);
+      formData.append('file', excelFile);
+
+      const response = await axios.post('https://backendcrmnurenai.azurewebsites.net/uploadexcel/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Excel uploaded successfully:', response.data);
+    } catch (error) {
+      console.error('Error uploading Excel:', error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setExcelFile(e.target.files[0]);
   };
   useEffect(() => {
     // Parse URL to extract modal name
@@ -35,12 +97,7 @@ const BulkImport = () => {
   }, []);
 
 
-  const handleFileChange = (event) => {
-    setExcelFile(event.target.files[0]);
-    // Reset column names and mapping when a new file is selected
-    setColumnNames([]);
-    setColumnMappingJson({});
-  };
+  
 
   const getExcelColumnNames = () => {
     if (excelFile) {
@@ -97,36 +154,32 @@ const BulkImport = () => {
 
 
   return (
-    <div className="bulk-import-container">
-      <div className="bulk-import-content">
-        <h1 className='BulkImport'>Bulk Import</h1>
-        <div>
-          <input type="file" onChange={handleFileChange} className="bulk-import-input" id="file-input" />
-          <button onClick={getExcelColumnNames} className="bulk-import-button">Get Column Names</button>
+    <div>
+      <div className='get'>
+      <button onClick={handleGetColumns}>Get Columns</button>
 
-          {modelName ? (
-            <button onClick={handleUpload} className="bulk-import-button">Upload</button>
-          ) : (
-            <button onClick={navigateToBulkImport} className="bulk-import-button">{modelName}</button>
-          )}
-        </div>
+      </div>
+      <div>
+        <label htmlFor="model">Model:</label>
+        <input type="text" id="model" value={model} onChange={(e) => setModel(e.target.value)} />
+      </div>
+      {excelFile && (
         <div>
-          <h2 className="mapping">Column Mapping:</h2>
+          <p>Selected Excel file: {excelFile.name}</p>
+          <button onClick={handleUploadExcel}>Upload Excel</button>
+        </div>
+      )}
+      <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+      {columns.length > 0 && (
+        <div>
+          <p>Columns:</p>
           <ul>
-            {columnNames.map((columnName, index) => (
-              <li key={index}>
-                {columnName}
-                <select value={columnMappingJson[columnName]} onChange={(e) => handleModelNameChange(columnName, e.target.value)}>
-                  <option value="">Select Model Field</option>
-                  {Object.keys(modelStructures[modelName]).map(field => (
-                    <option key={field} value={field}>{field}</option>
-                  ))}
-                </select>
-              </li>
+            {columns.map((column, index) => (
+              <li key={index}>{column}</li>
             ))}
           </ul>
         </div>
-      </div>
+      )}
     </div>
   );
 };

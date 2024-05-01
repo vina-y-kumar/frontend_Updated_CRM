@@ -118,7 +118,7 @@ export default [
   },
 ];
 
-export const CustomNode = ({ data }) => {
+export const CustomNode = ({ data,handleNodeDelete }) => {
   return (
     <div
       style={{
@@ -131,13 +131,12 @@ export const CustomNode = ({ data }) => {
     >
       <div style={{ backgroundColor: data.headbg, padding: "5px" ,color:'white'}}>
         <h3>{data.heading}</h3>
-        {console.log(data.headbg)}
       </div>
       {/* <img src={data.image} alt="Node Image" style={{ maxWidth: '100%', height: 'auto' }} /> */}
       <div style={{ padding: "10px",fontWeight:"500", backgroundColor: "white" }}>
         <p>{data.content}</p>
       </div>
-      {/* <button>{data.btn}</button> */}
+      {/* <button onClick={handleNodeDelete}>Delete</button> */}
       <Handle type="source" position={Position.Bottom} id={data.id} />
       <Handle type="target" position={Position.Top} id={data.id} />
     </div>

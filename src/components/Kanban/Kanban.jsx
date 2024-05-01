@@ -153,7 +153,7 @@ function Kanban() {
 
                                 {/* {card.content} */}
                                 <div className="license">
-                                  50 licenses
+                                  {card.amount}licenses
                                   <div className="status">{card.status}</div>
                                 </div>
                                 {/* <div className="content_"></div> */}

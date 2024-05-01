@@ -1,0 +1,82 @@
+
+
+/* SendEmail.css */
+.compose{
+    font-size: larger;
+    align-items: center;
+    font-weight: bolder;
+    margin-top: -5px;
+    
+}
+.send-email-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .email-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .email-form label {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .email-form input,
+  .email-form textarea {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  .email-form textarea {
+    resize: vertical;
+  }
+  
+  .message {
+    margin-bottom: 20px; /* Add margin to the message textarea */
+    display: flex;
+    align-items: center;
+  }
+  .message label{
+    margin-right: 10px;
+
+  }
+  .message textarea {
+    flex: 1; /* Use remaining space */
+    min-width: 300px; /* Set a minimum width */
+    padding: 8px; /* Add padding */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .button-container button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-container button:hover {
+    background-color: #0056b3;
+  }

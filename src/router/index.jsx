@@ -30,6 +30,8 @@ import Form3 from "../pages/opportunities/Form3";
 import AddTaskForm from "../pages/TasksSection/AddTask";
 import FlowGraph from "../pages/ReactFlow/Flowgraph";
 import Taskinfo from "../pages/TasksSection/Taskinfo";
+import SendEmail from "../pages/SendEmail/SendEmail";
+import WhatsApp from "../pages/WhatsApp/WhatsApp";
 
 
 export const RouteWrapper = () => {
@@ -156,6 +158,8 @@ export const RouteWrapper = () => {
           <Route path="/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
           <Route path="tasks/:id" element={<Taskinfo/>}/>
           <Route path="/accounts/:id" element={<AccountsPage />} />
+          <Route path="/send-email/:id" element={<SendEmail/>}/>
+          <Route path="/send-msg/:id" element={<WhatsApp/>}/>
           <Route path="/email" element={<EmailComponent/>} />
           <Route path="/tasks" element={<TaskTable/>} />
           <Route path="/addtask" element={<AddTaskForm/>}/>

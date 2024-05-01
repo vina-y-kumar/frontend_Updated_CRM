@@ -1,18 +1,28 @@
 import React from "react";
 import { MarkerType, Position } from "reactflow";
+
 export default [
+  {
+    id: "11",
+    type: "customNode",
+    data: {
+      heading: "Flow Graph",
+      content:
+        "Thanks for your cart! Would you like to continue with purchase?",
+      headbg: "orange",
+    },
+    sourcePosition: "right",
+    targetPosition: "left",
+    position: { x: 250, y: 100 },
+
+    // style:{border:"2px solid yellow", color:"blue",  fontWeight:"600", backgroundColor:"#fdffcd"}
+  },
   {
     id: "1",
 
     data: {
       label: "Thanks for your cart! Would you like to continue with purchase?",
-      id: "100",
-
-      data: {
-        label: "Thanks for your cart! Would you like to continue with purchase?",
-      },
-      position: { x: 250, y: 100 },
-      style:{border:"2px solid yellow", color:"blue", padding:"10px", fontWeight:"600", backgroundColor:"#fdffcd"}
+      
     },
     position: { x: 250, y: 100 },
     style:{border:"2px solid yellow", color:"blue", padding:"10px", fontWeight:"600", backgroundColor:"#fdffcd"}
@@ -20,7 +30,7 @@ export default [
   {
     id: "2",
     data: { label: "YES" },
-    // type: "default",
+    // type: "default",w
     position: { x: 50, y: 300 },
     style:{border:"2px solid lightgreen",fontWeight:"600",backgroundColor:"lightgreen"}
   },
@@ -77,6 +87,12 @@ export default [
     },
     position: { x: 400, y: 1100 },
     style:{border:"2px solid #ffb5b5",fontWeight:"600",backgroundColor:"#ffb5b5"}
+  },
+  {
+    id: "10",
+    data: { label: "Wubba " },
+    position: { x: 400, y: 300 },
+    style:{border:"2px solid red",fontWeight:"600",backgroundColor:"#f70776"}
   },
   
 ];

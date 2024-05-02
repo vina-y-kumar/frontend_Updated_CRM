@@ -1,7 +1,7 @@
 .bulk-import-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
@@ -50,4 +50,12 @@ button:hover {
 
 .error-message {
   color: red;
+}
+.modalName{
+  font-weight:normal;
+  font-size: 20px;
+}
+
+.Entities{
+  align-content: space-between;
 }

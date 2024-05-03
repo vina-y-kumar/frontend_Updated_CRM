@@ -13,11 +13,16 @@ import Payment from '../../assets/payment.png';
 import Togo from '../../assets/logo1.png';
 import Task from '../../assets/task image.jpg';
 import './sidebar.css';
-
+import {useAuth} from '../../authContext';
 
 export const Sidebar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { authenticated, setAuthenticated } = useAuth();
 
+  const handleLogout = () => {
+    setAuthenticated(false);
+    window.location.href = '/login'
+  };
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -177,12 +182,16 @@ export const Sidebar = () => {
             
           </ul>
         </div>
+        <div style={{marginLeft:"15px"}} className="logout_btn">
+          <button onClick={handleLogout}>Logout</button>
+        </div>
         <p style={{ marginLeft: '50px' }} className="sidebar_info_text">
-          Nuren AI
+          {/* Nuren AI */}
         </p>
         <div style={{ marginLeft: '50px', marginTop: '50px' }}>
           <img height="100px" width="100px" src={Togo} alt="Logo" />
         </div>
+       
       </div>
     </>
   );

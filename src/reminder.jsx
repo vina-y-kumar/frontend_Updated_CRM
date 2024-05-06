@@ -47,6 +47,8 @@ const Reminder =()=>{
 
   return (
     <>
+           
+
     {reminderMessage && (
       <div className="reminder-modal">
         <div className="reminder">

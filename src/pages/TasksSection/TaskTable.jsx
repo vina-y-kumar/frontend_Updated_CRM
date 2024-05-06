@@ -5,12 +5,15 @@ import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
 import axios from "axios";
 import "./task.css";
+import * as XLSX from "xlsx";
 
 
 export const TaskTable = () => {
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
+  const modelName = "tasks";
+ 
 
   const handleAction = () => {
     console.log("Action required");
@@ -45,6 +48,15 @@ export const TaskTable = () => {
     setViewMode(mode);
   };
 
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(tasks);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "tasks");
+    XLSX.writeFile(wb, "tasks.xlsx");
+  };
+
+
+
   return (
     <div className="all_students">
       <div className='calls1'>
@@ -53,6 +65,12 @@ export const TaskTable = () => {
         </div>
         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
+          <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
+        Import Excel
+      </Link>
+          <button onClick={handleDownloadExcel} className="excel-download-btn">
+            Excel
+          </button>
             <div className="Addcalls1">
               <select className="view-mode-select" onChange={handleAllCalls1}>
                 <option value="">All Accounts</option>

@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import "./task.css";
 import { NavLink,Link } from 'react-router-dom';
 import Modal from "react-modal";
-
-
 import "./TaskTable.jsx";
 
 
@@ -34,6 +32,10 @@ export const Taskinfo=()=>{
         Notes:"",
         modifiedBy:"",
             })
+           
+          
+          
+          
             const { id } = useParams();
 
             const [meetings, setMeetings] = useState([]);

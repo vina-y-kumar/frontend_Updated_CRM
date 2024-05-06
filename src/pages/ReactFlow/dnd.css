@@ -70,3 +70,9 @@
     margin-bottom: 12px;
     text-align: center;
   }
+/*custom node here*/
+/* Target the first div */
+.react-flow__node-customNode > div:nth-last-child(1) {
+  background-color: lightgreen;
+}
+

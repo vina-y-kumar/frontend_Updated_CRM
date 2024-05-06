@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
 import { Card, ListGroup } from "react-bootstrap";
+import * as XLSX from "xlsx"; // Importing xlsx library
+
 
 export const ContactsTable = () => {
   const [contacts, setContacts] = useState([]);
@@ -16,6 +18,9 @@ export const ContactsTable = () => {
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchAccountTerm, setSearchAccountTerm] = useState(""); // New state for account dropdown search
+  const modelName = "contacts";
+
+ 
 
   useEffect(() => {
     fetchContacts();
@@ -49,6 +54,13 @@ export const ContactsTable = () => {
     } catch (error) {
       console.error("Error creating new contact:", error);
     }
+  };
+
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(filteredContacts);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Contacts");
+    XLSX.writeFile(wb, "contacts.xlsx");
   };
 
   const handleAllCalls1 = (event) => {
@@ -126,6 +138,14 @@ export const ContactsTable = () => {
 
       <div className="contain1" style={{width:"100%"}}>
         <div className="meet1">
+        <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
+        Import Excel
+      </Link>
+          
+          <button onClick={handleDownloadExcel} className="excel-download-btn">
+            Excel
+          </button>
+          
           <div className="Addcalls1">
             <select className="view-mode-select" onChange={handleAllCalls1}>
               <option value="">All Contacts</option>

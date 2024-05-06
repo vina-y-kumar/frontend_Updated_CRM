@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -7,17 +7,19 @@ import ReactFlow, {
   Controls,
   MiniMap,
   Background,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+} from "reactflow";
+import "reactflow/dist/style.css";
 
-import Sidebar from './Sidebar';
 import axios from 'axios';
 import './dnd.css';
-import initialNodes from "./nodes.jsx";
-import initialEdges from "./edges.jsx";
 import e from 'cors';
 
 const lastNode = initialNodes[initialNodes.length - 1];
+import Sidebar from "./Sidebar";
+
+import "./dnd.css";
+import initialNodes, { CustomNode } from "./nodes.jsx";
+import initialEdges from "./edges.jsx";
 
 // Extract the id property from the last node
 let id = parseInt(lastNode.id) +1;
@@ -31,48 +33,70 @@ const DnDFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
-  const[editValue,setEditValue]=useState(nodes.data);
-  const[id,setId]=useState();
+  const [editValue, setEditValue] = useState(nodes.data);
+  const [title, setTitle] = useState(nodes.data);
+  const [id, setId] = useState();
 
-  const onNodeClick=(e,val)=>{
-    setEditValue(val.data.label);
+  const onNodeClick = (e, val) => {
+    setEditValue(val.data.content);
     setId(val.id);
-  }
-  const handleChange=(e)=>{
+  };
+  const onTitleClick = (e, val) => {
+    setTitle(val.data.heading);
+    setId(val.id);
+  };
+  const handleChange = (e) => {
     e.preventDefault();
     setEditValue(e.target.value);
-  }
-  const handleEdit=()=>{
-    const res=nodes.map((item)=>{
-      if(item.id===id){
-        item.data={
+  };
+  const handleTitleChange = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+  };
+  const handleEdit = () => {
+    const res = nodes.map((item) => {
+      if (item.id === id) {
+        item.data = {
           ...item.data,
-          label:editValue
-        }
+          content: editValue,
+        };
       }
       return item;
-    })
+    });
     setNodes(res);
-    setEditValue('');
-  }
+    setEditValue("");
+  };
+  const handleTitleEdit = () => {
+    const res = nodes.map((item) => {
+      if (item.id === id) {
+        item.data = {
+          ...item.data,
+          heading: title,
+        };
+      }
+      return item;
+    });
+    setNodes(res);
+    setTitle("");
+  };
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
+    []
   );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   }, []);
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
 
-      const type = event.dataTransfer.getData('application/reactflow');
+      const type = event.dataTransfer.getData("application/reactflow");
 
       // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
+      if (typeof type === "undefined" || !type) {
         return;
       }
 
@@ -89,7 +113,7 @@ const DnDFlow = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance],
+    [reactFlowInstance]
   );
   const sendDataToBackend = () => {
     // Transform nodes to the required format
@@ -134,12 +158,45 @@ const DnDFlow = () => {
   console.log('Nodes:', nodes); // Log nodes
   console.log('Edges:', edges);
   
+  const handleNodeDelete = (nodeId) => {
+    const updatedElements = nodes.filter((element) => element.id !== nodeId);
+    setNodes(updatedElements);
+  };
+  const nodeTypes = {
+    customNode: CustomNode,
+  };
   return (
     <div className="dndflow">
       <div className="updatenode">
-        
-        <input type="text" placeholder='Update Nodes' value={editValue} onChange={handleChange}/><br/>
-        <button style={{marginLeft:"35px"}} className='btn btn-primary' onClick={handleEdit} >Update:</button>
+        <input
+          type="text"
+          placeholder="Update Title"
+          value={title}
+          onChange={handleTitleChange}
+        />
+        <br />
+        <button
+          style={{ marginLeft: "35px" }}
+          className="btn btn-primary"
+          onClick={handleTitleEdit}
+        >
+          Update Title
+        </button>
+        <br />
+        <input
+          type="text"
+          placeholder="Update Content"
+          value={editValue}
+          onChange={handleChange}
+        />
+        <br />
+        <button
+          style={{ marginLeft: "35px" }}
+          className="btn btn-primary"
+          onClick={handleEdit}
+        >
+          Update Data
+        </button>
       </div>
       <button onClick={sendDataToBackend}>Send Data to Backend</button>
       <ReactFlowProvider>
@@ -147,18 +204,22 @@ const DnDFlow = () => {
           <ReactFlow
             nodes={nodes}
             edges={edges}
-            onNodeClick={(e,val)=>onNodeClick(e,val)}
+            nodeTypes={nodeTypes}
+            elementsSelectable={true}
+            onNodeDragStart={(e, val) => onTitleClick(e, val)}
+            onNodeDragStop={(e, val) => onNodeClick(e, val)}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onNodesDelete={handleNodeDelete}
             fitView
           >
             <Controls />
-            <MiniMap/>
-            <Background/>
+            <MiniMap />
+            <Background />
           </ReactFlow>
         </div>
         <Sidebar />

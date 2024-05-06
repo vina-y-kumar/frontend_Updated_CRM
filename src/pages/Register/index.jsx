@@ -11,7 +11,7 @@ export const Register = () => {
   const [role, setRole] = useState("");
 
   const authRegister = () => {
-    fetch(`http://127.0.0.1:8000/register/`, {
+    fetch(`https://backendcrmnurenai.azurewebsites.net/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

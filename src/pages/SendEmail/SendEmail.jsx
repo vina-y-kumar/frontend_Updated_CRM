@@ -1,6 +1,4 @@
 
-
-
 import React, { useState,useEffect } from 'react';
 import './SendEmail.css';
 import OpenAI from "openai";
@@ -21,6 +19,11 @@ const SendEmail = () => {
   
  
   const [contacts, setSelectedContact] = useState("");
+
+ 
+
+
+  
   useEffect(() => {
 
   }, [contacts]);

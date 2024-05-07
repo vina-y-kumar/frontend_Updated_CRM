@@ -14,6 +14,7 @@ import Togo from '../../assets/logo1.png';
 import Task from '../../assets/task image.jpg';
 import './sidebar.css';
 import {useAuth} from '../../authContext';
+import { Interaction } from 'chart.js';
 
 export const Sidebar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -176,6 +177,20 @@ export const Sidebar = () => {
                     height={10}
                   />
                   <p className="sidebar_link_text">Tasks</p>
+                </span>
+              </NavLink>
+            </li>
+            <li className="sidebar_item">
+              <NavLink className="sidebar_link" to="/interaction">
+                <span style={{ display: 'flex' }}>
+                  <img
+                    src={Interaction}
+                    alt="icon"
+                    className="sidebar_link_img"
+                    width={20}
+                    height={10}
+                  />
+                  <p className="sidebar_link_text">Interaction</p>
                 </span>
               </NavLink>
             </li>

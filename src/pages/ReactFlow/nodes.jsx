@@ -2,21 +2,6 @@ import React from "react";
 import { Handle, MarkerType, Position } from "reactflow";
 export default [
   {
-    id: "11",
-    type: "customNode",
-    data: {
-      heading: "Flow Graph",
-      content:
-        "Thanks for your cart! Would you like to continue with purchase?",
-      headbg: "orange",
-    },
-    sourcePosition: "right",
-    targetPosition: "left",
-    position: { x: 250, y: 100 },
-
-    // style:{border:"2px solid yellow", color:"blue",  fontWeight:"600", backgroundColor:"#fdffcd"}
-  },
-  {
     id: "1",
     type: "customNode",
     data: {
@@ -27,7 +12,7 @@ export default [
     },
     sourcePosition: "right",
     targetPosition: "left",
-    position: { x: 250, y: 100 },
+    position: { x: 0, y: 1000 },
 
     // style:{border:"2px solid yellow", color:"blue",  fontWeight:"600", backgroundColor:"#fdffcd"}
   },
@@ -36,14 +21,14 @@ export default [
     id: "2",
     data: { label: "YES" },
     // type: "default",w
-    position: { x: 50, y: 300 },
+    position: { x: 0, y: 0 },
     style: {
       border: "2px solid lightgreen",
       fontWeight: "600",
       backgroundColor: "lightgreen",
     },
   },
-  {
+  /* {
     id: "3",
     data: { label: "NO" },
     position: { x: 400, y: 300 },
@@ -133,35 +118,21 @@ export default [
   },
   {
     id: "10",
-     type: "customNode",
-    data: { label: "Wubba " },
-    position: { x: 400, y: 300 },
-    style:{border:"2px solid red",fontWeight:"600",backgroundColor:"#f70776"}
-  },
+    type: "customNode",
+    data: {
+      heading: "Flow Graph",
+      content:
+        "Thanks for your cart! Would you like to continue with purchase?",
+      headbg: "orange",
+    },
+    sourcePosition: "right",
+    targetPosition: "left",
+    position: { x: 250, y: 100 },
+
+    // style:{border:"2px solid yellow", color:"blue",  fontWeight:"600", backgroundColor:"#fdffcd"}
+  },*/
+  
+ 
   
 ];
 
-export const CustomNode = ({ data,handleNodeDelete }) => {
-  return (
-    <div
-      style={{
-        width: "200px",
-        border: "2px solid #ddd",
-        textAlign: "center",
-        borderRadius: "5px",
-        padding: "0px",
-      }}
-    >
-      <div style={{ backgroundColor: data.headbg, padding: "5px" ,color:'white'}}>
-        <h3>{data.heading}</h3>
-      </div>
-      {/* <img src={data.image} alt="Node Image" style={{ maxWidth: '100%', height: 'auto' }} /> */}
-      <div style={{ padding: "10px",fontWeight:"500", backgroundColor: "white" }}>
-        <p>{data.content}</p>
-      </div>
-      {/* <button onClick={handleNodeDelete}>Delete</button> */}
-      <Handle type="source" position={Position.Bottom} id={data.id} />
-      <Handle type="target" position={Position.Top} id={data.id} />
-    </div>
-  );
-};

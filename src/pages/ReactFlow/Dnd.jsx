@@ -9,16 +9,18 @@ import ReactFlow, {
   Background,
 } from "reactflow";
 import "reactflow/dist/style.css";
-
+import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition } from './TextUpdaterNode';
 import axios from 'axios';
 import './dnd.css';
 import e from 'cors';
+import { useMemo } from 'react';
 
 const lastNode = initialNodes[initialNodes.length - 1];
 import Sidebar from "./Sidebar";
 
 import "./dnd.css";
-import initialNodes, { CustomNode } from "./nodes.jsx";
+import initialNodes from "./nodes.jsx";
+
 import initialEdges from "./edges.jsx";
 
 // Extract the id property from the last node
@@ -37,13 +39,22 @@ const DnDFlow = () => {
   const [title, setTitle] = useState(nodes.data);
   const [id, setId] = useState();
 
-  const onNodeClick = (e, val) => {
+
+  const nodeTypes = useMemo(() => ({ 
+    textUpdater: TextUpdaterNode,
+    customNode: CustomNode,
+    buttonNode: ButtonNode,
+    sendMessage: SendMessage,
+    askQuestion: AskQuestion,
+    setCondition: SetCondition
+  }), []);
+
+
+  const onNodedoubleClick = (e, val) => {
+    setTitle(val.data.heading);
     setEditValue(val.data.content);
     setId(val.id);
-  };
-  const onTitleClick = (e, val) => {
-    setTitle(val.data.heading);
-    setId(val.id);
+    console.log(val.type);
   };
   const handleChange = (e) => {
     e.preventDefault();
@@ -90,31 +101,51 @@ const DnDFlow = () => {
   }, []);
 
   const onDrop = useCallback(
-    (event) => {
-      event.preventDefault();
+  (event) => {
+    event.preventDefault();
 
-      const type = event.dataTransfer.getData("application/reactflow");
+    const type = event.dataTransfer.getData("application/reactflow");
 
-      // check if the dropped element is valid
-      if (typeof type === "undefined" || !type) {
-        return;
-      }
+    // check if the dropped element is valid
+    if (typeof type === "undefined" || !type) {
+      return;
+    }
 
-      const position = reactFlowInstance.screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-      const newNode = {
-        id: getId(),
-        type,
-        position,
-        data: { label: `${type} node` },
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+
+    let newData;
+    if (type === "customNode") {
+      newData = {
+        heading: "Custom Node Title", // Set the title for custom nodes
+        content: "Custom Node Content", // Set the content for custom nodes
       };
+    } 
+    else if (type === "textUpdater") {
+      newData = {
+        heading: "Title", // Set the title for custom nodes
+        content: "tent", // Set the content for custom nodes
+      };
+    } else {
+      newData = {
+        label: `${type} node`,
+      };
+    }
 
-      setNodes((nds) => nds.concat(newNode));
-    },
-    [reactFlowInstance]
-  );
+    const newNode = {
+      id: getId(),
+      type,
+      position,
+      data: newData,
+    };
+
+    setNodes((nds) => nds.concat(newNode));
+  },
+  [reactFlowInstance]
+);
+
   const sendDataToBackend = () => {
     // Transform nodes to the required format
     const formattedNodes = nodes.map((node) => ({
@@ -162,9 +193,7 @@ const DnDFlow = () => {
     const updatedElements = nodes.filter((element) => element.id !== nodeId);
     setNodes(updatedElements);
   };
-  const nodeTypes = {
-    customNode: CustomNode,
-  };
+ 
   return (
     <div className="dndflow">
       <div className="updatenode">
@@ -198,6 +227,7 @@ const DnDFlow = () => {
           Update Data
         </button>
       </div>
+      <Sidebar />
       <button onClick={sendDataToBackend}>Send Data to Backend</button>
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -206,8 +236,7 @@ const DnDFlow = () => {
             edges={edges}
             nodeTypes={nodeTypes}
             elementsSelectable={true}
-            onNodeDragStart={(e, val) => onTitleClick(e, val)}
-            onNodeDragStop={(e, val) => onNodeClick(e, val)}
+            onNodeDoubleClick={(e, val) => onNodedoubleClick(e, val)}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
@@ -222,7 +251,7 @@ const DnDFlow = () => {
             <Background />
           </ReactFlow>
         </div>
-        <Sidebar />
+        
       </ReactFlowProvider>
     </div>
   );

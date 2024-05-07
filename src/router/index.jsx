@@ -32,7 +32,9 @@ import FlowGraph from "../pages/ReactFlow/Flowgraph";
 import Taskinfo from "../pages/TasksSection/Taskinfo";
 import SendEmail from "../pages/SendEmail/SendEmail";
 import WhatsApp from "../pages/WhatsApp/WhatsApp";
-
+import  Interaction from "../pages/InteractionPage/InteractionPage";
+import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
+import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -162,10 +164,13 @@ export const RouteWrapper = () => {
           <Route path="/send-msg/:id" element={<WhatsApp/>}/>
           <Route path="/email" element={<EmailComponent/>} />
           <Route path="/tasks" element={<TaskTable/>} />
+          <Route path="/interaction" element={<Interaction/>}/>
           <Route path="/addtask" element={<AddTaskForm/>}/>
           <Route path="/compose" element={<EmailComponent/>}/>
           <Route path="/bulk-import" element={<BulkImport/>}/>
           <Route path="/flow" element={<FlowGraph/>}/>
+          <Route path="/addinteraction" element={<AddInteractionForm/>} />
+          <Route path="/interaction/:id" element={<InteractionDetailsPage/>} />
         </>
       )}
 

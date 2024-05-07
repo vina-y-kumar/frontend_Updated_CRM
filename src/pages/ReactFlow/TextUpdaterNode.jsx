@@ -144,6 +144,7 @@ export const AskQuestion = ({ isConnectable }) => {
             <div key={button.id}>
               <button className='ask-question-option-button'>{button.label}</button>
               <Handle type="source" position={Position.Bottom} id={`button-${button.id}`}  isConnectable={isConnectable} />
+              
             </div>
           ))}
           {askbutton.length < 3 && (
@@ -171,7 +172,7 @@ export const AskQuestion = ({ isConnectable }) => {
           <p>Variables content</p>
         </div>
       )}
-   
+
    
     </div>);
   

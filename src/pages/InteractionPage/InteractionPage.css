@@ -1,0 +1,58 @@
+.interaction-table {
+    display: flex;
+  }
+  
+  .home_left_box1 {
+    flex: 1;
+  }
+  
+  .contain1 {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px; /* Adjust this margin as needed */
+  }
+  
+  .table1 {
+    border-radius: 7px;
+    background-color: white;
+    margin-top: 20px; /* Adjust as needed */
+    flex: 1;
+  }
+  
+  .table1 table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table1 th, .table1 td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .table1 th {
+    font-weight: bold;
+  }
+  
+  .table1 tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .add-interaction-button {
+    background-color: #28a745; /* Green */
+    color: #fff; /* White */
+    border: none;
+    padding: 0.625rem 1.25rem; 
+    font-size: 16px; 
+    border-radius: 0.3125rem; 
+    cursor: pointer;
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem; 
+  }
+  
+  .add-interaction-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    color: #fff; /* Change text color to white on hover */
+  }
+  

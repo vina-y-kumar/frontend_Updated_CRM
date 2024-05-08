@@ -3,6 +3,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./style.css";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { sendEmail } from './email.jsx'; // Import the sendEmail function
+
+
 
 function Kanban() {
 
@@ -28,6 +31,7 @@ function Kanban() {
       bg: "#FFD317FF"
     },
   });
+
   const [leads, setLeads] = useState([]);
   useEffect(() => {
     async function fetchLeads() {
@@ -71,15 +75,14 @@ function Kanban() {
     fetchData();
   }, []);
 
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
-    if (!destination) return; 
-
+    if (!destination) return;
+  
     const startColumn = columns[source.droppableId];
     const endColumn = columns[destination.droppableId];
-
+  
     if (startColumn === endColumn) {
-    
       const newCards = Array.from(startColumn.cards);
       newCards.splice(source.index, 1);
       newCards.splice(destination.index, 0, startColumn.cards[source.index]);
@@ -89,7 +92,6 @@ function Kanban() {
       };
       setColumns({ ...columns, [source.droppableId]: newColumn });
     } else {
-    
       const startCards = Array.from(startColumn.cards);
       const endCards = Array.from(endColumn.cards);
       const [movedCard] = startCards.splice(source.index, 1);
@@ -97,6 +99,14 @@ function Kanban() {
         ...movedCard,
         status: endColumn.title,
       });
+  
+      // Call the sendEmail function when the card moves to a different column
+      try {
+        await sendEmail(movedCard.email, endColumn.title, localStorage.getItem("token"));
+      } catch (error) {
+        console.error('Error sending email:', error);
+      }
+  
       const newColumns = {
         ...columns,
         [source.droppableId]: { ...startColumn, cards: startCards },
@@ -105,7 +115,28 @@ function Kanban() {
       setColumns(newColumns);
     }
   };
-
+  
+  const handleSendEmail = async () => {
+    try {
+      // Retrieve access token from local storage or wherever it's stored
+      const accessToken = localStorage.getItem('accessToken');
+  
+      // Check if access token is available
+      if (!accessToken) {
+        console.error('Error: Access token not found');
+        return;
+      }
+  
+      // Provide a valid email address to test sending email
+      const email = 'pandeyrashi110@gmail.com';
+  
+      // Call the sendEmail function with the email address and access token
+      await sendEmail(email, 'Column Title', accessToken);
+      console.log('Email sent successfully');
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
   return (
     <>
       {/* <h3>Total Leads:25</h3>

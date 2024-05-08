@@ -32,6 +32,7 @@ import FlowGraph from "../pages/ReactFlow/Flowgraph";
 import Taskinfo from "../pages/TasksSection/Taskinfo";
 import SendEmail from "../pages/SendEmail/SendEmail";
 import WhatsApp from "../pages/WhatsApp/WhatsApp";
+import FaceB from "../pages/facebook/facebook";
 import  Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
@@ -169,14 +170,15 @@ export const RouteWrapper = () => {
           <Route path="/compose" element={<EmailComponent/>}/>
           <Route path="/bulk-import" element={<BulkImport/>}/>
           <Route path="/flow" element={<FlowGraph/>}/>
+          <Route path="/FB" element={<FaceB/>}/>
           <Route path="/addinteraction" element={<AddInteractionForm/>} />
           <Route path="/interaction/:id" element={<InteractionDetailsPage/>} />
         </>
       )}
 
 
-     
-      <Route path="*" element={<NotFound />} />
+<Route path="*" element={<Login/>} />
+      {/* <Route path="*" element={<NotFound />} />*/}
     
 
       

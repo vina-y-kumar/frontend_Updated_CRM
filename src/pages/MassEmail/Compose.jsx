@@ -19,8 +19,11 @@ const ComposeEmail = () => {
       const hash = window.location.hash.substr(1);
       const queryParams = new URLSearchParams(hash);
       const accessToken = queryParams.get('access_token');
+      localStorage.setItem("customTokenName", accessToken);
+
       if (accessToken) {
         setAccessToken(accessToken);
+        
       }
     };
 

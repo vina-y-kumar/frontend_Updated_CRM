@@ -8,6 +8,7 @@ export const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   const authRegister = () => {
     fetch(`https://backendcrmnurenai.azurewebsites.net/register/`, {
@@ -19,6 +20,7 @@ export const Register = () => {
         username: username,
         email: email,
         password: password,
+        role:role,
       }),
     })
       .then((res) => res.json())
@@ -66,6 +68,18 @@ export const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
+            <label htmlFor="role" className="auth_label">
+            <select
+              className="auth_input"
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="admin">Admin</option>
+              <option value="employee">Employee</option>
+              <option value="manager">Manager</option>
+            </select>
+          </label>
             <NavLink className="auth_login" to="/login">
               login?
             </NavLink>

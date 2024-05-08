@@ -69,3 +69,48 @@ li:hover{
         width: 0rem;
     }
 }
+.Send-Message-Node {
+    /* Your CSS styles for the Send Message Node */
+    width: 200px;
+    height:80px;
+    padding: 10px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: rgb(255, 0, 89);
+  }
+  
+.Send-Message-Node:hover {
+    /* Additional styles for when the mouse hovers over the Send Message Node */
+    background-color: #E8F5E9; /* Light green background */
+  }
+.Ask-Question-Node {
+    /* Your CSS styles for the Send Message Node */
+    width: 200px;
+    height:90px;
+    padding: 10px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: rgb(234, 250, 64);
+  }
+  
+.Ask-Question-Node:hover {
+    /* Additional styles for when the mouse hovers over the Send Message Node */
+    background-color: #E8F5E9; /* Light green background */
+  }
+.Condition-Node {
+    /* Your CSS styles for the Send Message Node */
+    width: 200px;
+    height:80px;
+    padding: 10px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: rgb(103, 184, 255);
+  }
+  
+.Condition-Node:hover {
+    /* Additional styles for when the mouse hovers over the Send Message Node */
+    background-color: #E8F5E9; /* Light green background */
+  }

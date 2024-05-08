@@ -5,17 +5,22 @@
     padding: 20px;
   }
   
-  .messages-container {
+  .messages-container1 {
     flex: 1;
     overflow-y: scroll;
   }
-  
-  .message {
-    margin: 5px;
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 70%;
+  .message1{
+    position: relative;
+    top: -20px;
   }
+  
+ .message1 textarea{ flex: 1;
+  min-width: 700px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+ border-color: black;
+}
   
   .user {
     align-self: flex-end;
@@ -27,7 +32,7 @@
     background-color: #E5E5EA;
   }
   
-  .input-container {
+  .input-container1 {
     display: flex;
     margin-top: 20px;
   }
@@ -39,20 +44,24 @@
     border: 1px solid #ccc;
   }
   
-  button {
+   .generatemsg,.sendmsg{
     margin-left: 10px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: lightblue;
+    background-color: #5F9EA0;
     color: black;
 
     cursor: pointer;
   }
   
-  button:hover {
+  .sendmsg :hover {
     background-color: lightblue;
+  } 
+  .generatemsg:hover{
+    background-color: #ccc;
   }
+  
   
 
 

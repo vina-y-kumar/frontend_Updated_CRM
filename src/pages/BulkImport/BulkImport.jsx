@@ -127,13 +127,13 @@ const BulkImport = () => {
       {excelFile && (
         <div>
           <p>Selected Excel file: {excelFile.name}</p>
-          <button onClick={handleUploadExcel}>Upload Excel</button>
+          <button className="uploadexcel" onClick={handleUploadExcel}>Upload Excel</button>
         </div>
       )}
 
       <input type='file' accept='.xlsx,.xls' onChange={handleFileChange} />
       <div className='get'>
-        <button onClick={getExcelColumnNames}>Get Columns</button>
+        <button className='getcolumn' onClick={getExcelColumnNames}>Get Columns</button>
       </div>
       {columns.length > 0 && (
         <div className='Entities'>
@@ -143,7 +143,7 @@ const BulkImport = () => {
               <li key={index}>
                 {column}
                 <select value={selectedValues[column] || ''} onChange={(e) => handleEntityChange(e, column)}>
-                  <option value=''> : Select Entity</option>
+                  <option value=''> Select Entity</option>
                   <option value='first_name'>First Name</option>
                   <option value='last_name'>Last Name</option>
                   <option value='email'>Email</option>
@@ -158,9 +158,9 @@ const BulkImport = () => {
       {requiredColumns.length > 0 && (
         <div>
           <p>Required Columns for Creating Contacts:</p>
-          <ul>
+          <ul className='creatingcontact'>
             {requiredColumns.map((column, index) => (
-              <li key={index}>{column}</li>
+              <li className="creatingcontactList"key={index}>{column}</li>
             ))}
           </ul>
         </div>

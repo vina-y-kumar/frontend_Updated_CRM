@@ -6,46 +6,51 @@
   border-radius: 5px;
   background-color: #f9f9f9;
 }
+.uploadexcel{
+  color:black;
+  padding: 10px 20px;
+  border: none;
+  
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #789ad8;
+}
 
-.button-container {
+.uploadexcel-container {
+  margin-bottom: 20px;
+}
+.getcolumn-container{
   margin-bottom: 20px;
 }
 
-input[type="text"] {
-  width: 30%;
-  padding: 8px;
-  margin: 5px 0;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
 
-input[type="file"] {
-  margin-top: 10px;
-}
 
-ul {
+
+
+.creatingcontact{
   list-style-type: none;
   padding: 0;
 }
 
-li {
+.creatingcontactList {
   margin-bottom: 5px;
 }
 
-button {
-  color: white;
+.getcolumn {
+  color:black;
   padding: 10px 20px;
   border: none;
+  
   border-radius: 5px;
   cursor: pointer;
+  background-color: #6495ED;
 }
 .get{
   padding: 20px;
 }
 
-button:hover {
-  background-color: lightblue !important;
+.getcolumn:hover {
+  background-color: lightblue ;
 }
 
 .error-message {

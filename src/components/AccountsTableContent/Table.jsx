@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./accountsTableContent.css";
 import axios from "axios";
-import { Card, ListGroup } from "react-bootstrap";
-import * as XLSX from "xlsx"; 
-
+import React, { useEffect, useState } from "react";
+import { Dropdown, ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import * as XLSX from "xlsx";
+import call from "../../assets/call.jpg";
+import mail from "../../assets/mail.webp";
+import person from "../../assets/person.png";
+import industry from "../../assets/industry.png";
+import "./accountsTableContent.css";
+import msg from "../../assets/msg.webp";
 
 const AccountsTable1 = () => {
   const [accounts, setAccounts] = useState([]);
-  const [viewMode, setViewMode] = useState("table"); // Default view mode is table
+  const [viewMode, setViewMode] = useState("table");
   const modelName = "accounts";
-
-  
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -31,127 +33,170 @@ const AccountsTable1 = () => {
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
   };
-  if (!accounts) {
-    return <div className="loader"></div>; // Show a loading message while fetching data
-  }
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const excelData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      console.log(excelData); // Process your Excel data here
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
   const handleDownloadExcel = () => {
     const ws = XLSX.utils.json_to_sheet(accounts);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "accounts");
     XLSX.writeFile(wb, "accounts.xlsx");
   };
+  const getCircleColor = (letter) => {
+    const colors = ['#ff6347', '#32cd32', '#1e90ff', '#ff69b4', '#ffd700']; // Define your color palette
+    const index = letter.charCodeAt(0) % colors.length;
+    return colors[index];
+  };
 
   return (
     <div>
-       <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn4">
-        Import Excel
-      </Link>
-
-          <button onClick={handleDownloadExcel} className="excel-download-btn1">
-            Excel
-          </button>
-      <div className="records2" style={{ width: "100%" }}>
-        <select className="view-mode-select" style={{ float: "left" }}>
+       <select
+          value={viewMode}
+          onChange={(e) => handleViewModeChange(e.target.value)}
+          className="view-mode-select1"
+        >
+          <option value="">View!</option>
+          <option value="table">Table View</option>
+          <option value="tile">Tile View</option>
+          <option value="list">List View</option>
+        </select>
+      <div className="file">
+        <Dropdown>
+          <Dropdown.Toggle variant="primary" id="payments-dropdown">
+            Excel File
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Link
+                to={`/bulk-import?model=${modelName}`}
+                className="import-excel-btn4"
+              >
+                Import Excel
+              </Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <button
+                onClick={handleDownloadExcel}
+                className="excel-download-btn1"
+              >
+                Excel
+              </button>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+       
+      </div>
+      <div className="accounts-container">
+      
+      <div className="accounts-header" style={{ width: "100%" }}>
+      <h2 className="accountTableCenter">Accounts </h2>
+        <select className="view-mode-select2" style={{ float: "left" }}>
           <option value="">50 Records per page</option>
           <option value="1">Option 1</option>
           <option value="2">Option 2</option>
         </select>
-        <select
-  value={viewMode}
-  onChange={(e) => handleViewModeChange(e.target.value)}
-  className="view-mode-select"
->
-  <option value="">View!</option>
-  <option value="table">Table View</option>
-  <option value="tile">Tile View</option>
-  <option value="list">List View</option>
-</select>
-
+      
       </div>
-
-      <br />
-      {/* <div class="dropdown">
-        <button
-          class="btn btn-secondary dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">
-            Action
-          </a>
-          <a class="dropdown-item" href="#">
-            Another action
-          </a>
-          <a class="dropdown-item" href="#">
-            Something else here
-          </a>
-        </div>
-      </div> */}
-      {/* table view */}
       {viewMode === "table" && (
-        <div>
-          <h2>Accounts Table</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>S.No</th>
-                <th>Account Name</th>
-                <th>Phone Number</th>
-                <th>Industry</th>
-                <th>Account Owner</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {accounts.map((account, index) => (
-                <tr key={account.id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <Link to={`/accounts/${account.id}`}>
-                      {account.company}
-                    </Link>
-                  </td>
-                  <td>{account.phone}</td>
-                  <td>{account.industry}</td>
-                  <td>{account.Name}</td>
-                  <td>{account.email}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+         <div className="accounts-table-wrapper">
+         
+         <table>
+           <thead className="thead1">
+             <tr >
+               <th></th> {/* Empty th for alignment */}
+               <th>Account Name</th>
+               <th>Phone Number</th>
+               <th>Industry</th>
+               <th>Account Owner</th>
+               <th>Email</th>
+             </tr>
+           </thead>
+           <tbody>
+             {accounts.map((account, index) => (
+               <tr key={account.id}>
+                 {/* Circle in table data cell */}
+                 <td>
+                   <Link to={`/accounts/${account.id}`}>
+                     <span className="account-circle" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+                       {account.company.charAt(0).toUpperCase()}
+                     </span>
+                   </Link>
+                 </td>
+                 <td>
+                   <Link to={`/accounts/${account.id}`}>
+                     {account.company}
+                   </Link>
+                 </td>
+                 <td>{account.phone}</td>
+                 <td className="accountIndus">{account.industry}</td>
+                 <td>{account.Name}</td>
+                 <td>{account.email}</td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
+       </div>
       )}
-      {/* Tile View */}
-      {viewMode === "tile" && (
-        <div>
-          <h2>Tiles View</h2>
-          {/* Implement your Kanban view here */}
-          <div className="accounts-tiles-container">
-            {accounts.map((account, index) => (
-              <Card key={account.id} className="account-tile">
-                <Card.Body>
-                  <Card.Title>
-                    <Link to={`/accounts/${account.id}`}>
-                      {account.company}
-                    </Link>
-                  </Card.Title>
-                  <Card.Text>Phone Number: {account.phone}</Card.Text>
-                  <Card.Text>Industry: {account.industry}</Card.Text>
-                  <Card.Text>Account Owner: {account.Name}</Card.Text>
-                  <Card.Text>Email: {account.email}</Card.Text>
-                </Card.Body>
-              </Card>
-            ))}
+
+{viewMode === "tile" && (
+  <div>
+    {/* Implement your Kanban view here */}
+    <div className="accounts-tiles-container">
+      {accounts.map((account, index) => (
+        <div className={`account-tile tile-${index + 1}`} key={account.id}>
+          <Link to={`/accounts/${account.id}`} className="account-link">
+            <div className="tile-icon" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+              {account.company.charAt(0)} {/* First letter of company name */}
+            </div>
+            <div className="tile-header">{account.company}<img src={msg} width={30} height={30} className="msg-icon" /></div>
+          </Link>
+          <div className="tile-content">
+            <p className="accountphone">
+              {" "}
+              <span style={{ display: "flex" }}>
+                <img src={call} width={30} height={30} />
+              </span>{" "}
+              {account.phone}
+            </p>
+            <p className="accountIndustry">
+              <span style={{ display: "flex" }}>
+                <img src={industry} width={30} height={30} />
+              </span>{" "}
+              {account.industry}
+            </p>
+          </div>
+          <div className="tile-footer">
+            <p className="accountName">
+              <span style={{ display: "flex" }}>
+                <img src={person} width={25} height={25} />
+              </span>{" "}
+              {account.Name}
+            </p>
+            <p className="accountemail">
+              <span style={{ display: "flex" }}>
+                <img src={mail} width={30} height={30} />
+              </span>{" "}
+              {account.email}
+            </p>
           </div>
         </div>
-      )}
-      {viewMode === "list" && (
+      ))}
+    </div>
+  </div>
+)}
+ {viewMode === "list" && (
         <div>
           <h2>List View</h2>
           <div className="accounts-list-container">
@@ -169,6 +214,19 @@ const AccountsTable1 = () => {
           </div>
         </div>
       )}
+      </div>
+
+     
+
+    
+
+      
+
+
+
+
+
+     \
     </div>
   );
 };

@@ -14,23 +14,7 @@ import { ClassNames } from "@emotion/react";
 import DnDFlow from "./Dnd.jsx";
 
 function FlowGraph() {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
-
-  const onNodeChange = useCallback(
-    (x) => setNodes((newNode) => applyNodeChanges(x, newNode)),
-    [setNodes]
-  );
-
-  const onEdgeChange = useCallback(
-    (x) => setEdges((eds) => applyEdgeChanges(x, eds)),
-    [setEdges]
-  );
-
-  const onEdgeConnect = useCallback(
-    (x) => setEdges((eds) => addEdge({ ...x, animated: true }, eds)),
-    [setEdges]
-  );
+ 
 
   return (
     <div style={{height:"100vh",width:'100%', backgroundColor:"white"}}>

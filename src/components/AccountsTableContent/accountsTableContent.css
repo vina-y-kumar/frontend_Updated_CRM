@@ -20,9 +20,15 @@
 
 .file{
   position: relative;
-  left: 800px;
-  top: -60px;
+   left: 80%;
+  top: -56px; 
+  
+
+/* font-size: 14px; */
+
+/* font-weight: 400; */ 
 }
+
 .table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
@@ -68,6 +74,7 @@
   text-align: center;
   margin-left: 10px;
   position: relative;
+  top: 27px;
   
   
 }
@@ -200,6 +207,10 @@ color: #171A1FFF;
 .accountIndustry{
   position: relative;
     top: -11px;
+    font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
 } 
 
 .accountName{
@@ -242,6 +253,13 @@ color: #171A1FFF;
   mask-composite: subtract;
   animation: l3 1s infinite linear;
 }
+.accountnames,.accountems{
+  font-family: 'Manrope';
+  font-size: 14px;
+    font-weight: 400;
+    color: #171A1FFF;
+}
+
 
 @keyframes l3 {
   to {
@@ -260,8 +278,8 @@ color: #171A1FFF;
   text-align: center;
   margin-left: 10px;
   position: relative;
-  right: 550px;
-  top: -58px;
+  right: 45px;
+  top: -10px;
   
 }
 .view-mode-select2 {
@@ -280,23 +298,53 @@ color: #171A1FFF;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
-  width: 1200px;
+  width: 1300px;
   height: 2000px; /* adjust the width as needed */
   margin: 5px auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.accounts-table-wrapper {
-  padding-left: 0px; /* Add left padding to the table (optional) */
+.accounts-table-wrapper table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none; /* Remove default border */
+  position: relative; /* Position relative for pseudo-elements */
+  width: 1300px;
+  left: -20px;
 }
+
+.accounts-table-wrapper table::before,
+.accounts-table-wrapper table::after {
+  content: '';
+  position: relative;
+  top: -1px; /* Adjust to match table border */
+  left: -1px; /* Adjust to match table border */
+  right: -1px; /* Adjust to match table border */
+  bottom: -1px; /* Adjust to match table border */
+  border: 2px solid #ddd; /* Border for outer side of the table */
+  border-radius: 15px; /* Border radius for the table */
+  
+}
+
+.accounts-table-wrapper table::before {
+  border-radius: 10px 10px 0 0; /* Adjust border-radius for top corners */
+}
+
+.accounts-table-wrapper table::after {
+  border-radius: 10 0 10px 10px; /* Adjust border-radius for bottom corners */
+}
+
+
 .accounts-header {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
-  border-radius: 10px 10px 0 0;
+ 
+ position: relative;
+  /* border-radius: 10px 10px 0 0; */
   display: flex;
   align-items: center; /* Align items vertically */
   justify-content: center; /* Center align content horizontally */
 }
+
 
 .accountTableCenter {
 
@@ -309,6 +357,8 @@ color: #171A1FFF;
 }
 .thead1{
   height: 60px;
+  
+
 }
 
 .accounts-table {
@@ -316,12 +366,22 @@ color: #171A1FFF;
   border: none; /* Remove all borders from the table */
   margin-bottom: 20px;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+
 }
+
+.tablerows{
+    border: 1px solid #ddd;
+    margin : 20px !important;
+   
+    
+}
+
 
 .accounts-table th,
 .accounts-table td {
-  padding: 8px; /* Remove padding if needed for tighter spacing */
+  padding: 10px; /* Remove padding if needed for tighter spacing */
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .accounts-table th {
@@ -349,7 +409,11 @@ color: #171A1FFF;
   margin-right: 5px;
 }
 .accountIndus{
-  color: #007bff;
+  color: #379AE6FF;
+  font-family: 'Manrope';
+  font-size: 14px;
+    font-weight: 400;
+    
 }
 .accountTableCenter{
   position: relative;
@@ -358,4 +422,23 @@ color: #171A1FFF;
   font-size: 20px;
   top: 6px;
 
+
 }
+
+.excel-dropdown-menu {
+  /* Your custom styles here */
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 4px;
+  width: 77px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px 9px 12px;
+}
+
+

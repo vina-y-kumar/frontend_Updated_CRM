@@ -29,7 +29,7 @@ export const sendEmail = async (email, columnTitle) => {
 
     // Send email using Gmail API
     await axios.post(
-      'https://www.googleapis.com/gmail/v1/users/pandeytanu1803@gmail.com/messages/send',
+      'https://www.googleapis.com/gmail/v1/users/anonymous.99.is.back@gmail.com/messages/send',
       {
         raw: base64EncodedEmail
       },

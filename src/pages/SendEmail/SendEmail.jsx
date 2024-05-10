@@ -130,7 +130,7 @@ const SendEmail = () => {
         <label htmlFor="subject">Subject:</label>
         <input 
           type="text" 
-          id="subject" 
+          id="subject1" 
           name="subject" 
           value={subject} 
           onChange={(e) => setSubject(e.target.value)} 
@@ -149,10 +149,10 @@ const SendEmail = () => {
             />
           </div>
         ) : (
-          <div className='message'>
+          <div className='message2'>
             <label htmlFor="message">Message:</label>
             <textarea 
-              id="message" 
+              id="message4" 
               name="message" 
               rows="6" 
               value={emailTemplate} 
@@ -161,12 +161,12 @@ const SendEmail = () => {
           </div>
         )}
 
-        <div className="button-container">
-          <button onClick={handleGenerateTemplate}>Generate Template</button>
-          <button onClick={() => setIsEditingCustomMessage(!isEditingCustomMessage)}>
+        <div className="button-container1">
+          <button className='generatetemp' onClick={handleGenerateTemplate}>Generate Template</button>
+          <button className='isedit' onClick={() => setIsEditingCustomMessage(!isEditingCustomMessage)}>
             {isEditingCustomMessage ? 'Use Template' : 'Edit Message'}
           </button>
-          <button onClick={handleSendEmail}>Send</button>
+          <button className='editsend' onClick={handleSendEmail}>Send</button>
         </div>
       </form>
     </div>

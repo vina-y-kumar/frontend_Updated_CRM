@@ -5,67 +5,59 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { sendEmail } from './email.jsx'; // Import the sendEmail function
 
-
-
 function Kanban() {
-
   const [columns, setColumns] = useState({
-    new: {
-      title: "New",
-      cards: [],
-      bg: "#15ABFFFF"
-    },
-    proposals: {
-      title: "Proposals",
-      cards: [],
-
-    },
-    negotiations: {
-      title: "Negotiations",
-      cards: [],
-
-    },
-    contractsSent: {
-      title: "Contracts Sent",
-      cards: [],
-      bg: "#FFD317FF"
-    },
+    new: { title: "New", cards: [], bg: "#15ABFFFF" },
+    proposals: { title: "Proposals", cards: [], bg: "#15ABFFFF" },
+    negotiations: { title: "Negotiations", cards: [], bg: "#FF56A5FF" },
+    contractsSent: { title: "Contracts Sent", cards: [], bg: "#FFD317FF" },
   });
-
-  const [leads, setLeads] = useState([]);
-  useEffect(() => {
-    async function fetchLeads() {
-      try {
-        const response = await axios.get('https://backendcrmnurenai.azurewebsites.net/leads');
-        setLeads(response.data);
-      } catch (error) {
-        console.error('Error fetching leads:', error);
-      }
-    }
-    fetchLeads();
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://backendcrmnurenai.azurewebsites.net/leads/"
-        );
+        const response = await axios.get('https://backendcrmnurenai.azurewebsites.net/leads/');
         const leads = response.data;
 
-        const newCards = leads.map((lead) => ({
-          id: lead.id.toString(),
-          name: lead.first_name + " " + lead.last_name,
-          email: lead.email,
-          address: lead.address,
-          website: lead.website,
-          status: "New",
-        }));
+        // Categorize leads into different columns based on their status
+        const categorizedLeads = {
+          new: [],
+          proposals: [],
+          negotiations: [],
+          contractsSent: []
+        };
+
+        leads.forEach(lead => {
+          switch (lead.status) {
+            case 'assigned':
+              categorizedLeads.new.push(lead);
+              break;
+            case 'in process':
+              categorizedLeads.proposals.push(lead);
+              break;
+            case 'converted':
+              categorizedLeads.negotiations.push(lead);
+              break;
+            case 'recycled':
+              categorizedLeads.contractsSent.push(lead);
+              break;
+            default:
+              categorizedLeads.new.push(lead); // Default to 'New' column
+          }
+        });
+
+        // Map leads to cards for each column
+        const newCards = mapLeadsToCards(categorizedLeads.new);
+        const proposalsCards = mapLeadsToCards(categorizedLeads.proposals);
+        const negotiationsCards = mapLeadsToCards(categorizedLeads.negotiations);
+        const contractsSentCards = mapLeadsToCards(categorizedLeads.contractsSent);
+
+        // Set the columns state with the mapped cards
         setColumns({
-          new: { title: "New", cards: newCards },
-          proposals: { title: "Proposals", bg: "#15ABFFFF", cards: [] },
-          negotiations: { title: "Negotiations", bg: "#FF56A5FF", cards: [] },
-          contractsSent: { title: "Contracts Sent", bg: "#FFD317FF", cards: [] },
+          new: { title: "New", cards: newCards, bg: "#15ABFFFF" },
+          proposals: { title: "Proposals", bg: "#15ABFFFF", cards: proposalsCards },
+          negotiations: { title: "Negotiations", bg: "#FF56A5FF", cards: negotiationsCards },
+          contractsSent: { title: "Contracts Sent", bg: "#FFD317FF", cards: contractsSentCards }
         });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -75,14 +67,30 @@ function Kanban() {
     fetchData();
   }, []);
 
+  const mapLeadsToCards = (leads) => {
+    return leads.map((lead) => ({
+      id: lead.id.toString(),
+      name: lead.first_name + " " + lead.last_name,
+      email: lead.email,
+      address: lead.address,
+      website: lead.website,
+      status: lead.status,
+      first_name: lead.first_name,
+      last_name: lead.last_name,
+      assigned_to: lead.assigned_to,
+      createdBy: lead.createdBy,
+    }));
+  };
+
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
-  
+
     const startColumn = columns[source.droppableId];
     const endColumn = columns[destination.droppableId];
-  
+
     if (startColumn === endColumn) {
+      // Logic for moving within the same column
       const newCards = Array.from(startColumn.cards);
       newCards.splice(source.index, 1);
       newCards.splice(destination.index, 0, startColumn.cards[source.index]);
@@ -92,6 +100,7 @@ function Kanban() {
       };
       setColumns({ ...columns, [source.droppableId]: newColumn });
     } else {
+      // Logic for moving to a different column
       const startCards = Array.from(startColumn.cards);
       const endCards = Array.from(endColumn.cards);
       const [movedCard] = startCards.splice(source.index, 1);
@@ -99,52 +108,51 @@ function Kanban() {
         ...movedCard,
         status: endColumn.title,
       });
-  
-      // Call the sendEmail function when the card moves to a different column
+
       try {
         await sendEmail(movedCard.email, endColumn.title, localStorage.getItem("token"));
+
+        const leadData = {
+          ...movedCard, // Include existing lead data
+          status: mapStatusToBackend(endColumn.title), // Update the status
+          first_name: movedCard.first_name,
+          last_name: movedCard.last_name,
+          email: movedCard.email,
+          assigned_to: movedCard.assigned_to,
+          createdBy: movedCard.createdBy,
+        };
+        // Make a PUT request to update the lead status in the backend
+        await axios.put(`https://backendcrmnurenai.azurewebsites.net/leads/${movedCard.id}/`, leadData);
       } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('Error sending email or updating lead status:', error);
       }
-  
+
       const newColumns = {
         ...columns,
         [source.droppableId]: { ...startColumn, cards: startCards },
         [destination.droppableId]: { ...endColumn, cards: endCards },
       };
       setColumns(newColumns);
+    } 
+  };
+
+  const mapStatusToBackend = (frontendStatus) => {
+    switch (frontendStatus) {
+      case 'New':
+        return 'assigned';
+      case 'Proposals':
+        return 'in process';
+      case 'Negotiations':
+        return 'converted';
+      case 'Contracts Sent':
+        return 'recycled';
+      default:
+        return 'assigned';
     }
   };
-  
-  const handleSendEmail = async () => {
-    try {
-      // Retrieve access token from local storage or wherever it's stored
-      const accessToken = localStorage.getItem('accessToken');
-  
-      // Check if access token is available
-      if (!accessToken) {
-        console.error('Error: Access token not found');
-        return;
-      }
-  
-      // Provide a valid email address to test sending email
-      const email = 'pandeyrashi110@gmail.com';
-  
-      // Call the sendEmail function with the email address and access token
-      await sendEmail(email, 'Column Title', accessToken);
-      console.log('Email sent successfully');
-    } catch (error) {
-      console.error('Error sending email:', error);
-    }
-  };
+
   return (
     <>
-      {/* <h3>Total Leads:25</h3>
-
-      <NavLink to="/lead" id="btn">
-        + New
-      </NavLink> */}
-
       <br />
       <div className="Kanban">
         <DragDropContext onDragEnd={onDragEnd}>
@@ -166,14 +174,12 @@ function Kanban() {
                         {...provided.droppableProps}
                         className="card-list"
                       >
-
                         {column.cards.map((card, index) => (
                           <Draggable
                             key={card.id}
                             draggableId={card.id}
                             index={index}
                           >
-
                             {(provided) => (
                               <div
                                 ref={provided.innerRef}
@@ -181,35 +187,29 @@ function Kanban() {
                                 {...provided.dragHandleProps}
                                 className="card_"
                               >
-
-                                {/* {card.content} */}
                                 <div className="license">
                                   {card.amount}licenses
                                   <div className="status">{card.status}</div>
                                 </div>
-                                {/* <div className="content_"></div> */}
                                 <div className="content_">
                                   {columnId === 'new' && (
-                                    <NavLink to={`/createlead/${card.id}`}>
+                                    <NavLink to={`/ShowLead/${card.id}`}>
                                       <div className="c1">{card.name}</div>
                                     </NavLink>
                                   )}
-                                {columnId !== '0' ? (
-                                <NavLink to={`/createlead/${card.id}`}>
-                                  <div className="c1">{card.name}</div>
-                                </NavLink>
-                              ) : (
-                                <NavLink to={`/lead/${card.id}`}>
-                                  <div className="c1">{card.name}</div>
-                                </NavLink>
-                              )}
-
-
+                                  {columnId !== '0' ? (
+                                    <NavLink to={`/ShowLead/${card.id}`}>
+                                      <div className="c1">{card.name}</div>
+                                    </NavLink>
+                                  ) : (
+                                    <NavLink to={`/lead/${card.id}`}>
+                                      <div className="c1">{card.name}</div>
+                                    </NavLink>
+                                  )}
                                   <div className="c2">
                                     {card.address}
                                     <div className="r1">$1,000</div>
                                   </div>
-
                                   <div className="c2">
                                     {card.email}
                                     <div className="r1">-</div>

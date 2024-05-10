@@ -93,22 +93,109 @@ export const ButtonNode = ({ isConnectable }) => {
   );
 };
 
+
+
 export const SendMessage = ({ isConnectable }) => {
- 
- return (<div>
-  <h1 style={{backgroundColor:'red',height:'30px',fontSize:'18px',textAlign:'center',borderRadius:'5px'}}>Send Message</h1>
-  <div>
-  <button className='send-message-button'>Message</button>
-  <button className='send-message-button'>Image</button>
-  <button className='send-message-button'>Document</button>
-  <br /> 
-  <button className='send-message-button'>Audio</button>
-  <button className='send-message-button'>Video</button>
-  </div>
-  <Handle type="source" position={Position.Right} id="a" style={{}} isConnectable={isConnectable} />
-  </div>);
-   
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [contentHistory, setContentHistory] = useState([]);
+  const [uploadedImages, setUploadedImages] = useState([]); // Array to store uploaded images
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setContentHistory((prevContent) => [...prevContent, option]);
+  };
+
+  const handleImageUpload = (event) => {
+    const imageFile = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      setUploadedImages((prevImages) => [...prevImages, e.target.result]);
+    };
+
+    reader.readAsDataURL(imageFile);
+  };
+
+  const renderContent = (content) => {
+    switch (content) {
+      case 'message':
+        return (
+          <div key="message">
+            <input type="text" placeholder="Enter your message..." />
+            <button>Send</button>
+          </div>
+        );
+      case 'image':
+        return (
+          <div key="image">
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
+            <button>Upload Image</button>
+            {uploadedImages.length > 0 && (
+              <div>
+                {uploadedImages.map((imageUrl, index) => (
+                  <img key={index} src={imageUrl} alt="Uploaded Image" />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      case 'document':
+        return (
+          <div key="document">
+            <input type="file" accept=".pdf,.docx,.xlsx" />
+            <button>Upload Document</button>
+          </div>
+        );
+      case 'audio':
+        return (
+          <div key="audio">
+            <input type="file" accept="audio/*" />
+            <button>Upload Audio</button>
+          </div>
+        );
+      case 'video':
+        return (
+          <div key="video">
+            <input type="file" accept="video/*" />
+            <button>Upload Video</button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div>
+      <h1 style={{ backgroundColor: 'red', height: '30px', fontSize: '18px', textAlign: 'center', borderRadius: '5px' }}>
+        Send Message
+      </h1>
+      <div>
+        <button className="send-message-button" onClick={() => handleOptionClick('message')}>
+          Message
+        </button>
+        <button className="send-message-button" onClick={() => handleOptionClick('image')}>
+          Image
+        </button>
+        <button className="send-message-button" onClick={() => handleOptionClick('document')}>
+          Document
+        </button>
+        <br />
+        <button className="send-message-button" onClick={() => handleOptionClick('audio')}>
+          Audio
+        </button>
+        <button className="send-message-button" onClick={() => handleOptionClick('video')}>
+          Video
+        </button>
+      </div>
+      {contentHistory.map((content) => renderContent(content))}
+      <Handle type="source" position={Position.Right} id="a" style={{}} isConnectable={isConnectable} />
+    </div>
+  );
 };
+
+
+
 export const AskQuestion = ({ isConnectable }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [askbutton,setaskButtons]=useState([]);

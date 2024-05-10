@@ -5,7 +5,7 @@ import { useParams, NavLink } from "react-router-dom";
 import RelatedList1 from "./RelatedList1.jsx";
 import ConvertLead from "./ConvertLead.jsx";
 
-const CreateLead = () => {
+const ShowLead = () => {
   const [createlead, setCreateLead] = useState({
     first_name: "",
     email: "",
@@ -303,4 +303,4 @@ const CreateLead = () => {
     </div>
   );
 };
-export default CreateLead;
+export default ShowLead;

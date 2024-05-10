@@ -18,23 +18,22 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    
   }
   
   th,
   td {
-    padding: 8px;
+    padding: 18px;
     text-align: left;
+    border: 0;
   }
   
   th {
-    background-color: #15ABFFFF;
+    background-color: #f2f2f2;
     font-weight: bold;
   }
   
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
   
   tr:hover {
     background-color: #eaeaea;

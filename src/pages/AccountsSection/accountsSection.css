@@ -24,8 +24,11 @@
   border-radius: 4px 4px 4px 4px;
 
   color: white;
-  background: #6D31ED;
-  font-weight: 600;
+  background: #FFFFFFFF;
+  background: #4CA110FF;
+  font-weight: 400;
+  font-family: 'Manrope';
+  font-size: 14px;
 }
 
 
@@ -158,12 +161,13 @@
 table {
   width: 85%;
   border-collapse: collapse;
+
 }
 
 th,
 td {
   padding: 12px 15px;
-  border: 1px solid #ccc;
+  
   text-align: left;
 }
 
@@ -174,15 +178,20 @@ th {
 }
 
 td a {
-  color: #0066cc;
-  text-decoration: none;
+  /* color: #0066cc; */
+  font-family: 'Manrope';
+font-size: 14px;
+  font-weight: 400;
+  color: #171A1FFF;
 }
 
 
 
-td:last-child {
+
+
+/* td:last-child {
   text-align: right;
-}
+} */
 .form-group{
   margin-top: 20px  !important;
 }

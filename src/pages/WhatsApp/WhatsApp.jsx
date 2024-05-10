@@ -101,15 +101,15 @@ const handleGenerateMessage = async (e) => {
       <div className="chat-header">
         {contacts && <h1>Chat with {contacts.first_name}</h1>}
       </div>
-      <div className="messages-container">
+      <div className="messages-container1">
         {messages.map((message, index) => (
           <div key={index} className={`message ${message.sender}`}>
             {message.content}
           </div>
         ))}
       </div>
-      <div className='message'>
-        <label htmlFor="message">Message:</label>
+      <div className='message1'>
+        <label htmlFor="">Message:</label>
         <textarea 
           id="message" 
           name="message" 
@@ -118,9 +118,9 @@ const handleGenerateMessage = async (e) => {
           onChange={(e) => setMessageTemplate(e.target.value)} 
         />
       </div>
-      <div className="input-container">
-        <button onClick={handleGenerateMessage}>Generate Message</button>
-        <button onClick={handleSend}>Send</button>
+      <div className="input-container1">
+        <button className="generatemsg" onClick={handleGenerateMessage}>Generate Message</button>
+        <button className='sendmsg' onClick={handleSend}>Send</button>
       </div>
     </div>
   );

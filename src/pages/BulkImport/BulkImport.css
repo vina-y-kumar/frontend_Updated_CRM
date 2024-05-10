@@ -6,8 +6,17 @@
   border-radius: 5px;
   background-color: #f9f9f9;
 }
+.uploadexcel{
+  color:black;
+  padding: 10px 20px;
+  border: none;
+  
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #789ad8;
+}
 
-.button-container {
+.uploadexcel-container {
   margin-bottom: 20px;
 }
 
@@ -37,15 +46,17 @@ button1 {
   color: white;
   padding: 10px 20px;
   border: none;
+  
   border-radius: 5px;
   cursor: pointer;
+  background-color: #6495ED;
 }
 .get{
   padding: 20px;
 }
 
-button:hover {
-  background-color: lightblue !important;
+.getcolumn:hover {
+  background-color: lightblue ;
 }
 
 .error-message {

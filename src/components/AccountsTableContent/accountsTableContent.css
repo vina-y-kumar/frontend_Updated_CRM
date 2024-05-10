@@ -1,5 +1,5 @@
 
-.excel-download-btn1{
+/* .excel-download-btn1{
   position: relative;
   left: 58%;
   top:-57px;
@@ -16,7 +16,19 @@
   border-radius: 4px;
   width: 150px;
   height: 40px;
+} */
+
+.file{
+  position: relative;
+   left: 80%;
+  top: -56px; 
+  
+
+/* font-size: 14px; */
+
+/* font-weight: 400; */ 
 }
+
 .table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
@@ -61,7 +73,12 @@
   background-color: aliceblue;
   text-align: center;
   margin-left: 10px;
+  position: relative;
+  top: 27px;
+  
+  
 }
+
 
 /* .view-mode-select:hover {
   background-color: #f0f0f0;
@@ -72,24 +89,148 @@
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 /* tiles view */
+/* Tile view */
 .accounts-tiles-container {
   display: grid;
-  grid-template-columns: repeat(2, calc(50% - 10px)); /* Two cards in a row */
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 2fr)); /* Dynamic grid layout */
+  gap: 15px; /* Decreased gap between boxes both horizontally and vertically */
+  padding-left: 20px; /* Added padding on the left */
+  justify-content: center; /* Center align the tiles */
+  margin-top: 20px; 
 }
 
+
 .account-tile {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin-left: 17px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  width: 100%; /* Adjust tile width */
+  max-width: 280px; /* Maximum width for each tile */
+  height: 180px; /* Adjust tile height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; /* Add position relative */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add drop shadow */
 }
+
+.account-tile:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Change drop shadow on hover */
+}
+
+.account-tile .tile-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-family: 'Manrope';
+  font-weight: 400;
+  color: #fff;
+}
+
+.account-tile .tile-header {
+  position: relative;
+  top: -2px;
+  left: 32px;
+  margin-bottom: 13px;
+  /* font-family: 'Manrope'; */
+  /* font-size: 14px; */
+  /* font-weight: 400; */
+  /* color: #171a1fff; */
+}
+.msg-icon {
+  position: absolute;
+  top: -1px; /* Adjust the top position as needed */
+  right: 20px;}
+
+/* .account-tile .tile-content {
+  position: relative;
+  top: -23px;
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: 400;
+  color: #171a1fff;
+} */
+
+ .account-tile .tile-footer {
+  position: relative;
+  top: -15px;
+  font-size: 14px;
+  color: #171a1fff;
+  font-family: 'Manrope';
+  font-weight: 400;
+} 
+
 /* list view */
 .accounts-list-container {
   width: 80%;
   margin: 0 auto;
-  
 }
+
+/* .accountIndustry{
+  position: relative;
+
+  font-size: 14px;
+  color: #171a1fff;
+  font-family: 'Manrope';
+  font-weight: 400;
+} */
+/* .accountName{
+  position: relative;
+
+  font-size: 14px;
+  color: #171a1fff;
+  font-family: 'Manrope';
+  font-weight: 400;
+} */
+
+/* .accountemail{
+
+
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #171A1FFF;
+} */
+.accountphone{
+  position: relative;
+    top: -10px;
+}
+.accountIndustry{
+  position: relative;
+    top: -11px;
+    font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+} 
+
+.accountName{
+  position: relative;
+  top: 2px ;
+}
+.accountemail{
+  position: relative;
+  top: 5px ;
+}
+
+.accountphone,
+.accountIndustry,
+.accountemail,
+.accountName {
+  display: flex;
+  flex-direction: row;
+}
+
+
 
 .accounts-list-item {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
@@ -105,14 +246,199 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background: #25b09b;
-  --_m: 
-    conic-gradient(#0000 10%,#000),
-    linear-gradient(#000 0 0) content-box;
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
   -webkit-mask: var(--_m);
-          mask: var(--_m);
+  mask: var(--_m);
   -webkit-mask-composite: source-out;
-          mask-composite: subtract;
+  mask-composite: subtract;
   animation: l3 1s infinite linear;
 }
-@keyframes l3 {to{transform: rotate(1turn)}}
+.accountnames,.accountems{
+  font-family: 'Manrope';
+  font-size: 14px;
+    font-weight: 400;
+    color: #171A1FFF;
+}
+
+
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* styling of table view  */
+
+.view-mode-select1{
+  float: right;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid gray;
+  background-color: aliceblue;
+  text-align: center;
+  margin-left: 10px;
+  position: relative;
+  right: 45px;
+  top: -10px;
+  
+}
+.view-mode-select2 {
+  float: right;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid gray;
+  background-color: aliceblue;
+  text-align: center;
+  margin-left: 10px;
+  position: relative;
+  left: 40%;
+}
+.accounts-container {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  width: 1300px;
+  height: 2000px; /* adjust the width as needed */
+  margin: 5px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.accounts-table-wrapper table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none; /* Remove default border */
+  position: relative; /* Position relative for pseudo-elements */
+  width: 1300px;
+  left: -20px;
+}
+
+.accounts-table-wrapper table::before,
+.accounts-table-wrapper table::after {
+  content: '';
+  position: relative;
+  top: -1px; /* Adjust to match table border */
+  left: -1px; /* Adjust to match table border */
+  right: -1px; /* Adjust to match table border */
+  bottom: -1px; /* Adjust to match table border */
+  border: 2px solid #ddd; /* Border for outer side of the table */
+  border-radius: 15px; /* Border radius for the table */
+  
+}
+
+.accounts-table-wrapper table::before {
+  border-radius: 10px 10px 0 0; /* Adjust border-radius for top corners */
+}
+
+.accounts-table-wrapper table::after {
+  border-radius: 10 0 10px 10px; /* Adjust border-radius for bottom corners */
+}
+
+
+.accounts-header {
+  padding: 10px;
+ 
+ position: relative;
+  /* border-radius: 10px 10px 0 0; */
+  display: flex;
+  align-items: center; /* Align items vertically */
+  justify-content: center; /* Center align content horizontally */
+}
+
+
+.accountTableCenter {
+
+  font-size: 20px;
+  font-weight: bold;
+  /* margin: 0px; */
+  position: relative;
+  left: 10%;
+  top: -40px;
+}
+.thead1{
+  height: 60px;
+  
+
+}
+
+.accounts-table {
+  width: 700px; /* Set a fixed width for the table */
+  border: none; /* Remove all borders from the table */
+  margin-bottom: 20px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+
+}
+
+.tablerows{
+    border: 1px solid #ddd;
+    margin : 20px !important;
+   
+    
+}
+
+
+.accounts-table th,
+.accounts-table td {
+  padding: 10px; /* Remove padding if needed for tighter spacing */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.accounts-table th {
+  background-color: #f2f2f2 !important; /* Set table header background color */
+  color: #333; /* Set text color for table headers */
+  font-weight: bold; /* Make table header text bold */
+}
+
+.accounts-table tr:nth-child(even) {
+  background-color: #f8f8f8; /* Set background color for even rows */
+}
+
+.accounts-table tr:hover {
+  background-color: #e2e2e2; /* Set background color on hover */
+}
+
+.account-circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.accountIndus{
+  color: #379AE6FF;
+  font-family: 'Manrope';
+  font-size: 14px;
+    font-weight: 400;
+    
+}
+.accountTableCenter{
+  position: relative;
+  right: 24%;
+  align-items: center;
+  font-size: 20px;
+  top: 6px;
+
+
+}
+
+.excel-dropdown-menu {
+  /* Your custom styles here */
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 4px;
+  width: 77px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px 9px 12px;
+}
+
 

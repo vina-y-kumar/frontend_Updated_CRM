@@ -80,7 +80,7 @@ export const LeadPage = () =>
           </button>
                       
         
-            {/* <NavLink to="/createLead" id="btn">Create Lead</NavLink> */}
+            {/* <NavLink to="/ShowLead" id="btn">Create Lead</NavLink> */}
               {/* <AddPayment/> */}
               {/* <KanbanBoard/> */}
               <br/>

@@ -80,6 +80,7 @@ function Kanban() {
       last_name: lead.last_name,
       assigned_to: lead.assigned_to,
       createdBy: lead.createdBy,
+      enquery_type:lead.enquery_type
     }));
   };
 

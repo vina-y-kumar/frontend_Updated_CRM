@@ -264,10 +264,26 @@ export const AskQuestion = ({ isConnectable }) => {
     </div>);
   
 };
-export const SetCondition = ({ isConnectable }) => {
-  return (<div>
-    <h1 style={{backgroundColor:'rgb(103, 184, 255)',height:'30px',fontSize:'18px',textAlign:'center',borderRadius:'5px'}}>Set Condition</h1>
-    <p>Put a Condition</p>
-    
-    </div>);
+export const SetCondition = ({ data, isConnectable }) => {
+  const [selectedValue, setSelectedValue] = useState(data.selectedOption || ''); // Initialize with data.selectedOption if available
+
+  // Handler function to update selected value
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+    // Update data with the selected value
+    data.selectedOption = event.target.value;
+  };
+
+  return (
+    <div>
+      <h1 style={{ backgroundColor: 'rgb(103, 184, 255)', height: '30px', fontSize: '18px', textAlign: 'center', borderRadius: '5px' }}>Set Condition</h1>
+      <p>{data.p}</p>
+      <select value={selectedValue} onChange={handleSelectChange}>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        {/* Add more options as needed */}
+      </select>
+    </div>
+  );
 };

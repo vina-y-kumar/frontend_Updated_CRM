@@ -13,8 +13,6 @@ function Kanban() {
     contractsSent: { title: "Contracts Sent", cards: [], bg: "#FFD317FF" },
   });
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,24 +20,45 @@ function Kanban() {
         const leads = response.data;
         
 
-        const newCards = leads.map((lead) => ({
-          id: lead.id.toString(),
-          name: lead.first_name + " " + lead.last_name,
-          email: lead.email,
-          address: lead.address,
-          website: lead.website,
-          status: lead.status,
-          first_name: lead.first_name,
-          last_name: lead.last_name,
-          assigned_to: lead.assigned_to,
-          createdBy: lead.createdBy,
-        }));
-        console.log(newCards);
+        // Categorize leads into different columns based on their status
+        const categorizedLeads = {
+          new: [],
+          proposals: [],
+          negotiations: [],
+          contractsSent: []
+        };
+
+        leads.forEach(lead => {
+          switch (lead.status) {
+            case 'assigned':
+              categorizedLeads.new.push(lead);
+              break;
+            case 'in process':
+              categorizedLeads.proposals.push(lead);
+              break;
+            case 'converted':
+              categorizedLeads.negotiations.push(lead);
+              break;
+            case 'recycled':
+              categorizedLeads.contractsSent.push(lead);
+              break;
+            default:
+              categorizedLeads.new.push(lead); // Default to 'New' column
+          }
+        });
+
+        // Map leads to cards for each column
+        const newCards = mapLeadsToCards(categorizedLeads.new);
+        const proposalsCards = mapLeadsToCards(categorizedLeads.proposals);
+        const negotiationsCards = mapLeadsToCards(categorizedLeads.negotiations);
+        const contractsSentCards = mapLeadsToCards(categorizedLeads.contractsSent);
+
+        // Set the columns state with the mapped cards
         setColumns({
-          new: { title: "New", cards: newCards },
-          proposals: { title: "Proposals", bg: "#15ABFFFF", cards:[] },
-          negotiations: { title: "Negotiations", bg: "#FF56A5FF", cards: [] },
-          contractsSent: { title: "Contracts Sent", bg: "#FFD317FF", cards: [] },
+          new: { title: "New", cards: newCards, bg: "#15ABFFFF" },
+          proposals: { title: "Proposals", bg: "#15ABFFFF", cards: proposalsCards },
+          negotiations: { title: "Negotiations", bg: "#FF56A5FF", cards: negotiationsCards },
+          contractsSent: { title: "Contracts Sent", bg: "#FFD317FF", cards: contractsSentCards }
         });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -49,7 +68,20 @@ function Kanban() {
     fetchData();
   }, []);
 
-
+  const mapLeadsToCards = (leads) => {
+    return leads.map((lead) => ({
+      id: lead.id.toString(),
+      name: lead.first_name + " " + lead.last_name,
+      email: lead.email,
+      address: lead.address,
+      website: lead.website,
+      status: lead.status,
+      first_name: lead.first_name,
+      last_name: lead.last_name,
+      assigned_to: lead.assigned_to,
+      createdBy: lead.createdBy,
+    }));
+  };
 
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
@@ -80,7 +112,6 @@ function Kanban() {
 
       try {
         await sendEmail(movedCard.email, endColumn.title, localStorage.getItem("token"));
-
 
         const leadData = {
           ...movedCard, // Include existing lead data

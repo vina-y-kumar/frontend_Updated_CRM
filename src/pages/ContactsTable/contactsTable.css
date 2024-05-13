@@ -492,10 +492,10 @@ color: #171A1F7D;
 
 .blank-page {
   /* max-width: 600px; */
-  width:83%;
+  width:86%;
   margin: 0 auto;
-  margin-top: -61px;
-  margin-left: 66px;
+  margin-top: 5px;
+  margin-left: -60px;
   /* background-color: #faf9f6; */
   text-align: left;
   padding: 2rem;
@@ -1160,7 +1160,7 @@ font-weight: 700;
 color: #171A1FFF;
 position: relative;
 top: 29px;
-left: -450px;
+left: -400px;
 }
 .owner3{
   font-family: 'Manrope';
@@ -1181,7 +1181,11 @@ top: 20px;
   color: #6D31EDFF;
   position: relative;
   top: -101px;
-  left: 154px;
+  left: 170px;
+}
+.photo{
+  position: relative;
+  left: 3%;
 }
 .info-contactOwner{
   margin-top: -30px;
@@ -1793,7 +1797,7 @@ border: 1px solid #ddd;
   cursor: pointer;
   position: absolute;
   top: 347%;
-  left: 53%;
+  left: 57%;
   transform: translate(-50%, -50%);
 }
 
@@ -2057,4 +2061,77 @@ border-color: #DEE1E645;
   font-size: 18px;
   line-height: 28px;
   font-weight: 700;
+}
+.meeting_container{
+  width: 373px;
+height: 146px;
+background: #F0F9FFFF;
+border-radius: 8px;
+position: relative;
+left: 70px;
+top: 30px;
+}
+.meet_title{
+  font-family: 'Manrope';
+  font-size: 14px;
+line-height: 22px;
+  font-weight: 700;
+  color: #15ABFFFF;
+  position: relative;
+  top: 20px;
+  left: 16px;
+}
+.timing{
+  font-family: 'Manrope';
+font-size: 12px;
+line-height: 20px;
+font-weight: 400;
+color: #323743FF;
+position: relative;
+top: 30px;
+left: 16px;
+}
+.rooms{
+  font-family: 'Manrope';
+font-size: 12px;
+line-height: 20px;
+font-weight: 400;
+color: #323743FF;
+position: relative;
+top: 40px;
+left: 16px;
+}
+.externals{
+  width: 79px;
+height: 24px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+font-family: 'Manrope';
+font-size: 11px;
+line-height: 18px;
+font-weight: 400;
+opacity: 1;
+font-weight: 400;
+color: #FFFFFFFF;
+background: #15ABFFFF;
+border-radius:12px ;
+position: relative;
+top: 50px;
+left: 16px;
+padding-left: 20px;
+}
+.meeting_cont{
+display: flex;
+flex-direction: row;
+gap: 120px;
+}
+.meeting_container1{
+  width: 373px;
+height: 146px;
+background: #FFD3171F;
+border-radius: 8px;
+position: relative;
+left: 70px;
+top: 30px;
 }

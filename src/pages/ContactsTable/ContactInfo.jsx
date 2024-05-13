@@ -243,7 +243,7 @@ const ContactInfo = () => {
             <div>
             <h2 className="owner1"> {contactinfo.first_name}</h2>
             <h2 className="owner3"> {contactinfo.address}</h2>
-            <div>
+            <div className="photo">
             {generateSmiley2(generateRandomColor())}
 
             </div>
@@ -559,6 +559,28 @@ const ContactInfo = () => {
           </div>
           <div className="info_meeting">
             <h2 className="invite_meet">Invite Meetings</h2>
+            <div className="meeting_cont"
+            >
+           
+              <div className="meeting_container">
+              <h1 className="meet_title">Meeting title</h1>
+              <div>
+                <p className="timing"> 10:00 - 11:00 AM</p>
+                <p className="rooms"> Room 20</p>
+             <h1 className="externals"> External
+              </h1>
+              </div>
+              </div>
+              <div className="meeting_container1">
+              <h1 className="meet_title">Meeting title</h1>
+              <div>
+                <p className="timing"> 10:00 - 11:00 AM</p>
+                <p className="rooms"> Room 20</p>
+             <h1 className="externals"> External
+              </h1>
+              </div>
+              </div>
+            </div>
           </div>
           <div className="info_product">
             <h2 className="info-pro">Products</h2>

@@ -5,6 +5,8 @@ import "./page.css";
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
 
+
+
 const AccountsPage = () => {
   const companyInfo = {
     name: "Neuren AI",
@@ -108,6 +110,11 @@ const AccountsPage = () => {
     "Emails",
     "Invoices",
   ];
+  const getCircleColor = (letter) => {
+    const colors = ['#ff6347', '#32cd32', '#1e90ff', '#ff69b4', '#ffd700']; // Define your color palette
+    const index = letter.charCodeAt(0) % colors.length;
+    return colors[index];
+  };
   return (
     <>
       <div className="classs">
@@ -124,7 +131,12 @@ const AccountsPage = () => {
 
             <div className="header">
               <h1 className="viewaccounts">View Account</h1>
-              <img src={companyInfo.logo} className="logo" alt="Company Logo" />
+              {/* <img src={companyInfo.logo} className="logo" alt="Company Logo" /> */}
+              
+              <span className="account-circle1" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+                          {account.company.charAt(0).toUpperCase()}
+              </span>
+                     
               <a
                 href={`mailto:${account.email}`}
                 className="sendemailInfo"
@@ -136,6 +148,10 @@ const AccountsPage = () => {
               <div className="header-content">
                 <h1 className="header-content1">{account.company}</h1>
               </div>
+             <div className="account-descp">
+              {account.description}
+             </div>
+
               <a
                 className="visitwebsite"
                 href={account.website}

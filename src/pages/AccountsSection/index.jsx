@@ -65,7 +65,7 @@ export const AccountsTable = () => {
                 <option value="2">Log out</option>
               </select>  */}
               <div className="create1">
-                <NavLink to="/addaccount" id="btn1">+  Create Account</NavLink>
+                <NavLink to="/addaccount" id="btn3">+CreateAccount</NavLink>
               </div>
             </div>
           </div>

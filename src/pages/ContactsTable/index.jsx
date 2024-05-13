@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
-import { Card, ListGroup } from "react-bootstrap";
+import { Dropdown,Card, ListGroup } from "react-bootstrap";
+
+
 import * as XLSX from "xlsx"; // Importing xlsx library
 
 
@@ -124,7 +126,29 @@ export const ContactsTable = () => {
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
   };
+  
+  
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
 
+  const generateSmiley = (color) => (
+    <div className="colored-circle" style={{ backgroundColor: color }}>
+      <span className="material-symbols-outlined">sentiment_satisfied</span>
+    </div>
+  );
+  const generateSmiley1 = (color) => (
+    <div className="colored-circle1" style={{ backgroundColor: color }}>
+      <i className="far fa-smile fa-lg"  style={{ fontSize: "38px" }}></i> 
+    </div>
+  );
+  
+  
   return (
     <div className="calls1">
        <div className="home_left_box1">
@@ -138,65 +162,133 @@ export const ContactsTable = () => {
 
       <div className="contain1" style={{width:"100%"}}>
         <div className="meet1">
-        <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
-        Import Excel
-      </Link>
+        <Dropdown>
+          <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
+            Excel File
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Link
+                to={`/bulk-import?model=${modelName}`}
+                className="import-excel-btn5"
+              >
+                Import Excel
+              </Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <button
+                onClick={handleDownloadExcel}
+                className="excel-download-btn1"
+              >
+                Excel
+              </button>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+       
+
           
-          <button onClick={handleDownloadExcel} className="excel-download-btn">
-            Excel
-          </button>
-          
-          <div className="Addcalls1">
-            <select className="view-mode-select" onChange={handleAllCalls1}>
-              <option value="">All Contacts</option>
-              <option value="1">Log in</option>
-              <option value="2">Log out</option>
-            </select>
+          <div className="contactlist">
+          <h1 >Contact list</h1>
           </div>
-          <div className="handle1">
-            <select onChange={handlePlusClick1} className="view-mode-select">
+        
+          <div className="handle4">
+          <NavLink to="/addcontact" id="btn10">
+                +CreateContact
+              </NavLink>
+            {/* <select onChange={handlePlusClick1} className="view-mode-select">
               <option value="">!!!</option>
               <option value="1">Log in</option>
               <option value="2">Log out</option>
-            </select>
-            <div className="create1">
-              <NavLink to="/addcontact" id="btn1">
-                Create Contact
-              </NavLink>
-            </div>
+            </select> */}
+          
+             
+            
 
-            <select className="view-mode-select" onChange={handleAction}>
+            {/* <select className="view-mode-select1" onChange={handleAction}>
               <option value="">Action</option>
               <option value="1">Log in</option>
               <option value="2">Log out</option>
-            </select>
+            </select> */}
           </div>
         </div>
-        <div className="records">
-          <select className="view-mode-select" onChange={handleRecords1}>
+
+        <div className="contact-boxes">
+        <div className="contact-bigboxes">
+  <h1 className="newcontact">New contacts this Week</h1>
+  <div className="firstcontact-box"> 
+    <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1> 
+    <p className="paragraph1">{contacts.length > 0 && contacts[0].description}</p>
+    {/* Smiley */}
+    <div className="smiley1">
+      {generateSmiley1(generateRandomColor())}
+    </div>
+  </div>
+  <div className="secondcontact-box">  
+    <h1 className="heading2">{contacts.length > 2 && contacts[2].first_name}</h1> 
+    <p className="paragraph2">{contacts.length > 2 && contacts[2].description}</p>
+    {/* Smiley */}
+    <div className="smiley2">
+      {generateSmiley1(generateRandomColor())}
+    </div>
+  </div>
+  <div className="thirdcontact-box">
+    <h1 className="heading3">{contacts.length > 3 && contacts[3].first_name}</h1> 
+    <p className="paragraph3">{contacts.length > 3 && contacts[3].description}</p>
+    {/* Smiley */}
+    <div className="smiley3">
+      {generateSmiley1(generateRandomColor())}
+    </div>
+  </div>
+</div>
+
+</div>
+<div  className="activeInactivebtn">
+  <div className="activeInactivebtn1">
+  <button className="activeinactive">All Contacts</button>
+  </div>
+  <div className="activeInactivebtn2">
+  <button>Active</button>
+
+  </div>
+  <div className="activeInactivebtn3">
+  <button>Inactive</button>
+  </div>
+  
+ 
+
+</div>
+
+ <div className="bigcontactbox">
+ <div className="records10">
+ <select
+  value={viewMode}
+  onChange={(e) => handleViewModeChange(e.target.value)}
+  className="view-mode-select7"
+>
+  <option value="">View!</option>
+  <option value="table">Table View</option>
+  <option value="tile">Tile View</option>
+  <option value="list">List View</option>
+</select>
+          
+          
+          <select className="view-mode-select3" onChange={handleRecords1}>
             <option value="">10 Records per page</option>
             <option value="1">Option 1</option>
             <option value="2">Option 2</option>
           </select>
-          <select
-            value={viewMode}
-            onChange={handleViewModeChange}
-            className="view-mode-select"
-          >
-            <option value="">View!</option>
-            <option onClick={() => handleViewModeChange("table")} value="">
-              Table View
-            </option>
-            <option onClick={() => handleViewModeChange("tile")}>
-              Tile View
-            </option>
-            <option onClick={() => handleViewModeChange("list")}>
-              List View
-            </option>
-          </select>
+  
+      
+          {viewMode !== 'tile' && (
+  <h1 className="allcontacts">All contacts</h1>
+)}
+
+  
+
         </div>
-        <div className="bugs">
-          <div className="filter-container">
+        <div className="bugs10">
+          {/* <div className="filter-container">
             <h2>Filter Contacts by</h2>
             <div className="search-bar">
             <input type="text" placeholder="Search..." value={searchTerm} onChange={handleSearch} />
@@ -228,71 +320,116 @@ export const ContactsTable = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
+  
+
 
 {/* Table View */}
-{viewMode==='table' &&(
-          <div className="table1">
-            <table>
+
+{viewMode === "table" && (
+          <div className="table4">
+            <table className="contacttable">
               <thead>
                 <tr>
-                  <th>name</th>
-                  
-                  <th>Account Name</th>
-
-                  <th>Contact Name</th>
-                  <th>Description</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Address</th>
+                  <th className="user1">USER</th>
+                  <th className="username1">USER NAME</th>
+                  <th className="useremail1">EMAIL</th>
+                  <th className="useraccount1">ROLE</th>
+                  <th className="usercontact1">Contact Name</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredContacts?.map &&
                   filteredContacts.map((contact) => (
-                    <tr key={contact.id}>
+                    <tr className="contacttablerow" key={contact.id}>
                       <td>
-                        <NavLink to={`/contactinfo/${contact.id}`}>
-                          {contact.first_name + " " + contact.last_name}
-                        </NavLink>
+                        {generateSmiley(generateRandomColor())}
+                        <div className="cont-first_name">
+                        <Link to={`/contactinfo/${contact.id}`}>
+
+                          {contact.first_name}
+                          </Link></div>
                       </td>
-                      <td>{contact.description}</td>
-                      <td>
+                      <td className="contlast_name">{contact.last_name}</td>
+                      <td className="cont_email">
                         <a href={`mailto:${contact.email}`}>{contact.email}</a>
                       </td>
-                      <td>{contact.phone}</td>
-                      <td>{contact.address}</td>
+                      <td className="cont_phone">{contact.phone}</td>
+                      <td className="cont_phone">{contact.address}</td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
-          )}
+        )}
           {/* Tile View */}
-          {viewMode==='tile' &&(
+          {/* {viewMode==='tile' &&(
             
             <div>
           <h2>Tiles View</h2>
-          {/* Implement your Kanban view here */}
-          <div className="accounts-tiles-container">
+          <div className="contacts-tiles-container2">
             {contacts.map((contact, index) => (
-              <Card key={contact.id} className="account-tile">
-                <Card.Body>
-                  <Card.Title>
+              <Card key={contact.id} className="contact-tile">
+                <Card.Body className="card-body">
+                  <Card.Title className="card-title">
                     <Link to={`/contactinfo/${contact.id}`}>
                       {contact.first_name+" "+contact.last_name}
                     </Link>
                   </Card.Title>
-                  <Card.Text>Phone Number: {contact.phone}</Card.Text>
-                  <Card.Text>Address: {contact.address}</Card.Text>
-                  <Card.Text>Description: {contact.description}</Card.Text>
-                  <Card.Text>Email: {contact.email}</Card.Text>
+                  <Card.Text className="card-phonenumber">Phone Number: {contact.phone}</Card.Text>
+                  <Card.Text className="card-address">Address: {contact.address}</Card.Text>
+                  <Card.Text className="card-desc">Description: {contact.description}</Card.Text>
+                  <Card.Text className="card-email">Email: {contact.email}</Card.Text>
                 </Card.Body>
               </Card>
             ))}
           </div>
         </div>
-          )}
+          )} */}
+          {viewMode === "tile" && (
+          <div className="contact-tile-view">
+            {/* Implement your Kanban view here */}
+            <div className="contacts-tiles-container">
+              <div className="contact-index">
+              {contacts.map((contact, index) => (
+                <div className={`contact-tile tile-${index + 1}`} key={contact.id}>
+                  <Link to={`/contactinfo/${contact.id}`} className="contact-link">
+                  
+                    <div className="tile-header1"><p> {contact.first_name+" "+contact.last_name}</p></div>
+                  </Link>
+                  <div className="smiley4">
+                  {generateSmiley1(generateRandomColor())}
+
+                  </div>
+                  <div className="tile-content">
+                    <p className="contactphone">
+                   
+                    {contact.phone}
+                    </p>
+                   
+                  </div>
+                  <div className="contfirst-name">
+                    <p> {contact.first_name} </p>
+                    </div>
+                  <div className="tile-footer">
+                  <p className="contactaddress">
+                      
+                      {contact.address}
+                      </p>
+                    <p className="contactemail">
+                    {contact.email}
+                      
+                    </p>
+                  </div>
+
+                </div>
+              ))}
+
+              </div>
+             
+            </div>
+          </div>
+        )}
           {/* List View */}
           {viewMode==='list' &&(
             <div>
@@ -313,6 +450,9 @@ export const ContactsTable = () => {
           </div>
           )}
         </div>
+  </div>       
+        
+        
       </div>
     </div>
   

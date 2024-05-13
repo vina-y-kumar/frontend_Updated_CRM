@@ -15,10 +15,10 @@
 .bugs{
   display: flex;
 }
-#btn1 {
-  width: 77px;
-  height: 36px;
-  margin-left: -12%;
+#btn3 {
+   /* width: 100px; */
+  /* height: ;  */
+  margin-left: -10%;
   padding: 7px 11px 9px 12px;
   gap: 0px;
   border-radius: 4px 4px 4px 4px;

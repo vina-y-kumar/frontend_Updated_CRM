@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./accountsSection.css";
+import {Link, useParams } from "react-router-dom";
+
 import { Header } from '../../components/Header';
 
 
@@ -89,17 +91,58 @@ function AccountForm() {
       console.error('Error submitting form:', error);
     }
   };
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const generateSmiley3 = (color) => (
+    <div className="colored-circle3" style={{ backgroundColor: color, color:"white" }}>
+      <span className="material-icons" style={{ fontSize: "50px", fontFamily: "'Material Symbols Outlined'" }}>person</span>
+    </div>
+  );
 
   return (
-    <div>
- <Header name="Account Information"/>
+    <div className="account_form_submit">
+      <div className="back_container">
+      <div className="relatedList-Contacts2">
+              <Link to="/accounts"> Back</Link>
+            </div>
+      
+      </div>
+     
+      
+   <div className='form_account'>
+   <Header className="create_account" name="Create Account"/>
+   <div className='btnsss'>
+   <button type="cancel" className="btn-submit2">Cancel</button>
+
+   <button type="save" className="btn-submit1">Save as Draft</button>
+
+
+   <button type="submit" className="btn-submit3">Submit</button>
+
+   </div>
+   <div className="photo">
+            {generateSmiley3(generateRandomColor())}
+
+            </div>
+            <button className="upload_button">Upload Image</button>
+
+<h1 className="create_account3">Account Information</h1>
      <form onSubmit={handleSubmit}>
-<div className="form-row">
-        <div className="form-group ">
-          <label htmlFor="Name">Account Owner</label>
+      <div className='account_forms'>
+      <div className="form-row">
+  <div>
+  <div className="form-group col-md-6 ">
+          <label htmlFor="Name" className='anual_ownership'>Account Owner:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_account"
             id="Name"
             name="Name"
             value={accountData.Name}
@@ -108,10 +151,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className='anual_email'>Email:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_email"
             id="email"
             name="email"
             value={accountData.email}
@@ -120,10 +163,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="AccountName">Account Name</label>
+          <label htmlFor="AccountName" className='account_name'>Account Name:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ac_name"
             id="AccountName"
             name="AccountName"
             value={accountData.AccountName}
@@ -132,10 +175,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="AccountSite">Account Site</label>
+          <label htmlFor="AccountSite" className='account_site'>Account Site:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ac_site"
             id="AccountSite"
             name="AccountSite"
             value={accountData.AccountSite}
@@ -144,10 +187,10 @@ function AccountForm() {
           />
         </div>
   <div className="form-group col-md-6">
-          <label htmlFor="ParentAccount">Parent Account</label>
+          <label htmlFor="ParentAccount" className='parent_account'>Parent Account:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_pc_site"
             id="ParentAccount"
             name="ParentAccount"
             value={accountData.ParentAccount}
@@ -156,10 +199,10 @@ function AccountForm() {
           />
         </div>
 <div className="form-group col-md-6">
-          <label htmlFor="AccountNumber">Account Number</label>
+          <label htmlFor="AccountNumber" className='account_number'>Account Number:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ac_num"
             id="AccountNumber"
             name="AccountNumber"
             value={accountData.AccountNumber}
@@ -168,10 +211,10 @@ function AccountForm() {
           />
         </div>
 <div className="form-group col-md-6">
-          <label htmlFor="AccountType">Account Type </label>
+          <label htmlFor="AccountType"className='account_type'>Account Type: </label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ac_type"
             id="AccountType"
             name="AccountType"
             value={accountData.AccountType}
@@ -180,10 +223,10 @@ function AccountForm() {
           />
           </div>
  <div className="form-group col-md-6">
-          <label htmlFor="Industry">Industry</label>
+          <label htmlFor="Industry" className='industryy'>Industry:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_indus"
             id="Industry"
             name="Industry"
             value={accountData.Industry}
@@ -192,10 +235,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="AnnualRevenue">Annual Revenue</label>
+          <label htmlFor="AnnualRevenue" className='anual_revenue'>Annual Revenue:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_anual"
             id="AnnualRevenue"
             name="AnnualRevenue"
             value={accountData.AnnualRevenue}
@@ -203,15 +246,17 @@ function AccountForm() {
             placeholder="Enter revenue"
           />
         </div>
+  </div>
+     
 </div>
 
 <div className="form-row">
 
 <div className="form-group col-md-6">
-          <label htmlFor="Rating">Rating</label>
+          <label htmlFor="Rating" className='ratings'>Rating:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_rating"
             id="Rating"
             name="Rating"
             value={accountData.Rating}
@@ -220,10 +265,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="Tax">Phone</label>
+          <label htmlFor="Tax" className='anual_phone'>Phone:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_phone"
             id="phone"
             name="phone"
             value={accountData.phone}
@@ -232,10 +277,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="Fax">Fax</label>
+          <label htmlFor="Fax" className='anual_fax'>Fax:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_fax"
             id="Fax"
             name="Fax"
             value={accountData.Fax}
@@ -244,10 +289,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="Website">Website</label>
+          <label htmlFor="Website" className='anual_website'>Website:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_website"
             id="Website"
             name="Website"
             value={accountData.Website}
@@ -256,10 +301,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="TickerSymbol">Ticker Symbol</label>
+          <label htmlFor="TickerSymbol" className='anual_ticker'>Ticker Symbol:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ticker"
             id="TickerSymbol"
             name="TickerSymbol"
             value={accountData.TickerSymbol}
@@ -268,10 +313,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="Ownership">Ownership</label>
+          <label htmlFor="Ownership" className='anual_owner'>Ownership:</label>
           <input
             type="Ownership"
-            className="form-control"
+            className="form-control_owner"
             id="Ownership"
             name="Ownership"
             value={accountData.Ownership}
@@ -280,10 +325,10 @@ function AccountForm() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="Employees">Employees</label>
+          <label htmlFor="Employees" className='anual_employess'>Employees:</label>
           <input
             type="Employees"
-            className="form-control"
+            className="form-control_employee"
             id="Employees"
             name="Employees"
             value={accountData.Employees}
@@ -292,19 +337,21 @@ function AccountForm() {
           />
         </div>
 </div>
+      </div>
+
         
         
 
+      <h1 className='info_address'>Address Information</h1>  
 
-
- <div className="form-row">
-  <h1 className='info'>Address Information</h1>  
+<div className='account_forms2'>
+<div className="form-row">
   <div>
   <div className="form-group col-md-6">
-          <label htmlFor="BillingStreet">Billing Street </label>
+          <label htmlFor="BillingStreet" className='bill_street'>Billing Street: </label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_billing_street"
             id="BillingStreet"
             name="BillingStreet"
             value={accountData.BillingStreet}
@@ -313,10 +360,10 @@ function AccountForm() {
           />
         </div>
 <div className="form-group col-md-6">
-          <label htmlFor="BillingCity">Billing City </label>
+          <label htmlFor="BillingCity" className='bill_city'>Billing City: </label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_billing_city"
             id="BillingCity"
             name="BillingCity"
             value={accountData.BillingCity}
@@ -325,10 +372,10 @@ function AccountForm() {
           />
         </div>
   <div className="form-group col-md-6">
-          <label htmlFor="BillingState"> Billing State</label>
+          <label htmlFor="BillingState" className='bill_state'> Billing State:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_billing_state"
             id="BillingState"
             name="BillingState"
             value={accountData.BillingState}
@@ -337,10 +384,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="BillingCode"> Billing Code</label>
+          <label htmlFor="BillingCode" className='bill_code'> Billing Code:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_billing_code"
             id="BillingCode"
             name="BillingCode"
             value={accountData.BillingCode}
@@ -349,10 +396,10 @@ function AccountForm() {
           />
         </div>
 <div className="form-group col-md-6">
-          <label htmlFor="BillingCountry">Billing Country</label>
+          <label htmlFor="BillingCountry" className='bill_country'>Billing Country:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_billing_country"
             id="BillingCountry"
             name="BillingCountry"
             value={accountData.BillingCountry}
@@ -364,10 +411,10 @@ function AccountForm() {
 
 <div className="form-row">
         <div className="form-group col-md-6">
-          <label htmlFor="ShippingStreet">Shipping Street</label>
+          <label htmlFor="ShippingStreet" className='ship_street'>Shipping Street:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ship_street"
             id="ShippingStreet"
             name="ShippingStreet"
             value={accountData.ShippingStreet}
@@ -376,10 +423,10 @@ function AccountForm() {
           />
         </div>
 <div className="form-group col-md-6">
-          <label htmlFor="ShippingCity">Shipping City</label>
+          <label htmlFor="ShippingCity" className='ship_city'>Shipping City:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ship_city"
             id="ShippingCity"
             name="ShippingCity"
             value={accountData.ShippingCity}
@@ -388,10 +435,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="ShippingState">Shipping State</label>
+          <label htmlFor="ShippingState" className='ship_state'>Shipping State:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ship_state"
             id="ShippingState"
             name="ShippingState"
             value={accountData.ShippingState}
@@ -400,10 +447,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="ShippingCode">Shipping Code</label>
+          <label htmlFor="ShippingCode" className='ship_code'>Shipping Code:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ship_code1"
             id="ShippingCode"
             name="ShippingCode"
             value={accountData.ShippingCode}
@@ -412,10 +459,10 @@ function AccountForm() {
           />
         </div>
  <div className="form-group col-md-6">
-          <label htmlFor="ShippingCountry">Shipping Country</label>
+          <label htmlFor="ShippingCountry" className='ship_country'>Shipping Country:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ship_country"
             id="ShippingCountry"
             name="ShippingCountry"
             value={accountData.ShippingCountry}
@@ -426,10 +473,10 @@ function AccountForm() {
 </div>
  <div className="form-row">
         <div className="form-group ">
-          <label htmlFor="Description">Description</label>
+          <label htmlFor="Description" className='ship_descri'>Description:</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control_ship_descri"
             id="Description"
             name="Description"
             value={accountData.Description}
@@ -438,11 +485,19 @@ function AccountForm() {
           />
         </div>
       </div>
-    </div>    
+      <button type="submit" className="btn-submit">Submit</button>
+
+
+    </div>  
+
+  
+</div>
+  
         
-<button type="submit" className="btn btn-primary">Submit</button>
  </form>        
-      </div>
+
+    </div>    
+       </div>
 
  
          

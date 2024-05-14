@@ -768,6 +768,31 @@ outline: none;
  /* .selector {
   font-family: 'Material Icons';
 } */
+.facebook{
+  width: 24px;
+  height: 24px;
+  fill: #9095A1FF;
+  position: relative;
+  top: 40px;
+  left: 40px;
+
+}
+.twitter{
+  width: 24px;
+  height: 24px;
+  fill: #9095A1FF;
+  position: relative;
+  top: 50px;
+  left: 40px;
+}
+.whatsapp{
+  width: 24px;
+  height: 24px;
+  fill: #9095A1FF;
+  position: relative;
+  top: 60px;
+  left: 40px;
+}
 
 .actvities{
 
@@ -1187,6 +1212,7 @@ top: 20px;
   position: relative;
   left: 3%;
 }
+
 .info-contactOwner{
   margin-top: -30px;
   
@@ -2135,3 +2161,524 @@ position: relative;
 left: 70px;
 top: 30px;
 }
+/* changes in contact form */
+
+
+
+.back_container1{
+  
+  width: 250px;
+  height: 700px;
+  margin-top: 2px;
+  background: #FAFAFBFF;
+  margin-left: 1px;
+  padding-top: 20px;
+  border-radius: 0px;
+  border-width: 1px;
+  /* border-color: #FFFFFFFF; */
+  /* border-style: solid; */
+  position: relative;
+  top: 1px;
+ }
+ .relatedList-Contacts3{
+    
+  font-family: 'Manrope';
+
+font-size: 14px;
+font-weight: 400;
+width: 80px;
+text-align: center; 
+height: 35px;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A1FF;
+outline: none;
+position: relative;
+top: 170px;
+left: 10px;
+padding-left: 2px;
+padding-top: 4px;
+ }
+ .contactfill_forms{
+display: flex;
+ }
+ .btnsss1{
+  display: flex;
+  gap: 20px;
+  padding-left: 700px;
+  position: relative;
+  top: -90px;
+  
+   }
+   .btn-submit4{
+    width: 140px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #62CD14FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+    
+   }
+   .btn-submit5{
+    width: 140px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #DE3B40FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+    
+   }
+   .btn-submit6{
+    width: 140px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #6D31EDFF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+   }
+   .colored-circle3 {
+    width: 80px;
+    height: 80px;
+    border-radius: 7px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position:absolute;
+    position: relative;
+    top: -40px;
+    left: -590px;
+  }
+  .colored-circle4 {
+    width: 80px;
+    height: 80px;
+    border-radius: 7px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position:absolute;
+    position: relative;
+    top: -40px;
+    left: -550px;
+  }
+  .upload_button1{
+    position: relative;
+    top: -100px;
+    left: 90px;
+    width: 203px;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #6D31EDFF;
+  }
+  .cont_infoo{
+    font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+position: relative;
+left: 80px;
+top: -60px;
+  }
+  .contact_form_fill{
+    position: relative;
+
+    width: 1096px;
+    height: 700px;
+    background: #F8F9FAFF;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #F3F4F6FF;
+    border-style: solid;
+    box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+    margin-left: 20px;
+    margin-top: -20px;
+  }
+  .info_address_info{
+    font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+position: relative;
+left: -700px;
+margin-bottom: 50px;
+  }
+  .contact_owner_form{
+    position: relative;
+    left: 10px;
+    font-family: 'Manrope';
+    font-size: 15px;
+    line-height: 16px;
+    font-weight: 700;
+    color: #171A1FFF;
+     
+    }
+    .contact_first_name{
+      position: relative;
+      left: 10px;
+    }
+    .contact_last_name{
+      position: relative;
+      left: 39px;
+    }
+    .contact_email{
+      position: relative;
+      left: 44px;   
+    }
+    .contact_account{
+      position: relative;
+      left: 50px;
+    
+    }
+    .contact_phone{
+      position: relative;
+      left: 40px;
+    }
+    .other_addres{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+      position: relative;
+      left: 55px;
+      top: -70px;
+    }
+    .other_assistant{
+      position: relative;
+      left: 50px;
+      top: -60px;
+    }
+    .other_fax{
+      position: relative;
+      left: 90px;
+      top: -60px;
+    }
+    .other_asst{
+position: relative;
+top: -60px;
+left: 30px;
+    }
+    .other_secondaryemail{
+      position: relative;
+
+      top: -60px;
+      left: -2px;
+    }
+    .other_createdBy{
+      position: relative;
+      left: 37px;
+      top: -60px;
+    }
+    .other_currency{
+      position: relative;
+      left: 20px;
+    }
+    .other_DOB{
+      position: relative;
+      left: 1px;
+    }
+    .other_skype{
+      position: relative;
+      left: 30px;
+    }
+    .form-control-skype-id{
+      position: relative;
+      left: 60px;
+    }
+    .other_Twitter{
+      position: relative;
+      left: 40px;
+    }
+    .form-control_twitter{
+      position: relative;
+      left: 70px;
+    }
+
+    .contact_first_name ,.contact_last_name,.contact_email,.contact_account,.contact_phone,.other_phone,.other_mobile,.other_address
+    .other_description,.other_assistant,.other_currency,.other_fax,.other_DOB,.other_asst,.other_skype,.other_secondaryemail
+    ,.other_Twitter,.other_createdBy,.other_reporting {
+    
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+    }
+    .other_description{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+      position: relative;
+      left: 10px;
+    }
+    .other_mobile{
+      position: relative;
+      left: 45px;
+      top: 1px;
+      
+    }
+    .form-control_mobilee{
+      position: relative;
+      left: 70px;
+      top: -70px;
+    }
+    .form-control_mobil{
+      position: relative;
+      left: 70px;
+      top: 10px;
+    }
+    .form-control-other-address{
+      position: relative;
+      left: 70px;
+      top: -70px;
+    }
+   .form-control-assistantt{
+    position: relative;
+    left: 65px;
+    top: -60px;
+   }
+   .form-control_faxx{
+    position: relative;
+    left: 100px;
+    top: -60px;
+   }
+   .form-control-Asst-phone{
+    position: relative;
+    left: 40px;
+    top: -60px;
+   }
+   .form-control-secondary_mail{
+    position: relative;
+    left: 20px;
+    top: -60px;
+   }
+   .form-control-createdBy{
+    position: relative;
+    top: -58px;
+    left: 50px;
+   }
+   .form-control_contact-owner{
+    position: relative;
+    left: 25px;
+   }
+   .form-control_last_name{
+    position: relative;
+    left: 60px;
+
+   }
+   .form-control_first_name{
+    position: relative;
+    left: 30px;
+   }
+   .form-control-email{
+position: relative;
+left: 60px;
+   }
+   .form-control-description1{
+    position: relative;
+    left: 35px;
+   }
+   .form-control-currency2{
+    position: relative;
+    left: 50px;
+   }
+   .form-control-DOBB{
+    position: relative;
+    left: 30px;
+   }
+
+    .form-control_contact-owner,.form-control_first_name,.form-control_last_name,.form-control-email,.form-control_account
+    .form-control_phonee,.form-control_other_phone,.form-control_mobil,.form-control-other-address,.form-control-description1
+   ,.form-control-assistantt,.form-control-currency2,.form-control_faxx,.form-control-DOBB,.form-control-Asst-phone
+    ,.form-control-skype-id,.form-control-secondary_mail,.form-control_twitter,.form-control-createdBy,.form-control-reportingto{
+      width: 260px;
+      height: 36px;
+      padding-left: 12px;
+      padding-right: 12px;
+      font-family: 'Manrope';
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      background: #F3F4F6FF;
+      border-radius: 4px;
+      border-width: 1px;
+      border-color: #DEE1E645;
+    }
+    .form-control_phonee{
+      width: 260px;
+      height: 36px;
+      padding-left: 12px;
+      padding-right: 12px;
+      font-family: 'Manrope';
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      background: #F3F4F6FF;
+      border-radius: 4px;
+      border-width: 1px;
+      border-color: #DEE1E645; 
+    }
+    .form-control_account{
+      position: relative;
+      top: -30px;
+      left: 120px;
+    }
+    .contanct_mailing_form{
+      width: 1096px;
+      position: relative;
+      margin-top: 10px;
+      margin-left: 25px;
+height: 285px;
+background: #F8F9FAFF;
+border-radius: 8px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+    }
+    .mailing_cont_street{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+      position: relative;
+      left: 20px;
+    }
+    .mailing_cont_city{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+      position: relative;
+      left: 20px;
+    }
+    .mailing-cont-state{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+      position: relative;
+      left: 20px;
+    }
+    .mailing-cont-zip{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF;
+      position: relative;
+      left: 20px;
+    }
+    .mailing-cont-country{
+      font-family: 'Manrope';
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #171A1FFF; 
+      position: relative;
+      left: 12px;
+    }
+    .form-control_street_mail,.form-control_city_mail,.form-control_state_mail,.form-control_zip_mail,.form-control_country_mail
+    {
+      width: 260px;
+      height: 36px;
+      padding-left: 12px;
+      padding-right: 12px;
+      font-family: 'Manrope';
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      background: #F3F4F6FF;
+      border-radius: 4px;
+      border-width: 1px;
+      border-color: #DEE1E645;
+  
+    }
+    .form-control_street_mail{
+      position: relative;
+      left: 30px;
+    }
+    .form-control_city_mail{
+      position: relative;
+      left: 30px;
+    }
+    .form-control_state_mail{
+      position: relative;
+      left: 30px;
+    }
+    .form-control_zip_mail{
+      position: relative;
+      left: 30px;
+    }
+    .form-control_country_mail{
+      position: relative;
+      left: 20px;
+    }
+    .submit_to_contact{
+    width: 140px;
+height: 42px;
+padding: 0 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: Manrope;
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #FFFFFFFF;
+background: #6D31EDFF;
+opacity: 1;
+border: none;
+border-radius: 4px;
+margin-top: 40px;
+position: relative;
+left: 400px;
+margin-bottom: 40px;
+    }
+    .square {
+      width: 100px; /* Adjust the width and height as needed */
+      height: 100px;
+    }
+   

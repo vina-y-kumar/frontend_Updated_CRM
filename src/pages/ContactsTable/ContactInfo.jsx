@@ -2,6 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {Link, useParams } from "react-router-dom";
 import RelatedList from "./RelatedList.jsx";
+import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
 import "./contactsTable.css";
 import "./index.jsx";
 const ContactInfo = () => {
@@ -229,7 +233,7 @@ const ContactInfo = () => {
           <RelatedList title="Related List" items={relatedListItems} />
         </div>
         <div className="relatedList-Contacts">
-              <Link to="/contants"> Back</Link>
+              <Link to="/contacts"> Back</Link>
             </div>
 
 
@@ -662,10 +666,18 @@ const ContactInfo = () => {
             </div>
           </div>
           <div className="info_social">
-            <h2 className="infi-campi" > social</h2>
-            {/* <span class="material-icons">Facebook</span> */}
+  <h2 className="infi-campi">Social</h2>
+  <div className="facebook" style={{ color: "#9095A1FF" }}>
+    <FacebookRoundedIcon className="facebook-icon" style={{ fontSize: 30  }} />
+  </div>
+  <div className="twitter" style={{ color: "#9095A1FF" }}>
+    <TwitterIcon className="twitter-icon" style={{ fontSize: 30 }} />
+  </div>
+  <div className="whatsapp" style={{ color: "#9095A1FF" }}>
+    <WhatsAppIcon className="whatsapp-icon" style={{ fontSize: 30 }} />
+  </div>
+</div>
 
-          </div>
           <div className="infi_conts">
             <h2 className="infi-campi">Reporting Contacts</h2>
             <div className="Assignnew">

@@ -61,9 +61,57 @@ const AccountsTable1 = () => {
     const index = letter.charCodeAt(0) % colors.length;
     return colors[index];
   };
+   
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  
+  const generateSmiley2 = (color) => (
+    <div className="colored-circle1" style={{ backgroundColor: color }}>
+      <i className="far fa-smile fa-lg"  style={{ fontSize: "38px" }}></i> 
+    </div>
+  );
 
   return (
     <div>
+<div className="account-boxes">
+        <div className="account-bigboxes">
+  <h1 className="newcontact">New Accounts this Week</h1>
+  <Link to={`/accounts/${accounts[0]?.id}`} className="firstaccount-box">
+                <h1 className="heading1">{accounts.length > 0 && accounts[0].Name}</h1>
+                <p className="paragraph1">{accounts.length > 0 && accounts[0].description}</p>
+                {/* Smiley */}
+                <div className="smiley1">
+                  {generateSmiley2(generateRandomColor())}
+                </div>
+              </Link>
+              <Link to={`/accounts/${accounts[2]?.id}`} className="secondaccount-box">
+                <h1 className="heading2">{accounts.length > 1 && accounts[1].Name}</h1>
+                <p className="paragraph2">{accounts.length > 1 && accounts[1].description}</p>
+                {/* Smiley */}
+                <div className="smiley2">
+                  {generateSmiley2(generateRandomColor())}
+                </div>
+              </Link>
+              <Link to={`/accounts/${accounts[3]?.id}`} className="thirdaccount-box">
+                <h1 className="heading3">{accounts.length > 2 && accounts[2].Name}</h1>
+                <p className="paragraph3">{accounts.length > 2 && accounts[2].description}</p>
+                {/* Smiley */}
+                <div className="smiley3">
+                  {generateSmiley2(generateRandomColor())}
+                </div>
+              </Link>
+             
+</div>
+
+</div>
+
       <select
         value={viewMode}
         onChange={(e) => handleViewModeChange(e.target.value)}

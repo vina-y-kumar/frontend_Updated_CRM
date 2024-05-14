@@ -5,6 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import CreateNewAccountForm from "./CreateNewAccountForm";
 import Select from "react-select"; 
+import {Link, useParams } from "react-router-dom";
+import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
+
 
 import "./contactsTable.css";
 
@@ -145,22 +148,60 @@ function Form2() {
       console.error("Error submitting form:", error);
     }
   };
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
 
+  const generateSmiley4 = (color) => (
+    <div className="colored-circle4" style={{ backgroundColor: color, color:"white" }}>
+        <SentimentSatisfiedRoundedIcon style={{ fontSize: "50px" }} />
+
+    </div>
+  );
  
 
 
   return (
-    <div>
+    <div className="contactfill_forms">
       {showCreateNewAccountForm && <CreateNewAccountForm />}
+      <div className="back_container1">
+      <div className="relatedList-Contacts3">
+              <Link to="/contacts"> Back</Link>
+            </div>
+      
+      </div>
+   
+      <div>
+      <Header   name="Create Contact" />
+      <div className='btnsss1'>
+   <button type="cancel" className="btn-submit5">Cancel</button>
 
-      <Header name="Contact Information" />
+   <button type="save" className="btn-submit4">Save as Draft</button>
+
+
+   <button type="submit" className="btn-submit6">Submit</button>
+
+   </div>
+   <div className="photo">
+            {generateSmiley4(generateRandomColor())}
+
+            </div>
+            <button className="upload_button1">Upload Image</button>
+            <h1 className="cont_infoo">Contact Information</h1>
+           
       <form onSubmit={handleSubmit}>
+        <div className="contact_form_fill">
         <div className="form-row">
           <div className="form-group col-md-6">
-            <label htmlFor="ContactOwner">Contact Owner</label>
+            <label htmlFor="ContactOwner" className="contact_owner_form">Contact Owner:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_contact-owner"
               id="ContactOwner"
               name="ContactOwner"
               value={contactData.ContactOwner}
@@ -169,10 +210,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="first_name">First Name</label>
+            <label htmlFor="first_name" className="contact_first_name">First Name:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_first_name"
               id="first_name"
               name="first_name"
               value={contactData.first_name}
@@ -181,10 +222,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="last_name">Last Name</label>
+            <label htmlFor="last_name" className="contact_last_name">Last Name:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_last_name"
               id="last_name"
               name="last_name"
               value={contactData.last_name}
@@ -194,10 +235,10 @@ function Form2() {
           </div>
 
           <div className="form-group col-md-6">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" className="contact_email">Email:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-email"
               id="email"
               name="email"
               value={contactData.email}
@@ -206,8 +247,9 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="account">Account</label>
-            <Select
+            <label htmlFor="account" className="contact_account">Account:</label>
+            <div className="form-control_account">
+            <Select 
               options={[
                 ...filteredOptions.map((option) => ({
                   value: option.Name,
@@ -235,12 +277,14 @@ function Form2() {
                 <CreateNewAccountForm />
               </Box>
             </Modal>
+            </div>
+           
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="phone" className="contact_phone">Phone:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_phone"
               id="phone"
               name="phone"
               value={contactData.phone}
@@ -248,23 +292,12 @@ function Form2() {
               placeholder="Enter phone"
             />
           </div>
+          
           <div className="form-group col-md-6">
-            <label htmlFor="OtherPhone">Other Phone</label>
+            <label htmlFor="Mobile" className="other_mobile">Mobile:</label>
             <input
               type="text"
-              className="form-control"
-              id="OtherPhone"
-              name="OtherPhone"
-              value={contactData.OtherPhone}
-              onChange={handleChange}
-              placeholder="Enter Other Phone"
-            />
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="Mobile">Mobile</label>
-            <input
-              type="text"
-              className="form-control"
+              className="form-control_mobil"
               id="Mobile"
               name="Mobile"
               value={contactData.Mobile}
@@ -273,10 +306,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="address">Address</label>
+            <label htmlFor="address" className="other_addres">Address:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-other-address"
               id="address"
               name="address"
               value={contactData.address}
@@ -285,10 +318,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="description">description</label>
+            <label htmlFor="description" className="other_description">description:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-description1"
               id="description"
               name="description"
               value={contactData.description}
@@ -297,10 +330,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="Assistant">Assistant</label>
+            <label htmlFor="Assistant" className="other_assistant">Assistant:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-assistantt"
               id="Assistant"
               name="Assistant"
               value={contactData.Assistant}
@@ -309,10 +342,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="Currency1">Currency 1</label>
+            <label htmlFor="Currency1" className="other_currency">Currency:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-currency2"
               id="Currency1"
               name="Currency1"
               value={contactData.Currency1}
@@ -321,10 +354,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="Fax"> Fax</label>
+            <label htmlFor="Fax" className="other_fax"> Fax:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_faxx"
               id="Fax"
               name="Fax"
               value={contactData.Fax}
@@ -333,10 +366,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="DateOfBirth"> Date Of Birth</label>
+            <label htmlFor="DateOfBirth" className="other_DOB"> Date Of Birth:</label>
             <input
               type="date"
-              className="form-control"
+              className="form-control-DOBB"
               id="DateOfBirth"
               name="DateOfBirth"
               value={contactData.DateOfBirth}
@@ -345,10 +378,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="AsstPhone"> Asst Phone</label>
+            <label htmlFor="AsstPhone" className="other_asst"> Asst Phone:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-Asst-phone"
               id="AsstPhone"
               name="AsstPhone"
               value={contactData.AsstPhone}
@@ -357,10 +390,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="SkypeId"> Skype ID</label>
+            <label htmlFor="SkypeId" className="other_skype"> Skype ID:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-skype-id"
               id="SkypeId"
               name="SkypeId"
               value={contactData.SkypeId}
@@ -369,10 +402,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="SecondaryEmail"> Secondary Email</label>
+            <label htmlFor="SecondaryEmail" className="other_secondaryemail"> Secondary Email:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-secondary_mail"
               id="SecondaryEmail"
               name="SecondaryEmail"
               value={contactData.SecondaryEmail}
@@ -381,10 +414,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="Twitter"> Twitter</label>
+            <label htmlFor="Twitter" className="other_Twitter"> Twitter:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_twitter"
               id="Twitter"
               name="Twitter"
               value={contactData.Twitter}
@@ -393,10 +426,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="createdBy"> Created By</label>
+            <label htmlFor="createdBy" className="other_createdBy"> Created By:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control-createdBy"
               id="createdBy"
               name="createdBy"
               value={contactData.createdBy}
@@ -404,29 +437,21 @@ function Form2() {
               placeholder="Enter Created By "
             />
           </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="ReportingTo"> Reporting To</label>
-            <input
-              type="text"
-              className="form-control"
-              id="ReportingTo"
-              name="ReportingTo"
-              value={contactData.ReportingTo}
-              onChange={handleChange}
-              placeholder="Enter Reporting To "
-            />
-          </div>
+         
         </div>
+        </div>
+        
 
-        <h1 className="info" style={{ textAlign: "center" }}>
+        <h1 className="info_address_info" style={{ textAlign: "center" }}>
           Address Information
         </h1>
+        <div className='contanct_mailing_form'>
         <div className="form-row">
           <div className="form-group col-md-6">
-            <label htmlFor="MailingStreet">Mailing Street</label>
+            <label htmlFor="MailingStreet" className='mailing_cont_street'>Mailing Street:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_street_mail"
               id="MailingStreet"
               name="MailingStreet"
               value={contactData.MailingStreet}
@@ -436,10 +461,10 @@ function Form2() {
           </div>
 
           <div className="form-group col-md-6">
-            <label htmlFor="MailingCity"> Mailing City</label>
+            <label htmlFor="MailingCity" className='mailing_cont_city'> Mailing City:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_city_mail"
               id="MailingCity"
               name="MailingCity"
               value={contactData.MailingCity}
@@ -448,10 +473,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="MailingState"> Mailing State</label>
+            <label htmlFor="MailingState" className='mailing-cont-state'> Mailing State:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_state_mail"
               id="MailingState"
               name="MailingState"
               value={contactData.MailingState}
@@ -460,10 +485,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="MailingZip"> Mailing Zip</label>
+            <label htmlFor="MailingZip" className="mailing-cont-zip"> Mailing Zip:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_zip_mail"
               id="MailingZip"
               name="MailingZip"
               value={contactData.MailingZip}
@@ -472,10 +497,10 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="MailingCountry"> Mailing Country</label>
+            <label htmlFor="MailingCountry" className="mailing-cont-country"> Mailing Country:</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control_country_mail"
               id="MailingCountry"
               name="MailingCountry"
               value={contactData.MailingCountry}
@@ -485,12 +510,17 @@ function Form2() {
           </div>
         </div>
 
-        <div className="submit">
-          <button type="submit" className="btn btn-primary">
-            Save
+        </div>
+        
+
+        <div className="submit_to_contact">
+          <button type="submit" className="btn btn-primary_submit_contact">
+            Submit
           </button>
         </div>
       </form>
+      </div>
+      
     </div>
   );
 }

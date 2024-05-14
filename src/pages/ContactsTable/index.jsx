@@ -216,30 +216,30 @@ export const ContactsTable = () => {
         <div className="contact-boxes">
         <div className="contact-bigboxes">
   <h1 className="newcontact">New contacts this Week</h1>
-  <div className="firstcontact-box"> 
-    <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1> 
-    <p className="paragraph1">{contacts.length > 0 && contacts[0].description}</p>
-    {/* Smiley */}
-    <div className="smiley1">
-      {generateSmiley1(generateRandomColor())}
-    </div>
-  </div>
-  <div className="secondcontact-box">  
-    <h1 className="heading2">{contacts.length > 2 && contacts[2].first_name}</h1> 
-    <p className="paragraph2">{contacts.length > 2 && contacts[2].description}</p>
-    {/* Smiley */}
-    <div className="smiley2">
-      {generateSmiley1(generateRandomColor())}
-    </div>
-  </div>
-  <div className="thirdcontact-box">
-    <h1 className="heading3">{contacts.length > 3 && contacts[3].first_name}</h1> 
-    <p className="paragraph3">{contacts.length > 3 && contacts[3].description}</p>
-    {/* Smiley */}
-    <div className="smiley3">
-      {generateSmiley1(generateRandomColor())}
-    </div>
-  </div>
+  <Link to={`/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
+                <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1>
+                <p className="paragraph1">{contacts.length > 0 && contacts[0].description}</p>
+                {/* Smiley */}
+                <div className="smiley1">
+                  {generateSmiley1(generateRandomColor())}
+                </div>
+              </Link>
+              <Link to={`/contactinfo/${contacts[2]?.id}`} className="secondcontact-box">
+                <h1 className="heading2">{contacts.length > 2 && contacts[2].first_name}</h1>
+                <p className="paragraph2">{contacts.length > 2 && contacts[2].description}</p>
+                {/* Smiley */}
+                <div className="smiley2">
+                  {generateSmiley1(generateRandomColor())}
+                </div>
+              </Link>
+              <Link to={`/contactinfo/${contacts[3]?.id}`} className="thirdcontact-box">
+                <h1 className="heading3">{contacts.length > 3 && contacts[3].first_name}</h1>
+                <p className="paragraph3">{contacts.length > 3 && contacts[3].description}</p>
+                {/* Smiley */}
+                <div className="smiley3">
+                  {generateSmiley1(generateRandomColor())}
+                </div>
+              </Link>
 </div>
 
 </div>

@@ -48,7 +48,7 @@ font-size: 20px;
     position: relative;
     font-family: 'Manrope';
 font-size: 14px;
-    left: -380px;
+    left: -450px;
     font-weight: 400;
 color: #9095A1FF;
 
@@ -422,6 +422,8 @@ outline: none;
       background-color: #F3F4F6FF;
       font-family: 'Manrope';
     font-size: 14px;
+    padding-left: 10px;
+    padding-top: 4px;
     
     align-items: flex-start;
     /* line-height: 21px; */
@@ -459,6 +461,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 .account-desc{
   position:absolute;
@@ -475,6 +479,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 500px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 .account-employe{
   position:absolute;
@@ -491,6 +497,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 .account-revenue{
   position:absolute;
@@ -507,6 +515,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 
 .account-phone{
@@ -524,6 +534,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 
     
@@ -601,6 +613,8 @@ margin-top: 180px;
     outline: none;
     width: 190px;
     height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
     }
     
 .account-type{
@@ -618,6 +632,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 .account-startdate{
   position:absolute;
@@ -634,6 +650,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
 .account-renewaldate {
   position:absolute;
@@ -650,6 +668,8 @@ border-color: #DEE1E645;
 outline: none;
 width: 190px;
 height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
 }
     .account-number,.account-type,.account-startdate,.account-renewaldate input:hover {
       color: #171A1FFF;
@@ -769,6 +789,8 @@ height: 36px;
     outline: none;
     width: 190px;
     height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
     }
     
     .account-city{
@@ -786,6 +808,8 @@ height: 36px;
     outline: none;
     width: 190px;
     height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
     }
     .account-state{
       position:absolute;
@@ -802,6 +826,8 @@ height: 36px;
     outline: none;
     width: 190px;
     height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
     }
     .account-zip{
       position:absolute;
@@ -818,6 +844,8 @@ height: 36px;
     outline: none;
     width: 190px;
     height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
     }
     .account-country{
       position:absolute;
@@ -834,6 +862,8 @@ height: 36px;
     outline: none;
     width: 190px;
     height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
     }
 
     .attachment-section{

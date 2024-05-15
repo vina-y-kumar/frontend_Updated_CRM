@@ -197,7 +197,7 @@ const AccountsTable1 = () => {
         )}
 
         {viewMode === "tile" && (
-          <div>
+          <div className='accounts-tiles-wrapper'>
             {/* Implement your Kanban view here */}
             <div className="accounts-tiles-container">
               {accounts.map((account, index) => (

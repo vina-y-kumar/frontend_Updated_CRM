@@ -7,6 +7,7 @@ import CreateNewAccountForm from "./CreateNewAccountForm";
 import Select from "react-select"; 
 import {Link, useParams } from "react-router-dom";
 import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
+import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
 
 
 import "./contactsTable.css";
@@ -191,6 +192,8 @@ function Form2() {
             {generateSmiley4(generateRandomColor())}
 
             </div>
+            <FileUploadRoundedIcon className="upload_icon1" />
+
             <button className="upload_button1">Upload Image</button>
             <h1 className="cont_infoo">Contact Information</h1>
            
@@ -248,7 +251,7 @@ function Form2() {
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="account" className="contact_account">Account:</label>
-            <div className="form-control_account">
+            <div className="form-control_account3">
             <Select 
               options={[
                 ...filteredOptions.map((option) => ({

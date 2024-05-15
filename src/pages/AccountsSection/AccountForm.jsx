@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./accountsSection.css";
 import {Link, useParams } from "react-router-dom";
+import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
 
 import { Header } from '../../components/Header';
 
@@ -131,6 +132,8 @@ function AccountForm() {
             {generateSmiley3(generateRandomColor())}
 
             </div>
+            <FileUploadRoundedIcon className="upload_icon" />
+
             <button className="upload_button">Upload Image</button>
 
 <h1 className="create_account3">Account Information</h1>
@@ -142,7 +145,7 @@ function AccountForm() {
           <label htmlFor="Name" className='anual_ownership'>Account Owner:</label>
           <input
             type="text"
-            className="form-control_account"
+            className="form-control_account1"
             id="Name"
             name="Name"
             value={accountData.Name}

@@ -3,7 +3,7 @@ import "./callpage.css";
 import { Sidebar } from "../../components/Sidebar";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Card, ListGroup } from "react-bootstrap";
+import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
 
 
@@ -164,7 +164,7 @@ useEffect(() => {
 }, []);
 
 
-const handleCreateMeeting = async (e) => {
+const handleCreateCall = async (e) => {
   e.preventDefault();
   console.log("Form submit event:", e);
 
@@ -290,29 +290,49 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
       <div className="home_left_box">
         <Sidebar />
       </div>
-      <div className="contain">
-        <div className="meet">
-        <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn">
-        Import Excel
-      </Link>
-        <button onClick={handleDownloadExcel} className="excel-download-btn4">
-            Excel
-          </button>
-          <div className="Addcalls">
+      <h1 className="call_head"> Calls </h1>
+      <div className="contain1">
+        <div className="meet1">
+        <div>
+        <Dropdown>
+          <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
+            Excel File
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Link
+                to={`/bulk-import?model=${modelName}`}
+                className="import-excel-btn5"
+              >
+                Import Excel
+              </Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <button
+                onClick={handleDownloadExcel}
+                className="excel-download-btn1"
+              >
+                Excel
+              </button>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        </div>
+          {/* <div className="Addcalls">
             <select onChange={handleAllCalls}>
               <option value="">All Calls</option>
               <option value="1">Log in</option>
               <option value="2">Log out</option>
             </select>
-          </div>
+          </div> */}
           <div className="handle">
-            <select onChange={handlePlusClick}>
+            {/* <select onChange={handlePlusClick}>
               <option value="">!!!</option>
               <option value="1">Log in</option>
               <option value="2">Log out</option>
-            </select>
-            < div className="create">
-            <select onChange={handleDropDownChange}>
+            </select> */}
+            < div >
+            <select  className="create4" onChange={handleDropDownChange}>
               <option value="">Select Action</option>
               <option value="schedule">Schedule a Call</option>
               <option value="log">Log a Call</option>
@@ -320,86 +340,88 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
           
            
             <dialog id="modal1" open={modalOpen}>
-  <div className="meeting-form-container">
-    <form onSubmit={handleCreateMeeting} id="meeting-form">
+  <div className="meeting-form-container10">
+    <form onSubmit={handleCreateCall} id="meeting-form">
       <fieldset className="form-fieldset">
-        <legend className="form-legend">Log a Call</legend>
-        <label className="form-label" htmlFor="location">
+        <legend className="form-legend_log">Log a Call</legend>
+        <label className="labelcall-location" htmlFor="location">
           Call To:
         </label>
         <input
           type="text"
           name="location"
           id="location"
-          className="form-input"
+          className="form-input_logAcall"
           required
         />
-        <label className="form-label" htmlFor="participants">
+        <label className="form-Related_to" htmlFor="participants">
           Related To:
         </label>
         <input
           type="text"
           name="participants"
           id="participants"
-          className="form-input"
+          className="form-input_torelated"
           required
         />
-        <label className="form-label" htmlFor="related-to">
+        <label className="form-label_callType" htmlFor="related-to">
           Call Type:
         </label>
         <input
           type="text"
           name="related-to"
           id="related-to"
-          className="form-input"
+          className="form-input_calltype"
           required
         />
-        <label className="form-label" htmlFor="repeat">
+        <label className="form-label_call_Status" htmlFor="repeat">
           Outgoing Call Status:
         </label>
         <input
           type="text"
           name="repeat"
           id="repeat"
-          className="form-input"
+          className="form-callsStatus"
           required
         />
-        <label htmlFor="appt">Select a time:</label>
+        <label  className='form-label_select' htmlFor="appt">
+          Select a time:
+        </label>
         <input
           type="datetime-local"
           name="appt"
           id="appt"
-          className="form-input"
+          className="form-selectTime"
           required
         />
-        <label htmlFor="time">Duration:</label>
+        <label className="form-label_duration" htmlFor="time"> CallDuration:</label>
         <input
           type="time"
           name="time"
           id="time"
-          className="form-input"
+          className="form-input_duration"
           required
         />
-        <label className="form-label" htmlFor="description">
+        {/* <label className="form-descriCall" htmlFor="description">
           Voice Recording
         </label>
         <textarea
           type="text"
           name="description"
           id="description"
-          className="form-input"
+          className="form-call_descri"
           required
-        />
+        /> */}
       </fieldset>
-      <div className="form-button-container">
+      <div className="form-button-container30">
         <button
           type="button"
-          className="form-button cancel-button1"
+          className="form-button cancel-button"
           onClick={closeModal}
         >
           Close
         </button>
-        <button type="submit" className="form-button save-button1">
+        <button type="submit" className="form-button save-button">
           Save
         </button>
       </div>
@@ -407,54 +429,54 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
   </div>
 </dialog>
               <dialog id="scheduleModal" open={scheduleModalOpen}>
-        <div className="meeting-form-container">
+        <div className="call-form-container">
           <form onSubmit={handleScheduleMeeting} id="schedule-form">
             <fieldset className="form-fieldset">
-              <legend className="form-legend">Schedule Call</legend>
-              <label className="form-label" htmlFor="subject">
-               Subject
+              <legend className="form-legend-schedule">Schedule Call</legend>
+              <label className="form-subject" htmlFor="subject">
+               Subject :
               </label>
               <input
                 type="text"
                 name="subject"
                 id="subject"
-                className="form-input"
+                className="form-input_subjectcall"
                 value={scheduleData.subject}
                 onChange={(e) =>
                   setScheduleData({ ...scheduleData, subject : e.target.value })
                 }
                 required
               />
-              <label className="form-label" htmlFor="eventDateTime">
+              <label className="form-DateTime" htmlFor="eventDateTime">
               Event Date Time:
               </label>
               <input
                 type="datetime-local"
                 name="eventDateTime"
                 id="eventDateTime"
-                className="form-input"
+                className="form-input_dateTime"
                  value={scheduleData.event_date_time}
                  onChange={(e) => setScheduleData({ ...scheduleData, event_date_time: e.target.value })}
                  required
                 
               />
                           
-                          <label className="form-label" htmlFor="timeTrigger">Time Trigger:</label>
+                          <label className="form-timeTrigeer" htmlFor="timeTrigger">Time Trigger:</label>
               <input
                 type="datetime-local"
                 name="timeTrigger"
                 id="timeTrigger"
-                className="form-input"
+                className="form-input_timetrigger"
                 value={scheduleData.time_trigger}
                 onChange={(e) => setScheduleData({ ...scheduleData, time_trigger: e.target.value })}
                 required
               />
-                       <label className="form-label" htmlFor="createdBy">Created By</label>
+                       <label className="form-CreatedBy" htmlFor="createdBy">Created By : </label>
               <input
                 type="createdBy"
                 name="createdBy"
                 id="createdBy"
-                className="form-input"
+                className="form-input_createdBy"
                 value={scheduleData.createdBy}
                 onChange={(e) => setScheduleData({ ...scheduleData, createdBy: e.target.value })}
                 required
@@ -463,7 +485,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
                 
               
             </fieldset>
-            <div className="form-button-container">
+            <div className="form-button-container_call">
               <button
                 type="button"
                 className="form-button cancel-button1"
@@ -480,14 +502,14 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
         </div>
       </dialog>
             </div>
-            <select onChange={handleCreateMeeting}>
+            {/* <select onChange={handleCreateMeeting}>
               <option value="">Action</option>
               <option value="1">Option 1</option>
               <option value="2">Option 2</option>
-            </select>
+            </select> */}
           </div>
         </div>
-        <div className="records" style={{ width: "100%" }}>
+        <div className="recordss" style={{ width: "100%" }}>
           <select className="view-mode-select" onChange={handleRecords}>
             <option value="">10 Records per page</option>
             <option value="1">Option 1</option>
@@ -507,10 +529,10 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
 
         {/* table view */}
         {viewMode === "table" && (
-          <div className="table1">
+          <div className="table_call">
             <table>
               <thead>
-                <tr>
+                <tr className="calls_row_head">
                   <th>Contact Name</th>
                   <th>Call Type</th>
                   <th>Call Start Time</th>
@@ -521,15 +543,15 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
                 </tr>
               </thead>
               <tbody>
-                {calls.map((meeting) => (
-                  <tr key={meeting.id}>
-                    <td>{meeting.call_to}</td>
-                    <td>{meeting.call_type}</td>
-                    <td>{meeting.start_time}</td>
-                    <td>{meeting.call_duration}</td>
-                    <td>{meeting.related_to}</td>
-                    <td>{meeting.location}</td>
-                    <td>{meeting.voice_recording}</td>
+                {calls.map((call) => (
+                  <tr key={call.id}>
+                    <td className="call_to">{call.call_to}</td>
+                    <td className="call_type">{call.call_type}</td>
+                    <td className="call_start">{call.start_time}</td>
+                    <td className="call_duration">{call.call_duration}</td>
+                    <td className="call_related">{call.related_to}</td>
+                    <td className="call_location">{call.location}</td>
+                    <td className="call_record">{call.voice_recording}</td>
                   </tr>
                 ))}
               </tbody>

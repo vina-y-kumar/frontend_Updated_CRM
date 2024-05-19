@@ -1837,7 +1837,7 @@ border: 1px solid #ddd;
   cursor: pointer;
   position: absolute;
   top: 347%;
-  left: 57%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -2729,4 +2729,577 @@ margin-bottom: 40px;
     .thirdcontact-box:hover {
       transform: translateY(-5px) scale(1.02); /* Applying translation and scaling */
     }
-    
+    .sidebar1{
+      margin-left: 48px;
+    width: 163px;
+}
+    /* For screens smaller than 768px (phones) */
+@media (max-width: 767px) {
+  .meeting_cont {
+    flex-direction: column;
+    gap: 20px; /* Adjust as needed */
+  }
+
+  .meeting_container1 {
+    width: auto;
+    left: 0;
+    top: 0;
+    margin: 10px; /* Adjust as needed */
+  }
+
+  .colored-circle3,
+  .colored-circle4 {
+    left: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  .upload_button1 {
+    left: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  .contact_form_fill {
+    width: auto;
+    margin: 10px;
+  }
+
+  .contanct_mailing_form {
+    width: auto;
+    margin: 10px;
+  }
+
+  .submit_to_contact {
+    left: 0;
+    margin: 20px auto;
+  }
+}
+
+/* For screens between 768px and 991px (tablets) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .meeting_container1 {
+    left: 40px; /* Adjust as needed */
+  }
+
+  .colored-circle3,
+  .colored-circle4 {
+    left: -400px; /* Adjust as needed */
+  }
+
+  .upload_button1 {
+    left: 120px; /* Adjust as needed */
+  }
+
+  .contact_form_fill {
+    left: 0;
+    margin-left: 50px; /* Adjust as needed */
+  }
+
+  .contanct_mailing_form {
+    left: 0;
+    margin-left: 50px; /* Adjust as needed */
+  }
+
+  .submit_to_contact {
+    left: 200px; /* Adjust as needed */
+  }
+}
+
+/* For screens larger than 991px (desktops) */
+@media (min-width: 992px) {
+  .meeting_cont {
+    gap: 120px;
+  }
+
+  .meeting_container1 {
+    left: 70px;
+    top: 30px;
+  }
+
+  .colored-circle3 {
+    left: -590px;
+  }
+
+  .colored-circle4 {
+    left: -550px;
+  }
+
+  .upload_button1 {
+    left: 90px;
+  }
+
+  .contact_form_fill {
+    left: 0;
+    margin-left: 20px;
+    margin-top: -20px;
+  }
+
+  .contanct_mailing_form {
+    left: 25px;
+    margin-top: 10px;
+    margin-left: 25px;
+  }
+
+  .submit_to_contact {
+    left: 400px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
+/* Common styles for all screen sizes */
+
+/* Meeting container styles */
+.meeting_cont {
+  display: flex;
+  flex-direction: row;
+  gap: 120px;
+}
+
+.meeting_container1 {
+  width: 373px;
+  height: 146px;
+  background: #FFD3171F;
+  border-radius: 8px;
+  position: relative;
+  left: 70px;
+  top: 30px;
+}
+
+/* Contact form styles */
+.back_container1 {
+  width: 250px;
+  height: 700px;
+  margin-top: 2px;
+  background: #FAFAFBFF;
+  margin-left: 1px;
+  padding-top: 20px;
+  border-radius: 0px;
+  position: relative;
+  top: 1px;
+}
+
+.relatedList-Contacts3 {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 400;
+  width: 80px;
+  text-align: center; 
+  height: 35px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #9095A1FF;
+  outline: none;
+  position: relative;
+  top: 170px;
+  left: 10px;
+  padding-left: 2px;
+  padding-top: 4px;
+}
+
+.contactfill_forms {
+  display: flex;
+}
+
+/* Button styles */
+.btnsss1 {
+  display: flex;
+  gap: 20px;
+  padding-left: 700px;
+  position: relative;
+  top: 10px;
+}
+
+.btn-submit4,
+.btn-submit5,
+.btn-submit6 {
+  width: 140px;
+  height: 36px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+}
+
+.btn-submit4 {
+  background: #62CD14FF;
+}
+
+.btn-submit5 {
+  background: #DE3B40FF;
+}
+
+.btn-submit6 {
+  background: #6D31EDFF;
+}
+
+/* Circle styles */
+.colored-circle3,
+.colored-circle4 {
+  width: 80px;
+  height: 80px;
+  border-radius: 7px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  position:absolute;
+  position: relative;
+  top: -40px;
+  left: -590px;
+}
+
+.colored-circle4 {
+  left: -550px;
+}
+
+/* Upload button styles */
+.upload_button1 {
+  position: relative;
+  top: -100px;
+  left: 90px;
+  width: 203px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #6D31EDFF;
+}
+
+/* Contact info styles */
+.cont_infoo,
+.info_address_info {
+  font-family: 'Manrope';
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  left: 80px;
+}
+
+.contact_owner_form {
+  position: relative;
+  left: 10px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+
+/* Form control styles */
+.contact_first_name,
+.contact_last_name,
+.contact_email,
+.contact_account,
+.contact_phone,
+.other_addres,
+.other_assistant,
+.other_fax,
+.other_asst,
+.other_secondaryemail,
+.other_createdBy,
+.other_currency,
+.other_DOB,
+.other_skype,
+.other_Twitter,
+.form-control-skype-id,
+.form-control_twitter,
+.form-control_contact-owner,
+.form-control_last_name,
+.form-control_first_name,
+.form-control-email,
+.form-control-description1,
+.form-control-currency2,
+.form-control-DOBB,
+.form-control_phonee,
+.form-control_mobil,
+.form-control-other-address,
+.form-control-assistantt,
+.form-control_faxx,
+.form-control-Asst-phone,
+.form-control-secondary_mail,
+.form-control-createdBy,
+.form-control-reportingto,
+.form-control_street_mail,
+.form-control_city_mail,
+.form-control_state_mail,
+.form-control_zip_mail,
+.form-control_country_mail {
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+
+/* Form control input styles */
+.form-control_contact-owner,
+.form-control_first_name,
+.form-control_last_name,
+.form-control-email,
+.form-control-account3,
+.form-control_phonee,
+.form-control_other_phone,
+.form-control_mobil,
+.form-control-other-address,
+.form-control-description1,
+.form-control-assistantt,
+.form-control-currency2,
+.form-control_faxx,
+.form-control-DOBB,
+.form-control-Asst-phone,
+.form-control-skype-id,
+.form-control-secondary_mail,
+.form-control_twitter,
+.form-control-createdBy,
+.form-control-reportingto,
+.form-control_street_mail,
+.form-control_city_mail,
+.form-control_state_mail,
+.form-control_zip_mail,
+.form-control_country_mail {
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+}
+
+.form-control_account3 {
+  color: #DEE1E645;
+  position: relative;
+  top: -30px;
+  left: 120px;
+}
+
+/* Contact mailing form styles */
+.contanct_mailing_form {
+  width: 1096px;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 25px;
+  height: 285px;
+  background: #F8F9FAFF;
+  border-radius: 8px;
+  border-width: 1px;
+  border-color: #F3F4F6FF;
+  border-style: solid;
+  box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+}
+
+.mailing_cont_street,
+.mailing_cont_city,
+.mailing-cont-state,
+.mailing-cont-zip,
+.mailing-cont-country {
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  left: 20px;
+}
+
+/* Mailing form control styles */
+.form-control_street_mail,
+.form-control_city_mail,
+.form-control_state_mail,
+.form-control_zip_mail,
+.form-control_country_mail {
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+}
+
+/* Submit button styles */
+.submit_to_contact {
+  width: 140px;
+  height: 42px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Manrope;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #6D31EDFF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  margin-top: 40px;
+  position: relative;
+  left: 400px;
+  margin-bottom: 40px;
+}
+
+/* Contact boxes styles */
+.square {
+  width: 100px;
+  height: 100px;
+}
+
+.firstcontact-box,
+.secondcontact-box,
+.thirdcontact-box {
+  position: absolute;
+  top: 130px;
+  width: 347px;
+  height: 168px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+  transition: transform 0.3s ease;
+}
+
+.firstcontact-box:hover,
+.secondcontact-box:hover,
+.thirdcontact-box:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* Sidebar styles */
+.sidebar1 {
+  margin-left: 48px;
+  width: 163px;
+}
+
+/* Media queries for responsiveness */
+
+/* For screens smaller than 768px (phones) */
+@media (max-width: 767px) {
+  .meeting_cont {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .meeting_container1 {
+    width: auto;
+    left: 0;
+    top: 0;
+    margin: 10px;
+  }
+
+  .colored-circle3,
+  .colored-circle4 {
+    left: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  .upload_button1 {
+    left: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  .contact_form_fill,
+  .contanct_mailing_form {
+    width: auto;
+    margin: 10px;
+  }
+
+  .submit_to_contact {
+    left: 0;
+    margin: 20px auto;
+  }
+}
+
+/* For screens between 768px and 991px (tablets) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .meeting_container1 {
+    left: 40px;
+  }
+
+  .colored-circle3 {
+    left: -400px;
+  }
+
+  .colored-circle4 {
+    left: -350px;
+  }
+
+  .upload_button1 {
+    left: 120px;
+  }
+
+  .contact_form_fill,
+  .contanct_mailing_form {
+    left: 0;
+    margin-left: 50px;
+  }
+
+  .submit_to_contact {
+    left: 200px;
+  }
+}
+
+/* For screens larger than 991px (desktops) */
+@media (min-width: 992px) {
+  .meeting_cont {
+    gap: 120px;
+  }
+
+  .meeting_container1 {
+    left: 70px;
+    top: 30px;
+  }
+
+  .colored-circle3 {
+    left: -590px;
+  }
+
+  .colored-circle4 {
+    left: -550px;
+  }
+
+  .upload_button1 {
+    left: 90px;
+  }
+
+  .contact_form_fill,
+  .contanct_mailing_form {
+    left: 0;
+    margin-left: 20px;
+    margin-top: -20px;
+  }
+
+  .submit_to_contact {
+    left: 400px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
+
+

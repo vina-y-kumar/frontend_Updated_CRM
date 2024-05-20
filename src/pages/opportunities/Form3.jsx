@@ -1,7 +1,7 @@
 import axios from "axios";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import { Header } from "../../components/Header";
 import CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
@@ -125,14 +125,33 @@ const Form3=() =>{
         }
       };
       return (
-        <div>
-          {showCreateNewAccountForm && <CreateNewAccountForm />}
+        <div className="opportunityfill_forms">
+                    {showCreateNewAccountForm && <CreateNewAccountForm />}
+
+           
+           <div className="relatedOppo_back">
+              <Link  className='oppo_back' to="/opportunities"> Back</Link>
+            </div>
     
-          <Header name="Oppotunity Information" />
-          <form onSubmit={handleSubmit}>
+
+          
+          <div className="Oppo_contain_form">
+          <div className="flex-container_oppo">
+            <div>
+            <h1 className="oppo_form">Create Opportunity</h1>
+
+            </div>
+        <div className='btnsss_oopo'>
+          <button type="cancel" className="btn-submit_cancel">Cancel</button>
+          <button type="save" className="btn-submit_save">Save as Draft</button>
+          <button type="submit" className="btn-submit_submit">Submit</button>
+        </div>
+      </div>
+<div className='oppo_form_contain'>
+   <form onSubmit={handleSubmit} className="oppo_form_fill">
             <div className="form-row">
               <div className="form-group col-md-6">
-                <label htmlFor="name">Contact Owner</label>
+                <label  className="oppo_form_name"  htmlFor="name">Contact Owner</label>
                 <input
                   type="text"
                   className="form-control"
@@ -146,7 +165,7 @@ const Form3=() =>{
              
              
               <div className="form-group col-md-6">
-                <label htmlFor="contacts">Contacts</label>
+                <label  className="oppo_form_contact" htmlFor="contacts">Contacts</label>
                 <input
                   type="text"
                   className="form-control"
@@ -158,7 +177,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="contacts">Lead Source</label>
+                <label  className="oppo_form_lead" htmlFor="contacts">Lead Source</label>
                 <select
               id="lead_source"
               name="lead_source"
@@ -175,7 +194,7 @@ const Form3=() =>{
             </select>
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="isActive">Is Active</label>
+                <label  className="oppo_form_isActive" htmlFor="isActive">Is Active</label>
                 <input
                   type="text"
                   className="form-control"
@@ -187,7 +206,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="createdOn"> createdOn</label>
+                <label className="oppo_form_createdOn" htmlFor="createdOn"> createdOn</label>
                 <input
                   type="datetime-local"
                   className="form-control"
@@ -199,7 +218,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="amount">Amount</label>
+                <label className="oppo_form_amount" htmlFor="amount">Amount</label>
                 <input
                   type="text"
                   className="form-control"
@@ -211,7 +230,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="probability">Probability</label>
+                <label className="oppo_form_probability" htmlFor="probability">Probability</label>
                 <input
                   type="text"
                   className="form-control"
@@ -224,8 +243,9 @@ const Form3=() =>{
               </div>
               
               <div className="form-group col-md-6">
-            <label htmlFor="account">Account</label>
-            <Select
+            <label htmlFor="account" className="oppo_form_account">Account</label>
+            <div className="account_form_data">
+            <Select className="oppo_data_form"
               options={[
                 ...filteredOptions.map((option) => ({
                   value: option.Name,
@@ -252,9 +272,11 @@ const Form3=() =>{
                 <CreateNewAccountForm />
               </Box>
             </Modal>
+            </div>
+           
           </div>
               <div className="form-group col-md-6">
-                <label htmlFor="closedOn">closed On</label>
+                <label htmlFor="closedOn" className="oppo_form_closedon">closed On</label>
                 <input
                   type="datetime-local"
                   className="form-control"
@@ -266,7 +288,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="createdBy">created By </label>
+                <label htmlFor="createdBy" className="oppo_form_createdBy">created By </label>
                 <input
                   type="text"
                   className="form-control"
@@ -278,7 +300,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="ClosedBy">closed By</label>
+                <label htmlFor="ClosedBy" className="oppo_form_closedBy">closed By</label>
                 <input
                   type="text"
                   className="form-control"
@@ -290,7 +312,7 @@ const Form3=() =>{
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="stage">Stage</label>
+                <label htmlFor="stage" className="oppo_form_stage">Stage</label>
                 <input
                   type="text"
                   className="form-control"
@@ -303,10 +325,10 @@ const Form3=() =>{
               </div>
              
               <div className="form-group col-md-6">
-                <label htmlFor="description">description</label>
+                <label htmlFor="description" className="oppo_form_description">description</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control_oopo_desc"
                   id="description"
                   name="description"
                   value={oppourtunityData.description}
@@ -321,12 +343,16 @@ const Form3=() =>{
          
            
     
-            <div className="submit">
-              <button type="submit" className="btn btn-primary">
+            <div className="oppo_submit">
+              <button type="submit" className="btn btn-primary1">
                 Save
               </button>
             </div>
           </form>
+</div>
+         
+          </div>
+        
         </div>
       );
     

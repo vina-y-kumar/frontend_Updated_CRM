@@ -281,7 +281,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
     console.log("Plus clicked");
   };
 
-  const handleRecords = (event) => {
+  const handleoppo = (event) => {
     console.log("Records per page: ", event.target.value);
   };
 
@@ -510,7 +510,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
           </div>
         </div>
         <div className="recordss" style={{ width: "100%" }}>
-          <select className="view-mode-select" onChange={handleRecords}>
+          <select className="view-mode-select" onChange={handleoppo}>
             <option value="">10 Records per page</option>
             <option value="1">Option 1</option>
             <option value="2">Option 2</option>

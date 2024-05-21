@@ -22,6 +22,8 @@ import LayersIcon from '@mui/icons-material/Layers';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import CallIcon from '@mui/icons-material/Call';
 import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
+import ContactPhoneRoundedIcon from '@mui/icons-material/ContactPhoneRounded';
+import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import './sidebar.css';
 import {useAuth} from '../../authContext';
 // import { Interaction } from 'chart.js';
@@ -98,10 +100,35 @@ export const Sidebar = () => {
           {clientsDropdownOpen && (
             <ul className="dropdown_list">
               <li className="dropdown_item">
-                <NavLink to="/contacts">Contacts</NavLink>
+                <NavLink className="sidebar_link" to="/contacts">
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    {/* <img
+                      src={meet}
+                      alt="icon"
+                      className="sidebar_link_img"
+                      width={25}
+                      height={25}
+                    /> */}
+                    <ContactPhoneRoundedIcon style={{fontSize:'2rem'}}/>
+                    <p className="sidebar_link_text">Contacts</p>
+                  </span>
+                </NavLink>
               </li>
               <li className="dropdown_item">
-                <NavLink to="/accounts">Accounts</NavLink>
+               
+                <NavLink className="sidebar_link" to="/accounts">
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    {/* <img
+                      src={meet}
+                      alt="icon"
+                      className="sidebar_link_img"
+                      width={25}
+                      height={25}
+                    /> */}
+                    < GroupAddRoundedIcon style={{fontSize:'2rem'}}/>
+                    <p className="sidebar_link_text">Accounts</p>
+                  </span>
+                </NavLink>
               </li>
             </ul>
           )}

@@ -3,6 +3,8 @@ import { Sidebar } from "../../components/Sidebar/index.jsx";
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
+import { Dropdown  } from "react-bootstrap";
+
 import axios from "axios";
 import "./task.css";
 import * as XLSX from "xlsx";
@@ -57,6 +59,7 @@ export const TaskTable = () => {
 
 
 
+
   return (
     <div className="all_students">
       <div className='calls1'>
@@ -65,77 +68,74 @@ export const TaskTable = () => {
         </div>
         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
-          <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
-        Import Excel
-      </Link>
-          <button onClick={handleDownloadExcel} className="excel-download-btn">
-            Excel
-          </button>
-            <div className="Addcalls1">
-              <select className="view-mode-select" onChange={handleAllCalls1}>
-                <option value="">All Accounts</option>
-                <option value="1">Log in</option>
-                <option value="2">Log out</option>
-              </select>  
+            <div>
+              <h1 className="task_header">Tasks</h1>
             </div>
-            <div className="handle1 ">
-              <select onChange={handlePlusClick1} className="view-mode-select">
-                <option value="">!!!</option>
-                <option value="1">Log in</option>
-                <option value="2">Log out</option>
-              </select>
-              
-              <select className="view-mode-select" onChange={handleAction}>
-                <option value="">Action</option>
-                <option value="1">Log in</option>
-                <option value="2">Log out</option>
-              </select> 
+            <div className="excel_header_task">
+            <div>
+    <Dropdown>
+              <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
+                Excel File
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+                    Import Excel
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <button onClick={handleDownloadExcel} className="excel-download-btn1">
+                    Excel
+                  </button>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+    </div>
+           
+          
+             
               <div className="create1">
-                <NavLink to="/addtask" id="btn1"> Create Task</NavLink>
+                <NavLink to="/addtask" id="btn1"> +Create Task</NavLink>
               </div>
             </div>
-          </div>
+         
+            </div>
+         
           
           <div>
-      <div className="records2" style={{ width: "100%" }}>
+      <div className="records20" style={{ width: "100%" }}>
         <select className="view-mode-select" style={{ float: "left" }}>
           <option value="">50 Records per page</option>
           <option value="1">Option 1</option>
           <option value="2">Option 2</option>
         </select>
         <select
-          value={viewMode}
-          onChange={handleViewModeChange}
-          className="view-mode-select"
-        >
-          <option value="">View!</option>
-          <option onClick={() => handleViewModeChange("table")} value="">
-            Table View
-          </option>
-          <option onClick={() => handleViewModeChange("tile")}>
-            Tile View
-          </option>
-          <option onClick={() => handleViewModeChange("list")}>
-            List View
-          </option>
-        </select>
+  value={viewMode}
+  onChange={(e) => handleViewModeChange(e.target.value)}
+  className="view-mode-select"
+>
+  <option value="table">Table View</option>
+  <option value="tile">Tile View</option>
+  <option value="list">List View</option>
+</select>
+
       </div>
 
       <br />
       
       {/* table view */}
       {viewMode === "table" && (
-        <div>
-          <h2>Tasks Table</h2>
-          <table>
+        <div className='table_head'> 
+         
+          <table >
             <thead>
-              <tr>
-                <th>Subject</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Priority</th>
-                <th>Description</th>
-                <th>Contact</th>
+              <tr  >
+                <th className="table_Subject ">Subject</th>
+                <th className="table_status">Status</th>
+                <th className="table_due">Due Date</th>
+                <th className="table_priority">Priority</th>
+                <th className="table_description">Description</th>
+                <th className="table_contact">Contact</th>
               </tr>
             </thead>
             <tbody>
@@ -147,11 +147,11 @@ export const TaskTable = () => {
                       {task.subject}
                     </Link>
                   </td>
-                  <td>{task.status}</td>
-                  <td>{task.due_date}</td>
-                  <td>{task.priority}</td>
-                  <td>{task.description}</td>
-                  <td>{task.contact}</td>
+                  <td className="task_status">{task.status}</td>
+                  <td className="task_due_date">{task.due_date}</td>
+                  <td className="task_priority">{task.priority}</td>
+                  <td className="task_description">{task.description}</td>
+                  <td className="task_contact">{task.contact}</td>
                 </tr>
               ))}
             </tbody>
@@ -161,11 +161,10 @@ export const TaskTable = () => {
       {/* Tile View */}
       {viewMode === "tile" && (
         <div>
-          <h2>Tiles View</h2>
-          {/* Implement your Kanban view here */}
-          <div className="accounts-tiles-container">
+        
+          <div className="tasks-tiles-container">
             {tasks.map((task, index) => (
-              <Card key={task.id} className="account-tile">
+              <Card key={task.id} className="task-tile">
                 <Card.Body>
                   <Card.Title>
                     <Link to={`/tasks/${task.id}`}>

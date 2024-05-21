@@ -17,48 +17,71 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
   const [meet, setMeet] = useState([]);
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
-  //const [reminders, setReminders] = useState([]);
-  //const [reminderMessage, setReminderMessage] = useState("");
-
-  const [callData, setCallData] = useState({
-  location: "",
-  call_type: "",
-  start_time: "",
-  to_time: "",
-  related_to: "",
-  createdBy: "",
-  outgoing_status: "",
-});
-const modelName = "calls";
+  
+  const modelName = "Calls";
 
 
-/*const showReminder = (message) => {
-  setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
-;
-};
-
-
-
-
-  const [scheduleData, setScheduleData] = useState({
-    subject: "",
-    trigger_type: "time",
-    event_date_time: "",
-    time_trigger: "",
-    is_triggered: false,
-    createdBy:"",
+  const [formData, setFormData] = useState({
+    call_to: "",
+    call_type: "",
+    start_time: "",
+    to_time: "",
+    related_to: "",
+    createdBy: "",
   });
-  */
- /* const Reminder = ({ message, onClose }) => {
-    return (
-      <div className="reminder-modal">
-        <div className="reminder">
-          <p>{message}</p>
-          <button onClick={onClose}>Dismiss</button>
-        </div>
-      </div>
-    );
-  };*/
+
+
+  useEffect(() => {
+    axios
+      .get("https://backendcrmnurenai.azurewebsites.net/calls/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setCalls(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching calls data:", error);
+      });
+  }, []);
+  const handleViewModeChange = (mode) => {
+    setViewMode(mode);
+  }; const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://backendcrmnurenai.azurewebsites.net/calls/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Call created successfully:", response.data);
+      setCalls([...calls, response.data]);
+      setModalOpen(false);
+      setFormData({
+        call_to: "",
+        call_type: "",
+        start_time: "",
+        to_time: "",
+        related_to: "",
+        createdBy: "",
+      });
+    } catch (error) {
+      console.error("Error creating call:", error);
+    }
+  };
+
+
   const handleDownloadExcel = () => {
     const ws = XLSX.utils.json_to_sheet(calls);
     const wb = XLSX.utils.book_new();
@@ -82,30 +105,8 @@ const modelName = "calls";
     setScheduleModalOpen(false);
 
   };
- /*const scheduleReminder = (reminder) => {
-  const now = new Date().getTime(); 
-  if (reminder.triggerTime > now) {
-    setReminders([...reminders, reminder]);
-  }
-};
 
-  const dismissReminder = (id) => {
-    setReminders(reminders.filter((reminder) => reminder.id !== id));
-  };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      reminders.forEach((reminder) => {
-        if (reminder.triggerTime <= now) {
-          console.log("Reminder:", reminder.message);
-          dismissReminder(reminder.id);
-        }
-      });
-    }, 60000); 
-    return () => clearInterval(interval);
-  }, [reminders]);
- */
-    const fetchCalls = async () => {
+  const fetchCalls = async () => {
     try {
       const response = await axios.get("https://backendcrmnurenai.azurewebsites.net/calls/", {
         headers: {
@@ -121,29 +122,12 @@ const modelName = "calls";
     useEffect(() => {
       fetchCalls();
     }, []);
+   
   
 
-  const handleViewModeChange = (mode) => {
-    setViewMode(mode);
-  };
+  
 
-useEffect(() => {
-  axios
-    .get("https://backendcrmnurenai.azurewebsites.net/calls/", {
-      headers: {
-        "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
-    })
-    .then((response) => {
-      setCalls(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching meet data:', error);
-    });
-}, []);
-
-
+ 
 
 useEffect(() => {
   const modal1 = document.querySelector("#modal1");
@@ -163,8 +147,7 @@ useEffect(() => {
   };
 }, []);
 
-
-const handleCreateCall = async (e) => {
+const handleCreateMeeting = async (e) => {
   e.preventDefault();
   console.log("Form submit event:", e);
 
@@ -220,53 +203,14 @@ useEffect(() => {
       },
     })
     .then((response) => {
-      setCalls(response.data); 
+      setCalls(response.data); // Corrected setCalls instead of setMeet
     })
     .catch((error) => {
-      console.error('Error fetching meet data:', error);
+      console.error('Error fetching calls data:', error); // Updated error message
     });
 }, []);
-/*const handleScheduleMeeting = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post(
-      "https://backendcrmnurenai.azurewebsites.net/reminders/",
-      scheduleData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Meeting scheduled successfully:", response.data);
-  
-    closeModal();
-    fetchCalls(); 
-const timeTrigger = new Date(scheduleData.time_trigger).getTime();
 
-   
-    const now = new Date().getTime();
 
-    
-    const timeDifference = timeTrigger - now;
-  if (timeDifference > 0) {
-      setTimeout(() => {
-        const reminderMessage = `Reminder: Scheduled call '${scheduleData.subject}' starting soon!`;
-        setReminderMessage(reminderMessage);
-
-        const reminder = {
-          id: response.data.id,
-          message: reminderMessage,
-        };
-        setReminders([...reminders, reminder]);
-      }, timeDifference);
-    }
-  } 
-  catch (error) {
-    console.error("Error scheduling meeting:", error);
-  }
-};*/
 
 
 
@@ -281,7 +225,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
     console.log("Plus clicked");
   };
 
-  const handleoppo = (event) => {
+  const handleRecords = (event) => {
     console.log("Records per page: ", event.target.value);
   };
 
@@ -341,7 +285,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
            
             <dialog id="modal1" open={modalOpen}>
   <div className="meeting-form-container10">
-    <form onSubmit={handleCreateCall} id="meeting-form">
+    <form onSubmit={handleCreateMeeting} id="meeting-form">
       <fieldset className="form-fieldset">
         <legend className="form-legend_log">Log a Call</legend>
         <label className="labelcall-location" htmlFor="location">
@@ -510,7 +454,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
           </div>
         </div>
         <div className="recordss" style={{ width: "100%" }}>
-          <select className="view-mode-select" onChange={handleoppo}>
+          <select className="view-mode-select" onChange={handleRecords}>
             <option value="">10 Records per page</option>
             <option value="1">Option 1</option>
             <option value="2">Option 2</option>
@@ -562,11 +506,11 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
         {/* Tile View */}
         {viewMode === "tile" && (
           <div>
-            <h2>Tiles View</h2>
+     
             {/* Implement your Kanban view here */}
-            <div className="accounts-tiles-container">
+            <div className="calls-tiles-container">
               {calls.map((call, index) => (
-                <Card key={call.id} className="account-tile">
+                <Card key={call.id} className="calls-tile">
                   <Card.Body>
                     <Card.Title>
                       <Link to={`/calls/${call.id}`}>{call.call_to}</Link>

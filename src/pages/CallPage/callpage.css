@@ -511,6 +511,32 @@ left: 180px;
 
 
 
+.calls-tiles-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px,0fr)); 
+  gap: 30px;
+  justify-content: flex-start; 
+  margin: 80px auto; 
+  margin-left: -80px;
+}
+.calls-tile {
+  background-color: #ffffff;
+  margin-bottom: 4px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  max-width: 280px; /* Maximum width for each tile */
+  height: 180px; /* Adjust tile height */
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add initial drop shadow */
+  transition: all 0.3s ease; /* Add transition for smooth effect */
+}
 
-
+.calls-tile:hover {
+  transform: translateY(-5px); /* Move tile up on hover */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Add larger drop shadow on hover */
+}
 

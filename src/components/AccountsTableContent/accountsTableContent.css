@@ -540,3 +540,108 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
 .thirdaccount-box:hover {
   transform: translateY(-5px) scale(1.02); /* Applying translation and scaling */
 }
+@media only screen and (max-width: 1200px) {
+  .excel-dropdown-menu {
+    /* Adjust position for smaller screens */
+    left: 65%;
+    top: -343px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    /* Adjust width for smaller screens */
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    /* Adjust position for smaller screens */
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  /* Adjust styles for screen width up to 1000px */
+  .excel-dropdown-menu {
+    left: 60%;
+    top: -343px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+.view-mode-select {
+    float: right;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    background-color: aliceblue;
+    text-align: center;
+    margin-left: 34px;
+    position: relative;
+    top: -17px;
+  }
+  
+
+#btn3 {
+    /* width: 100px; */
+    margin-left: -10%;
+    padding: 7px 11px 9px 12px;
+    gap: 0px;
+    border-radius: 4px 4px 4px 4px;
+    color: white;
+    background: #FFFFFFFF;
+    background: #4CA110FF;
+    font-weight: 400;
+    font-family: 'Manrope';
+    font-size: 14px;
+    position: relative;
+    top: 19px;
+
+}
+}
+
+
+
+
+@media only screen and (max-width: 700px) {
+  /* Adjust styles for screen width up to 700px */
+  .excel-dropdown-menu {
+    left: 55%;
+    top: -343px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  /* Adjust styles for screen width up to 500px */
+  .excel-dropdown-menu {
+    left: 50%;
+    top: -383px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    right: 0;
+  }
+}

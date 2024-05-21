@@ -15,7 +15,7 @@
   justify-content: flex-end;
 
 }  
-.records{
+.records5{
   margin:10px;
   padding:10px;
   display: flex;
@@ -26,35 +26,51 @@
 
 .page{
   border-radius: 4px;
+  position: relative;
+  left: 900px;
+  top: 90px;
 }
-.table1{
-  padding: 10px;
-   width: 1000px; 
- 
-}
-
-
 .create{
-  background-color: lightblue;
-  width:110px;
-  border-radius: 6px;
-  text-align: center;
+  height: 34px;
+padding: 0 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #FFFFFFFF;
+background: #62CD14FF;
+opacity: 1;
+border: none;
+border-radius: 4px;
+gap: 6px;
 }
+
+
+
+
 #modal {
-  width: 50%;
-  max-width: 600px;
+ 
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 5px;
-  background-color: cadetblue;
+  margin-top: 641px
 } 
 .meeting-form-container {
-  max-width: 400px;
+
+  width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+height: 741px;
+padding: 20px;
+background: #FAFAFBFF;
+border-radius: 8px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 17px 35px #171a1f, 0px 0px 2px #171a1f;
 }
 
 .form-fieldset {
@@ -95,11 +111,19 @@
   height: 100px; 
 }
 
-.form-button-container {
+.form-button-container1 {
   display: flex;
   justify-content: flex-end;
-  margin: 20px
+ 
+  margin: 22px;
+  margin-top: 440px;
+  gap: 330px;
+  
 }
+.blur {
+  filter: blur(5px); /* Adjust the blur intensity as needed */
+}
+
 
 .form-button {
   padding: 10px 20px;
@@ -134,20 +158,332 @@
   border-radius: 4px;
 }
 
+.excel-dropdown-menu6 {
+  /* Your custom styles here */
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 4px;
+  width: 77px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px 9px 12px;
+  position: relative;
+  top: -5px;
+}
+.meeting_head{
+  font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+}
 
 
+.table10{
+  margin-top: 100px;
+  width: 1200px;
+  height: 893px;
+  opacity: 1;
+  border-radius: 8px;
+  box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+  margin-left: -130px;
+}
+.title-meet,.from_meet,.To_meet,.related_meet,.name_meet,.host_meet{
+  font-family: 'Lexend';
+font-size: 14px;
+line-height: 22px;
+font-weight: 600;
+color: #565D6DFF;
+}
+.title_row_data,.from_row_data{
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #171A1FFF;
+}
 
+.to_row_data{
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.related_row_data{
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #379AE6FF;
+}
+.contact_row_data,.host_meet_data{
+ 
+    
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #171A1FFF;
+    
+}
+.action_meet{
+  font-family: 'Lexend';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #171A1FFF;
+}
+ .action_data{
+ 
+  width: 24px;
+  height: 24px;
+  /* fill: #9095A1FF; */
+ 
+} 
+.form-label-title{
+  font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 700;
+color: #171A1FFF;
+position: relative;
+left: 170px;
+top: 40px;
+}
+.form-input-title{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  top: 90px;
+  left: 60px;
 
+}
+.form-input-location{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  left:103px;
+  top: 150px;
+}
+.form-label-location{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  left: -140px;
+  top: 140px;
+}
+.form-label-time{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 200px;
+  left: -100px;
+}
+.form-input-fromtime{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  left:110px;
+  top: 220px;
+}
+.form-label-to_time{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 280px;
+  left: -90px;
+}
+.form-input-totime{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  left:-180px;
+  top: 330px;
+}
+.form-label-related_to{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 360px;
+  left: 160px;
+}
 
+.form-input-related{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  left: 20px;
+  top: 420px;
+}
+/* Media queries for responsiveness */
 
+@media (max-width: 1200px) {
+  .table10 {
+    width: 100%;
+    margin-left: 0;
+  }
+}
 
+@media (max-width: 1000px) {
+  .meet {
+    flex-direction: column;
+    gap: 10px;
+  }
 
+  .page {
+    left: auto;
+    top: auto;
+  }
+}
 
+@media (max-width: 768px) {
+  .create{
+    width: 155px;
+    position: relative;
+    top: -52px;
+    left: 101px;
+  }
+}
+@media (max-width: 700px) {
+  .meet {
+    margin: 10px;
+    gap: 10px;
 
+  }
+  .form-button-container1{
+    position: relative;
+    top: 420px;
+  }
 
+  .meeting-form-container {
+    width: 81%;
+    max-width: 500px;
+    height: 400;
+  }
+  
 
+  .form-button-container1 {
+    margin-top: 0;
+  }
+}
 
+@media (max-width: 503px) {
+  .form-label,
+  .form-input {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
 
+  .form-label-title,
+  .form-input-title {
+    top: 0;
+  }
+
+  .form-label-location,
+  .form-input-location {
+    top: 50px;
+  }
+
+  .form-label-time,
+  .form-input-fromtime {
+    top: 100px;
+  }
+
+  .form-label-to_time,
+  .form-input-totime {
+    top: 150px;
+  }
+
+  .form-label-related_to,
+  .form-input-related {
+    top: 100px;
+    position: relative;
+    left: 20px;
+
+  }
+
+  .form-button-container1 {
+    margin: 10px;
+    margin-top: 250px;
+  }
+}
 
 
 

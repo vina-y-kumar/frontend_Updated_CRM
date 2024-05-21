@@ -36,6 +36,8 @@ import FaceB from "../pages/facebook/facebook";
 import  Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
+import Campaign from "../pages/Campaign/campaign";
+import Campaignform from "../pages/Campaign/Campaignform";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -166,6 +168,8 @@ export const RouteWrapper = () => {
           <Route path="/email" element={<EmailComponent/>} />
           <Route path="/tasks" element={<TaskTable/>} />
           <Route path="/interaction" element={<Interaction/>}/>
+          <Route path="/campaign"  element= {<Campaign/>}/>
+          <Route path='/campaignform' element={<Campaignform/>}/>
           <Route path="/addtask" element={<AddTaskForm/>}/>
           <Route path="/compose" element={<EmailComponent/>}/>
           <Route path="/bulk-import" element={<BulkImport/>}/>

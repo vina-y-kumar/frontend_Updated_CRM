@@ -52,7 +52,8 @@
   border-radius: 6px;
   text-align: center;
 position: relative;
-left: -40px;}
+left: -6px;
+top: 2px;}
 
 
 .handle1{
@@ -71,6 +72,15 @@ left: -40px;}
 }
 .Addcalls1{
   position: absolute;
+}
+.accountlist{
+  font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+position: relative;
+left: -900px;
 }
 
 
@@ -244,7 +254,7 @@ padding-top: 4px;
   position: relative;
   left: 30px;
   top: 30px;
-  margin-top: 120px;
+  margin-top: 76px;
 
  }
  .photo{
@@ -320,7 +330,7 @@ border-color: #F3F4F6FF;
 border-style: solid;
 box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
  }
- .form-control_account,.form-control_email,.form-control_ac_name,.form-control_ac_site,.form-control_pc_site,.form-control_ac_num
+ .form-control_account1,.form-control_email,.form-control_ac_name,.form-control_ac_site,.form-control_pc_site,.form-control_ac_num
 ,.form-control_ac_type,.form-control_indus,.form-control_anual,.form-control_rating,.form-control_phone,.form-control_fax
 .form-control_website,.form-control_ticker,.form-control_owner,.form-control_employee{
   width: 260px;
@@ -350,9 +360,10 @@ box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
   position: relative;
   left: 60px;
 }
-.form-control_account{
+.form-control_account1{
   position: relative;
   left: 20px;
+
 }
 .form-control_email{
   outline: none;
@@ -818,6 +829,81 @@ display: flex;
 gap: 20px;
 padding-left: 700px;
 position: relative;
-top: -90px;
+top: -10px;
 
  }
+ .upload_icon{
+position: relative;
+left: 130px;
+ top: -100px;}
+ /* Default styles */
+.calls1 {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.records2 {
+  margin: 10px;
+  padding: 10px;
+  width: 88%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: gainsboro;
+  border-radius: 3px;
+}
+
+/* Additional styles for smaller screens */
+@media only screen and (max-width: 768px) {
+  .calls1 {
+    flex-direction: column;
+    align-items: center;
+  }
+  .photo{
+margin-left: 600px;
+  }
+
+  .records2 {
+    width: 100%;
+    justify-content: center;
+  }
+  .relatedList-Contacts2{
+    margin-left: -100px;
+  }
+}
+
+/* Additional styles for even smaller screens */
+@media only screen and (max-width: 480px) {
+  .accountlist {
+    font-size: 24px;
+    text-align: center;
+    position: relative;
+    left: -900px; /* Adjust as needed */
+  }
+
+  .handle1 {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .create1 {
+    margin: 0;
+    position: static;
+    left: 0;
+    top: 0;
+    text-align: center;
+  }
+
+  #btn3 {
+    margin-left: 0;
+  }
+
+  .table1 {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Add more responsive styles as needed */
+}

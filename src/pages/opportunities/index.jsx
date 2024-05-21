@@ -1,5 +1,3 @@
-import "./opportunities.css";
-import { Header } from "../../components/Header";
 import React, { useEffect, useState } from "react";
 
 import { Sidebar } from "../../components/Sidebar";
@@ -25,24 +23,12 @@ export const Opportunities = () => {
   }
  
   const [oppourtunity, setOppourtunity] = useState([]);
-  const [newContact, setNewContact] = useState({
-    name: "",
-    account: "",
-    createdBy: "",
-    contacts: "",
-    closedBy: "",
-    closedOn:"",
-    stage:"",
-
-  });
-  const modelName = "oppourtunity";
-
-  
 
   useEffect(() => {
-    fetchoppourtunity();
+    fetchOppourtunity();
   }, []);
-  const fetchoppourtunity = async () => {
+
+  const fetchOppourtunity = async () => {
     try {
       const response = await axiosInstance.get('/opportunities/');
       setOppourtunity(response.data);
@@ -51,98 +37,62 @@ export const Opportunities = () => {
       console.error('Error fetching opportunities:', error);
     }
   };
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewContact((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await post(
-        "https://backendcrmnurenai.azurewebsites.net/opportunities/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newContact),
-        }
-      );
-      if (response.ok) {
-        fetchoppourtunity();
-        setNewContact({
-          name: "",
-          account: "",
-          createdBy: "",
-          contacts: "",
-          closedBy: "",
-          closedOn:"",
-          stage:"",
-        });
-        console.log("New contact created successfully");
-      } else {
-        console.error("Failed to create new contact");
-      }
-    } catch (error) {
-      console.error("Error creating new contact:", error);
-    }
-  };
-
 
   const handleDownloadExcel = () => {
     const ws = XLSX.utils.json_to_sheet(oppourtunity);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "oppourtunity");
-    XLSX.writeFile(wb, "oppourtunity.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "opportunity");
+    XLSX.writeFile(wb, "opportunity.xlsx");
   };
-
-
-
-  const handleAllCalls= (event) => {
-    console.log("Filter by: ", event.target.value);
-  };
-
-  const handleAction = () => {
-    console.log("Action required");
-  };
-  const handlePlusClick = () => {
-    console.log("Plus clicked");
-  };
-  const handleRecords1 = (event) => {
+  const handleRecords = (event) => {
     console.log("Records per page: ", event.target.value);
+  };
+  const renderStageCellStyle = (stage) => {
+    let className = "stage-cell";
+    switch (stage) {
+      case "Need analysis":
+        className += " need-analysis";
+        break;
+      case "Closed":
+        className += " closed";
+        break;
+      case "Progressing":
+        className += " progressing";
+        break;
+      case "Close as won":
+        className += " close-as-won";
+        break;
+      default:
+        break;
+    }
+    return className;
   };
 
   return (
-    <div className="calls">
-      <div className="home_left_box1">
-            <Sidebar />
-          </div>
-          <div className="contain">
-          
-          <div className="meet" >
-        
-       <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn">
-        Import Excel
-      </Link>
-          <button onClick={handleDownloadExcel} className="excel-download-btn2">
-            Excel
-          </button>
-          <div className="Addcalls">
-           <select className="change" onChange={handleAllCalls}>
-             <option value="">All Contacts</option>
-             <option value="1">Log in</option>
-             <option value="2">Log out</option>
-           </select>
-         </div>
-         <div className="handle5">
-            <select onChange={handlePlusClick}>
-              <option value="">!!!</option>
-              <option value="1">Log in</option>
-              <option value="2">Log out</option>
-            </select>
+    <div className="opportunities-container">
+      <div className="opportunities-sidebar">
+        <Sidebar />
+      </div>
+      <div className="opportunities-content">
+        <div className="opportunities-header">
+          <h1 className="opportunities-heading">Opportunities</h1>
+          <div className="opportunities-actions">
+            <div className="opportunity_excel">
+            <Dropdown>
+              <Dropdown.Toggle variant="primary22" id="payments-dropdown9">
+                Excel File
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to={`/bulk-import?model=opportunity`}>
+                    Import Excel
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <button onClick={handleDownloadExcel}>Download Excel</button>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             </div>
             <div className="create2">
 
@@ -152,65 +102,47 @@ export const Opportunities = () => {
                   Create Oppourtunity
                   </NavLink>
             </div>
-
-             <div>
-             <select className="changes" onChange={handleAction}>
-              <option value="">Action</option>
-              <option value="1">Log in</option>
-              <option value="2">Log out</option>
-            </select>
-             </div>
-           
-          
-
           </div>
-          
-       
-            <div className="records">
-          <select className="page" onChange={handleRecords1}>
-            <option value="">10 Records per page</option>
+        </div>
+
+        <div>
+        <select className="view-mode-select_oppo" onChange={handleRecords}>
+            <option value="">50 Records per page</option>
             <option value="1">Option 1</option>
             <option value="2">Option 2</option>
           </select>
         </div>
-          
-          <div className="table1">
-            <table>
-              <thead>
+        <div className="opportunities-table">
+          <table>
+            <thead className="oppo_table_row">
               <tr>
-                  <th>Contact Name</th>
-                  <th>Account </th>
-                  <th> stage </th>
-                  <th> Created By  </th>
-                  <th>contacts</th>
-                  <th>Closed on</th>
-                  <th>closed by</th>
-                </tr>
-              </thead>
-              <tbody>
-              {oppourtunity.map(Oppo => (
-                <tr key={Oppo.id}>
-                  <td>{Oppo.name}</td>
-                  <td>{Oppo.account}</td>
-                  <td>{Oppo.stage}</td>
-                  <td>{Oppo.createdBy}</td>
-                  <td>{Oppo.contacts}</td>
-                  <td>{Oppo.closedOn}</td>
-                  <td>{Oppo.closedBy}</td>
+                <th>Contact Name</th>
+                <th>Account</th>
+                <th>Stage</th>
+                <th>Created By</th>
+                <th>Contacts</th>
+                <th>Closed on</th>
+                <th>Closed by</th>
+              </tr>
+            </thead>
+            <tbody>
+              {oppourtunity.map((opportunity) => (
+                <tr key={opportunity.id}>
+                  <td className="row_oppo_name">{opportunity.name}</td>
+                  <td className="row_oppo_account">{opportunity.account}</td>
+                  <td className={renderStageCellStyle(opportunity.stage)}>
+                    {opportunity.stage}
+                  </td>
+                  <td className="row_oppo_created">{opportunity.createdBy}</td>
+                  <td className="row_oppo_contact">{opportunity.contacts}</td>
+                  <td className="row_oopo_closedon">{opportunity.closedOn}</td>
+                  <td className="row_oopo_cloesd">{opportunity.closedBy}</td>
                 </tr>
               ))}
             </tbody>
-            </table>
-
-          </div>
-
-         
-
-          </div>
-         
+          </table>
+        </div>
+      </div>
     </div>
-          
-        
-       
   );
 };

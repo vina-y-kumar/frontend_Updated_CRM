@@ -1,40 +1,429 @@
-
-.calls2{
+.opportunities-container {
   display: flex;
-  flex-direction: row;
-  
 }
-.meet3{
-  display: flex ;
-  flex-direction: row;
-  gap: 200px;
-  margin-top: 20px;
-  /* align-items: flex-end; */
 
+.opportunities-sidebar {
+  flex: 1;
 }
-.pages2{
-  display: flex  !important;
-  flex-direction: row !important;
-  margin-top: -10px !important;
-  width: 150px;
-  height: 20px;
-  /* position: relative; */
+
+.opportunities-content {
+  flex: 3;
+  padding: 20px;
+}
+
+.opportunities-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-
+  margin-bottom: 60px;
 }
-.perpage{
-  margin:10px;
 
-  padding:30px;
-  width: 81%;
+.opportunities-heading {
+  margin-top: 50px;
+  margin-left: 9px;
+  font-family: 'Lexend';
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 800;
+  color: #171A1FFF;}
+
+.opportunities-actions {
   display: flex;
-   height: 1px; 
-  justify-content: flex-end;
-  background-color: gainsboro ;
-  border-radius: 3px;
+  align-items: center;
+  margin-top: 60px;
 }
-.create2{
-  background-color: lightblue;
+
+.create-opportunity a {
+  padding: 10px;
+
+  border-radius: 5px;
+  height: 34px;
+padding: 0 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #FFFFFFFF;
+background: #62CD14FF;
+opacity: 1;
+border: none;
+border-radius: 4px;
+gap: 6px;
+}
+.opportunities-actions .create-opportunity {
+  margin-left: 15px; 
+}
+.opportunities-table {
+  width: 1251.35px;
+height: 893px;
+opacity: 1;
+border-radius: 8px;
+box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+margin-top: 20px;
+}
+.opportunities-actions .create-opportunity {
+  margin-left: 15px; 
+}
+
+.opportunities-actions .create-opportunity a {
+  padding: 10px;
+ 
+  border-radius: 5px;
+}
+.opportunity_excel {
+  width: 110px;
+  height: 34px;
+  padding-left: 17px;
+  padding-right: 34px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #ffffff;
+  background: #6d31ed; /* Update background color here */
   border-radius: 4px;
-  width:130px
+  border-width: 0px;
+  outline: none;
+  margin-right: 15px; /* Add margin to the right for the gap */
+}
+
+
+
+
+
+.oppo_table_row{
+  font-family: 'Lexend';
+font-size: 14px;
+line-height: 22px;
+font-weight: 600;
+color: #565D6DFF;
+}
+.row_oppo_name,.row_oppo_account{
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 700;
+color: #171A1FFF;
+}
+
+.opportunity.stage {
+  width: 93px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Manrope';
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  opacity: 1;
+}
+.stage-cell {
+  font-family: 'Manrope';
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #6D31EDFF;
+  /* background: #F5F1FEFF; */
+}
+
+
+.need-analysis {
+  color: #6d31edff;
+  background: #f5f1feff;
+}
+
+.closed {
+  color: #de3b40ff;
+  background: #fdf2f2ff;
+}
+
+.progressing {
+  color: #323743ff;
+  background: #f3f4f6ff;
+}
+
+.close-as-won {
+  color: #117b34ff;
+  background: #eefdf3ff;
+}
+.row_oppo_created,.row_oppo_contact,.row_oopo_closedon,.row_oopo_cloesd{
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #171A1FFF;
+}
+.view-mode-select_oppo{
+  margin-left: 1000px;
+  margin-top: 20px;
+}
+/* For large screens */
+@media only screen and (min-width: 1200px) {
+  .view-mode-select_oppo {
+    margin-left: 1000px;
+    margin-top: 20px;
+  }
+}
+
+/* For medium screens */
+@media only screen and (max-width: 1199px) {
+  .view-mode-select_oppo {
+    margin-left: 800px;
+    margin-top: 20px;
+  }
+}
+
+/* For small screens */
+@media only screen and (max-width: 768px) {
+  .opportunities-content {
+    padding: 10px;
+  }
+  
+  .view-mode-select_oppo {
+    margin-left: auto; 
+    margin-right: auto;
+    margin-top: 20px;
+  }
+}
+
+/*  css for Form */
+.opportunityfill_forms {
+  display: flex;
+  flex-direction: row;
+}
+.oppo_form_fill{
+  margin-left: 65px;
+}
+.oppo_form{
+  font-family: 'Lexend';
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 800;
+  color: #171A1FFF;
+  margin-left: 30px;
+
+}
+.relatedOppo_back{
+  width: 256px;
+  height: 951px;
+  background: #FAFAFBFF;
+  border-radius: 0px;
+  border-width: 1px;
+  border-color: #FFFFFFFF;
+  border-style: solid;
+  box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+
+  }
+  .btn-submit_save{
+    width: 140px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #62CD14FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+    
+   }
+   .btn-submit_cancel{
+    width: 140px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #DE3B40FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+    
+   }
+   .flex-container_oppo{
+  
+   }
+   .btn-submit_submit{
+    width: 140px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #6D31EDFF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+   }
+   .btnsss_oopo{
+    display: flex;
+    gap: 20px;
+    padding-left: 700px;
+  
+    
+     }
+     .oppo_form{
+      position:relative;
+      top: 30px;
+
+     }
+     .oppo_back{
+      width: 95px;
+height: 45px;
+padding-left: 20px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #FFFFFFFF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A1FF;
+outline: none;
+margin-left: 60px;
+position: relative;
+top: 100px;
+     }
+    
+     .oppo_form_contain{
+      margin-top: 90px;
+      margin-left: 70px;
+      width: 1096px;
+height: 900px;
+background: #F8F9FAFF;
+border-radius: 8px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+     }
+     .oppo_form_name,.oppo_form_contact,.oppo_form_lead,.oppo_form_isActive,.oppo_form_createdOn,.oppo_form_amount,
+     .oppo_form_probability,.oppo_form_account,.oppo_form_closedon,.oppo_form_createdBy,.oppo_form_closedBy,.oppo_form_stage,.oppo_form_description{
+      font-family: 'Manrope';
+      font-size: 16px;
+      line-height: 26px;
+      font-weight: 700;
+      color: #171A1FFF;
+     }
+.form-control,.account_form_data{
+  width: 260px;
+height: 36px;
+padding-left: 12px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #F3F4F6FF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+}
+.form-control_oopo_desc{
+  width: 828px;
+height: 95px;
+padding-top: 7px;
+padding-bottom: 7px;
+padding-left: 12px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #9095A1FF;
+background: #F3F4F6FF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A11C;
+}
+.oppo_submit{
+  width: 140px;
+  height: 36px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #6D31EDFF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+  top: 200px;
+  left: -100px;
+}
+
+
+
+/* Responsive styles */
+@media only screen and (max-width: 1200px) {
+  .oppo_form_contain {
+    width: 100%;
+    max-width: 800px;
+    margin: 90px auto;
+    padding: 0 20px;
+  }
+
+  .oppo_back {
+    margin-left: 20px;
+  }
+
+  .oppo_submit {
+    top: 100px;
+    left: 0;
+  }
+
+  .oppo_form {
+    margin-left: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .oppo_form_contain {
+    max-width: 600px;
+    margin-top: 60px;
+    padding: 0 10px;
+    height: 1400px;
+  }
+  .form-control_oopo_desc{
+    width: 508px;
+  height: 95px;
+  
+  }
+  .oppo_back {
+    margin-left: 10px;
+  }
+
+  .oppo_submit {
+    top: 50px;
+    left: 0;
+  }
 }

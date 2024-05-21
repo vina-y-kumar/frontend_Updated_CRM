@@ -10,6 +10,7 @@ import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import LayersIcon from '@mui/icons-material/Layers';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import CallIcon from '@mui/icons-material/Call';
+import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
 import './sidebar.css';
 import { useAuth } from '../../authContext';
 import axiosInstance from '../../api';
@@ -164,6 +165,23 @@ export const Sidebar = () => {
                 </span>
               </NavLink>
             </li>
+            <li className="sidebar_item">
+              <NavLink className="sidebar_link" to="/campaign">
+                <span style={{ display: 'flex', alignItems:'center' }}>
+                  {/* <img
+                    src={Interaction}
+                    alt="icon"
+                    className="sidebar_link_img"
+                    width={20}
+                    height={10}
+                  /> */}
+                  <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                  <p className="sidebar_link_text">Campaigns</p>
+                </span>
+              </NavLink>
+            </li>
+           
+            
           </ul>
         </div>
         <div style={{marginLeft:"15px"}} className="logout_btn">

@@ -161,7 +161,16 @@ export const ContactsTable = () => {
       <div className="contain1">
 
       <div className="contain1" style={{width:"100%"}}>
+      <div className="contactlist">
+          <h1 >Contact list</h1>
+          </div>
         <div className="meet1">
+        
+       
+
+          
+         
+        <div>
         <Dropdown>
           <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
             Excel File
@@ -185,13 +194,7 @@ export const ContactsTable = () => {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-       
-
-          
-          <div className="contactlist">
-          <h1 >Contact list</h1>
-          </div>
-        
+        </div>
           <div className="handle4">
           <NavLink to="/addcontact" id="btn10">
                 +CreateContact

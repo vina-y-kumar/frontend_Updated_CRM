@@ -95,21 +95,22 @@ const AccountsPage = () => {
     setAttachments(updatedAttachments);
   };
   const relatedListItems = [
-    "Notes",
-    "Cadences",
+    
     "Attachments",
-    "Deals",
-    "Open Activities",
-    "Closed Activities",
-    "Invited Meetings",
-    "Products",
-    "Cases",
-    "Quotes",
-    "Sales Orders",
-    "Purchase Orders",
+   "Purchase Orders",
     "Emails",
     "Invoices",
+    "Company Overview",
+    "Contacts",
+    "Account Information",
+    "Address Information",
   ];
+  const handleScrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const getCircleColor = (letter) => {
     const colors = ['#ff6347', '#32cd32', '#1e90ff', '#ff69b4', '#ffd700']; // Define your color palette
     const index = letter.charCodeAt(0) % colors.length;
@@ -124,7 +125,18 @@ const AccountsPage = () => {
               <Link to="/accounts"> Back</Link>
             </div>
 
-            <RelatedList title="Related List" items={relatedListItems} />
+            {/* <RelatedList title="Related List" items={relatedListItems} /> */}
+            <div className="sidebar1">
+        <ul>
+          {relatedListItems.map((item) => (
+            <li key={item}>
+              <a href={`#${item}`} onClick={() => handleScrollToSection(item)}>
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
           </div>
           <div className="blank-page1">
             {/* Header */}
@@ -161,7 +173,7 @@ const AccountsPage = () => {
                 Visit Website
               </a>
             </div>
-            <div className="overview">
+            <div className="overview" id='Company Overview'>
               <h2 className="accountinfos">Company Overview</h2>
               <div className="account-details">
                 <p>
@@ -191,7 +203,7 @@ const AccountsPage = () => {
               </div>
             </div>
 
-            <div className="contacts">
+            <div className="contacts" id="Contacts">
               <ul className="list-group">
                 <h2 className="contactheading">Contacts</h2>
                 {contactPersons.map((contact, index) => (
@@ -207,7 +219,7 @@ const AccountsPage = () => {
                 ))}
               </ul>
             </div>
-            <div className="account-info">
+            <div className="account-info" id="Account Information">
               <h2 className="accountinfos">Account Information</h2>
               <div className="addresssinformation">
                 <p>
@@ -236,7 +248,7 @@ const AccountsPage = () => {
                 </p>
               </div>
             </div>
-            <div className="address-info">
+            <div className="address-info" id="Address Information">
               <h2 className="accountinfos">Address Information</h2>
               <div className="addressOverview">
                 <p>
@@ -297,7 +309,7 @@ const AccountsPage = () => {
   <button className="upload-button">Upload Files</button>
 </div> */}
 
-            <div className="attachment-section">
+            <div className="attachment-section" id='Attachments'>
               <div className="attachments">Attachments</div>
               <div class="attachment-upload">
                 <input type="file" id="attachment-input" />

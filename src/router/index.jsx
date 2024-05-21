@@ -36,6 +36,8 @@ import FaceB from "../pages/facebook/facebook";
 import  Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
+import Campaign from "../pages/Campaign/campaign";
+import Campaignform from "../pages/Campaign/Campaignform";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");

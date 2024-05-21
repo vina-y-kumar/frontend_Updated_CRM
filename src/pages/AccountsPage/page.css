@@ -1,18 +1,4 @@
-/* .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .header img {
-    max-width: 100px;
-    margin-right: 20px;
-  }
-  
-  .header-content {
-    flex: 1;
-  }
-   */
+
 
   
    .pages1{
@@ -992,3 +978,79 @@ gap: 6px;
   color: #FFFFFFFF;
   background: #5113D7FF;
   }
+
+  /* Default styles */
+/* Add your default CSS styles here */
+
+/* Media queries for responsive design */
+@media only screen and (max-width: 1200px) {
+  .header-content1 {
+    font-size: 18px;
+  }
+  .account-circle1 {
+    font-size: 40px;
+    left: -500px;
+  }
+  .account-descp {
+    left: -400px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .header-content1 {
+    font-size: 16px;
+  }
+  .account-circle1 {
+    font-size: 35px;
+    left: -450px;
+  }
+  .account-descp {
+    left: -350px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header-content1 {
+    font-size: 14px;
+  }
+  .account-circle1 {
+    font-size: 30px;
+    left: -400px;
+  }
+  .account-descp {
+    left: -180px;
+  }
+  
+}
+ 
+
+
+@media only screen and (max-width: 576px) {
+  .list-group-item {
+    padding: 10px;
+    width: calc(45% - 30px);
+    background-color: #F3F4F6FF;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+  .header-content1 {
+    font-size: 12px;
+  }
+  .account-circle1 {
+    font-size: 25px;
+    left: -350px;
+  }
+  .account-descp {
+    left: -134px;
+    
+  }
+  .viewaccounts{
+margin-left: 20px;
+  }
+  .account-desc{
+    width: 350px;
+  }
+}
+
+/* Add more media queries as needed for smaller screen sizes */

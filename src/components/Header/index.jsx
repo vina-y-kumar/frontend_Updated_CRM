@@ -40,8 +40,8 @@ export const Header = (props) => {
   return (
     <div className="header">
       <div className="header_inner">
-        <p className="header_paragraph">{props.name}</p>
-        <p className="header_date">{`${date}.${month}.${year}`}</p>
+        {/* <p className="header_paragraph">{props.name}</p> */}
+        {/* <p className="header_date">{`${date}.${month}.${year}`}</p> */}
         <div className="header_box">
           
           {/* <DarkModeSwitch
@@ -50,14 +50,7 @@ export const Header = (props) => {
             onChange={toggleDarkMode}
             size={120}
           /> */}
-          <img
-            onClick={modeToggle}
-            src={Mode}
-            alt="mode"
-            className="header_mode"
-            width={40}
-            height={40}
-          />
+          
           {/* <img
           src={Notificate}
           alt="mode"

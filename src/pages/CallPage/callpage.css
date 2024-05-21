@@ -2,21 +2,19 @@
   display: flex;
   gap:20px;
 }
-#modal1 {
-  width: 50%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: lightgrey;
-} 
-.meeting-form-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+.call-form-container {
+  
+  width: 499px;
+  height: 610px;
+  background: #FAFAFBFF;
+  border-radius: 6px;
+  border-width: 1px;
+  border-color: #F3F4F6FF;
+  border-style: solid;
+  box-shadow: 0px 17px 35px #171a1f, 0px 0px 2px #171a1f;
+  position: relative; /* Change from absolute to relative */
+  margin-bottom: 20px; /* Add margin to create space between form and table */
 }
 
 .form-fieldset {
@@ -57,10 +55,20 @@
   height: 100px; 
 }
 
-.form-button-container {
+
+.form-button-container_call {
   display: flex;
   justify-content: flex-end;
-  margin: 20px
+  margin: 20px;
+  margin-top: 330px;
+  gap: 250px;
+}
+.form-button-container30 {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+  margin-top: 400px;
+  gap: 430px;
 }
 
 .form-button {
@@ -74,15 +82,43 @@
 }
 
 .cancel-button1 {
-  background-color: black;
+  background-color: #DE3B40FF;
   color: #fff;
 }
+.cancel-button {
+  background-color: #DE3B40FF;
+  color: #fff;
+}
+.parent-container {
+  position: relative;
+}
+
+.meeting-form-container10 {
+  width: 700px;
+  height: 900px;
+  background: #FAFAFBFF;
+  border-radius: 8px;
+  border-width: 1px;
+  border-color: #F3F4F6FF;
+  border-style: solid;
+  box-shadow: 0px 17px 35px #171a1f, 0px 0px 2px #171a1f;
+  position: relative;
+  top: 380px; /* Center vertically */
+  left: 100%;
+  transform: translate(-50%, -50%);
+}
+
 
 .cancel-button1:hover {
   background-color: #999;
 }
 
+
 .save-button1 {
+  background-color: purple;
+  color: #fff;
+}
+.save-button {
   background-color: purple;
   color: #fff;
 }
@@ -127,3 +163,354 @@
   border-radius: 4px;
   width: 100px;
 }
+.call_head{
+  font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+position: relative;
+left: 50px;
+}
+.table_call{
+  margin-top: 100px;
+  width: 1200px;
+  height: 893px;
+  opacity: 1;
+  border-radius: 8px;
+  box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+  margin-left: -70px;
+}
+.calls_row_head{
+  font-family: 'Lexend';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #565D6DFF;
+}
+.call_to,.call_type,.call_start,.call_duration,.call_record,.call_location{
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #171A1FFF;
+}
+.call_related{
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #379AE6FF;
+}
+.meet1{
+  margin-top: 50px;
+}
+.create4{
+  height: 34px;
+padding: 0 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #62CD14FF;
+opacity: 1;
+color: #FFFFFFFF;
+border: none;
+border-radius: 4px;
+gap: 6px;
+
+}
+.form-legend-schedule{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 30px;
+  left: 60px;
+}
+.form-subject,.form-DateTime,.form-timeTrigeer,.form-CreatedBy{
+  font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.form-input_subjectcall,.form-input_dateTime,.form-input_timetrigger,.form-input_createdBy{
+  width: 260px;
+height: 36px;
+padding-left: 12px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #F3F4F6FF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+}
+.form-CreatedBy{
+  position: relative;
+  top: 280px;
+  left: -100px;
+}
+.form-input_createdBy{
+  position: relative;
+  top: 300px;
+  left: 80px;
+}
+.form-timeTrigeer{
+  position: relative;
+  top: 220px;
+  left: -100px;
+}
+.form-input_timetrigger{
+  position: relative;
+  top: 230px;
+  left: 80px;
+}
+.form-input_dateTime{
+  position: relative;
+  top: 170px;
+  left: 80px;
+}
+.form-DateTime{
+  position: relative;
+  top: 150px;
+  left: -110px;
+}
+.form-input_subjectcall{
+  position: relative;
+  top: 100px;
+  left: 40px;
+}
+.form-subject{
+  position: relative;
+  top: 50px;
+  left: 170px;
+}
+.form-legend_log{
+  font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 700;
+color: #171A1FFF;
+position: relative;
+top: 30px;
+left: 60px;
+}
+
+.labelcall-location,.form-Related_to,.form-label_callType,.form-label_call_Status,.form-label_select,.form-label_duration
+.form-descriCall{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+.form-label_duration{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+
+.form-descriCall{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+.labelcall-location{
+position: relative;
+top: 90px;
+left: 90px;
+}
+.form-input_logAcall{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  top: 140px;
+  left: -30px;
+}
+.form-input_calltype{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  top: 106px;
+  left: 326px;
+}
+.form-label_callType{
+  position: relative;
+  left: 472px;
+  top: 50px;
+}
+.form-Related_to{
+  position: relative;
+  top: 190px;
+  left: -230px;
+}
+.form-input_torelated{
+  position: relative;
+  top:240px;
+  left: -370px;
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+}
+.form-label_select{
+position: relative;
+top: 230px;
+left: 180px;
+
+}
+.form-selectTime{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  top: 280px;
+  left: 30px;
+}
+.form-label_call_Status{
+  position: relative;
+  top: 150px;
+  left: 100px;
+}
+.form-callsStatus{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  top: 170px;
+  left: 400px;
+}
+.form-label_duration{
+  position: relative;
+  top: 200px;
+  left: 80px;
+}
+.form-input_duration{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  top: 260px;
+  left: -60px;
+}
+/* Default styles */
+/* Add your existing CSS styles here */
+
+/* Media query for small screens */
+@media only screen and (max-width: 768px) {
+  .handle {
+    flex-direction: column; /* Change flex direction for smaller screens */
+  }
+
+  .call-form-container {
+    width: 65%; 
+    max-width: 100%; 
+    margin: 0 auto; 
+    margin-bottom: 20px; 
+  }
+  .view-mode-select {
+    float: right;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    background-color: aliceblue;
+    text-align: center;
+    margin-left: 34px;
+    position: relative;
+    top: 76px;}
+  
+}
+@media only screen and (max-width: 500px) {
+  .handle {
+    flex-direction: column; /* Change flex direction for smaller screens */
+  }
+
+  .call-form-container {
+    width: 100%; 
+    max-width: 140%; 
+    margin: 0 auto; 
+    margin-bottom: 20px; 
+  }
+
+}
+
+
+
+
+
+

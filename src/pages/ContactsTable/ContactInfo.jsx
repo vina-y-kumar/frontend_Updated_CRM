@@ -9,6 +9,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import "./contactsTable.css";
 import "./index.jsx";
 const ContactInfo = () => {
+
   // const [showCadence, setShowCadence] = useState(false);
   const handleAddCadence = () => {
     setShowCadence(true);
@@ -74,6 +75,12 @@ const ContactInfo = () => {
 
     fetchcontactData();
   }, [id]);
+  const handleScrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const relatedListItems = [
     "Notes",
@@ -91,6 +98,8 @@ const ContactInfo = () => {
     "Emails",
     "Invoices",
   ];
+ 
+  
 
   const handleChange = (event) => {
     setContactInfo({
@@ -211,7 +220,7 @@ const ContactInfo = () => {
     </div>
   );
   
-  console.log("**********", contactinfo);
+ 
   return (
     <div>
       <div className="classs">
@@ -227,11 +236,24 @@ const ContactInfo = () => {
           </div>
         </div> */}
       </div>
+      
 
       <div className="pages">
-        <div>
+        {/* <div>
           <RelatedList title="Related List" items={relatedListItems} />
-        </div>
+        </div> */}
+       <div className="sidebar1">
+        <ul>
+          {relatedListItems.map((item) => (
+            <li key={item}>
+              <a href={`#${item}`} onClick={() => handleScrollToSection(item)}>
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
         <div className="relatedList-Contacts">
               <Link to="/contacts"> Back</Link>
             </div>
@@ -239,7 +261,7 @@ const ContactInfo = () => {
 
         
         <div></div>
-        <div className="blank-page">
+        <div className="blank-page" >
           <div className="contact-details">
             <h1>
               Contact Details
@@ -267,7 +289,7 @@ const ContactInfo = () => {
           </div> */}
 
 
-          <div className="info-contactOwner">
+          <div className="info-contactOwner" >
             <h2 className="owner">Contact Owner</h2>
          
             <div className="para1">
@@ -291,11 +313,11 @@ const ContactInfo = () => {
             </div>
           </div>
 
-            <div className="button-group">
+            <div className="button-group" >
             <button className="button-overview">Overview</button>
             <button className="button-timeline">Timeline</button>
           </div> 
-          <div className="info-hideandshowDetail">
+          <div className="info-hideandshowDetail" >
             <div className="hidedetail">
               <button onClick={toggleAdditionalDetails}>
                 {contactinfo ? "Hide Details" : "Show Details"}
@@ -303,7 +325,7 @@ const ContactInfo = () => {
             </div>
           
 
-            <div className="showdetails">
+            <div className="showdetails" >
               <div className="showdetailsdata">
               <p>
                   <strong className="contactdetails-para1">Account Name: </strong>
@@ -372,7 +394,7 @@ const ContactInfo = () => {
                    
                   </div>
 
-                  <div className="hide_show">
+                  <div className="hide_show" >
                   <p>
                   <strong className="contactdetails-para14">Date of Birth: </strong>
                   <div className="contactinfo_DOB">{contactinfo.DateOfBirth}</div>
@@ -456,7 +478,7 @@ const ContactInfo = () => {
             <h2 className="description-info"> Description Information: </h2>
             <p className="add_description">  {contactinfo.Description}</p>
           </div>
-          <div className="info_notes">
+          <div  id="Notes" className="info_notes">
             <div className="notes-container">
               <div className="recent">
                 <div className="notes">
@@ -486,7 +508,7 @@ const ContactInfo = () => {
               </form>
             </div>
           </div>
-          <div className="info_cadence">
+          <div className="info_cadence" id='Cadences'>
             <h2 className="cadence"> Cadences </h2>
             
             <div>
@@ -520,7 +542,7 @@ const ContactInfo = () => {
             </div>
           </div>
 
-          <div className="info_Attach">
+          <div className="info_Attach" id='Attachments'>
             <div className="info1">
               <div >
                 <h2 className="heads_Attach">Attachments</h2>
@@ -535,7 +557,7 @@ const ContactInfo = () => {
             </div>
           </div>
 
-          <div className="info_deals">
+          <div className="info_deals" id='Deals'>
             <h2 className="info_deals2">Deals</h2>
             <div className="deal">
               <button>+New Deal</button>
@@ -543,7 +565,7 @@ const ContactInfo = () => {
           </div>
 
           <div className="info_activities">
-            <div className="actvities">
+            <div className="actvities" id='Open Activities'>
               <div>
                 <h2 className='open_activity'>Open Activities</h2>
               </div>
@@ -558,10 +580,10 @@ const ContactInfo = () => {
               </div>
             </div>
           </div>
-          <div className="info_closed">
+          <div className="info_closed"  id='Closed Activities'>
             <h2 className="closed_activity">Closed Activities</h2>
           </div>
-          <div className="info_meeting">
+          <div className="info_meeting" id='Invited Meetings'>
             <h2 className="invite_meet">Invite Meetings</h2>
             <div className="meeting_cont"
             >
@@ -586,13 +608,13 @@ const ContactInfo = () => {
               </div>
             </div>
           </div>
-          <div className="info_product">
+          <div className="info_product" id='Products'>
             <h2 className="info-pro">Products</h2>
             <div className="productsbtn">
               <button>+Add Products</button>
             </div>
           </div>
-          <div className="info_cases">
+          <div className="info_cases" id='Cases'>
             <h2 className="cases">Cases</h2>
             <div className="Assignnew">
               <div className="assign1">
@@ -605,7 +627,7 @@ const ContactInfo = () => {
               </div>
             </div>
           </div>
-          <div className="info_Quotes">
+          <div className="info_Quotes" id='Quotes'>
             <h2 className="info-quto">Quotes</h2>
             <div className="Assignnew">
               <div className="assign1">
@@ -618,7 +640,7 @@ const ContactInfo = () => {
               </div>
             </div>
           </div>
-          <div className="info_sales">
+          <div className="info_sales" id='Sales Orders'>
             <h2 className="info-sale">Sales Order</h2>
             <div className="Assignnew">
               <div className="assign1">
@@ -631,7 +653,7 @@ const ContactInfo = () => {
               </div>
             </div>
           </div>
-          <div className="info_purchase">
+          <div className="info_purchase" id='Purchase Orders'>
             <h2 className="purchase">Purchase Order</h2>
             <div className="Assignnew">
               <div className="assign1">
@@ -644,7 +666,7 @@ const ContactInfo = () => {
               </div>
             </div>
           </div>
-          <div className="info_invoice">
+          <div className="info_invoice" id='Invoices'>
             <h2 className="invoice">Invoices</h2>
             <div className="Assignnew">
               <div className="assign1">

@@ -18,7 +18,7 @@
   height: 40px;
 } */
 
-.file{
+.excel-dropdown-menu{
   position: relative;
    left: 78%;
   top: -343px; 
@@ -92,32 +92,48 @@
 /* Tile view */
 .accounts-tiles-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 2fr)); /* Dynamic grid layout */
-  gap: 15px; /* Decreased gap between boxes both horizontally and vertically */
-  padding-left: 20px; /* Added padding on the left */
-  justify-content: center; /* Center align the tiles */
-  margin-top: 20px; 
+  grid-template-columns: repeat(auto-fit, minmax(270px,0fr)); /* Dynamic grid layout */
+  gap: 30px; /* Adjust the gap between tiles */
+  justify-content: flex-start; /* Align tiles from left to right */
+  margin: 20px auto; /* Center the tiles horizontally */
 }
 
+.accounts-tiles-wrapper {
+  margin-bottom: 10px; /* Apply the same margin as the gap between tiles */
+}
 
 .account-tile {
   background-color: #ffffff;
+  margin-bottom: 4px;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 15px;
-  width: 100%; /* Adjust tile width */
   max-width: 280px; /* Maximum width for each tile */
   height: 180px; /* Adjust tile height */
-  display: flex;
+  display: inline-block;
+  margin: 0 10px 10px 0;
   flex-direction: column;
-  justify-content: space-between;
+
   position: relative; /* Add position relative */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add drop shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add initial drop shadow */
+  transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+@media (max-width: 768px) {
+  .account-tile {
+    margin-right: 10px; /* Reduce margin for smaller screens */
+  }
+}
+.account-tile:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+  /* Change drop shadow on hover for a more pronounced 3D effect */
+  transform: translateY(-3px); /* Lift the tile slightly on hover */
+
+}
+.accounts-tiles-wrapper {
+  margin-bottom: 20px; /* Apply the same margin as the gap between tiles */
 }
 
-.account-tile:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Change drop shadow on hover */
-}
+
 
 .account-tile .tile-icon {
   position: absolute;
@@ -270,16 +286,17 @@ font-weight: 400;
 /* styling of table view  */
 
 .view-mode-select1{
-  float: right;
+  /* float: right;
   padding: 5px;
   border-radius: 3px;
   border: 1px solid gray;
-  background-color: aliceblue;
+  background-color: aliceblue; */
   text-align: center;
   margin-left: 10px;
-  position: relative;
-  right: 100px;
-  top: 7px;
+position: relative;
+top: 3px; 
+left: 1100px;
+
   
 }
 .view-mode-select2 {
@@ -291,7 +308,7 @@ font-weight: 400;
   text-align: center;
   margin-left: 10px;
   position: relative;
-  left: 40%;
+  left: 35%;
 }
 .accounts-container {
   background-color: #fff;
@@ -300,7 +317,7 @@ font-weight: 400;
   padding: 20px;
   width: 1300px;
   height: 2000px; /* adjust the width as needed */
-  margin: 5px auto;
+  margin: 20px auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -439,6 +456,9 @@ font-weight: 400;
   align-items: center;
   justify-content: center;
   padding: 7px 11px 9px 12px;
+  position: relative;
+top: -362px;
+
 }
 
 .account-boxes{
@@ -519,4 +539,109 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
 .secondaccount-box:hover,
 .thirdaccount-box:hover {
   transform: translateY(-5px) scale(1.02); /* Applying translation and scaling */
+}
+@media only screen and (max-width: 1200px) {
+  .excel-dropdown-menu {
+    /* Adjust position for smaller screens */
+    left: 65%;
+    top: -343px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    /* Adjust width for smaller screens */
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    /* Adjust position for smaller screens */
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  /* Adjust styles for screen width up to 1000px */
+  .excel-dropdown-menu {
+    left: 60%;
+    top: -343px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+.view-mode-select {
+    float: right;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    background-color: aliceblue;
+    text-align: center;
+    margin-left: 34px;
+    position: relative;
+    top: -17px;
+  }
+  
+
+#btn3 {
+    /* width: 100px; */
+    margin-left: -10%;
+    padding: 7px 11px 9px 12px;
+    gap: 0px;
+    border-radius: 4px 4px 4px 4px;
+    color: white;
+    background: #FFFFFFFF;
+    background: #4CA110FF;
+    font-weight: 400;
+    font-family: 'Manrope';
+    font-size: 14px;
+    position: relative;
+    top: 19px;
+
+}
+}
+
+
+
+
+@media only screen and (max-width: 700px) {
+  /* Adjust styles for screen width up to 700px */
+  .excel-dropdown-menu {
+    left: 55%;
+    top: -343px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  /* Adjust styles for screen width up to 500px */
+  .excel-dropdown-menu {
+    left: 50%;
+    top: -383px;
+  }
+
+  .accounts-table-wrapper table,
+  .accounts-container {
+    width: 100%;
+  }
+
+  .accountTableCenter {
+    right: 0;
+  }
 }

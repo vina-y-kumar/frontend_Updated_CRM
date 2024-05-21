@@ -1,18 +1,19 @@
 import { NavLink } from "react-router-dom";
 import "./login.css";
 import Spline from "@splinetool/react-spline";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../authContext";
-
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { authenticated, setAuthenticated } = useAuth();
+  const { authenticated, login } = useAuth(); // Using login from useAuth
+  const [tenantId, setTenantId] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     // Construct the request data
     const data = {
         username: username,
@@ -34,23 +35,27 @@ export const Login = () => {
         return response.json();
     })
     .then(data => {
-        // Handle successful login response
-        alert('Login successful');
-        // Redirect to the home page
-        setAuthenticated(true);
-        window.location.href = '/home';
+      // Handle successful login response
+      alert('Login successful');
+      // Update authentication state and store user data
+      login(data.user_id); // Assuming your backend returns user data in `data.user`
+      // Redirect to the home page with the tenant_id received from the backend
+      const tenantId = data.tenant_id;
+      navigate(`/${tenantId}/home`);
     })
     .catch(error => {
         // Handle login failure
         console.error('Login error:', error);
         alert('Login failed');
     });
-};
+  };
 
-if (authenticated) {
-  // Redirect to the home page if user is authenticated
-  window.location.href = '/home';
-}
+  useEffect(() => {
+    if (authenticated) {
+      // Redirect to the home page if user is authenticated
+      navigate(`/${tenantId}/home`);
+    }
+  }, [authenticated, navigate]);
 
   return (
     <div className="login">
@@ -59,35 +64,35 @@ if (authenticated) {
         <div className="login_inner">
           <h2 className="login_paragraph">Login</h2>
           <form className="login_form" onSubmit={handleSubmit}>
-          <label htmlFor="username" className="login_label">
-    <input
-        className="login_input"
-        type="text" // Use type="text" for username
-        placeholder="👤 Username" // Adjust the placeholder
-        id="username" // Use id="username"
-        required
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-    />
-</label>
-      <label htmlFor="password" className="login_label">
-        <input
-          className="login_input"
-          type="password"
-          placeholder="🔑 Password"
-          id="password" // Correct typo in id attribute
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <NavLink className="login_navigate" to="/">
-        register?
-      </NavLink>
-      <button className="login_btn" type="submit">
-        Login
-      </button>
-    </form>
+            <label htmlFor="username" className="login_label">
+              <input
+                className="login_input"
+                type="text"
+                placeholder="👤 Username"
+                id="username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </label>
+            <label htmlFor="password" className="login_label">
+              <input
+                className="login_input"
+                type="password"
+                placeholder="🔑 Password"
+                id="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+            <NavLink className="login_navigate" to="/">
+              register?
+            </NavLink>
+            <button className="login_btn" type="submit">
+              Login
+            </button>
+          </form>
         </div>
       </div>
     </div>

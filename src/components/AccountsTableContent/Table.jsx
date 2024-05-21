@@ -9,7 +9,7 @@ import person from "../../assets/person.png";
 import industry from "../../assets/industry.png";
 import msg from "../../assets/msg.webp";
 import "./accountsTableContent.css";
-
+import axiosInstance from '../../api';
 const AccountsTable1 = () => {
 
   const [accounts, setAccounts] = useState([]);
@@ -19,12 +19,10 @@ const AccountsTable1 = () => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await axios.get(
-          "https://backendcrmnurenai.azurewebsites.net/accounts/"
-        );
+        const response = await axiosInstance.get('accounts/'); // Relative URL, no need for full URL
         setAccounts(response.data);
       } catch (error) {
-        console.error("Error fetching accounts:", error);
+        console.error('Error fetching accounts:', error);
       }
     };
 

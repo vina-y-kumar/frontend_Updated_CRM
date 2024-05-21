@@ -1,7 +1,7 @@
 import "./accountsTableContent.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import axiosInstance from "../../api";
 const EditableRow = ({ rowData, rowIndex, columns, onChange, isEditing }) => {
   return (
     <>
@@ -65,13 +65,8 @@ export const AccountTableContent = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("https://backendcrmnurenai.azurewebsites.net/accounts/", {
-        headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
+    axiosInstance
+      .get("/accounts/")  // Adjust the endpoint path as needed
       .then((response) => {
         setStudentData(response.data);
       })

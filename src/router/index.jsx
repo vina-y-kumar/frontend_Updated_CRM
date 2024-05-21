@@ -142,43 +142,43 @@ export const RouteWrapper = () => {
   
       {authenticated && (
         <>
-          <Route path="/home" element={<Home />} /> 
-          <Route path="/accounts" element={<AccountsTable/>}/> 
-          <Route path="/contacts" element={<ContactsTable/>}/> 
-          <Route path="/lead" element={<LeadPage />} />
-          <Route path="/opportunities" element={<Opportunities />} /> 
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/kanban" element={<KanbanBoard />} />
-          <Route path="/addlead" element={<Lead/>} />
+          <Route path=":tenant_id/home" element={<Home />} /> 
+          <Route path=":tenant_id/accounts" element={<AccountsTable/>}/> 
+          <Route path=":tenant_id/contacts" element={<ContactsTable/>}/> 
+          <Route path=":tenant_id/lead" element={<LeadPage />} />
+          <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
+          <Route path=":tenant_id/dashboard" element={<Dashboard />} />
+          <Route path=":tenant_id/kanban" element={<KanbanBoard />} />
+          <Route path=":tenant_id/addlead" element={<Lead/>} />
           {/*<Route path="/addform" element={<Form1/>} />*/}
-          <Route path="/contactinfo/:id" element={<ContactInfo/>}/>
-          <Route path="/ShowLead/:id" element={<ShowLead/>}/>
-          <Route path="/convert/:id" element={<ConvertLead/>}/>
-          <Route path="/addaccount" element={<AccountForm/>} />
-          <Route path="/addcontact" element={<Form2/>}/>
-          <Route path="/meetings" element={<Met/>}  />
-          <Route path="/opportunity" element={<Form3/>} />
-          <Route path="/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
-          <Route path="tasks/:id" element={<Taskinfo/>}/>
-          <Route path="/accounts/:id" element={<AccountsPage />} />
-          <Route path="/send-email/:id" element={<SendEmail/>}/>
-          <Route path="/send-msg/:id" element={<WhatsApp/>}/>
-          <Route path="/email" element={<EmailComponent/>} />
-          <Route path="/tasks" element={<TaskTable/>} />
-          <Route path="/interaction" element={<Interaction/>}/>
-          <Route path="/addtask" element={<AddTaskForm/>}/>
-          <Route path="/compose" element={<EmailComponent/>}/>
-          <Route path="/bulk-import" element={<BulkImport/>}/>
-          <Route path="/flow" element={<FlowGraph/>}/>
-          <Route path="/FB" element={<FaceB/>}/>
-          <Route path="/addinteraction" element={<AddInteractionForm/>} />
-          <Route path="/interaction/:id" element={<InteractionDetailsPage/>} />
+          <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
+          <Route path=":tenant_id/ShowLead/:id" element={<ShowLead/>}/>
+          <Route path=":tenant_id/convert/:id" element={<ConvertLead/>}/>
+          <Route path=":tenant_id/addaccount" element={<AccountForm/>} />
+          <Route path=":tenant_id/addcontact" element={<Form2/>}/>
+          <Route path=":tenant_id/meetings" element={<Met/>}  />
+          <Route path=":tenant_id/opportunity" element={<Form3/>} />
+          <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
+          <Route path=":tenant_id/tasks/:id" element={<Taskinfo/>}/>
+          <Route path=":tenant_id/accounts/:id" element={<AccountsPage />} />
+          <Route path=":tenant_id/send-email/:id" element={<SendEmail/>}/>
+          <Route path=":tenant_id/send-msg/:id" element={<WhatsApp/>}/>
+          <Route path=":tenant_id/email" element={<EmailComponent/>} />
+          <Route path=":tenant_id/tasks" element={<TaskTable/>} />
+          <Route path=":tenant_id/interaction" element={<Interaction/>}/>
+          <Route path=":tenant_id/addtask" element={<AddTaskForm/>}/>
+          <Route path=":tenant_id/compose" element={<EmailComponent/>}/>
+          <Route path=":tenant_id/bulk-import" element={<BulkImport/>}/>
+          <Route path=":tenant_id/flow" element={<FlowGraph/>}/>
+          <Route path=":tenant_id/FB" element={<FaceB/>}/>
+          <Route path=":tenant_id/addinteraction" element={<AddInteractionForm/>} />
+          <Route path=":tenant_id/interaction/:id" element={<InteractionDetailsPage/>} />
         </>
       )}
 
 
-<Route path="*" element={<Login/>} />
-      {/* <Route path="*" element={<NotFound />} />*/}
+    <Route path="*" element={<Login/>} />
+     {/*  <Route path="*" element={<NotFound />} />*/}
     
 
       

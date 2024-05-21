@@ -6,10 +6,23 @@ import { Sidebar } from "../../components/Sidebar";
 import { OpportunitiesContent } from "../../components/OpportunitiesContent";
 import "./Form3.jsx";
 import { NavLink,Link } from "react-router-dom";
-import * as XLSX from "xlsx";
+import { useLocation } from 'react-router-dom';
 
+import * as XLSX from "xlsx";
+import axiosInstance from "../../api.jsx";
 
 export const Opportunities = () => {
+  const { pathname } = useLocation();
+  const tenantId = getTenantIdFromUrl();
+
+
+  function getTenantIdFromUrl() {
+    const pathArray = pathname.split('/');
+    if (pathArray.length >= 2) {
+      return pathArray[1]; // Assumes tenant_id is the first part of the path
+    }
+    return null; // Return null if tenant ID is not found or not in the expected place
+  }
  
   const [oppourtunity, setOppourtunity] = useState([]);
   const [newContact, setNewContact] = useState({
@@ -31,14 +44,11 @@ export const Opportunities = () => {
   }, []);
   const fetchoppourtunity = async () => {
     try {
-      const response = await fetch(
-        "https://backendcrmnurenai.azurewebsites.net/opportunities/"
-      );
-      const data = await response.json();
-      console.log(response);
-      setOppourtunity(data);
+      const response = await axiosInstance.get('/opportunities/');
+      setOppourtunity(response.data);
+      console.log('Opportunity fetched successfully:', response.data);
     } catch (error) {
-      console.error("Error fetching contacts:", error);
+      console.error('Error fetching opportunities:', error);
     }
   };
   const handleInputChange = (event) => {
@@ -136,7 +146,7 @@ export const Opportunities = () => {
             </div>
             <div className="create2">
 
-             <NavLink to="/opportunity" id="btn3">
+            <NavLink to={`/${tenantId}/opportunity`} id="btn3">
 
                         {" "}
                   Create Oppourtunity

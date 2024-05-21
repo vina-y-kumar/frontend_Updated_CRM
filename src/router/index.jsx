@@ -36,6 +36,7 @@ import FaceB from "../pages/facebook/facebook";
 import  Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
+import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -173,6 +174,7 @@ export const RouteWrapper = () => {
           <Route path="/FB" element={<FaceB/>}/>
           <Route path="/addinteraction" element={<AddInteractionForm/>} />
           <Route path="/interaction/:id" element={<InteractionDetailsPage/>} />
+          <Route path="/flow2" element={<FlowGraph2/>}/>
         </>
       )}
 

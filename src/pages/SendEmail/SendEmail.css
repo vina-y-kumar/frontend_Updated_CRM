@@ -41,14 +41,21 @@
     resize: vertical;
   }
   
-  .message {
+  .message2 {
     margin-bottom: 20px; /* Add margin to the message textarea */
     display: flex;
+    max-width: 1000px;
+   
     align-items: center;
   }
   .message label{
     margin-right: 10px;
 
+
+  }
+  #message4
+  {
+    width: 490px;
   }
   .message textarea {
     flex: 1; /* Use remaining space */
@@ -57,26 +64,47 @@
     border: 1px solid #ccc;
     border-radius: 3px;
   }
+  #subject{
+    width: 200px;
+  }
   
 
   
-  .button-container {
+  .button-container1{
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   
-  .button-container button {
+  .button-container1 button {
     padding: 12px 24px;
     border: none;
     border-radius: 3px;
-    background-color: #007bff;
+    
     color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
-  .button-container button:hover {
-    background-color: #0056b3;
+  
+
+  .generatetemp{
+    background-color: #043365;
   }
+  .generatetemp:hover{
+background-color: #a2c4e9;
+  }
+  .isedit{
+    background-color: #043365;
+  }
+  .isedit:hover{
+    background-color: #a2c4e9;
+  }
+  .editsend{
+    background-color: #043365;
+  }
+  .editsend:hover{
+    background-color: #a2c4e9;
+  }
+

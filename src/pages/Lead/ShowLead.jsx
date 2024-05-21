@@ -5,8 +5,8 @@ import { useParams, NavLink } from "react-router-dom";
 import RelatedList1 from "./RelatedList1.jsx";
 import ConvertLead from "./ConvertLead.jsx";
 
-const CreateLead = () => {
-  const [createlead, setCreateLead] = useState({
+const ShowLead = () => {
+  const [ShowLead, setShowLead] = useState({
     first_name: "",
     email: "",
     phone: "",
@@ -37,7 +37,7 @@ const CreateLead = () => {
         const response = await axios.get(
           `https://backendcrmnurenai.azurewebsites.net/leads/${id}`
         );
-        setCreateLead(response.data);
+        setShowLead(response.data);
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -64,8 +64,8 @@ const CreateLead = () => {
   ];
 
   const handleChange = (event) => {
-    setCreateLead({
-      ...createlead,
+    setShowLead({
+      ...ShowLead,
       [event.target.name]: event.target.value,
     });
   };
@@ -74,12 +74,12 @@ const CreateLead = () => {
     event.preventDefault();
     const newNote = {
       id: new Date().getTime(),
-      text: createlead.Notes,
+      text: ShowLead.Notes,
     };
 
-    setCreateLead({
-      ...createlead,
-      RecentNotes: [newNote, ...createlead.RecentNotes],
+    setShowLead({
+      ...ShowLead,
+      RecentNotes: [newNote, ...ShowLead.RecentNotes],
       Notes: "",
     });
   };
@@ -89,10 +89,10 @@ const CreateLead = () => {
       const response = await axios.post(
         "https://backendcrmnurenai.azurewebsites.net/leads/",
 
-        createlead
+        ShowLead
       );
-      console.log("createlead Information submitted :", response.data);
-      setCreateLead({
+      console.log("ShowLead Information submitted :", response.data);
+      setShowLead({
         first_name: "",
         email: "",
         phone: "",
@@ -115,7 +115,7 @@ const CreateLead = () => {
         description: "",
       });
     } catch (error) {
-      console.error("Error In createlead Information:", error);
+      console.error("Error In ShowLead Information:", error);
     }
   };
 
@@ -127,7 +127,7 @@ const CreateLead = () => {
   };
 
   const toggleAdditionalDetails = () => {
-    setCreateLead(!createlead);
+    setShowLead(!ShowLead);
   };
 
   const handleConvert = () => {
@@ -166,44 +166,44 @@ const CreateLead = () => {
           <div className="info">
             <hr />
             <div className="para1">
-              <p className="para">Lead Owner -{createlead.first_name}</p>
+              <p className="para">Lead Owner -{ShowLead.first_name}</p>
 
-              <p className="para">Email - {createlead.email}</p>
-              <p className="para">Phone -{createlead.phone}</p>
-              <p className="para">mobile -{createlead.mobile}</p>
-              <p className="para">Created By - {createlead.createdBy}</p>
-              <p className="para">Organization - {createlead.account_name}</p>
+              <p className="para">Email - {ShowLead.email}</p>
+              <p className="para">Phone -{ShowLead.phone}</p>
+              <p className="para">mobile -{ShowLead.mobile}</p>
+              <p className="para">Created By - {ShowLead.createdBy}</p>
+              <p className="para">Organization - {ShowLead.account_name}</p>
             </div>
           </div>
           <div className="info">
             <div className="hidedetail">
               <button onClick={toggleAdditionalDetails}>
-                {createlead ? "Hide Details" : "Show Details"}
+                {ShowLead ? "Hide Details" : "Show Details"}
               </button>
             </div>
             <hr />
 
             <div className="showdetails"></div>
-            {createlead && (
+            {ShowLead && (
               <div className="detail">
                 <div className="add">
                   <div>
-                    <p>Contact Owner - {createlead.first_name}</p>
-                    <p>Account Name -{createlead.accountName}</p>
-                    <p>Email -{createlead.email}</p>
-                    <p>Lead Source - {createlead.LeadSource}</p>
-                    <p>Zip Code -{createlead.ZipCode}</p>
-                    <p>Country -{createlead.Country}</p>
-                    <p>Description -{createlead.description}</p>
+                    <p>Contact Owner - {ShowLead.first_name}</p>
+                    <p>Account Name -{ShowLead.accountName}</p>
+                    <p>Email -{ShowLead.email}</p>
+                    <p>Lead Source - {ShowLead.LeadSource}</p>
+                    <p>Zip Code -{ShowLead.ZipCode}</p>
+                    <p>Country -{ShowLead.Country}</p>
+                    <p>Description -{ShowLead.description}</p>
                   </div>
 
                   <div>
-                    <p>Contact Name - {createlead.first_name}</p>
-                    <p>Vendor Name -{createlead.vendorName}</p>
-                    <p>Fax -{createlead.fax}</p>
-                    <p>address -{createlead.address}</p>
-                    <p>Street -{createlead.Street}</p>
-                    <p>City -{createlead.City}</p>
+                    <p>Contact Name - {ShowLead.first_name}</p>
+                    <p>Vendor Name -{ShowLead.vendorName}</p>
+                    <p>Fax -{ShowLead.fax}</p>
+                    <p>address -{ShowLead.address}</p>
+                    <p>Street -{ShowLead.Street}</p>
+                    <p>City -{ShowLead.City}</p>
                   </div>
                 </div>
               </div>
@@ -231,7 +231,7 @@ const CreateLead = () => {
               <form onSubmit={handleAddNote}>
                 <textarea
                   name="Notes"
-                  value={createlead.Notes}
+                  value={ShowLead.Notes}
                   onChange={handleChange}
                   className="notes-textarea"
                   placeholder="add a note........"
@@ -303,4 +303,4 @@ const CreateLead = () => {
     </div>
   );
 };
-export default CreateLead;
+export default ShowLead;

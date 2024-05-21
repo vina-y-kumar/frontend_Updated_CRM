@@ -1,169 +1,1056 @@
-/* .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .header img {
-    max-width: 100px;
-    margin-right: 20px;
-  }
-  
-  .header-content {
-    flex: 1;
-  }
-   */
-   .container_ {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    /* background-color: ghostwhite; */
 
-  }
+
   
-  .header {
+   .pages1{
+    position:relative;
+    top: -35px;
+    left: 5px;
+    
+    .header-content1 {
+      position: relative;
+    left: -19px;
+    color: #171A1FFF;
+    font-weight: 700;
+    font-family: 'Manrope';
+font-size: 20px;
+    } 
+
+   }
+   .account-circle1 {
+    display: inline-block;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
     text-align: center;
-    margin-bottom: 30px;
+    color: #fff;
+    font-weight: bold;
+    margin-right: 5px;
+    position: relative;
+    left: -555px;
+    top: 30px;
+    font-size: 45px;
   }
-  
-  .header img {
-    max-width: 150px;
-  }
-  
-  .header h1 {
-    margin-top: 10px;
-    font-size: 25px;
-    font-weight: 600;
-  }
-  
-  .header a {
-    /* display: block; */
-    margin-top: 10px;
-    color: blue;
-  }
-  .email{
-  
-  }
-  .logo{
-    float: left;
-    height: 70px;
-    border-radius: 50px;
-  }
-  .overview, .account-info, .address-info, .attachment-section{
-    margin-bottom: 30px;
-    background-color: white;
-    padding: 10px;
-    border-radius: 3px;
-    border: 1px solid slategray;
-  }
-  
+  .account-descp{
+    position: relative;
+    font-family: 'Manrope';
+font-size: 14px;
+    left: -450px;
+    font-weight: 400;
+color: #9095A1FF;
 
-  
-  .list-group-item {
-    padding: 10px;
+    top: -10px;
   }
-  h2{
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
-
-/*   
-  .attachment-section input[type="file"] {
-    margin-bottom: 10px;
-  }
+ 
+  .relatedList-Accounts{
+    
+    font-family: 'Manrope';
+    position: relative;
+    top: -2px;
+    left: 55px;
+font-size: 14px;
+font-weight: 400;
+background: #FFFFFFFF;
+width: 70px;
+text-align: center; 
+height: 35px;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A1FF;
+outline: none;
+   }
   
-  .attachment-section ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .attachment-section li {
-    margin-bottom: 5px;
-  }
-  
-  .attachment-section button {
-    margin-left: 10px;
-  }
-  
-  .list-group-item {
-    padding: 10px;
-  } */
-  /* .attachment-section {
-    margin-top: 20px;
-    background-color: #f9f9f9;
-  } */
-  
-  .attachment-section h2 {
-    margin-bottom: 10px;
-  }
-  
-  .attachment-section input[type="file"] {
-    margin-bottom: 10px;
+   .blank-page1{
+    margin-bottom: 100px;
+    width: 3200px;
     
   }
+     
   
-  .attachment-list {
-    list-style: none;
-    padding: 0;
+     .header-content{
+      position: absolute;
+  top: 50px;
+  left: 380px;
+  font-family: 'Manrope';
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #171A1FFF;
+     }
+  
+     .viewaccounts{
+      position: absolute;
+  top: 10px;
+  left: 249px;
+  line-height: 10px;
+  margin-bottom:10px ;
+
+
+      font-weight: 1000;
+      color: #171A1FFF;
+      font-family: 'Lexend';
+      font-size: 32px;
+     }
+  
+  
+     .visitwebsite{
+      position: absolute;
+  top: 110px;
+  left: 320px;
+  width: 203px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #6D31EDFF;
+     }
+  
+     
+     .container_ {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      /* background-color: ghostwhite; */
+  
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .header img {
+      max-width: 150px;
+    }
+    
+    .header h1 {
+      margin-top: 10px;
+      font-size: 25px;
+      font-weight: 600;
+    }
+    
+    .header a {
+      /* display: block; */
+      margin-top: 10px;
+      color: blue;
+    }
+    .email{
+    
+    }
+    .logo{
+      float: left;
+      height: 70px;
+      border-radius: 50px;
+      margin-top: 30px;
+    }
+    
+    .overview, .account-info, .address-info, .attachment-section{
+      margin-bottom: 100px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 3px;
+      border: 1px solid slategray;
+      position: relative;
+      top: 80px;
+    }
+    
+    .overview{
+     
+      
+      /* width: 1088px; */
+  height: 368px;
+      background: #F8F9FAFF;
+      border-radius: 8px;
+      border-width: 1px;
+      border-color: #F3F4F6FF;
+      border-style: solid;
+      box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+      margin-top: -24px;
+
+    }
+   .account-para{
+    
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+
+ 
+    }
+  .accountowner{
+    left: 170px;
+  opacity: 1;
+  }
+  .account-para1{
+    font-family: 'Manrope';
+    position: relative;
+    left: -5px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .account-para2{
+    font-family: 'Manrope';
+    position: relative;
+    left: 50px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  } .account-para3{
+    font-family: 'Manrope';
+    position: relative;
+    left: 25px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  } .account-para4{
+    font-family: 'Manrope';
+    position: relative;
+    left: 28px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .account-para5{
+    font-family: 'Manrope';
+    position: relative;
+    left: -8px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .account-para6{
+    font-family: 'Manrope';
+    position: relative;
+    left: -8px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .accountinfos1{
+    font-family: 'Manrope';
+    position: relative;
+    left: -5px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .accountinfos2{
+    font-family: 'Manrope';
+    position: relative;
+    left: 15px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .accountinfos3{
+    font-family: 'Manrope';
+    position: relative;
+    left: 40px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .accountinfos4{
+    font-family: 'Manrope';
+    position: relative;
+    left: 15px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+  }
+  .list-group-item {
+    padding: 10px;
+    width: calc(25% - 30px); /* Adjust width to fit in 4 items per row with gap */
+    background-color: #F3F4F6FF; /* Default background color */
+    border-radius: 8px; /* Add border radius */
   }
   
-  .files {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    background-color: #f9f9f9;
+    .list-group {
+      display: flex;
+      flex-wrap: wrap; /* Allow items to wrap */
+      gap: 20px; /* Add gap between list items */
+    }
+    h2{
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+  
+    .list-group-item:nth-child(1) {
+      background-color: pink;
+    }
+    .list-group-item:nth-child(2) {
+      background-color: #ffcdb4;
+
+    }
+    .list-group-item:nth-child(5) {
+      background-color: lightyellow; /* Third item color */
+    }
+    
+    .list-group-item:nth-child(4) {
+      background-color: #ffb6c1; /* Fourth item color */
+    }
+  /*   
+    .attachment-section input[type="file"] {
+      margin-bottom: 10px;
+    }
+    
+    .attachment-section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .attachment-section li {
+      margin-bottom: 5px;
+    }
+    
+    .attachment-section button {
+      margin-left: 10px;
+    }
+    
+    .list-group-item {
+      padding: 10px;
+    } */
+    /* .attachment-section {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+    } */
+    
+    .attachment-section h2 {
+      margin-bottom: 10px;
+    }
+    
+    .attachment-section input[type="file"] {
+      margin-bottom: 10px;
+      
+    }
+    
+    .attachment-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .files {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px 10px;
+      margin-bottom: 5px;
+      background-color: #f9f9f9;
+    }
+    .filebtn{
+      background-color: rgb(0, 130, 223);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .dltbtn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .attachment-list li button:hover {
+      background-color: #c82333;
+    }
+    
+    .attachment-list li span {
+      flex-grow: 1;
+      margin-right: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    /* loader */
+    .loader {
+      margin:20% auto;
+      width: 50px;
+      padding: 8px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #25b09b;
+      --_m: 
+        conic-gradient(#0000 10%,#000),
+        linear-gradient(#000 0 0) content-box;
+      -webkit-mask: var(--_m);
+              mask: var(--_m);
+      -webkit-mask-composite: source-out;
+              mask-composite: subtract;
+      animation: l3 1s infinite linear;
+    }
+    @keyframes l3 {to{transform: rotate(1turn)}}
+
+    .account-names{
+      position:absolute;
+      top: -12px;
+     left: 130px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    padding-left: 10px;
+    padding-top: 4px;
+    
+    align-items: flex-start;
+    /* line-height: 21px; */
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    }
+    .account-names,.account-desc,.account-revenue input:hover {
+      color: #171A1FFF;
+      background: #F3F4F6FF;
+      border-color: #DEE1E645;
+      }
+
+    .account-phone,.account-industry.account-employe input:hover {
+      color: #171A1FFF;
+      background: #F3F4F6FF;
+      border-color: #DEE1E645;
+      }
+.account-industry{
+  position:absolute;
+  top: 32px;
+ left: 130px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+.account-desc{
+  position:absolute;
+  top: 73px;
+ left: 130px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 500px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+.account-employe{
+  position:absolute;
+  top: 115px;
+ left: 130px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+.account-revenue{
+  position:absolute;
+  top: 155px;
+ left: 130px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+
+.account-phone{
+  position:absolute;
+  top: 205px;
+ left: 130px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+
+    
+/* Add spacing between columns in the company overview */
+.account-details p {
+  margin-bottom: 17px; /* Add margin bottom to create space between each column */
+}
+
+/* Adjust positioning of account details */
+.account-details {
+  position: relative;
+  margin-top: 50px;
+  margin-left: 38px;
+}
+
+.account-details .account-names,
+.account-details .account-industry,
+.account-details .account-desc,
+.account-details .account-employe,
+.account-details .account-revenue,
+.account-details .account-phone {
+ position: absolute; /* Change position to static */
+  margin-top: 10px; /* Add margin top */
+}
+
+
+.contactheading {
+  position: absolute;
+  top: 580px; /* Adjust the top position to create space from the top */
+  left: 60%;
+
+  transform: translateX(-50%);
+  font-family: 'Manrope';
+  font-size: 18px;
+  line-height: 125px;
+  font-weight: 700;
+  color: #171A1FFF;
+  margin-bottom: 20px; /* Add margin bottom to create space from the bottom */
+}
+
+.contacts{
+margin-top: 180px;
+}
+.account-info{
+    height: 300px;
+  background: #F8F9FAFF;
+  border-radius: 8px;
+  border-width: 1px;
+  border-color: #F3F4F6FF;
+  border-style: solid;
+  box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+}
+
+.address-para{
+    
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171A1FFF;
+    }
+
+.account-number{
+      position:absolute;
+      top: -13px;
+     left: 150px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
+    }
+    
+.account-type{
+  position:absolute;
+  top: 30px;
+ left: 150px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+.account-startdate{
+  position:absolute;
+  top: 80px;
+ left: 150px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+.account-renewaldate {
+  position:absolute;
+  top: 130px;
+ left: 150px;
+  background-color: #F3F4F6FF;
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+width: 190px;
+height: 36px;
+padding-left: 10px;
+    padding-top: 4px;
+}
+    .account-number,.account-type,.account-startdate,.account-renewaldate input:hover {
+      color: #171A1FFF;
+      background: #F3F4F6FF;
+      border-color: #DEE1E645;
+      }
+
+      .addresssinformation p {
+        margin-bottom: 22px; /* Add margin bottom to create space between each column */
+      }
+      
+      /* Adjust positioning of account details */
+      .addresssinformation {
+        position: relative;
+        margin-top: 50px;
+        margin-left: 50px;
+      
+      }
+      
+      .addresssinformation .account-number,
+      .addresssinformation .account-type,
+      .addresssinformation .account-startdate,
+      .addresssinformation .account-renewaldate
+       {
+       position: absolute; /* Change position to static */
+        margin-top: 15px; 
+        /* Add margin top */
+      }
+
+      .address-info{
+        height: 300px;
+      background: #F8F9FAFF;
+      border-radius: 8px;
+      border-width: 1px;
+      border-color: #F3F4F6FF;
+      border-style: solid;
+      box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+    }
+
+    .address-placepara1{
+      position: relative;
+      left: 25px;
+      font-family: 'Manrope';
+      font-size: 16px;
+      line-height: 26px;
+      font-weight: 400;
+      color: #171A1FFF;
+        }
+        .address-placepara2{
+          position: relative;
+          left: 40px;
+          font-family: 'Manrope';
+          font-size: 16px;
+          line-height: 26px;
+          font-weight: 400;
+          color: #171A1FFF;
+            }
+            .address-placepara3{
+              position: relative;
+              left: 30px;
+              font-family: 'Manrope';
+              font-size: 16px;
+              line-height: 26px;
+              font-weight: 400;
+              color: #171A1FFF;
+                }
+                .address-placepara4{
+                  position: relative;
+              left: 7px;
+                  font-family: 'Manrope';
+                  font-size: 16px;
+                  line-height: 26px;
+                  font-weight: 400;
+                  color: #171A1FFF;
+                    }
+                    .address-placepara5{
+                      position: relative;
+                      left: 10px;
+                      font-family: 'Manrope';
+                      font-size: 16px;
+                      line-height: 26px;
+                      font-weight: 400;
+                      color: #171A1FFF;
+                        }
+    .addressOverview p {
+      margin-bottom: 18px; /* Add margin bottom to create space between each column */
+    }
+    
+    /* Adjust positioning of account details */
+    .addressOverview{
+      position: relative;
+      margin-top: 30px;
+      margin-left: 38px;
+    }
+    
+    .addressOverview .account-street,
+    .addressOverview .account-city,
+    .addressOverview .account-state,
+    .addressOverview .account-zip,
+    .addressOverview .account-country
+     {
+     position: absolute; /* Change position to static */
+      margin-top: 15px; /* Add margin top */
+    }
+    .account-street{
+      position:absolute;
+      top: -13px;
+     left: 90px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
+    }
+    
+    .account-city{
+      position:absolute;
+      top: 30px;
+     left: 90px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
+    }
+    .account-state{
+      position:absolute;
+      top: 70px;
+     left: 90px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
+    }
+    .account-zip{
+      position:absolute;
+      top: 120px;
+     left: 90px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
+    }
+    .account-country{
+      position:absolute;
+      top: 170px;
+     left: 90px;
+      background-color: #F3F4F6FF;
+      font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #DEE1E645;
+    outline: none;
+    width: 190px;
+    height: 36px;
+    padding-left: 10px;
+    padding-top: 4px;
+    }
+
+    .attachment-section{
+      height: 200px;
+      background: #F8F9FAFF;
+      border-radius: 8px;
+      border-width: 1px;
+      border-color: #F3F4F6FF;
+      border-style: solid;
+      box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+      padding: 20px;
+
+
+    }
+    .attachments{
+    position:absolute;
+    top:   -10px;
+      left: 50%;
+      font-family: 'Manrope';
+font-size: 18px;
+line-height: 58px;
+font-weight: 700;
+color: #171A1FFF;
+transform: translateX(-50%);
+
+    }
+
+    .accountinfos{
+      position:absolute;
+      left: 50%;
+      font-family: 'Manrope';
+font-size: 18px;
+
+font-weight: 700;
+color: #171A1FFF;
+    }
+
+    .attachment-upload {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      background-color: #F3F4F6FF;
+      border: 1px solid #DEE1E645;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+.attachment-upload input[type="file"] {
+  display: none;
+}
+.attachment-upload label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 20%;
+  border-radius: 50%;
+  background-color: #F3F4F6FF;
+  border: 1px solid #DEE1E645;
+  cursor: pointer;
+}
+
+.attachment-upload label::before {
+  content: "";
+  display: block;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: #171A1FFF;
+  margin-bottom: 10px;
+}
+
+.attachment-upload label::after {
+  content: "+";
+  position:absolute;
+
+  font-family: 'Manrope';
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #171A1FFF;
+  margin-top: -4px;
+}
+
+.attachment-upload:hover {
+  background-color: #F8F9FAFF;
+  border-color: #DEE1E645;
+}
+.clicktoupload{
+  font-family: 'Manrope';
+   position: relative; 
+ line-height: 20px;
+ top: 55px;
+ font-size: 16px;
+}
+
+.sendemailInfo{
+  position: absolute;
+top: 9px;
+left: 1280px;
+height: 36px;
+padding: 0 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #FFFFFFFF;
+background: #6D31EDFF;
+opacity: 1;
+border: none;
+border-radius: 4px;
+gap: 6px;
+
+}
+
+.sendemailInfo:hover {
+  color: #FFFFFFFF;
+  background: #5113D7FF;
   }
-  .filebtn{
-    background-color: rgb(0, 130, 223);
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    text-align: center;
-    margin: 0 auto;
+
+  /* Default styles */
+/* Add your default CSS styles here */
+
+/* Media queries for responsive design */
+@media only screen and (max-width: 1200px) {
+  .header-content1 {
+    font-size: 18px;
   }
-  .dltbtn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
+  .account-circle1 {
+    font-size: 40px;
+    left: -500px;
+  }
+  .account-descp {
+    left: -400px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .header-content1 {
+    font-size: 16px;
+  }
+  .account-circle1 {
+    font-size: 35px;
+    left: -450px;
+  }
+  .account-descp {
+    left: -350px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header-content1 {
+    font-size: 14px;
+  }
+  .account-circle1 {
+    font-size: 30px;
+    left: -400px;
+  }
+  .account-descp {
+    left: -180px;
   }
   
-  .attachment-list li button:hover {
-    background-color: #c82333;
+}
+ 
+
+
+@media only screen and (max-width: 576px) {
+  .list-group-item {
+    padding: 10px;
+    width: calc(45% - 30px);
+    background-color: #F3F4F6FF;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+  .header-content1 {
+    font-size: 12px;
   }
-  
-  .attachment-list li span {
-    flex-grow: 1;
-    margin-right: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .account-circle1 {
+    font-size: 25px;
+    left: -350px;
   }
-  /* loader */
-  .loader {
-    margin:20% auto;
-    width: 50px;
-    padding: 8px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: #25b09b;
-    --_m: 
-      conic-gradient(#0000 10%,#000),
-      linear-gradient(#000 0 0) content-box;
-    -webkit-mask: var(--_m);
-            mask: var(--_m);
-    -webkit-mask-composite: source-out;
-            mask-composite: subtract;
-    animation: l3 1s infinite linear;
+  .account-descp {
+    left: -134px;
+    
   }
-  @keyframes l3 {to{transform: rotate(1turn)}}
+  .viewaccounts{
+margin-left: 20px;
+  }
+  .account-desc{
+    width: 350px;
+  }
+}
+
+/* Add more media queries as needed for smaller screen sizes */

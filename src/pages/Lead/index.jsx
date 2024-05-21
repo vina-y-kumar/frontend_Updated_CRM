@@ -9,6 +9,7 @@ import Kanban from "../../components/Kanban/Kanban";
 import { NavLink ,Link} from "react-router-dom";
 import { useState,useEffect } from "react";
 import * as XLSX from "xlsx"; 
+import LeadTable from "../../components/Kanban/LeadTable/LeadTable";
 
 // import KanbanBoard from "../../components/Kanban/Kanban";
 
@@ -19,6 +20,8 @@ export const LeadPage = () =>
   const modelName = "leads";
 
   const [leadData, setLeadData] = useState([]);
+  const [viewMode, setViewMode] = useState("kanban"); // Add a state for the view mode
+
   useEffect(() => {
     const fetchLeadData = async () => {
       try {
@@ -41,6 +44,10 @@ export const LeadPage = () =>
     const ws = XLSX.utils.json_to_sheet(leadData);
     XLSX.utils.book_append_sheet(wb, ws, "Leads");
     XLSX.writeFile(wb, "leads.xlsx");
+  };
+
+  const toggleViewMode = () => {
+    setViewMode(viewMode === "kanban" ? "table" : "kanban");
   };
 
   return (
@@ -70,21 +77,26 @@ export const LeadPage = () =>
 <div className="navlinks">
 <NavLink to="/addlead" id="btn">+ New</NavLink>
             <br/>
+
+            <button onClick={toggleViewMode} className="view-mode-btn">
+            {viewMode === "kanban" ? "Table View" : "Kanban View"}
+          </button>
            
 </div>
 <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
         Import Excel
       </Link>
+      
 <button onClick={exportToExcel} className="excel-download-btn3">
              Excel
           </button>
                       
         
-            {/* <NavLink to="/createLead" id="btn">Create Lead</NavLink> */}
+            {/* <NavLink to="/ShowLead" id="btn">Create Lead</NavLink> */}
               {/* <AddPayment/> */}
               {/* <KanbanBoard/> */}
               <br/>
-              <Kanban/>
+              {viewMode === "kanban" ? <Kanban /> : <LeadTable />}
               {/* <PaymentsList/> */}
             
           

@@ -4,7 +4,10 @@
   display: flex;
 }
 
-/* .home_left_box {} */
+/* .home_left_box {
+  width: 10vw;
+  border: 1px solid red;
+} */
 
 .home_right_box {
   width: 80vw;

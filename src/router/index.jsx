@@ -18,7 +18,7 @@ import Form2 from "../pages/ContactsTable/Form2";
 import ContactInfo from "../pages/ContactsTable/ContactInfo";
 import EmailComponent from "../pages/MassEmail/Compose";
 import AccountsPage from "../pages/AccountsPage/AccountPage";
-import CreateLead from "../pages/Lead/CreateLead";
+import ShowLead from "../pages/Lead/ShowLead";
 import AccountForm from "../pages/AccountsSection/AccountForm";
 import TaskTable from "../pages/TasksSection/TaskTable";
 import ConvertLead from "../pages/Lead/ConvertLead";
@@ -37,6 +37,8 @@ import  Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
 import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
+import Campaign from "../pages/Campaign/campaign";
+import Campaignform from "../pages/Campaign/Campaignform";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -153,7 +155,7 @@ export const RouteWrapper = () => {
           <Route path="/addlead" element={<Lead/>} />
           {/*<Route path="/addform" element={<Form1/>} />*/}
           <Route path="/contactinfo/:id" element={<ContactInfo/>}/>
-          <Route path="/createlead/:id" element={<CreateLead/>}/>
+          <Route path="/ShowLead/:id" element={<ShowLead/>}/>
           <Route path="/convert/:id" element={<ConvertLead/>}/>
           <Route path="/addaccount" element={<AccountForm/>} />
           <Route path="/addcontact" element={<Form2/>}/>
@@ -167,6 +169,8 @@ export const RouteWrapper = () => {
           <Route path="/email" element={<EmailComponent/>} />
           <Route path="/tasks" element={<TaskTable/>} />
           <Route path="/interaction" element={<Interaction/>}/>
+          <Route path="/campaign"  element= {<Campaign/>}/>
+          <Route path='/campaignform' element={<Campaignform/>}/>
           <Route path="/addtask" element={<AddTaskForm/>}/>
           <Route path="/compose" element={<EmailComponent/>}/>
           <Route path="/bulk-import" element={<BulkImport/>}/>

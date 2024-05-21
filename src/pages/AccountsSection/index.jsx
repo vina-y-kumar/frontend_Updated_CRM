@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import './AccountForm.jsx';
 import { NavLink } from 'react-router-dom';
 
+
 export const AccountsTable = () => {
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
@@ -52,20 +53,23 @@ export const AccountsTable = () => {
                 <option value="2">Log out</option>
               </select>  
             </div>
+            <div className="accountlist">
+          <h1 >Account list</h1>
+          </div>
             <div className="handle1 ">
-              <select onChange={handlePlusClick1} className="view-mode-select">
+              {/* <select onChange={handlePlusClick1} className="view-mode-select">
                 <option value="">!!!</option>
                 <option value="1">Log in</option>
                 <option value="2">Log out</option>
               </select>
-              
-              <select className="view-mode-select" onChange={handleAction}>
+               */}
+              {/* <select className="view-mode-select" onChange={handleAction}>
                 <option value="">Action</option>
                 <option value="1">Bulk Import</option>
                 <option value="2">Log out</option>
-              </select> 
+              </select>  */}
               <div className="create1">
-                <NavLink to="/addaccount" id="btn1"> Create Account</NavLink>
+                <NavLink to="/addaccount" id="btn3">+CreateAccount</NavLink>
               </div>
             </div>
           </div>

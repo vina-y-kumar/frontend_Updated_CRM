@@ -15,17 +15,20 @@
 .bugs{
   display: flex;
 }
-#btn1 {
-  width: 77px;
-  height: 36px;
-  margin-left: -12%;
+#btn3 {
+   /* width: 100px; */
+  /* height: ;  */
+  margin-left: -10%;
   padding: 7px 11px 9px 12px;
   gap: 0px;
   border-radius: 4px 4px 4px 4px;
 
   color: white;
-  background: #6D31ED;
-  font-weight: 600;
+  background: #FFFFFFFF;
+  background: #4CA110FF;
+  font-weight: 400;
+  font-family: 'Manrope';
+  font-size: 14px;
 }
 
 
@@ -47,7 +50,10 @@
   /* background-color: lightblue; */
   width:110px;
   border-radius: 6px;
-  text-align: center;}
+  text-align: center;
+position: relative;
+left: -6px;
+top: 2px;}
 
 
 .handle1{
@@ -66,6 +72,15 @@
 }
 .Addcalls1{
   position: absolute;
+}
+.accountlist{
+  font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+position: relative;
+left: -900px;
 }
 
 
@@ -158,12 +173,13 @@
 table {
   width: 85%;
   border-collapse: collapse;
+
 }
 
 th,
 td {
   padding: 12px 15px;
-  border: 1px solid #ccc;
+  
   text-align: left;
 }
 
@@ -174,15 +190,720 @@ th {
 }
 
 td a {
-  color: #0066cc;
-  text-decoration: none;
+  /* color: #0066cc; */
+  font-family: 'Manrope';
+font-size: 14px;
+  font-weight: 400;
+  color: #171A1FFF;
 }
 
 
 
-td:last-child {
+
+
+/* td:last-child {
   text-align: right;
-}
+} */
 .form-group{
   margin-top: 20px  !important;
+}
+.label{
+  padding-left: 20px;
+  position: relative;
+  left: 65px;
+
+ 
+  
+}
+.parent_account,.anual_revenue,.account_site{
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+/* changes in account form  */
+.create_Account{
+  font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+}
+.relatedList-Contacts2{
+    
+  font-family: 'Manrope';
+
+font-size: 14px;
+font-weight: 400;
+width: 80px;
+text-align: center; 
+height: 35px;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A1FF;
+outline: none;
+position: relative;
+top: 170px;
+left: 100px;
+padding-left: 2px;
+padding-top: 4px;
+ }
+ .form_account{
+  width: 83%;
+  position: relative;
+  left: 30px;
+  top: 30px;
+  margin-top: 76px;
+
+ }
+ .photo{
+
+ }
+ .colored-circle3 {
+  width: 80px;
+  height: 80px;
+  border-radius: 7px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  position:absolute;
+  position: relative;
+  top: -40px;
+  left: -590px;
+}
+.upload_button{
+  position: relative;
+  top: -100px;
+  left: 80px;
+  width: 203px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #6D31EDFF;
+}
+.create_account3{
+  font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+position: relative;
+top: -70px;
+left: 20px;
+}
+.create_account{
+  font-family: 'Lexend';
+font-size: 32px;
+line-height: 68px;
+font-weight: 800;
+color: #171A1FFF;
+width: 400px;
+}
+ .back_container{
+  
+  width: 256px;
+  height: 700px;
+  margin-top: 0px;
+  background: #FAFAFBFF;
+  padding-top: 20px;
+  border-radius: 0px;
+  border-width: 1px;
+  /* border-color: #FFFFFFFF; */
+  /* border-style: solid; */
+  position: relative;
+  top: 1px;
+ }
+ .account_form_submit{
+  display: flex;
+ }
+ .account_forms{
+  width: 1196px;
+height: 600px;
+background: #F8F9FAFF;
+border-radius: 8px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+ }
+ .form-control_account1,.form-control_email,.form-control_ac_name,.form-control_ac_site,.form-control_pc_site,.form-control_ac_num
+,.form-control_ac_type,.form-control_indus,.form-control_anual,.form-control_rating,.form-control_phone,.form-control_fax
+.form-control_website,.form-control_ticker,.form-control_owner,.form-control_employee{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+
+
+}
+.form-control_employee{
+  position: relative;
+  left: 40px;
+}
+.form-control_owner{
+  position: relative;
+  left: 50px;
+}
+.form-control_rating{
+  position: relative;
+  left: 60px;
+}
+.form-control_account1{
+  position: relative;
+  left: 20px;
+
+}
+.form-control_email{
+  outline: none;
+  position: relative;
+  left: 60px;
+}
+.form-control_ac_name{
+  position: relative;
+  left: 23px;
+}
+.form-control_ac_site{
+  position: relative;
+  left: 15px;
+}
+.form-control_pc_site{
+  position: relative;
+  left: 23px; 
+}
+.form-control_ac_type{
+  position: relative;
+  left: 32px;
+}
+.form-control_indus{
+  position: relative;
+  left: 48px;
+}
+.form-control_ac_num{
+  position: relative;
+  left: -10px;
+}
+.form-control_anual{
+  position: relative;
+  left: 15px;
+}
+.form-control_phone{
+  position: relative;
+  left: 77px;
+}
+.form-control_website{
+  position: relative;
+  left: 70px;
+}
+.form-control_ticker{
+  position: relative;
+  left: 15px;
+}
+
+.form-control_fax,.form-control_website{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  outline: none;
+ 
+}
+.form-control_fax{
+  position: relative;
+  left: 80px;
+}
+.anual_revenue{
+  position: relative;
+left: 2px;
+}
+.anual_ownership{
+position: relative;
+left: 2px;
+font-family: 'Manrope';
+font-size: 15px;
+line-height: 16px;
+font-weight: 700;
+color: #171A1FFF;
+ 
+}
+.anual_email{
+position: relative;
+left: 43px;
+font-family: 'Manrope';
+font-size: 15px;
+line-height: 16px;
+font-weight: 700;
+color: #171A1FFF;
+ }
+
+.account_name{
+position: relative;
+left: 5px;
+font-family: 'Manrope';
+font-size: 15px;
+line-height: 16px;
+font-weight: 700;
+color: #171A1FFF;
+ }
+
+
+.account_number{
+  position: relative;
+  left: -22px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.account_type{
+  position: relative;
+  left: 10px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   }
+
+
+.industryy{
+  position: relative;
+  left: 35px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.anual_phone{
+  position: relative;
+  left: 65px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.ratings{
+  position: relative;
+  left: 45px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.anual_phone{
+  position: relative;
+  left: 66px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   }
+
+
+.anual_fax{
+  position: relative;
+  left: 65px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.anual_website{
+  position: relative;
+  left: 55px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.anual_ticker{
+  position: relative;
+  left: 5px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.anual_owner{
+  position: relative;
+  left: 35px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.anual_employess{
+  position: relative;
+  left: 28px;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+   
+}
+.info_address{
+font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.account_forms2{
+  width: 1196px;
+height: 600px;
+background: #F8F9FAFF;
+border-radius: 8px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+margin-top: 25px;
+ }
+ .bill_street,.bill_city,.bill_country,.bill_state,.bill_code,.ship_street,.ship_city,.ship_state,.ship_code
+ .ship_country,.ship_descri{
+  font-family: 'Manrope';
+font-size: 15px;
+line-height: 16px;
+font-weight: 700;
+color: #171A1FFF;
+ }
+ .ship_code{
+  position: relative;
+  left: 6px;
+ }
+ .ship_country{
+  position: relative;
+  left: -13px;
+ }
+ .bill_city{
+  position: relative;
+  left: 20px;
+ }
+ .bill_code{
+  position: relative;
+  left: 15px;
+ }
+ .ship_street{
+  position: relative;
+  left: -10px;
+ }
+ .ship_city{
+  position: relative;
+  left: 13px;
+ }
+ .bill_street,.bill_state{
+  position: relative;
+  left: 20px;
+ }
+ .bill_country{
+  position: relative;
+  left: 2px;
+ }
+ .ship_code,.ship_country{
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+ }
+ .AccountSite{
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #171A1FFF;
+
+ }
+ .form-control_billing_street,.form-control_billing_city,.form-control_billing_state,.form-control_billing_code
+, .form-control_billing_country,.form-control_ship_street,.form-control_ship_city,.form-control_ship_state
+{
+  width: 260px;
+height: 36px;
+padding-left: 12px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #F3F4F6FF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+opacity: 1;
+ }
+ .form-control_billing_street{
+  position: relative;
+  left: 32px;
+ }
+ .form-control_billing_city{
+  position: relative;
+  left: 32px;
+ }
+ .form-control_billing_state{
+  position: relative;
+  left: 38px;
+ }
+ .form-control_billing_code{
+  position: relative;
+  left: 28px;
+ }
+ .form-control_billing_country{
+  position: relative;
+  left: 20px;
+ }
+ .form-control_ship_city{
+  position: relative;
+  left: 30px;
+ }
+ .form-control_ship_state{
+  position: relative;
+  left: 13px;
+ }
+ .form-control_ship_code1,.form-control_ship_country{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  opacity: 1;
+  
+ }
+ .form-control_ship_code1{
+  position: relative;
+  left: 20px;
+ }
+ .form-control_ship_country{
+  position: relative;
+  left: 2px;
+ }
+ .ship_descri{
+  position: relative;
+  left: 62px;
+  top: -10px;
+ }
+ .form-control_ship_descri{
+  padding-top: 10px;
+  padding-left: 12px;
+
+
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #171A1FFF;
+background: #FFFFFFFF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A11C;
+width: 967px;
+height: 95px;
+position: relative;
+left: -25px;
+top: 75px;
+ }
+ .btn-submit{
+  width: 140px;
+  height: 42px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #6D31EDFF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+  left: 500px;
+  top: 70px;
+ }
+ .btn-submit1{
+  width: 140px;
+  height: 36px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #62CD14FF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+  
+ }
+ .btn-submit2{
+  width: 140px;
+  height: 36px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #DE3B40FF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+  
+ }
+ .btn-submit3{
+  width: 140px;
+  height: 36px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #6D31EDFF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+ }
+ .btnsss{
+display: flex;
+gap: 20px;
+padding-left: 700px;
+position: relative;
+top: -10px;
+
+ }
+ .upload_icon{
+position: relative;
+left: 130px;
+ top: -100px;}
+ /* Default styles */
+.calls1 {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.records2 {
+  margin: 10px;
+  padding: 10px;
+  width: 88%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: gainsboro;
+  border-radius: 3px;
+}
+
+/* Additional styles for smaller screens */
+@media only screen and (max-width: 768px) {
+  .calls1 {
+    flex-direction: column;
+    align-items: center;
+  }
+  .photo{
+margin-left: 600px;
+  }
+
+  .records2 {
+    width: 100%;
+    justify-content: center;
+  }
+  .relatedList-Contacts2{
+    margin-left: -100px;
+  }
+}
+
+/* Additional styles for even smaller screens */
+@media only screen and (max-width: 480px) {
+  .accountlist {
+    font-size: 24px;
+    text-align: center;
+    position: relative;
+    left: -900px; /* Adjust as needed */
+  }
+
+  .handle1 {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .create1 {
+    margin: 0;
+    position: static;
+    left: 0;
+    top: 0;
+    text-align: center;
+  }
+
+  #btn3 {
+    margin-left: 0;
+  }
+
+  .table1 {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Add more responsive styles as needed */
 }

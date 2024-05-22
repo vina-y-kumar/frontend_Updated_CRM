@@ -1,7 +1,7 @@
 import axios from "axios";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import { Header } from "../../components/Header";
 import CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
@@ -127,147 +127,148 @@ const AddTaskForm = () => {
   };
 
   return (
-    <div>
-      <Header name="Task Information" />
-      <form onSubmit={handleSubmit}>
-        <div className="form-row">
-          <div className="form-group col-md-6">
-            <label htmlFor="subject">Subject</label>
-            <input
-              type="text"
-              className="form-control"
-              id="subject"
-              name="subject"
-              value={taskData.subject}
-              onChange={handleChange}
-              placeholder="Enter subject"
-            />
+    <div className="task_form">
+      <div className="relatedTask_back">
+        <Link className='task_back' to={`/${tenantId}/tasks`}>Back</Link>
+      </div>
+      <div>
+        <div className="task_head_line">
+          <div className="task_form_header">
+            <h1>Create Task</h1>
           </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="due_date">Due Date</label>
-            <input
-              type="date"
-              className="form-control"
-              id="due_date"
-              name="due_date"
-              value={taskData.due_date}
-              onChange={handleChange}
-              placeholder="Enter due date"
-            />
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="status">Status</label>
-            <select
-              className="form-control"
-              id="status"
-              name="status"
-              value={taskData.status}
-              onChange={handleChange}
-            >
-              {STATUS_CHOICES.map((choice) => (
-                <option key={choice.value} value={choice.value}>
-                  {choice.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="priority">Priority</label>
-            <select
-              className="form-control"
-              id="priority"
-              name="priority"
-              value={taskData.priority}
-              onChange={handleChange}
-            >
-              {PRIORITY_CHOICES.map((choice) => (
-                <option key={choice.value} value={choice.value}>
-                  {choice.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="description">Description</label>
-            <input
-              type="text"
-              className="form-control"
-              id="description"
-              name="description"
-              value={taskData.description}
-              onChange={handleChange}
-              placeholder="Enter description"
-            />
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="contact">Contact</label>
-            <input
-              type="text"
-              className="form-control"
-              id="contact"
-              name="contact"
-              value={taskData.contact}
-              onChange={handleChange}
-              placeholder="Enter contact"
-            />
-          </div>
-          {/*<div className="form-group col-md-6">
-            <label htmlFor="createdBy">Created By</label>
-            <input
-              type="text"
-              className="form-control"
-              id="createdBy"
-              name="createdBy"
-              value={taskData.createdBy}
-              onChange={handleChange}
-              placeholder="Enter created by"
-            />
-            </div>*/}
-          <div className="form-group col-md-6">
-            <label htmlFor="account">Account</label>
-            <Select
-              options={[
-                ...filteredOptions.map((option) => ({
-                  value: option.id,
-                  label: option.Name,
-                })),
-                { value: "create-new-account", label: "Create New Account" },
-              ]}
-              onChange={handleSelectChange}
-              value={
-                taskData.account
-                  ? {
-                      value: taskData.account,
-                      label: filteredOptions.find((option) => option.id === taskData.account)?.Name || '',
-                    }
-                  : null
-              }
-              styles={{
-                option: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: state.data && state.data.value === "create-new-account" ? "lightblue" : "white",
-                  color: state.data && state.data.value === "create-new-account" ? "black" : "black",
-                }),
-              }}
-            />
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style}>
-                <CreateNewAccountForm />
-              </Box>
-            </Modal>
+          <div className='btnsss_task'>
+            <button type="button" className="btn-submit_cancel_task">Cancel</button>
+            <button type="button" className="btn-submit_save_task">Save as Draft</button>
+            <button type="submit" className="btn-submit_submit_task" onClick={handleSubmit}>Submit</button>
           </div>
         </div>
-        <div className="submit">
-          <button type="submit" className="btn btn-primary">
-            Save
-          </button>
+        <div className="form_task_form">
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="subject" className="form_row_head">Subject</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="subject"
+                  name="subject"
+                  value={taskData.subject}
+                  onChange={handleChange}
+                  placeholder="Enter subject"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="due_date" className="form_row_head">Due Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="due_date"
+                  name="due_date"
+                  value={taskData.due_date}
+                  onChange={handleChange}
+                  placeholder="Enter due date"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="status" className="form_row_head">Status</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="status"
+                  name="status"
+                  value={taskData.status}
+                  onChange={handleChange}
+                  placeholder="Enter status"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="priority" className="form_row_head">Priority</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="priority"
+                  name="priority"
+                  value={taskData.priority}
+                  onChange={handleChange}
+                  placeholder="Enter priority"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="createdBy" className="form_row_head">Created By</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="createdBy"
+                  name="createdBy"
+                  value={taskData.createdBy}
+                  onChange={handleChange}
+                  placeholder="Enter created By"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="contact" className="form_row_head">Contact</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="contact"
+                  name="contact"
+                  value={taskData.contact}
+                  onChange={handleChange}
+                  placeholder="Enter contact"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="description" className="form_row_head">Description</label>
+                <input
+                  type="text"
+                  className="form-task_description"
+                  id="description"
+                  name="description"
+                  value={taskData.description}
+                  onChange={handleChange}
+                  placeholder="Enter description"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="account" className="form_row_head">Account</label>
+                <Select
+                  className="form-control_account"
+                  options={[
+                    ...filteredOptions.map((option) => ({
+                      value: option.Name,
+                      label: option.Name,
+                    })),
+                    { value: "create-new-account", label: "Create New Account" },
+                  ]}
+                  onChange={handleSelectChange}
+                  styles={{
+                    option: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: state.data && state.data.value === "create-new-account" ? "lightblue" : "white",
+                      color: state.data && state.data.value === "create-new-account" ? "black" : "black",
+                    }),
+                  }}
+                />
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <CreateNewAccountForm />
+                  </Box>
+                </Modal>
+              </div>
+            </div>
+            <div className="submit">
+              <button type="submit" className="btn btn-primary__">
+                Save
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

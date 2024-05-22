@@ -39,6 +39,8 @@ import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsP
 import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
+import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
+import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -179,6 +181,8 @@ export const RouteWrapper = () => {
           <Route path="/addinteraction" element={<AddInteractionForm/>} />
           <Route path="/interaction/:id" element={<InteractionDetailsPage/>} />
           <Route path="/flow2" element={<FlowGraph2/>}/>
+          <Route path="/instagramflow" element={<InstagramFlow/>}/>
+          <Route path="/whatsappflow" element={<WhatsappFlow/>}/>
         </>
       )}
 

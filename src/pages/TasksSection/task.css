@@ -10,6 +10,40 @@
     
     
 }
+.create1{
+  height: 34px;
+padding: 0 12px;
+margin-top: -5px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 25px;
+font-weight: 400;
+color: #FFFFFFFF;
+background: #62CD14FF;
+opacity: 1;
+border: none;
+border-radius: 4px;
+
+}
+.task_header{
+  font-family: 'Lexend';
+  font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+}
+.meet1{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.excel_header_task{
+  display: flex;
+  gap: 20px;
+}
 .info5{
 
   background-color: #ffffff;
@@ -62,3 +96,66 @@ li{
     border-radius: 4px;
     width: 150px;
 }  
+.table_head{
+  margin-top: 100px;
+  width: 1253px;
+  height: 893px;
+  opacity: 1;
+  border-radius: 8px;
+  box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+}
+.table_Subject,.table_status,.table_due,.table_priority,.table_description,.table_contact {
+  font-family: 'Lexend';
+font-size: 14px;
+line-height: 22px;
+font-weight: 600;
+color: #565D6DFF;
+}
+.task_status{
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #171A1FFF;
+}
+.task_due_date{
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #9095A1FF;
+}
+.task_due_date,.task_priority,.task_description,.task_contact{
+  font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #565D6DFF;
+}
+.tasks-tiles-container {
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(270px,0fr)); 
+  gap: 30px; 
+  justify-content: flex-start; 
+  margin: 70px auto; 
+}
+.task-tile {
+  background-color: #ffffff;
+  margin-bottom: 4px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  max-width: 280px; /* Maximum width for each tile */
+  height: 180px; /* Adjust tile height */
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add initial drop shadow */
+  transition: all 0.3s ease; /* Add transition for smooth effect */
+}
+
+.task-tile:hover {
+  transform: translateY(-5px); /* Move tile up on hover */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Add larger drop shadow on hover */
+}

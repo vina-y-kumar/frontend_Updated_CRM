@@ -6,9 +6,17 @@ import { NavLink,Link } from 'react-router-dom';
 import axios from "axios";
 import "./task.css";
 import * as XLSX from "xlsx";
-
-
+import axiosInstance from "../../api.jsx";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 export const TaskTable = () => {
+  const tenantId=getTenantIdFromUrl();
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
@@ -32,9 +40,7 @@ export const TaskTable = () => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await axios.get(
-          "https://backendcrmnurenai.azurewebsites.net/tasks/"
-        );
+        const response = await axiosInstance.get('/tasks/');
         setTasks(response.data);
       } catch (error) {
         console.error("Error fetching accounts:", error);
@@ -65,7 +71,7 @@ export const TaskTable = () => {
         </div>
         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
-          <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn3">
+          <Link to={`/${tenantId}/bulk-import?model=${modelName}`} className="import-excel-btn3">
         Import Excel
       </Link>
           <button onClick={handleDownloadExcel} className="excel-download-btn">
@@ -91,7 +97,7 @@ export const TaskTable = () => {
                 <option value="2">Log out</option>
               </select> 
               <div className="create1">
-                <NavLink to="/addtask" id="btn1"> Create Task</NavLink>
+                <NavLink to={`/${tenantId}/addtask`} id="btn1"> Create Task</NavLink>
               </div>
             </div>
           </div>
@@ -143,7 +149,7 @@ export const TaskTable = () => {
                 <tr key={task.id}>
                   
                   <td>
-                    <Link to={`/tasks/${task.id}`}>
+                    <Link to={`/${tenantId}/tasks/${task.id}`}>
                       {task.subject}
                     </Link>
                   </td>
@@ -168,7 +174,7 @@ export const TaskTable = () => {
               <Card key={task.id} className="account-tile">
                 <Card.Body>
                   <Card.Title>
-                    <Link to={`/tasks/${task.id}`}>
+                    <Link to={`/${tenantId}/tasks/${task.id}`}>
                       {task.subject}
                     </Link>
                   </Card.Title>
@@ -190,7 +196,7 @@ export const TaskTable = () => {
             <ListGroup>
               {tasks.map((task, index) => (
                 <ListGroup.Item key={task.id} className="accounts-list-item">
-                  <Link to={`/tasks/${task.id}`}>{task.subject}</Link>
+                  <Link to={`/${tenantId}/tasks/${task.id}`}>{task.subject}</Link>
                   <p>Status: {task.status}</p>
                   <p>Due Date: {task.due_date}</p>
                   <p>Description: {task.description}</p>

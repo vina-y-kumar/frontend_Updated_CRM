@@ -166,7 +166,7 @@ export const Sidebar = () => {
               </NavLink>
             </li>
             <li className="sidebar_item">
-              <NavLink className="sidebar_link" to="/campaign">
+             <NavLink className="sidebar_link" to={formatLink("/campaign")}>
                 <span style={{ display: 'flex', alignItems:'center' }}>
                   {/* <img
                     src={Interaction}

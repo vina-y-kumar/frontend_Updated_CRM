@@ -9,7 +9,6 @@ import { AccountsTable } from "../pages/AccountsSection";
 import { ContactsTable } from "../pages/ContactsTable";
 import { Opportunities } from "../pages/opportunities";
 import Dashboard from "../pages/dashboard";
-import KanbanBoard from "../components/Kanban/Kanban11";
 import Lead from "../pages/Lead/AddLead/Lead";
 // import Kanban1 from "../components/Kanban/Kanban1";
 import Met from "../pages/Meetings/met";
@@ -150,7 +149,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/lead" element={<LeadPage />} />
           <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
-          <Route path=":tenant_id/kanban" element={<KanbanBoard />} />
+       
           <Route path=":tenant_id/addlead" element={<Lead/>} />
           {/*<Route path="/addform" element={<Form1/>} />*/}
           <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
@@ -175,6 +174,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/FB" element={<FaceB/>}/>
           <Route path=":tenant_id/addinteraction" element={<AddInteractionForm/>} />
           <Route path=":tenant_id/interaction/:id" element={<InteractionDetailsPage/>} />
+          <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
+          <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
         </>
       )}
 

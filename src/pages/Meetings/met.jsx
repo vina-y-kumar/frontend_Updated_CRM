@@ -5,9 +5,10 @@ import "./meetings.css";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
-
+import axiosInstance from "../../api";
 import * as XLSX from "xlsx"; 
 import io from 'socket.io-client';
+import { useAuth } from "../../authContext";
 
 const ReminderPopup = ({ subject }) => {
   return (
@@ -16,16 +17,22 @@ const ReminderPopup = ({ subject }) => {
       </div>
   );
 };
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
-
+  const {userId}=useAuth;
+  const tenantId = getTenantIdFromUrl();
   const modelName = "Meetings";
-
   
-
-
 
   const [formData, setFormData] = useState({
     title: "",
@@ -40,7 +47,7 @@ const Met = () => {
   
   
  
-  useEffect(() => {
+  /*useEffect(() => {
     const socket = new WebSocket('ws://127.0.0.1:8000/ws/reminders/');
   socket.onopen = function(event) {
     console.log('WebSocket connection established.');
@@ -63,22 +70,23 @@ socket.onerror = function(event) {
     return () => {
         socket.close();
     };
-}, []);
-  useEffect(() => {
-    axios
-      .get("https://backendcrmnurenai.azurewebsites.net/meetings/", {
+}, []);*/
+useEffect(() => {
+  const fetchMeetings = async () => {
+    try {
+      const response = await axiosInstance.get('/meetings/', {
         headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
+          token: localStorage.getItem('token'),
         },
-      })
-      .then((response) => {
-        setMeetings(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching meetings data:", error);
       });
-  }, []);
+      setMeetings(response.data);
+    } catch (error) {
+      console.error("Error fetching meetings data:", error);
+    }
+  };
+
+  fetchMeetings();
+}, []);
 
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
@@ -108,16 +116,15 @@ socket.onerror = function(event) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://backendcrmnurenai.azurewebsites.net/meetings/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token"),
-          },
-        }
-      );
+       // Get tenant ID from the URL
+      const dataToSend = {
+        ...formData,
+        createdBy: userId, // Pass userId as createdBy
+        tenant: tenantId,
+        participants:1,
+      };
+      const response = await axiosInstance.post('/meetings/',dataToSend);
+      
       console.log("Meeting created successfully:", response.data);
       setMeetings([...meetings, response.data]);
       setModalOpen(false);
@@ -173,7 +180,7 @@ socket.onerror = function(event) {
           <Dropdown.Menu>
             <Dropdown.Item>
               <Link
-                to={`/bulk-import?model=${modelName}`}
+                to={`/${tenantId}/bulk-import?model=${modelName}`}
                 className="import-excel-btn5"
               >
                 Import Excel
@@ -266,6 +273,7 @@ socket.onerror = function(event) {
                       value={formData.related_to}
                       onChange={handleChange}
                     />
+                    
                     {/* <label className="form-label" htmlFor="contactName">Contact Name:</label>
                     <input type="text" name="contactName" id="contactName" className="form-input" required value={formData.contactName} onChange={handleChange} />
                      */}
@@ -355,7 +363,7 @@ socket.onerror = function(event) {
               <Card key={meeting.id} className="account-tile">
                 <Card.Body>
                   <Card.Title>
-                    <Link to={`/meetings/${meeting.id}`}>
+                    <Link to={`/${tenantId}/meetings/${meeting.id}`}>
                       {meeting.title}
                     </Link>
                   </Card.Title>
@@ -377,7 +385,7 @@ socket.onerror = function(event) {
             <ListGroup>
               {meetings.map((meeting, index) => (
                 <ListGroup.Item key={meeting.id} className="accounts-list-item">
-                  <Link to={`/meetings/${meeting.id}`}>{meeting.title}</Link>
+                  <Link to={`/${tenantId}/meetings/${meeting.id}`}>{meeting.title}</Link>
                   <p>From: {meeting.from_time}</p>
                   <p>To: {meeting.to_time}</p>
                   <p>Related To: {meeting.related_to}</p>

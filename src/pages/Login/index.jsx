@@ -4,12 +4,20 @@ import Spline from "@splinetool/react-spline";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../authContext";
 import { useNavigate } from "react-router-dom";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { authenticated, login } = useAuth(); // Using login from useAuth
-  const [tenantId, setTenantId] = useState('');
+  const tenantId=getTenantIdFromUrl();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -21,7 +29,7 @@ export const Login = () => {
     };
 
     // Send a POST request to the backend
-    fetch('http://127.0.0.1:8000/login/', {
+    fetch('https://webappbaackend.azurewebsites.net/login/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -38,7 +46,7 @@ export const Login = () => {
       // Handle successful login response
       alert('Login successful');
       // Update authentication state and store user data
-      login(data.user_id); // Assuming your backend returns user data in `data.user`
+      login(data.user_id,data.tenant_id); // Assuming your backend returns user data in `data.user`
       // Redirect to the home page with the tenant_id received from the backend
       const tenantId = data.tenant_id;
       navigate(`/${tenantId}/home`);
@@ -50,12 +58,12 @@ export const Login = () => {
     });
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (authenticated) {
       // Redirect to the home page if user is authenticated
       navigate(`/${tenantId}/home`);
     }
-  }, [authenticated, navigate]);
+  }, [authenticated, navigate]);*/
 
   return (
     <div className="login">

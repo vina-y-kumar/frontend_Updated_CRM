@@ -26,7 +26,7 @@ function CreateNewAccountForm() {
         createdBy: userId, // Pass userId as createdBy
         tenant: tenantId,
       };
-
+  
       const response = await axiosInstance.post('/accounts/', dataToSend);
       console.log('Form submitted successfully:', response.data);
       setAccountData({
@@ -38,7 +38,6 @@ function CreateNewAccountForm() {
       console.error('Error submitting form:', error);
     }
   };
-
   // Function to extract tenantId from the current URL
   const getTenantIdFromUrl = () => {
     // Example: Extract tenant_id from "/3/home"

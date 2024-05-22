@@ -5,10 +5,17 @@ import "./task.css";
 import { NavLink,Link } from 'react-router-dom';
 import Modal from "react-modal";
 import "./TaskTable.jsx";
-
-
+import axiosInstance from "../../api.jsx";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 export const Taskinfo=()=>{
-
+  const tenantId = getTenantIdFromUrl();
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -42,9 +49,8 @@ export const Taskinfo=()=>{
             useEffect(() => {
                 const fetchTaskData = async () => {
                   try {
-                    const response = await axios.get(
-                      `https://backendcrmnurenai.azurewebsites.net/tasks/${id}`
-                    );
+                    const response = await axiosInstance.get(`/tasks/${id}`);
+                  
                     setAddTaskTable(response.data);
                   } catch (error) {
                     console.error("Error fetching account data:", error);
@@ -53,20 +59,7 @@ export const Taskinfo=()=>{
             
                 fetchTaskData();
               }, [id]);
-              useEffect(() => {
-                const fetchAccounts = async () => {
-                  try {
-                    const response = await axios.get(
-                      "https://backendcrmnurenai.azurewebsites.net/tasks/"
-                    );
-                    setTasks(response.data);
-                  } catch (error) {
-                    console.error("Error fetching accounts:", error);
-                  }
-                };
-            
-                fetchAccounts();
-              }, []);
+             
               const handleChange = (event) => {
                 setAddTaskTable({
                   ...addtasktable,
@@ -85,35 +78,7 @@ export const Taskinfo=()=>{
                     Notes: "",
                   });
                 };
-                const handleSubmit = async (event) => {
-                    event.preventDefault();
-                    try {
-                      const response = await axios.post(
-                        "https://backendcrmnurenai.azurewebsites.net/tasks/",
-                        addtasktable
-                      );
-                      console.log("contact Information submitted :", response.data);
-                      setAddTaskTable({
-                        subject: "",
-                        due_date: "",
-                        status: "",
-                        priority: "",
-                        description: "",
-                        contact: null,
-                        account: "",
-                        createdBy: "",
-                        related_to:"",
-                        Reminder:"",
-                        repeat:"",
-                        closedTime:"",
-                        Notes:"",
-                        modifiedBy:"",
-                       
-                      });
-                    } catch (error) {
-                      console.error("Error In contact Information:", error);
-                    }
-                  };
+            
                   const handleAttach = () => {
                     console.log("Attach happened");
                   };
@@ -170,7 +135,7 @@ export const Taskinfo=()=>{
                         <ul>
   {tasks.map((task, index) => (
     <li key={task.id}>
-      <Link to={`/tasks/${task.id}`} >
+      <Link to={`/${tenantId}/tasks/${task.id}`} >
         {task.subject}
       </Link>
     </li>

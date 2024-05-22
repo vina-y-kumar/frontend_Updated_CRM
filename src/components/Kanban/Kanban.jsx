@@ -4,8 +4,17 @@ import "./style.css";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { sendEmail } from './email.jsx'; // Import the sendEmail function
-
+import axiosInstance from "../../api.jsx";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 function Kanban() {
+  const tenantId = getTenantIdFromUrl();
   const [columns, setColumns] = useState({
     new: { title: "New", cards: [], bg: "#15ABFFFF" },
     proposals: { title: "Proposals", cards: [], bg: "#15ABFFFF" },
@@ -16,7 +25,7 @@ function Kanban() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://backendcrmnurenai.azurewebsites.net/leads/');
+        const response = await axiosInstance.get('/leads/');
         const leads = response.data;
         
 
@@ -124,7 +133,7 @@ function Kanban() {
           createdBy: movedCard.createdBy,
         };
         // Make a PUT request to update the lead status in the backend
-        await axios.put(`https://backendcrmnurenai.azurewebsites.net/leads/${movedCard.id}/`, leadData);
+        await axiosInstance.put(`/leads/${movedCard.id}/`, leadData);
       } catch (error) {
         console.error('Error sending email or updating lead status:', error);
       }
@@ -195,16 +204,16 @@ function Kanban() {
                                 </div>
                                 <div className="content_">
                                   {columnId === 'new' && (
-                                    <NavLink to={`/ShowLead/${card.id}`}>
+                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
                                       <div className="c1">{card.name}</div>
                                     </NavLink>
                                   )}
                                   {columnId !== '0' ? (
-                                    <NavLink to={`/ShowLead/${card.id}`}>
+                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
                                       <div className="c1">{card.name}</div>
                                     </NavLink>
                                   ) : (
-                                    <NavLink to={`/lead/${card.id}`}>
+                                    <NavLink to={`/${tenantId}/lead/${card.id}`}>
                                       <div className="c1">{card.name}</div>
                                     </NavLink>
                                   )}

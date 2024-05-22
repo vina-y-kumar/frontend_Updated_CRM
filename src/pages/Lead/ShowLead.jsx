@@ -4,7 +4,7 @@ import "./LeadPage.css";
 import { useParams, NavLink } from "react-router-dom";
 import RelatedList1 from "./RelatedList1.jsx";
 import ConvertLead from "./ConvertLead.jsx";
-
+import axiosInstance from "../../api.jsx";
 const ShowLead = () => {
   const [ShowLead, setShowLead] = useState({
     first_name: "",
@@ -34,9 +34,8 @@ const ShowLead = () => {
   useEffect(() => {
     const fetchformData = async () => {
       try {
-        const response = await axios.get(
-          `https://backendcrmnurenai.azurewebsites.net/leads/${id}`
-        );
+        const response = await axiosInstance.get(`/leads/${id}`);
+
         setShowLead(response.data);
       } catch (error) {
         console.error("Error fetching account data:", error);

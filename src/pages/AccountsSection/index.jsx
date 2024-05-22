@@ -7,8 +7,16 @@ import React, { useState, useEffect } from 'react';
 import './AccountForm.jsx';
 import { NavLink } from 'react-router-dom';
 
-
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 export const AccountsTable = () => {
+  const tenantId = getTenantIdFromUrl();
   const handleAllCalls1 = (event) => {
     console.log("Filter by: ", event.target.value);
   };
@@ -69,7 +77,7 @@ export const AccountsTable = () => {
                 <option value="2">Log out</option>
               </select>  */}
               <div className="create1">
-                <NavLink to="/addaccount" id="btn3">+CreateAccount</NavLink>
+                <NavLink to={`/${tenantId}/addaccount`} id="btn3">+CreateAccount</NavLink>
               </div>
             </div>
           </div>

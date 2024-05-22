@@ -11,7 +11,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-
+import axiosInstance from '../../api';
 
 const Campaign = () => {
   const modelName = "campaigns";
@@ -38,9 +38,7 @@ const Campaign = () => {
   }, []);
   const fetchCampaigns = async () => {
     try {
-      const response = await fetch(
-        "https://backendcrmnurenai.azurewebsites.net/campaign/"
-      );
+      const response = await axiosInstance.get('/campaign/');
       const data = await response.json();
       setCampaigns(data);
       setFilteredCampaigns(data);

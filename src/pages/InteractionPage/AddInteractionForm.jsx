@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AddInteractionForm.css"; 
-
+import axiosInstance from "../../api";
 
 const AddInteractionForm = () => {
   const [formData, setFormData] = useState({
@@ -23,15 +23,9 @@ const AddInteractionForm = () => {
     event.preventDefault();
     try {
       // Send a POST request to the backend API with the form data
-      const response = await fetch("https://backendcrmnurenai.azurewebsites.net/interaction/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (response.ok) {
+      const response = await axiosInstance.post("/interaction/", formData);
+  
+      if (response.status === 200 || response.status === 201) {
         // Navigate to the interaction page after successful form submission
         window.location.href = "/interaction"; // Replace "/interaction" with the actual URL of the interaction page
       } else {
@@ -40,34 +34,49 @@ const AddInteractionForm = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-};
+  };
 
   return (
     <div className="form-container">
       <h1 className="form-title">Add Interaction Form</h1>
       <form onSubmit={handleSubmit}>
       <div className="form-field">
-          <label htmlFor="id" className="label">ID:</label>
+          <label htmlFor="id" className="labelforinteraction">Entity Id:</label>
           <input type="text" id="id" name="id" value={formData.id} onChange={handleChange} className="input-field" />
         </div>
         <div className="form-field">
-          <label htmlFor="entity_id" className="label">Entity ID:</label>
+          <label htmlFor="entity_id" className="labelforinteraction">Entity Type:</label>
           <input type="text" id="entity_id" name="entity_id" value={formData.entity_id} onChange={handleChange} className="input-field" />
         </div>
         <div className="form-field">
-          <label htmlFor="interaction_type" className="label">Interaction Type:</label>
-          <input type="text" id="interaction_type" name="interaction_type" value={formData.interaction_type} onChange={handleChange} className="input-field" />
+          <label htmlFor="interaction_type" className="labelforinteraction">
+            Interaction Type:
+          </label>
+          <select
+            id="interaction_type"
+            name="interaction_type"
+            value={formData.interaction_type}
+            onChange={handleChange}
+            className="input-field"
+            required
+          >
+            <option value="">Select Interaction Type</option>
+            <option value="Call">Call</option>
+            <option value="Email">Email</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Note">Note</option>
+          </select>
         </div>
         <div className="form-field">
-          <label htmlFor="interaction_datetime" className="label">Interaction Datetime:</label>
+          <label htmlFor="interaction_datetime" className="labelforinteraction">Interaction Datetime:</label>
           <input type="datetime-local" id="interaction_datetime" name="interaction_datetime" value={formData.interaction_datetime} onChange={handleChange} className="input-field" />
         </div>
         <div className="form-field">
-          <label htmlFor="notes" className="label">Notes:</label>
+          <label htmlFor="notes" className="labelforinteraction">Notes:</label>
           <textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} className="textarea-field" />
         </div>
         <div className="form-field">
-          <label htmlFor="entity_type" className="label">Entity Type:</label>
+          <label htmlFor="entity_type" className="labelforinteraction">Entity Type:</label>
           <input type="text" id="entity_type" name="entity_type" value={formData.entity_type} onChange={handleChange} className="input-field" />
         </div>
         <button type="submit" className="submit-button">Submit</button>

@@ -2,14 +2,22 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
-
+import axiosInstance from "../../api";
 
 import * as XLSX from "xlsx"; // Importing xlsx library
 
-
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 export const ContactsTable = () => {
   const [contacts, setContacts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
+  const tenantId=getTenantIdFromUrl();
   const [newContact, setNewContact] = useState({
     first_name: "",
     account: "",
@@ -30,17 +38,14 @@ export const ContactsTable = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(
-        "https://backendcrmnurenai.azurewebsites.net/contacts/"
-      );
-      const data = await response.json();
+      const response = await axiosInstance.get('/contacts/');
+      const data = response.data;
       setContacts(data);
       setFilteredContacts(data);
     } catch (error) {
       console.error("Error fetching contacts:", error);
     }
   };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewContact((prevState) => ({
@@ -196,7 +201,7 @@ export const ContactsTable = () => {
         </Dropdown>
         </div>
           <div className="handle4">
-          <NavLink to="/addcontact" id="btn10">
+          <NavLink to={`/${tenantId}/addcontact`} id="btn10">
                 +CreateContact
               </NavLink>
             {/* <select onChange={handlePlusClick1} className="view-mode-select">
@@ -219,7 +224,7 @@ export const ContactsTable = () => {
         <div className="contact-boxes">
         <div className="contact-bigboxes">
   <h1 className="newcontact">New contacts this Week</h1>
-  <Link to={`/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
+  <Link to={`/${tenantId}/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
                 <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1>
                 <p className="paragraph1">{contacts.length > 0 && contacts[0].description}</p>
                 {/* Smiley */}
@@ -227,7 +232,7 @@ export const ContactsTable = () => {
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/contactinfo/${contacts[2]?.id}`} className="secondcontact-box">
+              <Link to={`/${tenantId}/contactinfo/${contacts[2]?.id}`} className="secondcontact-box">
                 <h1 className="heading2">{contacts.length > 2 && contacts[2].first_name}</h1>
                 <p className="paragraph2">{contacts.length > 2 && contacts[2].description}</p>
                 {/* Smiley */}
@@ -235,7 +240,7 @@ export const ContactsTable = () => {
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/contactinfo/${contacts[3]?.id}`} className="thirdcontact-box">
+              <Link to={`/${tenantId}/contactinfo/${contacts[3]?.id}`} className="thirdcontact-box">
                 <h1 className="heading3">{contacts.length > 3 && contacts[3].first_name}</h1>
                 <p className="paragraph3">{contacts.length > 3 && contacts[3].description}</p>
                 {/* Smiley */}
@@ -348,7 +353,7 @@ export const ContactsTable = () => {
                       <td>
                         {generateSmiley(generateRandomColor())}
                         <div className="cont-first_name">
-                        <Link to={`/contactinfo/${contact.id}`}>
+                        <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
 
                           {contact.first_name}
                           </Link></div>
@@ -396,7 +401,7 @@ export const ContactsTable = () => {
               <div className="contact-index">
               {contacts.map((contact, index) => (
                 <div className={`contact-tile tile-${index + 1}`} key={contact.id}>
-                  <Link to={`/contactinfo/${contact.id}`} className="contact-link">
+                  <Link to={`/${tenantId}/contactinfo/${contact.id}`} className="contact-link">
                   
                     <div className="tile-header1"><p> {contact.first_name+" "+contact.last_name}</p></div>
                   </Link>
@@ -441,7 +446,7 @@ export const ContactsTable = () => {
               <ListGroup >
                 {contacts.map((contact, index) => (
                   <ListGroup.Item key={contact.id} className="accounts-list-item" >
-                    <Link to={`/contactinfo/${contact.id}`}>{contact.first_name+" "+contact.last_name}</Link>
+                    <Link to={`/${tenantId}/contactinfo/${contact.id}`}>{contact.first_name+" "+contact.last_name}</Link>
                     <p>Phone Number: {contact.phone}</p>
                     <p>Description: {contact.description}</p>
                     <p>Address: {contact.address}</p>

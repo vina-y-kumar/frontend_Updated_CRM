@@ -8,6 +8,16 @@ import CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
 import Select from "react-select";
 import "./opportunities.css";
 import "./index.jsx";
+import axiosInstance from "../../api.jsx";
+import { useAuth } from "../../authContext.jsx";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 
 const Form3 = () => {
     const style = {
@@ -23,8 +33,8 @@ const Form3 = () => {
         px: 4,
         pb: 3,
     };
-
-    const { tenantId } = useParams(); // Get tenantId from route params
+    const {userId}=useAuth();
+    const tenantId = getTenantIdFromUrl(); // Get tenantId from route params
 
     const [open, setOpen] = React.useState(false);
 
@@ -64,12 +74,12 @@ const Form3 = () => {
 
     const fetchAccountOptions = async () => {
         try {
-            const response = await axios.get(
-                `https://backendcrmnurenai.azurewebsites.net/${tenantId}/accounts/`
-            );
+          const response = await axiosInstance.get('/accounts/');
+      
             console.log("Account options response:", response.data);
             setAccountOptions(response.data);
             setFilteredOptions(response.data);
+            
         } catch (error) {
             console.error("Error fetching account options:", error);
         }
@@ -77,7 +87,7 @@ const Form3 = () => {
 
     useEffect(() => {
         fetchAccountOptions();
-    }, [tenantId]);
+    }, []);
 
     const handleAccountSearch = (event) => {
         const searchQuery = event.target.value.toUpperCase();
@@ -96,17 +106,23 @@ const Form3 = () => {
         if (selectedOption && selectedOption.value === "create-new-account") {
             handleOpen();
         } else {
-            setOppourtunityData({ ...oppourtunityData, account: selectedOption });
+          setOppourtunityData((prevData) => ({
+            ...prevData,
+            account: selectedOption.id,  // Store only the account ID
+          }));
         }
     };
 
     const handleOpportunitySubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(
-                `https://backendcrmnurenai.azurewebsites.net/${tenantId}/opportunities/`,
-                oppourtunityData
-            );
+          const dataToSend = {
+            ...oppourtunityData,
+            createdBy: userId, // Pass userId as createdBy
+            tenant: tenantId,
+          };
+          const response = await axiosInstance.post('/opportunities/',dataToSend);
+           
             console.log("Form submitted successfully:", response.data);
             setOppourtunityData({
                 name: "",
@@ -287,7 +303,7 @@ const Form3 = () => {
                   <Select
                     options={[
                       ...filteredOptions.map((option) => ({
-                        value: option.Name,
+                        value: option.id,
                         label: option.Name,
                       })),
                       { value: "create-new-account", label: "Create New Account" },
@@ -298,7 +314,7 @@ const Form3 = () => {
                       oppourtunityData.account.value &&
                       oppourtunityData.account.label
                         ? {
-                            value: oppourtunityData.account.value,
+                            value: oppourtunityData.account.id,
                             label: oppourtunityData.account.label,
                           }
                         : null

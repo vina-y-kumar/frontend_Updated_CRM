@@ -11,7 +11,7 @@ const InteractionDetailsPage = () => {
   useEffect(() => {
     const fetchInteraction = async () => {
       try {
-        const response = await fetch(`https://backendcrmnurenai.azurewebsites.net/interaction`);
+        const response = await axiosInstance.get('/interaction/');
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

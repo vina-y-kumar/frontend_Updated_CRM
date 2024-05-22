@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
-
+import axiosInstance from "../../api";
 
 
 export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }) => {
@@ -107,7 +107,7 @@ const modelName = "calls";
  */
     const fetchCalls = async () => {
     try {
-      const response = await axios.get("https://backendcrmnurenai.azurewebsites.net/calls/", {
+      const response = await axiosInstance.get('/calls/', {
         headers: {
           "Content-Type": "application/json",
           token: localStorage.getItem("token"),
@@ -127,21 +127,6 @@ const modelName = "calls";
     setViewMode(mode);
   };
 
-useEffect(() => {
-  axios
-    .get("https://backendcrmnurenai.azurewebsites.net/calls/", {
-      headers: {
-        "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
-    })
-    .then((response) => {
-      setCalls(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching meet data:', error);
-    });
-}, []);
 
 
 
@@ -168,18 +153,18 @@ const handleCreateCall = async (e) => {
   e.preventDefault();
   console.log("Form submit event:", e);
 
-  const apptValue = e.target.appt?.value || "";
+  /*const apptValue = e.target.appt?.value || "";
   const timeValue = e.target.time?.value || "";
 
   if (!apptValue || !timeValue) {
     console.error("Missing appt or time value");
     return;
-  }
+  }*/
 
-  const startTime = new Date(apptValue).toISOString();
+  /*const startTime = new Date(apptValue).toISOString();
   const toTime = new Date(new Date().setHours(...timeValue.split(":"))).toISOString();
-
-  const formData = {
+*/
+  /*const formData = {
     location: e.target.location?.value || "",
     call_type: e.target.related_to?.value || "",
     start_time: startTime,
@@ -187,19 +172,15 @@ const handleCreateCall = async (e) => {
     related_to: e.target.related_to ? e.target.related_to.value : "",
     createdBy: e.target.createdBy ? e.target.createdBy.value : "",
     outgoing_status: e.target.repeat ? e.target.repeat.value : "",
-  };
+  };*/
 
   try {
-    const response = await axios.post(
-      "https://backendcrmnurenai.azurewebsites.net/calls/",
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      }
-    );
+    const dataToSend = {
+      ...formData,
+      createdBy: userId, // Pass userId as createdBy
+      tenant: tenantId,
+    };
+    const response = await axiosInstance.post('/calls/',dataToSend);
     console.log("Call logged successfully:", response.data);
     closeModal();
     fetchCalls();
@@ -207,66 +188,6 @@ const handleCreateCall = async (e) => {
     console.error("Error logging call:", error);
   }
 };
-
-
-
-
-useEffect(() => {
-  axios
-    .get("https://backendcrmnurenai.azurewebsites.net/calls/", {
-      headers: {
-        "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
-    })
-    .then((response) => {
-      setCalls(response.data); 
-    })
-    .catch((error) => {
-      console.error('Error fetching meet data:', error);
-    });
-}, []);
-/*const handleScheduleMeeting = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post(
-      "https://backendcrmnurenai.azurewebsites.net/reminders/",
-      scheduleData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Meeting scheduled successfully:", response.data);
-  
-    closeModal();
-    fetchCalls(); 
-const timeTrigger = new Date(scheduleData.time_trigger).getTime();
-
-   
-    const now = new Date().getTime();
-
-    
-    const timeDifference = timeTrigger - now;
-  if (timeDifference > 0) {
-      setTimeout(() => {
-        const reminderMessage = `Reminder: Scheduled call '${scheduleData.subject}' starting soon!`;
-        setReminderMessage(reminderMessage);
-
-        const reminder = {
-          id: response.data.id,
-          message: reminderMessage,
-        };
-        setReminders([...reminders, reminder]);
-      }, timeDifference);
-    }
-  } 
-  catch (error) {
-    console.error("Error scheduling meeting:", error);
-  }
-};*/
 
 
 
@@ -341,7 +262,7 @@ const timeTrigger = new Date(scheduleData.time_trigger).getTime();
            
             <dialog id="modal1" open={modalOpen}>
   <div className="meeting-form-container10">
-    <form onSubmit={handleCreateCall} id="meeting-form">
+    <form onSubmit={handleScheduleMeeting} id="meeting-form">
       <fieldset className="form-fieldset">
         <legend className="form-legend_log">Log a Call</legend>
         <label className="labelcall-location" htmlFor="location">

@@ -3,11 +3,13 @@ import axios from 'axios';
 import "./accountsSection.css";
 import {Link, useParams } from "react-router-dom";
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
-
+import { useAuth } from '../../authContext';
 import { Header } from '../../components/Header';
+import axiosInstance from '../../api';
 
 
 function AccountForm() {
+  const { userId } = useAuth();
   const [accountData, setAccountData] = useState({
     Name: '',
     email:'',
@@ -40,6 +42,14 @@ function AccountForm() {
 
 
   });
+  const getTenantIdFromUrl = () => {
+    // Example: Extract tenant_id from "/3/home"
+    const pathArray = window.location.pathname.split('/');
+    if (pathArray.length >= 2) {
+      return pathArray[1]; // Assumes tenant_id is the first part of the path
+    }
+    return null; // Return null if tenant ID is not found or not in the expected place
+  };
 
   const handleChange = (event) => {
     setAccountData({
@@ -53,40 +63,19 @@ function AccountForm() {
     
 
     try {
-      const response = await axios.post('https://backendcrmnurenai.azurewebsites.net/accounts/', accountData);
+      const tenantId = getTenantIdFromUrl(); // Get tenant ID from the URL
+      const dataToSend = {
+        ...accountData,
+        createdBy: userId, // Pass userId as createdBy
+        tenant: tenantId,
+      };
+  
+      const response = await axiosInstance.post('/accounts/', dataToSend);
       console.log('Form submitted successfully:', response.data);
-      // console.log(formData);
-      // Reset form data after successful submission if needed
       setAccountData({
-     Name: '',
-     email:'',
-
-    AccountName: '',
-    AccountSite: '',
-    ParentAccount: '',
-    AccountNumber: '',
-    AccountType: '',
-    Industry: '',
-    AnnualRevenue: '',
-    BillingStreet: '',
-    BillingCity: '',
-    BillingState: '',
-    BillingCode: '',
-    BillingCountry: '',
-    Rating: '',
-    phone: '',
-    Fax: '',
-    Website: '',
-    TickerSymbol: '',
-    Ownership: '',
-    Employees: '',
-    SicCode: '',
-    ShippingStreet:'',
-    ShippingCountry:'',
-    ShippingState:'',
-    ShippingCity:'',
-    ShippingCode:'',
-    Description:'',
+        Name: '',
+        email: '',
+        phone: '',
       });
     } catch (error) {
       console.error('Error submitting form:', error);

@@ -4,10 +4,18 @@ import "./page.css";
 
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
+import axiosInstance from "../../api";
 
-
-
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 const AccountsPage = () => {
+  const tenantId=getTenantIdFromUrl();
   const companyInfo = {
     name: "Neuren AI",
     logo: "https://plus.unsplash.com/premium_photo-1675793715068-8cd9ce15f430?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bG9nb3xlbnwwfHwwfHx8MA%3D%",
@@ -25,16 +33,16 @@ const AccountsPage = () => {
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
-        const response = await axios.get(
-          `https://backendcrmnurenai.azurewebsites.net/accounts/${id}`
+        const response = await axiosInstance.get(
+          `/accounts/${id}`
         );
         setAccount(response.data);
-        console.log(account[0].Name);
+        console.log(response.data[0].Name);  // Adjusted to correctly access the name
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
     };
-
+  
     fetchAccountData();
   }, [id]);
 
@@ -122,7 +130,7 @@ const AccountsPage = () => {
         <div className="buttonss">
           <div className="pages1">
             <div className="relatedList-Accounts">
-              <Link to="/accounts"> Back</Link>
+              <Link to={`/${tenantId}/accounts`}> Back</Link>
             </div>
 
             {/* <RelatedList title="Related List" items={relatedListItems} /> */}

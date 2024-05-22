@@ -1,0 +1,38 @@
+/* Ensure the parent container uses flexbox to align children horizontally */
+.Insta_post {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.sidebar_container_for_insta{
+    display: flex;
+    
+}
+
+/* Sidebar styling to have a fixed width */
+.home_left_box {
+    flex-basis: 200px; /* Adjust this width as needed */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Header to take up remaining space */
+.Insta-header {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow it to grow and take remaining space */
+    width: 100%;
+}
+
+/* Main container that should display its children horizontally */
+.Instapost_main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+/* Other child divs that may need specific styling */
+.Instapost_main_left, .Instapost_main_right {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Make sure both sides take equal space */
+}

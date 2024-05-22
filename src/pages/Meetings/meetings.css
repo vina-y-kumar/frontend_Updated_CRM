@@ -26,29 +26,31 @@
 
 .page{
   border-radius: 4px;
-  position: relative;
-  left: 900px;
-  top: 90px;
+ margin-left: -130px;
+position: relative;
+top: 90px;
+
 }
-.create{
+
+
+.meet_client_meet{
   height: 34px;
-padding: 0 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: 'Manrope';
-font-size: 14px;
-line-height: 22px;
-font-weight: 400;
-color: #FFFFFFFF;
-background: #62CD14FF;
-opacity: 1;
-border: none;
-border-radius: 4px;
-gap: 6px;
+  padding: 0 12px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #62CD14FF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  gap: 6px;
 }
-
-
 
 
 #modal {
@@ -181,8 +183,28 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 800;
 color: #171A1FFF;
+margin-left: 20px;
+}
+.meeting-tile {
+  background-color: #ffffff;
+  margin-bottom: 4px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  max-width: 280px; /* Maximum width for each tile */
+  height: 180px; /* Adjust tile height */
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add initial drop shadow */
+  transition: all 0.3s ease; /* Add transition for smooth effect */
 }
 
+.meeting-tile:hover {
+  transform: translateY(-5px); /* Move tile up on hover */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Add larger drop shadow on hover */
+}
 
 .table10{
   margin-top: 100px;
@@ -191,7 +213,7 @@ color: #171A1FFF;
   opacity: 1;
   border-radius: 8px;
   box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
-  margin-left: -130px;
+  margin-left: -1100px;
 }
 .title-meet,.from_meet,.To_meet,.related_meet,.name_meet,.host_meet{
   font-family: 'Lexend';
@@ -273,6 +295,7 @@ top: 40px;
   position: relative;
   top: 90px;
   left: 60px;
+  color: #171a1f;
 
 }
 .form-input-location{
@@ -341,6 +364,15 @@ top: 40px;
   top: 280px;
   left: -90px;
 }
+
+.meetings-tiles-container {
+  display: flex; /* Change from grid to flex */
+  flex-wrap: wrap; /* Allow tiles to wrap to the next row */
+  justify-content: flex-start; /* Align tiles from left to right */
+  margin: 100px auto; /* Center the tiles horizontally */
+  margin-left: -1080px;
+}
+
 .form-input-totime{
   width: 260px;
   height: 36px;
@@ -404,7 +436,7 @@ top: 40px;
   }
 
   .page {
-    left: auto;
+    
     top: auto;
   }
 }
@@ -486,5 +518,68 @@ top: 40px;
 }
 
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: black;
+ 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.meetings-header{
+display: flex;
 
 
+}
+.meeting-header-buttons{
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  margin-left:700px ;
+}
+.view-mode-select-meet{
+  float: left;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid gray;
+  background-color: aliceblue;
+  text-align: center;
+  margin-left: -100px;
+  margin-top: 20px;
+
+  
+  
+}
+.meet_tile_view{
+  width: 114px;
+height: 22px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.meeting-list-container {
+  width: 150%;
+  height: 200px;
+
+}
+.meetings-list-item {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: aliceblue;
+
+}

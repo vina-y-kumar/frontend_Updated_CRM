@@ -22,6 +22,28 @@
 /* .pay_left_box {} */
 .head-section{
   display: flex;
+
+}
+.btn-container {
+  display: flex; /* Use flexbox */
+  gap: 20px; /* Add space between buttons */
+}
+
+.excel-dropdown-menu_lead,
+.view-mode-btn {
+  background-color: lightblue;
+  border-radius: 4px;
+  padding: 7px 10px; /* Adjust padding */
+  border: none;
+  cursor: pointer;
+}
+
+.import-excel-btn5 {
+  background-color: lightblue;
+  border-radius: 4px;
+  padding: 7px 10px; /* Adjust padding */
+  border: none;
+  cursor: pointer;
 }
 
 .button{
@@ -131,4 +153,25 @@ text-align: center;
   display: flex;
   flex-direction: row;
   gap: 20px;
+ 
 }
+.excel-dropdown-menu_lead {
+  /* Your custom styles here */
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 4px;
+  width: 77px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px 9px 12px;
+  margin-left: 900px;
+  margin-top: -35px;
+
+
+}
+

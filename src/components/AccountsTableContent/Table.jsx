@@ -120,16 +120,6 @@ const AccountsTable1 = () => {
 
 </div>
 
-      <select
-        value={viewMode}
-        onChange={(e) => handleViewModeChange(e.target.value)}
-        className="view-mode-select1"
-      >
-        <option value="">View!</option>
-        <option value="table">Table View</option>
-        <option value="tile">Tile View</option>
-        <option value="list">List View</option>
-      </select>
       <div className="file">
         <Dropdown>
           <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu">
@@ -155,6 +145,31 @@ const AccountsTable1 = () => {
           </Dropdown.Menu>
         </Dropdown>
       </div>
+      <div style={{display:'flex',flexDirection:'row'}}>
+      <select
+        value={viewMode}
+        onChange={(e) => handleViewModeChange(e.target.value)}
+        className="view-mode-select1"
+      >
+        <option value="">View!</option>
+        <option value="table">Table View</option>
+        <option value="tile">Tile View</option>
+        <option value="list">List View</option>
+      </select>
+      <div  className="activeInactivebtn">
+  <div className="activeInactivebtn1">
+  <button className="activeinactive">All Contacts</button>
+  </div>
+  <div className="activeInactivebtn2">
+  <button>Active</button>
+
+  </div>
+  <div className="activeInactivebtn3">
+  <button>Inactive</button>
+  </div>
+  </div>
+  </div>
+  
       <div className="accounts-container">
         <div className="accounts-header" style={{ width: "100%" }}>
           <h2 className="accountTableCenter">Accounts </h2>

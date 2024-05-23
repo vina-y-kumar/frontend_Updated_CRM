@@ -17,10 +17,7 @@ const getTenantIdFromUrl = () => {
 };
 export const AccountsTable = () => {
   const tenantId = getTenantIdFromUrl();
-  const handleAllCalls1 = (event) => {
-    console.log("Filter by: ", event.target.value);
-  };
-
+  
   const handleAction = (event) => {
     const selectedValue = event.target.value;
     console.log("Action required:", selectedValue);
@@ -54,13 +51,6 @@ export const AccountsTable = () => {
           <div className="meet1" >
 
         
-            <div className="Addcalls1">
-              <select className="view-mode-select" onChange={handleAllCalls1}>
-                <option value="">All Accounts</option>
-                <option value="1">Log in</option>
-                <option value="2">Log out</option>
-              </select>  
-            </div>
             <div className="accountlist">
           <h1 >Account list</h1>
           </div>

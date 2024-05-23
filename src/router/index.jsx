@@ -30,14 +30,15 @@ import AddTaskForm from "../pages/TasksSection/AddTask";
 import FlowGraph from "../pages/ReactFlow/Flowgraph";
 import Taskinfo from "../pages/TasksSection/Taskinfo";
 import SendEmail from "../pages/SendEmail/SendEmail";
-import WhatsApp from "../pages/WhatsApp/WhatsApp";
+import WhatsApp from "../pages/socialmedia/WhatsApp/WhatsApp";
 import FaceB from "../pages/facebook/facebook";
-import  Interaction from "../pages/InteractionPage/InteractionPage";
+import Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
-import InstagramPost from "../pages/instagram/instagrampost";
+import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
+import CampaignInfo from "../pages/Campaign/campaigninfo";
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -176,6 +177,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/interaction/:id" element={<InteractionDetailsPage/>} />
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
+          <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
         </>
       )}

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./LeadTable.css";
-
+import axiosInstance from "../../../api";
 const LeadTable = () => {
   const [leads, setLeads] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://backendcrmnurenai.azurewebsites.net/leads/");
+        const response = await axiosInstance.get('/leads/');
         setLeads(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

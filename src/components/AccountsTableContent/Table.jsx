@@ -9,22 +9,30 @@ import person from "../../assets/person.png";
 import industry from "../../assets/industry.png";
 import msg from "../../assets/msg.webp";
 import "./accountsTableContent.css";
-
+import axiosInstance from '../../api';
+import { useAuth } from "../../authContext";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 const AccountsTable1 = () => {
 
   const [accounts, setAccounts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
+  const tenantId = getTenantIdFromUrl();
   const modelName = "accounts";
 
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await axios.get(
-          "https://backendcrmnurenai.azurewebsites.net/accounts/"
-        );
+        const response = await axiosInstance.get('accounts/'); // Relative URL, no need for full URL
         setAccounts(response.data);
       } catch (error) {
-        console.error("Error fetching accounts:", error);
+        console.error('Error fetching accounts:', error);
       }
     };
 
@@ -83,7 +91,7 @@ const AccountsTable1 = () => {
 <div className="account-boxes">
         <div className="account-bigboxes">
   <h1 className="newcontact">New Accounts this Week</h1>
-  <Link to={`/accounts/${accounts[0]?.id}`} className="firstaccount-box">
+  <Link to={`/${tenantId}/accounts/${accounts[0]?.id}`} className="firstaccount-box">
                 <h1 className="heading1">{accounts.length > 0 && accounts[0].Name}</h1>
                 <p className="paragraph1">{accounts.length > 0 && accounts[0].description}</p>
                 {/* Smiley */}
@@ -91,7 +99,7 @@ const AccountsTable1 = () => {
                   {generateSmiley2(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/accounts/${accounts[2]?.id}`} className="secondaccount-box">
+              <Link to={`/${tenantId}/accounts/${accounts[1]?.id}`} className="secondaccount-box">
                 <h1 className="heading2">{accounts.length > 1 && accounts[1].Name}</h1>
                 <p className="paragraph2">{accounts.length > 1 && accounts[1].description}</p>
                 {/* Smiley */}
@@ -99,7 +107,7 @@ const AccountsTable1 = () => {
                   {generateSmiley2(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/accounts/${accounts[3]?.id}`} className="thirdaccount-box">
+              <Link to={`/${tenantId}/accounts/${accounts[2]?.id}`} className="thirdaccount-box">
                 <h1 className="heading3">{accounts.length > 2 && accounts[2].Name}</h1>
                 <p className="paragraph3">{accounts.length > 2 && accounts[2].description}</p>
                 {/* Smiley */}
@@ -174,14 +182,14 @@ const AccountsTable1 = () => {
                   <tr className="tablerows" key={account.id}>
                     {/* Circle in table data cell */}
                     <td>
-                      <Link to={`/accounts/${account.id}`}>
+                      <Link to={`/${tenantId}/accounts/${account.id}`}>
                         <span className="account-circle" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
                           {account.company.charAt(0).toUpperCase()}
                         </span>
                       </Link>
                     </td>
                     <td>
-                      <Link to={`/accounts/${account.id}`}>
+                      <Link to={`/${tenantId}/accounts/${account.id}`}>
                         {account.company}
                       </Link>
                     </td>
@@ -202,7 +210,7 @@ const AccountsTable1 = () => {
             <div className="accounts-tiles-container">
               {accounts.map((account, index) => (
                 <div className={`account-tile tile-${index + 1}`} key={account.id}>
-                  <Link to={`/accounts/${account.id}`} className="account-link">
+                  <Link to={`/${tenantId}/accounts/${account.id}`} className="account-link">
                     <div className="tile-icon" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
                       {account.company.charAt(0)} {/* First letter of company name */}
                     </div>
@@ -249,7 +257,7 @@ const AccountsTable1 = () => {
               <ListGroup>
                 {accounts.map((account, index) => (
                   <ListGroup.Item key={account.id} className="accounts-list-item">
-                    <Link to={`/accounts/${account.id}`}>{account.Name}</Link>
+                    <Link to={`/${tenantId}/accounts/${account.id}`}>{account.Name}</Link>
                     <p>Phone Number: {account.phone}</p>
                     <p>Industry: {account.industry}</p>
                     <p>Company Name: {account.company}</p>

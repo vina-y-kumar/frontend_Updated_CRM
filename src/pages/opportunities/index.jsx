@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { NavLink, Link } from "react-router-dom";
-import * as XLSX from "xlsx";
+
 import { Sidebar } from "../../components/Sidebar";
+import { OpportunitiesContent } from "../../components/OpportunitiesContent";
+import "./Form3.jsx";
+import { NavLink,Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
+import * as XLSX from "xlsx";
+import { Dropdown } from "react-bootstrap";
+import axiosInstance from "../../api.jsx";
 
 export const Opportunities = () => {
+  const { pathname } = useLocation();
+  const tenantId = getTenantIdFromUrl();
+
+
+  function getTenantIdFromUrl() {
+    const pathArray = pathname.split('/');
+    if (pathArray.length >= 2) {
+      return pathArray[1]; // Assumes tenant_id is the first part of the path
+    }
+    return null; // Return null if tenant ID is not found or not in the expected place
+  }
+ 
   const [oppourtunity, setOppourtunity] = useState([]);
 
   useEffect(() => {
@@ -13,13 +31,11 @@ export const Opportunities = () => {
 
   const fetchOppourtunity = async () => {
     try {
-      const response = await fetch(
-        "https://backendcrmnurenai.azurewebsites.net/opportunities/"
-      );
-      const data = await response.json();
-      setOppourtunity(data);
+      const response = await axiosInstance.get('/opportunities/');
+      setOppourtunity(response.data);
+      console.log('Opportunity fetched successfully:', response.data);
     } catch (error) {
-      console.error("Error fetching opportunities:", error);
+      console.error('Error fetching opportunities:', error);
     }
   };
 
@@ -79,11 +95,13 @@ export const Opportunities = () => {
               </Dropdown.Menu>
             </Dropdown>
             </div>
-            
-            <div className="create-opportunity">
-              <NavLink to="/opportunity" id="btn100">
-                +Create Opportunity
-              </NavLink>
+            <div className="create2">
+
+            <NavLink to={`/${tenantId}/opportunity`} id="btn3">
+
+                        {" "}
+                  Create Oppourtunity
+                  </NavLink>
             </div>
           </div>
         </div>

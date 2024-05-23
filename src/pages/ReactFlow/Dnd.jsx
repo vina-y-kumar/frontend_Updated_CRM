@@ -81,6 +81,9 @@ const DnDFlow = () => {
     }
 
     
+    console.log(val.data.selectedOption);
+    console.log(val.type);
+    console.log(nodes);
   };
   const handleChange = (e) => {
     e.preventDefault();

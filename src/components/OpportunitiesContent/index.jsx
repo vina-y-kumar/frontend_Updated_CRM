@@ -1,6 +1,7 @@
 import './OpportunitiesContent.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import axiosInstance from '../../api';
 
 const EditableRow = ({ rowData, rowIndex, columns, onChange, isEditing }) => {
   return (
@@ -65,20 +66,16 @@ export const OpportunitiesContent = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("https://backendcrmnurenai.azurewebsites.net/opportunities/", {
-        headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
+    axiosInstance
+      .get("/opportunities/")  // Adjust the endpoint path as needed
       .then((response) => {
         setStudentData(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching student data:', error);
+        console.error("Error fetching student data:", error);
       });
   }, []);
+
 
   const columnsToDisplay = ['Name', 'phone', 'industry','company','email']; 
 
@@ -90,18 +87,14 @@ export const OpportunitiesContent = () => {
   };
 
   const handleSubmit = (updatedData) => {
-    axios.put(`https://backendcrmnurenai.azurewebsites.net/opportunities/${updatedData.id}/`, updatedData, {
-      headers: {
-        "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
-    })
-    .then((response) => {
-      console.log('Data updated successfully:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error updating data:', error);
-    });
+    axiosInstance
+      .put(`/opportunities/${updatedData.id}/`, updatedData)
+      .then((response) => {
+        console.log('Data updated successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error updating data:', error);
+      });
   };
 
   const toggleEditMode = () => {

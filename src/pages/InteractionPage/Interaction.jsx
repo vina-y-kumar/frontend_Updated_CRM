@@ -4,30 +4,33 @@ import { Sidebar } from "../../components/Sidebar";
 import { Card, ListGroup } from "react-bootstrap";  
 import './InteractionPage.css';
 import InteractionDetailsPage from "./InteractionDetailsPage";  
-
-
+import axiosInstance from "../../api";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 export const InteractionTable = () => {
+  const tenantId=getTenantIdFromUrl();
   const [interactions, setInteractions] = useState([]);
   const [viewMode, setViewMode] = useState("table");
   const [filteredInteractions, setFilteredInteractions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedInteraction, setSelectedInteraction] = useState(null);
 
+  
   useEffect(() => {
     fetchInteractions();
   }, []);
 
   const fetchInteractions = async () => {
     try {
-      const response = await fetch(
-        "https://backendcrmnurenai.azurewebsites.net/interaction/"
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch interactions");
-      }
-      const data = await response.json();
-      setInteractions(data);
-      setFilteredInteractions(data);
+      const response = await axiosInstance.get('/interaction/');
+      setInteractions(response.data);
+      setFilteredInteractions(response.data);
     } catch (error) {
       console.error("Error fetching interactions:", error);
     }
@@ -44,7 +47,7 @@ export const InteractionTable = () => {
         <Sidebar />
       </div>
       <div className="contain1">
-        <NavLink to="/addinteraction" className="add-interaction-button">Add Interaction</NavLink>           
+        <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
         {viewMode === "table" && (
           <div className="table1">
             <table>
@@ -61,7 +64,7 @@ export const InteractionTable = () => {
               <tbody>
                 {filteredInteractions.map((interaction) => (
                   <tr key={interaction.id}>
-                    <td><Link to={`/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.id}</Link></td>
+                    <td><Link to={`/${tenantId}/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.id}</Link></td>
                     <td>{interaction.entity_id}</td>
                     <td>{interaction.entity_type}</td>
                     <td>{interaction.interaction_type}</td>

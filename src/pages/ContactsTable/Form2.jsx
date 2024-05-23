@@ -8,11 +8,20 @@ import Select from "react-select";
 import {Link, useParams } from "react-router-dom";
 import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
-
-
+import axiosInstance from "../../api";
+import { useAuth } from "../../authContext";
 import "./contactsTable.css";
 
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 function Form2() {
+  const tenantId = getTenantIdFromUrl();
   const style = {
     position: "absolute",
     top: "50%",
@@ -64,6 +73,7 @@ function Form2() {
 
   const [accountOptions, setAccountOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
+  const {userId}=useAuth();
 
   useEffect(() => {
     fetchAccountOptions();
@@ -71,9 +81,7 @@ function Form2() {
 
   const fetchAccountOptions = async () => {
     try {
-      const response = await axios.get(
-        "https://backendcrmnurenai.azurewebsites.net/accounts/"
-      );
+      const response = await axiosInstance.get('/accounts/');
       setAccountOptions(response.data);
       setFilteredOptions(response.data);
     } catch (error) {
@@ -112,10 +120,13 @@ function Form2() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "https://backendcrmnurenai.azurewebsites.net/contacts/",
-        contactData
-      );
+      const tenantId = getTenantIdFromUrl(); // Get tenant ID from the URL
+      const dataToSend = {
+        ...contactData,
+        createdBy: userId, // Pass userId as createdBy
+        tenant: tenantId,
+      };
+      const response = await axiosInstance.post('/contacts/',dataToSend);
       console.log("Form submitted successfully:", response.data);
       setContactData({
         ContactOwner: "",
@@ -172,7 +183,7 @@ function Form2() {
       {showCreateNewAccountForm && <CreateNewAccountForm />}
       <div className="back_container1">
       <div className="relatedList-Contacts3">
-              <Link to="/contacts"> Back</Link>
+              <Link to={`../${tenantId}/contacts`}> Back</Link>
             </div>
       
       </div>

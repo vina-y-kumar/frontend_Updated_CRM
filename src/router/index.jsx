@@ -9,7 +9,6 @@ import { AccountsTable } from "../pages/AccountsSection";
 import { ContactsTable } from "../pages/ContactsTable";
 import { Opportunities } from "../pages/opportunities";
 import Dashboard from "../pages/dashboard";
-import KanbanBoard from "../components/Kanban/Kanban11";
 import Lead from "../pages/Lead/AddLead/Lead";
 // import Kanban1 from "../components/Kanban/Kanban1";
 import Met from "../pages/Meetings/met";
@@ -147,14 +146,14 @@ export const RouteWrapper = () => {
   
       {authenticated && (
         <>
-          <Route path="/home" element={<Home />} /> 
-          <Route path="/accounts" element={<AccountsTable/>}/> 
-          <Route path="/contacts" element={<ContactsTable/>}/> 
-          <Route path="/lead" element={<LeadPage />} />
-          <Route path="/opportunities" element={<Opportunities />} /> 
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/kanban" element={<KanbanBoard />} />
-          <Route path="/addlead" element={<Lead/>} />
+          <Route path=":tenant_id/home" element={<Home />} /> 
+          <Route path=":tenant_id/accounts" element={<AccountsTable/>}/> 
+          <Route path=":tenant_id/contacts" element={<ContactsTable/>}/> 
+          <Route path=":tenant_id/lead" element={<LeadPage />} />
+          <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
+          <Route path=":tenant_id/dashboard" element={<Dashboard />} />
+       
+          <Route path=":tenant_id/addlead" element={<Lead/>} />
           {/*<Route path="/addform" element={<Form1/>} />*/}
           <Route path="/contactinfo/:id" element={<ContactInfo/>}/>
           <Route path="/ShowLead/:id" element={<ShowLead/>}/>
@@ -183,12 +182,36 @@ export const RouteWrapper = () => {
           <Route path="/flow2" element={<FlowGraph2/>}/>
           <Route path="/instagramflow" element={<InstagramFlow/>}/>
           <Route path="/whatsappflow" element={<WhatsappFlow/>}/>
+          <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
+          <Route path=":tenant_id/ShowLead/:id" element={<ShowLead/>}/>
+          <Route path=":tenant_id/convert/:id" element={<ConvertLead/>}/>
+          <Route path=":tenant_id/addaccount" element={<AccountForm/>} />
+          <Route path=":tenant_id/addcontact" element={<Form2/>}/>
+          <Route path=":tenant_id/meetings" element={<Met/>}  />
+          <Route path=":tenant_id/opportunity" element={<Form3/>} />
+          <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
+          <Route path=":tenant_id/tasks/:id" element={<Taskinfo/>}/>
+          <Route path=":tenant_id/accounts/:id" element={<AccountsPage />} />
+          <Route path=":tenant_id/send-email/:id" element={<SendEmail/>}/>
+          <Route path=":tenant_id/send-msg/:id" element={<WhatsApp/>}/>
+          <Route path=":tenant_id/email" element={<EmailComponent/>} />
+          <Route path=":tenant_id/tasks" element={<TaskTable/>} />
+          <Route path=":tenant_id/interaction" element={<Interaction/>}/>
+          <Route path=":tenant_id/addtask" element={<AddTaskForm/>}/>
+          <Route path=":tenant_id/compose" element={<EmailComponent/>}/>
+          <Route path=":tenant_id/bulk-import" element={<BulkImport/>}/>
+          <Route path=":tenant_id/flow" element={<FlowGraph/>}/>
+          <Route path=":tenant_id/FB" element={<FaceB/>}/>
+          <Route path=":tenant_id/addinteraction" element={<AddInteractionForm/>} />
+          <Route path=":tenant_id/interaction/:id" element={<InteractionDetailsPage/>} />
+          <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
+          <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
         </>
       )}
 
 
-<Route path="*" element={<Login/>} />
-      {/* <Route path="*" element={<NotFound />} />*/}
+    <Route path="*" element={<Login/>} />
+     {/*  <Route path="*" element={<NotFound />} />*/}
     
 
       

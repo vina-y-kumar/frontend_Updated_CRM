@@ -1,7 +1,7 @@
 import './ContactsTableContent.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import axiosInstance from '../../api';
 const EditableRow = ({ rowData, rowIndex, columns, onChange, isEditing }) => {
   return (
     <>
@@ -65,21 +65,21 @@ export const ContactsTableContent = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("https://backendcrmnurenai.azurewebsites.net/contacts/", {
-        headers: {
-          "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
+    const fetchStudentData = async () => {
+      try {
+        const response = await axiosInstance.get('/contacts/', {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
+        });
         setStudentData(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching student data:', error);
-      });
-  }, []);
+      }
+    };
 
+    fetchStudentData();
+  }, []);
   const columnsToDisplay = ['Name', 'phone', 'industry','company','email']; 
 
   const handleCellChange = (rowIndex, key, value) => {
@@ -90,7 +90,7 @@ export const ContactsTableContent = () => {
   };
 
   const handleSubmit = (updatedData) => {
-    axios.put(`https://backendcrmnurenai.azurewebsites.net/contacts/${updatedData.id}/`, updatedData, {
+    axiosInstance.put(`/contacts/${updatedData.id}/`, updatedData, {
       headers: {
         "Content-Type": "application/json",
         token: localStorage.getItem("token"),

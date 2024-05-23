@@ -15,7 +15,7 @@ import './dndWhatsapp.css';
 import e from 'cors';
 import { useMemo } from 'react';
 const lastNode = initialNodes[initialNodes.length - 1];
-import Sidebar from "../ReactFlow/Sidebar.jsx";
+import Sidebar from "./WhastappSidebar.jsx";
 
 import "./dnd.css";
 import initialNodes from "./nodes.jsx";

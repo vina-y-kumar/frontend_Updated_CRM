@@ -2,9 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Addlead.css';
 import Swal from 'sweetalert2';
-
-
+import axiosInstance from '../../api';
+import { useAuth } from '../../authContext';
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 function Form() {
+  const tenantId=getTenantIdFromUrl();
+  const {userId}=useAuth();
   const [formData, setFormData] = useState({
     address: '',
     assigned_to: [''], 
@@ -50,7 +60,12 @@ function Form() {
     
 
     try {
-      const response = await axios.post('https://backendcrmnurenai.azurewebsites.net/leads/', formData);
+      const dataToSend = {
+        ...formData,
+        createdBy: userId, // Pass userId as createdBy
+        tenant: tenantId,
+      };
+      const response = await axiosInstance.post(`/leads/`, dataToSend);
       
       Swal.fire({
         title: "Good job!",

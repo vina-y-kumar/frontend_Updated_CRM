@@ -1,17 +1,26 @@
 import axios from "axios";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import { Header } from "../../components/Header";
 import CreateNewAccountForm from "../ContactsTable/CreateNewAccountForm.jsx";
 import Select from "react-select";
 import "./task.css";
-
-
+import axiosInstance from "../../api.jsx";
 import "./TaskTable.jsx";
-
+import { useAuth } from "../../authContext.jsx";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 const AddTaskForm = () => {
+  const tenantId=getTenantIdFromUrl();
+  const {userId}=useAuth();
   const style = {
     position: "absolute",
     top: "50%",
@@ -30,29 +39,35 @@ const AddTaskForm = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [taskdata, setTaskData] = useState({
+  const [taskData, setTaskData] = useState({
     subject: "",
     due_date: "",
     status: "",
     priority: "",
     description: "",
-    contact: null,
+    contact: "",
     account: "",
     createdBy: "",
   });
 
   const [accountOptions, setAccountOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
-
-  useEffect(() => {
-    fetchAccountOptions();
-  }, []);
+  const STATUS_CHOICES = [
+    { value: 'not_started', label: 'Not Started' },
+    { value: 'deferred', label: 'Deferred' },
+    { value: 'in_progress', label: 'In Progress' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'waiting_for_input', label: 'Waiting for Input' },
+  ];
+  const PRIORITY_CHOICES = [
+    { value: 'high', label: 'High' },
+    { value: 'normal', label: 'Normal' },
+    { value: 'low', label: 'Low' },
+  ];
 
   const fetchAccountOptions = async () => {
     try {
-      const response = await axios.get(
-        "https://backendcrmnurenai.azurewebsites.net/accounts/"
-      );
+      const response = await axiosInstance.get('/accounts/');
       console.log("Account options response:", response.data);
       setAccountOptions(response.data);
       setFilteredOptions(response.data);
@@ -61,27 +76,40 @@ const AddTaskForm = () => {
     }
   };
 
+  useEffect(() => {
+    fetchAccountOptions();
+  }, []);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setContactData({
-      ...contactData,
+    setTaskData({
+      ...taskData,
       [name]: value,
     });
-    if (name === "name") {
-      const filtered = accountOptions.filter((option) =>
-        option.Name.toUpperCase().startsWith(value.toUpperCase())
-      );
-      setFilteredOptions(filtered);
+  };
+
+  const handleSelectChange = (selectedOption) => {
+    if (selectedOption.value === "create-new-account") {
+      handleOpen();
+    } else {
+      setTaskData({
+        ...taskData,
+        account: selectedOption.value,
+      });
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "https://backendcrmnurenai.azurewebsites.net/tasks/",
-        taskdata
-      );
+
+      const dataToSend = {
+        ...taskData,
+        createdBy: userId, // Pass userId as createdBy
+        tenant: tenantId,
+      };
+
+      const response = await axiosInstance.post('/tasks/', dataToSend);
       console.log("Form submitted successfully:", response.data);
       setTaskData({
         subject: "",
@@ -89,7 +117,7 @@ const AddTaskForm = () => {
         status: "",
         priority: "",
         description: "",
-        contact: null,
+        contact: "",
         account: "",
         createdBy: "",
       });
@@ -99,135 +127,148 @@ const AddTaskForm = () => {
   };
 
   return (
-    <div>
-      <Header name="Task Information" />
-      <form onSubmit={handleSubmit}>
-        <div className="form-row">
-        <div className="form-group col-md-6">
-                <label htmlFor="subject">subject</label>
+    <div className="task_form">
+      <div className="relatedTask_back">
+        <Link className='task_back' to={`/${tenantId}/tasks`}>Back</Link>
+      </div>
+      <div>
+        <div className="task_head_line">
+          <div className="task_form_header">
+            <h1>Create Task</h1>
+          </div>
+          <div className='btnsss_task'>
+            <button type="button" className="btn-submit_cancel_task">Cancel</button>
+            <button type="button" className="btn-submit_save_task">Save as Draft</button>
+            <button type="submit" className="btn-submit_submit_task" onClick={handleSubmit}>Submit</button>
+          </div>
+        </div>
+        <div className="form_task_form">
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="subject" className="form_row_head">Subject</label>
                 <input
                   type="text"
                   className="form-control"
                   id="subject"
                   name="subject"
-                  value={taskdata.subject}
+                  value={taskData.subject}
                   onChange={handleChange}
                   placeholder="Enter subject"
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="due_date">Due Date</label>
+                <label htmlFor="due_date" className="form_row_head">Due Date</label>
                 <input
                   type="date"
                   className="form-control"
                   id="due_date"
                   name="due_date"
-                  value={taskdata.due_date}
+                  value={taskData.due_date}
                   onChange={handleChange}
                   placeholder="Enter due date"
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="status">Status</label>
+                <label htmlFor="status" className="form_row_head">Status</label>
                 <input
                   type="text"
                   className="form-control"
                   id="status"
                   name="status"
-                  value={taskdata.status}
+                  value={taskData.status}
                   onChange={handleChange}
                   placeholder="Enter status"
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="priority">Priority</label>
+                <label htmlFor="priority" className="form_row_head">Priority</label>
                 <input
                   type="text"
                   className="form-control"
                   id="priority"
                   name="priority"
-                  value={taskdata.priority}
+                  value={taskData.priority}
                   onChange={handleChange}
                   placeholder="Enter priority"
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="description">Description</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="description"
-                  name="description"
-                  value={taskdata.description}
-                  onChange={handleChange}
-                  placeholder="Enter description"
-                />
-              </div>
-              <div className="form-group col-md-6">
-                <label htmlFor="contact">Contact</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="contact"
-                  name="contact"
-                  value={taskdata.contact}
-                  onChange={handleChange}
-                  placeholder="Enter contact"
-                />
-              </div>
-              <div className="form-group col-md-6">
-                <label htmlFor="createdBy">Created BY</label>
+                <label htmlFor="createdBy" className="form_row_head">Created By</label>
                 <input
                   type="text"
                   className="form-control"
                   id="createdBy"
                   name="createdBy"
-                  value={taskdata.createdBy}
+                  value={taskData.createdBy}
                   onChange={handleChange}
                   placeholder="Enter created By"
                 />
               </div>
-
-
-
-         
-          <div className="form-group col-md-6">
-            <label htmlFor="account">Account</label>
-            <Select
-              options={[
-                ...filteredOptions.map((option) => ({
-                  value: option.Name,
-                  label: option.Name,
-                })),
-                { value: "create-new-account", label: "Create New Account" },
-              ]}
-              onChange={handleChange}
-              styles={{
-                option: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: state.data && state.data.value === "create-new-account" ? "lightblue" : "white",
-                  color: state.data && state.data.value === "create-new-account" ? "black" : "black",
-                }),
-              }}
-            />
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style}>
-                <CreateNewAccountForm />
-              </Box>
-            </Modal>
-          </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="contact" className="form_row_head">Contact</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="contact"
+                  name="contact"
+                  value={taskData.contact}
+                  onChange={handleChange}
+                  placeholder="Enter contact"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="description" className="form_row_head">Description</label>
+                <input
+                  type="text"
+                  className="form-task_description"
+                  id="description"
+                  name="description"
+                  value={taskData.description}
+                  onChange={handleChange}
+                  placeholder="Enter description"
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="account" className="form_row_head">Account</label>
+                <Select
+                  className="form-control_account"
+                  options={[
+                    ...filteredOptions.map((option) => ({
+                      value: option.Name,
+                      label: option.Name,
+                    })),
+                    { value: "create-new-account", label: "Create New Account" },
+                  ]}
+                  onChange={handleSelectChange}
+                  styles={{
+                    option: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: state.data && state.data.value === "create-new-account" ? "lightblue" : "white",
+                      color: state.data && state.data.value === "create-new-account" ? "black" : "black",
+                    }),
+                  }}
+                />
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <CreateNewAccountForm />
+                  </Box>
+                </Modal>
+              </div>
+            </div>
+            <div className="submit">
+              <button type="submit" className="btn btn-primary__">
+                Save
+              </button>
+            </div>
+          </form>
         </div>
-        <div className="submit">
-          <button type="submit" className="btn btn-primary">
-            Save
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

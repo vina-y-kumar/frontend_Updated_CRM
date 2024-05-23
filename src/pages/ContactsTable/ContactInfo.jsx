@@ -5,11 +5,20 @@ import RelatedList from "./RelatedList.jsx";
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-
+import axiosInstance from "../../api.jsx";
 import "./contactsTable.css";
 import "./index.jsx";
-const ContactInfo = () => {
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 
+const ContactInfo = () => {
+const tenantId=getTenantIdFromUrl();
   // const [showCadence, setShowCadence] = useState(false);
   const handleAddCadence = () => {
     setShowCadence(true);
@@ -64,9 +73,7 @@ const ContactInfo = () => {
   useEffect(() => {
     const fetchcontactData = async () => {
       try {
-        const response = await axios.get(
-          `https://backendcrmnurenai.azurewebsites.net/contacts/${id}`
-        );
+        const response = await axiosInstance.get('/contacts/');
         setContactInfo(response.data);
       } catch (error) {
         console.error("Error fetching account data:", error);
@@ -124,10 +131,7 @@ const ContactInfo = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "https://backendcrmnurenai.azurewebsites.net/contacts/",
-        contactinfo
-      );
+      const response = await axiosInstance.get('/contacts/',contactinfo);
       console.log("contact Information submitted :", response.data);
       setContactInfo({
         first_name: "",
@@ -255,7 +259,7 @@ const ContactInfo = () => {
       </div>
 
         <div className="relatedList-Contacts">
-              <Link to="/contacts"> Back</Link>
+              <Link to={`../${tenantId}/contacts`}> Back</Link>
             </div>
 
 

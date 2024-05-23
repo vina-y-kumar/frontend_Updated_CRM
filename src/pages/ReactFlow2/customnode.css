@@ -346,3 +346,63 @@ button {
   outline: none;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
+/* SendMessage.css */
+
+/* SendMessage.css */
+
+.show-message-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  max-width: 300px; /* Adjust as needed */
+}
+
+.uploaded-image {
+  width: 100px; /* Fixed width */
+  height: 100px; /* Fixed height */
+  object-fit: contain; /* Ensures the entire image is visible without being cut off */
+  margin: 5px;
+}
+.file-upload-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-upload-button {
+  border: 2px solid lightgreen;
+  color: white;
+  background-color: lightgreen;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.file-upload-button:hover {
+  background-color: #0056b3;
+}
+
+.file-upload-input {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.file-upload-input {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.message-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

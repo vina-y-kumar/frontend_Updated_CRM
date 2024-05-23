@@ -12,34 +12,24 @@ const WhatsApp = () => {
 
   const [contacts, setContacts] = useState("");
   const [messageTemplate, setMessageTemplate] = useState('');
-
-
-
- 
-
-
   
-
- 
-
- 
   useEffect(() => {
-
-  }, [contacts]);
-  const fetchContacts = async () => {
-    try {
-      const response = await fetch(`https://backendcrmnurenai.azurewebsites.net/contacts/${id}`);
-      const data = await response.json();
-    
-    setContacts(data);
-
-    } catch (error) {
-      console.error("Error fetching contacts:", error);
-    }
-  };
-  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await axiosInstance.get('/contacts/:id', {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
+        });
+        setContacts(response.data);
+      } catch (error) {
+        console.error("Error fetching meetings data:", error);
+      }
+    };
+  
     fetchContacts();
   }, []);
+  
 
   
 

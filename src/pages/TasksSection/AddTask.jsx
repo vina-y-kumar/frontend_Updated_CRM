@@ -170,28 +170,41 @@ const AddTaskForm = () => {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="status" className="form_row_head">Status</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <label htmlFor="status" className="form_row_head">
+                  Status
+                </label>
+                <select
                   id="status"
                   name="status"
                   value={taskData.status}
                   onChange={handleChange}
-                  placeholder="Enter status"
-                />
+                  className="form-control"
+                  required
+                >
+                  <option value="not_started">Not Started</option>
+                  <option value="deferred">Deferred</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                  <option value="waiting_for_input">Waiting for Input</option>
+                </select>
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="priority" className="form_row_head">Priority</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <label htmlFor="priority" className="form_row_head">
+                  Priority
+                </label>
+                <select
                   id="priority"
                   name="priority"
                   value={taskData.priority}
                   onChange={handleChange}
-                  placeholder="Enter priority"
-                />
+                  className="form-control"
+                  required
+                >
+                  <option value="">Select Priority</option>
+                  <option value="high">High</option>
+                  <option value="normal">Normal</option>
+                  <option value="low">Low</option>
+                </select>
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="createdBy" className="form_row_head">Created By</label>

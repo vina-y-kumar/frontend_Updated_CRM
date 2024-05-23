@@ -110,11 +110,7 @@ export const TaskTable = () => {
           
           <div>
       <div className="records20" style={{ width: "100%" }}>
-        <select className="view-mode-select" style={{ float: "left" }}>
-          <option value="">50 Records per page</option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-        </select>
+   
         <select
   value={viewMode}
   onChange={(e) => handleViewModeChange(e.target.value)}

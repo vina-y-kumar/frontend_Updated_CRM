@@ -36,6 +36,11 @@ export const InteractionTable = () => {
       console.error("Error fetching interactions:", error);
     }
   };
+  const entityTypeNames = {
+    5: "Account",
+    10: "Contact",
+    // Add more mappings as needed
+  };
 
   const handleInteractionClick = (interaction) => {
     console.log(interaction);
@@ -55,7 +60,7 @@ export const InteractionTable = () => {
       </div>
       <div className="interection_head">
       <div className="int_heading">
-        <h1>Interection</h1>
+        <h1>Interaction</h1>
       </div>
       <div className="excel_int_drop">
         <div>
@@ -94,7 +99,7 @@ export const InteractionTable = () => {
                 <tr>
                   <th>ID</th>
                   <th>Entity ID</th>
-                  <th>Entity Type</th>
+                  <th>Type</th>
                   <th>Interaction Type</th>
                   <th>Interaction Datetime</th>
                   <th>Notes</th>
@@ -105,7 +110,7 @@ export const InteractionTable = () => {
                   <tr key={interaction.id}>
                     <td><Link to={`/${tenantId}/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.id}</Link></td>
                     <td>{interaction.entity_id}</td>
-                    <td>{interaction.entity_type}</td>
+                    <td>{entityTypeNames[interaction.entity_type] || interaction.entity_type}</td>
                     <td>{interaction.interaction_type}</td>
                     <td>{interaction.interaction_datetime}</td>
                     <td>{interaction.notes}</td>

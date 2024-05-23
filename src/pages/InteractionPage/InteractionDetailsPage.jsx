@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axiosInstance from "../../api";
 
 const InteractionDetailsPage = () => {
   const { id } = useParams();
@@ -9,26 +10,18 @@ const InteractionDetailsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchInteraction = async () => {
+    const fetchInteractions = async () => {
       try {
-        const response = await axiosInstance.get('/interaction/');
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await response.json();
+        const response = await axiosInstance.get(`/interaction/`);
+        const data = response.data;
         console.log("Fetched Data:", data);
 
-        // Find the interaction with the selected ID
-        const selectedInteraction = data.find(currentInteraction => currentInteraction.id === parseInt(id));
-
-        console.log("Selected Interaction:", selectedInteraction);
-
-        if (!selectedInteraction) {
+        if (!data) {
           throw new Error(`Interaction with ID ${id} not found`);
         }
 
         // Set the selected interaction as the component state
-        setInteraction(selectedInteraction);
+        setInteraction(data);
       } catch (error) {
         console.error("Error fetching interaction:", error.message);
         setError(error.message);
@@ -37,7 +30,7 @@ const InteractionDetailsPage = () => {
       }
     };
 
-    fetchInteraction();
+    fetchInteractions();
   }, [id]);
 
   return (

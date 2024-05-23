@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
-import { Card, ListGroup } from "react-bootstrap";  
+import { Card, ListGroup , Dropdown } from "react-bootstrap";  
 import './InteractionPage.css';
 import InteractionDetailsPage from "./InteractionDetailsPage";  
 import axiosInstance from "../../api";
@@ -20,6 +20,7 @@ export const InteractionTable = () => {
   const [filteredInteractions, setFilteredInteractions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedInteraction, setSelectedInteraction] = useState(null);
+  const modelName = "Interection";
 
   
   useEffect(() => {
@@ -40,16 +41,54 @@ export const InteractionTable = () => {
     console.log(interaction);
     setSelectedInteraction(interaction);
   };
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(interactions);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "interactions");
+    XLSX.writeFile(wb, "interactions.xlsx");
+  };
 
   return (
     <div className="interaction-table">
       <div className="home_left_box1">
         <Sidebar />
       </div>
+      <div className="interection_head">
+      <div className="int_heading">
+        <h1>Interection</h1>
+      </div>
+      <div className="excel_int_drop">
+        <div>
+    <Dropdown>
+              <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-int">
+                Excel File
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+                    Import Excel
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <button onClick={handleDownloadExcel} className="excel-download-btn1">
+                    Excel
+                  </button>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+    </div>
+    <div className="add_int">
+      <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
+
+      </div>
+    </div>
+      </div>
+     
+      
+
       <div className="contain1">
-        <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
         {viewMode === "table" && (
-          <div className="table1">
+          <div className="table_interection">
             <table>
               <thead>
                 <tr>

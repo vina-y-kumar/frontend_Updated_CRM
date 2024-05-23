@@ -4,6 +4,7 @@ import './Addlead.css';
 import Swal from 'sweetalert2';
 import axiosInstance from '../../api';
 import { useAuth } from '../../authContext';
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -12,31 +13,24 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
+
 function Form() {
-  const tenantId=getTenantIdFromUrl();
-  const {userId}=useAuth();
+  const tenantId = getTenantIdFromUrl();
+  const { userId } = useAuth();
   const [formData, setFormData] = useState({
     address: '',
-    assigned_to: [''], 
+    assigned_to: [''],
     createdBy: '',
     description: '',
     email: '',
     first_name: '',
     last_name: '',
-    account_name:'',
-    
+    account_name: '',
     phone: '',
-    
     title: '',
     website: '',
-    
-    
-    
-    
+    status: '', // Adding status to the formData state
   });
- 
-
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -54,10 +48,10 @@ function Form() {
       });
     }
   };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
 
     try {
       const dataToSend = {
@@ -66,45 +60,46 @@ function Form() {
         tenant: tenantId,
       };
       const response = await axiosInstance.post(`/leads/`, dataToSend);
-      
+
       Swal.fire({
-        title: "Good job!",
-        text: "Lead Created Successfully!",
-        icon: "success"
+        title: 'Good job!',
+        text: 'Lead Created Successfully!',
+        icon: 'success',
       });
-      if(!response){
+      if (!response) {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: '<a href="#">Why do I have this issue?</a>'
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: '<a href="#">Why do I have this issue?</a>',
         });
       }
       // Reset form data after successful submission if needed
       setFormData({
-        title: '',
+        address: '',
+        assigned_to: [''],
+        createdBy: '',
+        description: '',
+        email: '',
         first_name: '',
         last_name: '',
-        email: '',
-        account_name:'',
+        account_name: '',
         phone: '',
+        title: '',
         website: '',
-        address: '',
-        description: '',
-        createdBy: '',
-        assigned_to: [''],
+        status: '', // Reset status field
       });
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-  
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className='lead_form'>
+      <form onSubmit={handleSubmit}>
       <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
+        <div className="form-group col-md-6">
+          <label htmlFor="title" className='lead_title'>Title</label>
           <input
             type="text"
             className="form-control"
@@ -116,7 +111,7 @@ function Form() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="product">First Name</label>
+          <label htmlFor="product" className='lead_title'>First Name</label>
           <input
             type="text"
             className="form-control"
@@ -126,12 +121,11 @@ function Form() {
             onChange={handleChange}
             placeholder="Enter first name"
           />
-         
         </div>
       </div>
       <div className="form-row">
         <div className="form-group col-md-6">
-          <label htmlFor="noOfLicenses">Last Name</label>
+          <label htmlFor="noOfLicenses" className='lead_title'>Last Name</label>
           <input
             type="text"
             className="form-control"
@@ -143,7 +137,7 @@ function Form() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="client">E-mail</label>
+          <label htmlFor="client" className='lead_title'>E-mail</label>
           <input
             type="email"
             className="form-control"
@@ -155,7 +149,7 @@ function Form() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="account_name">Organization</label>
+          <label htmlFor="account_name" className='lead_title'>Organization</label>
           <input
             type="text"
             className="form-control"
@@ -169,7 +163,7 @@ function Form() {
       </div>
       <div className="form-row">
         <div className="form-group col-md-6">
-          <label htmlFor="paymentMethod">Phone No.</label>
+          <label htmlFor="paymentMethod" className='lead_title'>Phone No.</label>
           <input
             type="text"
             className="form-control"
@@ -181,7 +175,7 @@ function Form() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="currency">Address</label>
+          <label htmlFor="currency" className='lead_title'>Address</label>
           <input
             type="text"
             className="form-control"
@@ -195,7 +189,7 @@ function Form() {
       </div>
       <div className="form-row">
         <div className="form-group col-md-6">
-          <label htmlFor="budget">Website</label>
+          <label htmlFor="budget" className='lead_title'>Website</label>
           <input
             type="text"
             className="form-control"
@@ -207,21 +201,26 @@ function Form() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="estRevenue">Status</label>
-          <input
-            type="text"
+          <label htmlFor="status" className='lead_title'>Status</label>
+          <select
             className="form-control"
             id="status"
             name="status"
             value={formData.status}
             onChange={handleChange}
-            placeholder="Enter Status"
-          />
+          >
+            <option value="">Select Status</option>
+            <option value="assigned">Assigned</option>
+            <option value="in process">In Process</option>
+            <option value="converted">Converted</option>
+            <option value="recycled">Recycled</option>
+            <option value="dead">Dead</option>
+          </select>
         </div>
       </div>
       <div className="form-row">
         <div className="form-group col-md-6">
-          <label htmlFor="estCloseDate">Description</label>
+          <label htmlFor="estRevenue" className='lead_title'>Description</label>
           <input
             type="text"
             className="form-control"
@@ -233,7 +232,7 @@ function Form() {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="pic">Created By</label>
+          <label htmlFor="pic" className='lead_title'>Created By</label>
           <input
             type="text"
             className="form-control"
@@ -247,20 +246,25 @@ function Form() {
       </div>
       <div className="form-row">
         <div className="form-group col-md-6">
-          <label htmlFor="assigned_to">Assigned To</label>
+          <label htmlFor="assigned_to" className='lead_title'>Assigned To</label>
           <input
-            type="text"
-            className="form-control"
-            id="assigned_to"
-            name="assigned_to"
-            value={formData.assigned_to}
-            onChange={handleChange}
-            placeholder="Enter Assigned To"
-          />
+  type="text"
+  className="form-control"
+  id="assigned_to"
+  name="assigned_to"
+  value={formData.assigned_to}
+  onChange={handleChange}
+  placeholder="Enter Assigned To"
+/>
+
         </div>
       </div>
-      <button style={{marginLeft:"20%", marginTop:"5%" }} type="submit" className="btn btn-primary">Create Lead</button>
+      <button  type="submit" className="btn_lead">
+        Create Lead
+      </button>
     </form>
+    </div>
+    
   );
 }
 

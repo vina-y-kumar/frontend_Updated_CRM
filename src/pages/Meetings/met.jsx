@@ -29,7 +29,7 @@ const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
-  const {userId}=useAuth;
+  const {userId}=useAuth();
   const tenantId = getTenantIdFromUrl();
   const modelName = "Meetings";
 
@@ -170,7 +170,7 @@ useEffect(() => {
           <div className="create">
             {modalOpen && (
               <div className="modal-overlay">
-                <div className="modal-content">
+                <div className="modal-content_meet">
                   <div className="meeting-form-container">
                     <form onSubmit={handleSubmit}>
                       <fieldset className="form-fieldset">

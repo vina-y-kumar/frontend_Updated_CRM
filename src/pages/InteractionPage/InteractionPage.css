@@ -1,58 +1,152 @@
 .interaction-table {
-    display: flex;
+  display: flex;
+}
+
+@media (max-width: 767px) {
+  .interaction-table {
+    flex-direction: column; /* Stack items vertically on smaller screens */
   }
-  
-  .home_left_box1 {
-    flex: 1;
-  }
-  
-  .contain1 {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px; /* Adjust this margin as needed */
-  }
-  
-  .table1 {
-    border-radius: 7px;
-    background-color: white;
-    margin-top: 20px; /* Adjust as needed */
-    flex: 1;
-  }
-  
-  .table1 table {
+}
+
+.home_left_box1 {
+  flex: 1;
+}
+
+.contain1 {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px; /* Adjust this margin as needed */
+}
+
+.table_interection {
+  border-radius: 7px;
+  background-color: white;
+  flex: 1;
+  margin-left: -1100px;
+  margin-top: 200px;
+  width: 1253px;
+  height: 893px;
+  opacity: 1;
+  border-radius: 8px;
+  box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+  overflow-x: auto; /* Ensure table scrolls on smaller screens */
+
+}
+
+@media (max-width: 1024px) {
+  .table_interection {
+    margin-left: 0;
+    margin-top: 20px;
     width: 100%;
-    border-collapse: collapse;
+    height: auto;
+    max-width: 100%;
+    padding: 20px; /* Add some padding for better readability */
   }
-  
-  .table1 th, .table1 td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
+}
+
+.interection_head {
+  display: flex;
+  flex-direction: row;
+  gap: 800px;
+  margin-top: 50px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .interection_head {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+    align-items: flex-start;
   }
-  
-  .table1 th {
-    font-weight: bold;
+}
+
+.excel_int_drop {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+@media (max-width: 767px) {
+  .excel_int_drop {
+    flex-direction: column;
+    gap: 10px;
   }
-  
-  .table1 tbody tr:last-child td {
-    border-bottom: none;
+}
+@media (max-width: 320px) {
+  .table_interection {
+   height: 300px;
   }
+}
+.excel-dropdown-int {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 4px;
+  width: 77px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px 9px 12px;
+  margin-top: 14px;
+}
+
+.int_heading {
+  font-family: 'Lexend';
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 800;
+  color: #171A1FFF;
+  margin-left: 10px;
+}
+
+.table1 table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table1 th,
+.table1 td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.table1 th {
+  font-weight: bold;
+}
+
+.table1 tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.add-interaction-button {
+  background-color: #28a745; /* Green */
+  color: #fff; /* White */
+  border: none;
+  padding: 0.625rem 1.25rem;
+  font-size: 16px;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+  position: absolute;
+  top: 6.25rem;
+  right: 2.25rem;
+}
+
+.add-interaction-button:hover {
+  background-color: #218838; /* Darker green on hover */
+  color: #fff; /* Change text color to white on hover */
+}
+
+@media (max-width: 767px) {
   .add-interaction-button {
-    background-color: #28a745; /* Green */
-    color: #fff; /* White */
-    border: none;
-    padding: 0.625rem 1.25rem; 
-    font-size: 16px; 
-    border-radius: 0.3125rem; 
-    cursor: pointer;
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem; 
+    position: static; /* Remove fixed positioning on smaller screens */
+    margin-top: 10px; /* Add some margin for spacing */
+    width: 100%; /* Make button full width on smaller screens */
+    text-align: center; /* Center the text */
   }
-  
-  .add-interaction-button:hover {
-    background-color: #218838; /* Darker green on hover */
-    color: #fff; /* Change text color to white on hover */
-  }
-  
+}

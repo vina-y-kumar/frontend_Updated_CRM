@@ -424,6 +424,7 @@ label #cancel {
   background-color: #6d31edff;
 }
 
+
 .sidebar_link_text {
   margin-left: 10px;
   font-size: 16px;
@@ -445,7 +446,7 @@ label #cancel {
 }
 
 .dropdown_item a:hover {
-  background-color: #f5f5f5;
+  background-color: #6d31edff;
 }
 
 

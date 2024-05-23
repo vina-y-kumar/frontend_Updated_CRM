@@ -4,6 +4,7 @@ height: 286px;
 background: #F5F1FEFF;
 border-radius: 4px;
 position: relative;
+margin-top: 30px;
 
 }
 
@@ -100,6 +101,7 @@ color: #565D6DFF;
   align-items: center;
   justify-content: center;
   padding: 7px 11px 9px 12px;
+  margin-left: 1000px;
 
 
 
@@ -2897,9 +2899,7 @@ margin-bottom: 40px;
   padding-top: 4px;
 }
 
-.contactfill_forms {
-  display: flex;
-}
+
 
 /* Button styles */
 .btnsss1 {

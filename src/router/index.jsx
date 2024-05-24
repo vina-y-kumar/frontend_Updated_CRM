@@ -41,6 +41,8 @@ import Campaignform from "../pages/Campaign/Campaignform";
 import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 
+import InstagramPost from "../pages/instagram/instagrampost";
+import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -206,6 +208,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/interaction/:id" element={<InteractionDetailsPage/>} />
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
+          <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
         </>
       )}
 

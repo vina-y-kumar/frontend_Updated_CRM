@@ -7,9 +7,9 @@ function AddLead() {
     <>
       <div className="header-menu">
         <></>
-        <NavLink className="header-item">Summary</NavLink>
-        <NavLink className="header-item">Task List</NavLink>
-        <NavLink className="header-item">Related</NavLink>
+        <NavLink className="header-item1">Summary</NavLink>
+        <NavLink className="header-item2">Task List</NavLink>
+        <NavLink className="header-item3">Related</NavLink>
         {/* form */}
   
   

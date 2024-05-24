@@ -107,13 +107,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/contacts")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    {/* <img
-                      src={meet}
-                      alt="icon"
-                      className="sidebar_link_img"
-                      width={25}
-                      height={25}
-                    /> */}
+                   
                     <ContactPhoneRoundedIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Contacts</p>
                   </span>

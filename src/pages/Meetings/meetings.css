@@ -482,6 +482,7 @@ top: 40px;
     left: 0;
     top: 0;
   }
+ 
 
   .form-label-title,
   .form-input-title {
@@ -530,11 +531,12 @@ top: 40px;
   justify-content: center;
 }
 
-.modal-content {
-  background-color: black;
- 
+.modal-content_meet {
+  /* padding: 20px; */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 600px;
+  margin: auto;
 }
 
 .meetings-header{
@@ -583,3 +585,12 @@ color: #171A1FFF;
   background-color: aliceblue;
 
 }
+/* @media(max-width:320px){
+  .table10 {
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+   
+  }
+} */

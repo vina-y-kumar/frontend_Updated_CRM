@@ -38,6 +38,9 @@ import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsP
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
 import InstagramPost from "../pages/instagram/instagrampost";
+import Userprofile from "../pages/Userpage/Userprofile";
+
+
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -177,6 +180,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path=":tenant_id/user_id" element={<Userprofile />} />
+
         </>
       )}
 

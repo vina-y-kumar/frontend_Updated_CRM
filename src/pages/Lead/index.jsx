@@ -73,7 +73,8 @@ export const LeadPage = () =>
       <h3>Total Leads: 25</h3>
       <div className="lead_add_btn">
         <div className="navlinks">
-          <NavLink to={`/${tenantId}/addlead`} id="btn">+ New</NavLink>
+        <NavLink to={`/${tenantId}/addlead`} id="btn" style={{ backgroundColor: '#62CD14FF' }}>+ New</NavLink>
+
           <button onClick={toggleViewMode} className="view-mode-btn">
             {viewMode === "kanban" ? "Table View" : "Kanban View"}
           </button>

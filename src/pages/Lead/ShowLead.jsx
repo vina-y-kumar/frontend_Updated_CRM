@@ -1,12 +1,31 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./LeadPage.css";
+import './ShowLead.css';
 import { useParams, NavLink } from "react-router-dom";
 import RelatedList1 from "./RelatedList1.jsx";
 import ConvertLead from "./ConvertLead.jsx";
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import { Sidebar } from "../../components/Sidebar";
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import axiosInstance from "../../api.jsx";
+import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
+import LocalOfferRoundedIcon from '@mui/icons-material/LocalOfferRounded';
+import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
+import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
+import AlternateEmailRoundedIcon from '@mui/icons-material/AlternateEmailRounded';
+import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
+import PaymentsRoundedIcon from '@mui/icons-material/PaymentsRounded';
+import ViewArrayRoundedIcon from '@mui/icons-material/ViewArrayRounded';
+import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
+import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
+import BrowseGalleryRoundedIcon from '@mui/icons-material/BrowseGalleryRounded';
+import Chart from "chart.js/auto"; // Import Chart.js library
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+
 const ShowLead = () => {
-  const [ShowLead, setShowLead] = useState({
+  const [showLead, setShowLead] = useState({
     first_name: "",
     email: "",
     phone: "",
@@ -31,19 +50,47 @@ const ShowLead = () => {
 
   const { id } = useParams();
   const [met, setMet] = useState([]);
+  
   useEffect(() => {
     const fetchformData = async () => {
       try {
         const response = await axiosInstance.get(`/leads/${id}`);
-
         setShowLead(response.data);
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
     };
-
     fetchformData();
   }, [id]);
+  useEffect(() => {
+    const ctx = document.getElementById("leadScoreChart1").getContext("2d");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Lead Score", " "],
+        datasets: [
+          {
+            label: "Lead Score",
+            data: [80, 20],
+            backgroundColor: ["#4CAF50", "lightgrey"], // Set the permanent background color here
+            borderWidth: [0, 0],
+            hoverOffset: 10,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        cutout: "70%",
+      },
+    });
+  }, []);
+  
 
   const relatedListItems = [
     "Notes",
@@ -64,7 +111,7 @@ const ShowLead = () => {
 
   const handleChange = (event) => {
     setShowLead({
-      ...ShowLead,
+      ...showLead,
       [event.target.name]: event.target.value,
     });
   };
@@ -73,22 +120,22 @@ const ShowLead = () => {
     event.preventDefault();
     const newNote = {
       id: new Date().getTime(),
-      text: ShowLead.Notes,
+      text: showLead.Notes,
     };
 
     setShowLead({
-      ...ShowLead,
-      RecentNotes: [newNote, ...ShowLead.RecentNotes],
+      ...showLead,
+      RecentNotes: [newNote, ...showLead.RecentNotes],
       Notes: "",
     });
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post(
         "https://backendcrmnurenai.azurewebsites.net/leads/",
-
-        ShowLead
+        showLead
       );
       console.log("ShowLead Information submitted :", response.data);
       setShowLead({
@@ -121,185 +168,336 @@ const ShowLead = () => {
   const handleAttach = () => {
     console.log("Attach happened");
   };
+
   const handleNew = () => {
     console.log("Add New happened");
   };
 
   const toggleAdditionalDetails = () => {
-    setShowLead(!ShowLead);
+    setShowLead(!showLead);
   };
 
   const handleConvert = () => {
     // Add logic here to handle conversion
     console.log("Lead converted");
   };
+
   return (
-    <div>
-      <div className="classs">
-        <div className="buttonss">
-          <div className="mail-icon-button">
-            <button>Send Email</button>
+    <div className="container1">
+      <div className="side_lead">
+      <Sidebar />
+      </div>
+     
+      <div className="head_lead_information">
+        <div className="arrow_head">
+          <div className="arrow_lead">
+            <ArrowForwardRoundedIcon />
           </div>
           <div>
-            <NavLink to={`/convert/${id}`}>
-              <button onClick={handleConvert}>Convert</button>
-            </NavLink>
-          </div>
-          <div className="edit-button">
-            <button>Edit</button>
-          </div>
-          <div className="dot-button">
-            <button>...</button>
+            <h1 className="lead_info">Lead details</h1>
           </div>
         </div>
-      </div>
-      <div className="pages">
         <div>
-          <RelatedList1 title="Related List" items={relatedListItems} />
-        </div>
-        <div className="blank-page">
-          <div className="button-group">
-            <button className="button-overview">Overview</button>
-            <button className="button-timeline">Timeline</button>
-          </div>
-          <div className="info">
-            <hr />
-            <div className="para1">
-              <p className="para">Lead Owner -{ShowLead.first_name}</p>
+          <div className="arrow_container">
+           
 
-              <p className="para">Email - {ShowLead.email}</p>
-              <p className="para">Phone -{ShowLead.phone}</p>
-              <p className="para">mobile -{ShowLead.mobile}</p>
-              <p className="para">Created By - {ShowLead.createdBy}</p>
-              <p className="para">Organization - {ShowLead.account_name}</p>
-            </div>
-          </div>
-          <div className="info">
-            <div className="hidedetail">
-              <button onClick={toggleAdditionalDetails}>
-                {ShowLead ? "Hide Details" : "Show Details"}
-              </button>
-            </div>
-            <hr />
+<div className="lead_display"> 
+  <NavLink to="/new-lead" className="lead_data_">
+    <div className="lead_click">
+      <DoneRoundedIcon style={{ width: '20px', height: '20px', fill: '#EEFDF3FF' }} />
+    </div>
+    <div>
+      <h1 className="lead_headd">New Lead </h1>
+    </div>
+    <div className="half-arrow">
+      <ArrowForwardIosRoundedIcon/>
+    </div>
+  </NavLink>
+  <NavLink to="/proposal" className="lead_data_">
+    <div className="lead_click">
+      <DoneRoundedIcon style={{ width: '20px', height: '20px', fill: '#EEFDF3FF' }} />
+    </div>
+    <div>
+      <h1 className="lead_headd">Proposal </h1>
+    </div>
+    <div className="half-arrow">
+      <ArrowForwardIosRoundedIcon/>
+    </div>
+  </NavLink>
+  <NavLink to="/negotiation" className="lead_data_">
+    <div className="lead_click1">
+      <div className="lead_number2">3</div>
+    </div>
+    <div>
+      <h1 className="lead_headd">Negotiation </h1>
+    </div>
+    <div className="half-arrow">
+      <ArrowForwardIosRoundedIcon/>
+    </div>
+  </NavLink>
+  <NavLink to="/contact-sent" className="lead_data_">
+    <div className="lead_click2">
+      <div className="lead_number">4</div>
+    </div>
+    <div>
+      <h1 className="lead_headd">Contact Sent</h1>
+    </div>
+    <div className="half-arrow">
+      <ArrowForwardIosRoundedIcon/>
+    </div>
+  </NavLink>
+  <NavLink to="/close" className="lead_data_">
+    <div className="lead_click2">
+      <div className="lead_number">5</div>
+    </div>
+    <div>
+      <h1 className="lead_headd">Close</h1>
+    </div>
+    <div className="half-arrow">
+      <ArrowForwardIosRoundedIcon/>
+    </div>
+  </NavLink>
+</div>
 
-            <div className="showdetails"></div>
-            {ShowLead && (
-              <div className="detail">
-                <div className="add">
-                  <div>
-                    <p>Contact Owner - {ShowLead.first_name}</p>
-                    <p>Account Name -{ShowLead.accountName}</p>
-                    <p>Email -{ShowLead.email}</p>
-                    <p>Lead Source - {ShowLead.LeadSource}</p>
-                    <p>Zip Code -{ShowLead.ZipCode}</p>
-                    <p>Country -{ShowLead.Country}</p>
-                    <p>Description -{ShowLead.description}</p>
-                  </div>
 
-                  <div>
-                    <p>Contact Name - {ShowLead.first_name}</p>
-                    <p>Vendor Name -{ShowLead.vendorName}</p>
-                    <p>Fax -{ShowLead.fax}</p>
-                    <p>address -{ShowLead.address}</p>
-                    <p>Street -{ShowLead.Street}</p>
-                    <p>City -{ShowLead.City}</p>
-                  </div>
-                </div>
-              </div>
-            )}
+
           </div>
 
-          <div className="info">
-            <div className="notes-container">
-              <div className="recent">
-                <div className="notes">
-                  <h1>Notes</h1>
-                </div>
+          <div className="lead_info_container">
+          <div className="lead_info_container-data">
+          <div>
+    <div><h1 className="lead_title-info">TITLE</h1></div>
+    <div className="lead_title-infovalue">{showLead.title}</div>
 
-                <div>
-                  <button className="recent-notes-button">Recent Last</button>
+  </div>
+  <div>
+    <div><h1 className="lead_title-info">EST REVENUE</h1></div>
+    <div className="lead_title-infovalue">{showLead.LeadSource}</div>
 
-                  <ul className="recent-notes-list">
-                    {/* {contactinfo.RecentNotes.map(note => (
-                      <li key={note.id}>{note.text}</li>
-                    ))} */}
-                  </ul>
-                </div>
-              </div>
+  </div>
+  <div>
+    <div><h1 className="lead_title-info">PRODUCT</h1></div>
+    <div className="lead_title-infovalue">{showLead.LeadName}</div>
 
-              <form onSubmit={handleAddNote}>
-                <textarea
-                  name="Notes"
-                  value={ShowLead.Notes}
-                  onChange={handleChange}
-                  className="notes-textarea"
-                  placeholder="add a note........"
-                ></textarea>
-                <button type="submit" className="add-note-button">
-                  Add Note
-                </button>
-              </form>
-            </div>
-          </div>
-          <div className="info">
-            <p className="cadence"> Cadences </p>
-            <hr />
-            <div>
-              <button onClick={() => setModalOpen1(true)}>Add Cadence</button>
-            </div>
-          </div>
-          <div className="info">
-            <div className="info1">
-              <div className="heads">
-                <p>Attachments</p>
-              </div>
-              <div className="attach">
-                <select onChange={handleAttach}>
-                  <option value="">Attach</option>
+  </div>
+  <div>
+    <div><h1 className="lead_title-info">Est.CLOSE Date </h1></div>
+    <div className="lead_title-infovalue">{showLead.website}</div>
 
-                  <option value="1">first Attach</option>
-                  <option value="2">last Attach</option>
-                </select>
-              </div>
-            </div>
+  </div>
           </div>
-          <div className="info">
-            <p> Deals</p>
-            <div className="deal">
-              <button>New Deal</button>
-            </div>
           </div>
-          <div className="info">
-            <div className="actvities">
-              <div>
-                <p>Open Activities</p>
-              </div>
-              <div className="added">
-                <select onChange={handleNew}>
-                  <option value="">Add New</option>
+          
+          <div>
+          <div className='lead-headings'>
+  <div className="task_lead_head">
+    <div className="sum_header">
+      <button>Summary</button>
+    </div>
+    <div className="sum_header">
+      <button>TaskList</button>
+    </div>
+    <div className="sum_header">
+      <button>Dealanalysis</button>
+    </div>
+    <div className="sum_header">
+      <button>Activitieslog</button>
+    </div>
+  </div>
+</div>
 
-                  <option value="1">Task</option>
-                  <option value="2"> meeting </option>
-                  <option value="3">call</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="info">
-            <p>Closed Activities</p>
-          </div>
-          <div className="info">
-            <p>Invite Meetings</p>
-          </div>
-          <div className="info">
-            <p>Emails</p>
-          </div>
-          <div className="info">
-            <p>Campaigns</p>
+<div className="big-lead-container">
+  <div  className="general-lead-container">
+    <div>
+      <h1 className="lead_general_head">General info</h1>
+      </div>
+      <div>
+      <div className="Lead_general_box">
+       <div>
+       
+     <h1 className="head_Lead_">
+     <NewspaperRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Lead Code</h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.first_name}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <LocalOfferRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Product Sample Business</h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.first_name}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <Groups2RoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Client</h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.LeadName}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <StoreRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Company</h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.company}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <LocalPhoneRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Phone Number</h1>  
+       </div>
+       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+        {showLead.phone}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <AlternateEmailRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Email</h1>  
+       </div>
+       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+     
+        {showLead.email}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     < CreditCardRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Payment Method
+
+     </h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.account_name}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <PaymentsRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Currency</h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.website}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div >
+     <h1 className="head_Lead_">
+     <LocalPrintshopRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Fax</h1>  
+       </div>
+       <div className="lead_head_data">
+        {showLead.fax}
+       </div>
+      </div>
+      <div className="Lead_general_box">
+       <div>
+     <h1 className="head_Lead_">
+     <ViewArrayRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Website</h1>  
+       </div>
+       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+        {showLead.website}
+       </div>
+      </div>
+      </div>
+     
+
+  </div>
+  <div>
+    <div className="upcoming_lead_activity">
+      <div>
+        <h1 className="lead_general_head">
+          Upcoming activities
+        </h1>
+      </div>
+      <div className="small_lead_container">
+  <div>
+    <h1 className="lead_today"> Today</h1>
+  </div>
+  <div className="lead_Internal_container"> {/* Container for Internal preparation meeting and lead_Internal_data */}
+    <h1 className="lead_Internal"> Internal preparation meeting</h1>
+    <div className="lead_Internal_data"> {/* Nested container for lead_Internal_data */}
+      <BrowseGalleryRoundedIcon style={{width: '24px', height: '24px', marginRight: '20px', fill: 'grey' }}/>
+      <span>08:00-09:00</span>
+    </div>
+  </div>
+ 
+</div>
+
+
+      <div className="small_lead_container1">
+      <div>
+    <h1 className="lead_today1"> Sep30,2022</h1>
+  </div>
+  <div className="lead_Internal_container"> {/* Container for Internal preparation meeting and lead_Internal_data */}
+    <h1 className="lead_Internal"> External meeting - Negotiation</h1>
+    <div className="lead_Internal_data"> {/* Nested container for lead_Internal_data */}
+      <BrowseGalleryRoundedIcon style={{width: '24px', height: '24px', marginRight: '20px', fill: 'grey' }}/>
+      <span>08:00-09:00</span>
+    </div>
+  </div>
+      </div>
+
+    </div>
+    <div className="lead_score_activity">
+     
+  <h1 className="lead_general_head">Lead Score </h1>
+  <div className="lead-data-chart">
+  <canvas id="leadScoreChart1" className="chart-canvas"></canvas>
+  <div  className = 'lead_num 'style={{ fontFamily: 'Lexend', fontSize: '24px', lineHeight: '36px', fontWeight: 700, color: '#1DD75BFF', display: 'flex', alignItems: 'center' }}>
+    <ShowChartIcon style={{ width: '24px', height: '24px' }} />
+    80%
+  </div>
+  <div className="lead_data_list">
+  <ul >
+    <li className='lead_data_list_data '>Country/Region:UK</li>
+    <li className='lead_data_list_data '>Job Title:Manager</li>
+    <li className='lead_data_list_data '>ReturningOpportunity</li>
+    <li className='lead_data_list_data '>Est. Close Date:10</li>
+    <li className='lead_data_list_data '>Accept DemoMeeting</li>
+  </ul>
+</div>
+
+  </div>
+  
+</div>
+
+
+  </div>
+
+</div>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default ShowLead;

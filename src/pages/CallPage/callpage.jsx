@@ -177,9 +177,9 @@ const handleCreateMeeting = async (e) => {
       <h1 className="call_head"> Calls </h1>
       <div className="contain1">
         <div className="meet1">
-        <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
+        <div className="menu_call">
+        <Dropdown >
+          <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu_call">
             Excel File
           </Dropdown.Toggle>
           <Dropdown.Menu>

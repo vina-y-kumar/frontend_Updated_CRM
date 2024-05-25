@@ -1,4 +1,7 @@
 import { Sidebar } from "../../components/Sidebar";
+import { Header } from "../../components/Header";
+import { Dropdown,Card, ListGroup } from "react-bootstrap";
+
 import "./LeadPage.css";
 import Kanban from "../../components/Kanban/Kanban";
 import { NavLink ,Link} from "react-router-dom";
@@ -39,6 +42,12 @@ export const LeadPage = () =>
                         fetchLeadData();
                       }, []);
 
+  const handleDownloadExcel = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(leadData);
+    XLSX.utils.book_append_sheet(wb, ws, "Leads");
+    XLSX.writeFile(wb, "leads.xlsx");
+  };
 
                       const exportToExcel = () => {
                         const wb = XLSX.utils.book_new();
@@ -52,44 +61,53 @@ export const LeadPage = () =>
                       };
 
   return (
-  <div className="head-section">
-                  <div className="pay_left_box">
-                    <Sidebar />
-                  </div>
+    <div className="head-section">
+    <div className="pay_left_box">
+      <Sidebar />
+    </div>
+    <div className="head">
+  { /*   <div className="icon">
+        <div className="upper"><img className="phone-icon" alt="phone icon" /></div>
+        <div className="upper"><img className="message-icon" alt="message icon" /></div>
+        <div className="upper"><img className="bell-icon"  alt="bell icon" /></div>
+        <div className="upper"><img className="person-icon"  alt="person icon" /></div>
+      </div> */}
+      <Header name="Leads" />
+      <h3>Total Leads: 25</h3>
+      <div className="lead_add_btn">
+        <div className="navlinks">
+        <NavLink to={`/${tenantId}/addlead`} id="btn" style={{ backgroundColor: '#62CD14FF' }}>+ New</NavLink>
 
-     <div className="head">
-    
-    
-      
-          <div>
-                    <div className="contactlist">
-                      <h1>Leads</h1>
-                    </div>
-                    <div className="navlinks">
-                      <NavLink to={`/${tenantId}/addlead`} id="btn">+ New</NavLink>
-                      <br/>
-                      <button onClick={toggleViewMode} className="view-mode-btn">
-                      {viewMode === "kanban" ? "Table View" : "Kanban View"}
-                      </button>
-                    </div>
-
-              <Link to={`/${tenantId}/bulk-import?model=${modelName}`} className="import-excel-btn5">
-                Import Excel
-              </Link>
-                
-              <button onClick={exportToExcel} className="excel-download-btn3">
-                Excel
-              </button>
-          </div>     
-          <div>
-              <br/>
-              {viewMode === "kanban" ? <Kanban /> : <LeadTable />}
-
-          </div>
-      
-         
-     </div>
+          <button onClick={toggleViewMode} className="view-mode-btn">
+            {viewMode === "kanban" ? "Table View" : "Kanban View"}
+          </button>
+        </div>
+        <div className="btn-container">
+          <Dropdown>
+            <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu_lead">
+              Excel File
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+                  Import Excel
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <button onClick={handleDownloadExcel} className="excel-download-btn3">Excel</button>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      </div>
+      {viewMode === "kanban" ? <Kanban /> : <LeadTable />}
+    </div>
   </div>
+  
+    
+
+    
+  
 
   );
 };

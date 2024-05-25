@@ -374,6 +374,9 @@ const LinkedInPost = () => {
             <div className="user-info">
         <h2 className="user-name">User Name</h2>
       </div>
+      <div className="caption-preview">
+          <p>{caption}</p>
+        </div>
       <div className="media-grid">
         {files.map((file, index) => (
           <div key={index} className="media-item">
@@ -392,9 +395,6 @@ const LinkedInPost = () => {
           <p>{comment}</p>
       </div>
       )}
-        <div className="caption-preview">
-          <p>{caption}</p>
-        </div>
           </div>
         )}
         </div>

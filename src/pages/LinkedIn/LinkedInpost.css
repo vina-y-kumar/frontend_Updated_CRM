@@ -362,17 +362,18 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    margin-bottom: 20px; /* Adjust margin as needed */
+   
   }
   .preview-box {
     border: 1px solid #ccc;
     padding: 50px;
-    margin: 20px;
+    max-width: fit-content;
   }
   
   .Post-preview h1 {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 10px;
+
   }
   
   .Post-preview p {
@@ -381,8 +382,8 @@
   }
   
   .preview-option-box {
-    border-top: 1px solid #ccc; /* Add a border above the preview option box */
-    padding-top: 20px; /* Add some space above the preview option box */
+    border-top: 1px solid #ccc; 
+    padding-top: 20px; 
   }
   
   .Preview-heading {
@@ -394,19 +395,14 @@
   }
   
   .toggle-preview-visibility {
-    margin-left: auto; /* Push the visibility toggle to the right */
+    margin-left: auto; 
     cursor: pointer;
   }
   
-  .preview-content {
-    margin-top: 10px; /* Add some space below the heading */
-  }
-  .user-info {
-    margin-bottom: 10px;
-  }
+ 
   
   .user-name {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
   }
   
@@ -422,19 +418,19 @@
   
   .media-item img {
     width: 100%;
-    height: 800px;
+    height: auto;
     border-radius: 5px;
   }
   
   .media-item button {
-    position: absolute;
     top: 5px;
     right: 5px;
     background-color: rgba(255, 255, 255, 0.5);
-    border: none;
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
+    justify-content: space-between;
+    
   }
   
   .interaction-buttons {
@@ -464,3 +460,4 @@
     border-radius: 4px;
     margin-top: 10px;
   }
+  

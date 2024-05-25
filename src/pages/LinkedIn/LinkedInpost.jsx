@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Sidebar } from "../../../components/Sidebar";
+import { Sidebar } from "../../components/Sidebar";
 import EmojiPicker from 'emoji-picker-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
-import './instagrampost.css';
+import './LinkedInpost.css';
 
-const InstagramPost = () => {
+const LinkedInPost = () => {
   const [text, setText] = useState('');
   const [dragging, setDragging] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -19,18 +19,21 @@ const InstagramPost = () => {
   const [comment, setComment] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const [showUploadOptions, setShowUploadOptions] = useState(false);
-  const [files, setFile] = useState(null);
+  const [files, setFile] = useState([]);
   const [isCommentVisible, setIsCommentVisible] = useState(true);
   const [isPromoteVisible, setIsPromoteVisible] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState('12:00');
+  const [isPreviewVisible, setIsPreviewVisible] = useState(true);
+  const [showComment, setShowComment] = useState(false);
 
   const handleDragOver = (event) => {
     event.preventDefault();
     setDragging(true);
   };
 
-  const handleDragLeave = () => {
+  const handleDragLeave = (event) => {
+    event.preventDefault();
     setDragging(false);
   };
 
@@ -207,17 +210,17 @@ const InstagramPost = () => {
     console.log('Scheduled Date:', selectedDate);
     console.log('Scheduled Time:', selectedTime);
   };
-
+  
   return (
-    <div className="Insta_post">
-      <div className="sidebar_container_for_insta">
+    <div className="LinkedIn_post">
+      <div className="sidebar_container_for_LinkedIn">
        <Sidebar/>
       </div>
-      <div className="Insta-header">
-        <h1 className='meeting_head'>Instagram</h1>
-          <div className="Instapost_main_left">
+      <div className="LinkedIn-header">
+        <h1 className='meeting_head'>LinkedIn</h1>
+          <div className="LinkedIn_main_left">
           <div className="post-container">
-            <div className="Instapost_content">
+            <div className="LinkedIn_content">
               <textarea
                 value={text}
                 onChange={handleChange}
@@ -235,7 +238,7 @@ const InstagramPost = () => {
             <div className="upload-media-container">
       <h2 className="upload-media-heading">Upload Media</h2>
       <p className="upload-media-description">
-        Share photos and videos on Instagram. Posts can’t exceed 10 photos or videos.
+        Share photos and videos on LinkedIn. Posts can’t exceed 10 photos or videos.
       </p>
       <div
         className={`upload-media-box ${dragging ? 'dragging' : ''}`}
@@ -253,19 +256,19 @@ const InstagramPost = () => {
         </div>
       </div>
 
-              {files && files.length > 0 && (
-          <div className="attached-media">
-            <h3>Attached Media</h3>
-            <div className="media-grid">
-              {files.map((file, index) => (
-                <div key={index} className="media-item">
-                  <img src={URL.createObjectURL(file)} alt={`file preview ${index + 1}`} />
-                  <button onClick={() => removeFile(index)}>Remove</button>
-                </div>
-              ))}
-            </div>
+      {files.length > 0 && (
+        <div className="attached-media">
+          <h3>Attached Media</h3>
+          <div className="media-grid">
+            {files.map((file, index) => (
+              <div key={index} className="media-item">
+                <img src={URL.createObjectURL(file)} alt={`file preview ${index + 1}`} />
+                <button onClick={() => removeFile(index)}>Remove</button>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+      )}
     </div>
             <div className="caption-box">
       <textarea
@@ -299,9 +302,9 @@ const InstagramPost = () => {
     </div>
     </div>  
           </div>  
-          <div className="instagram-option-box">
+          <div className="LinkedIn-option-box">
           <div className="first-comment-box">
-            <div className="comment-heading">Instagram First Comment</div>
+            <div className="comment-heading">LinkedIn First Comment</div>
             <div className="toggle-comment-visibility" onClick={() => setIsCommentVisible(!isCommentVisible)}>
           {isCommentVisible ? '⬆️' : '⬇️'} 
         </div>
@@ -315,7 +318,7 @@ const InstagramPost = () => {
             </div>
             )}
           </div>
-          <div className="insta-campaign">
+          <div className="LinkedIn-campaign">
         <h2>Add Campaign</h2>
        <div className="campaign-box">
           <p>Track and report on your social marketing campaigns with the Campaign Planner, notes and more.</p>
@@ -355,8 +358,50 @@ const InstagramPost = () => {
     </div>
       </div>
       </div>
+      <div className="Post-preview">
+        <h1>Network Preview</h1>
+        <p>Preview approximates how your content will display when published. Tests and updates by social networks may affect the final appearance. Report a difference you notice.</p>
+        <div className="preview-option-box">
+        <div className="Preview-heading">
+          LinkedIn
+          <div className="toggle-preview-visibility" onClick={() => setIsPreviewVisible(!isPreviewVisible)}>
+            {isPromoteVisible ? '⬆️' : '⬇️'}
+          </div>
+        </div>
+        <div className="preview-box">
+        {isPreviewVisible && (
+          <div className="preview-content">
+            <div className="user-info">
+        <h2 className="user-name">User Name</h2>
+      </div>
+      <div className="media-grid">
+        {files.map((file, index) => (
+          <div key={index} className="media-item">
+            <img src={URL.createObjectURL(file)} alt={`file preview ${index + 1}`} />
+            <button onClick={() => removeFile(index)}>Remove</button>
+          </div>
+        ))}
+      </div>
+      <div className="interaction-buttons">
+        <button className="like-button">Like</button>
+        <button className="comment-button" onClick={() => setShowComment(!showComment)}>Comment</button>
+        <button className="share-button">Share</button>
+      </div>
+      {showComment && (
+        <div className="comment-input">
+          <p>{comment}</p>
+      </div>
+      )}
+        <div className="caption-preview">
+          <p>{caption}</p>
+        </div>
+          </div>
+        )}
+        </div>
+      </div>
+      </div>
         </div>
   );
 };
 
-export default InstagramPost;
+export default LinkedInPost;

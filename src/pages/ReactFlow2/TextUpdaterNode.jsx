@@ -97,10 +97,18 @@ export const SendMessage = ({ isConnectable }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [contentHistory, setContentHistory] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]); // Array to store uploaded images
+  const [message, setMessage] = useState('');
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     setContentHistory((prevContent) => [...prevContent, option]);
+  };
+  const handleInputChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const handleVariableInsertion = (variable) => {
+    setMessage((prevMessage) => prevMessage + variable);
   };
 
   const handleImageUpload = (event) => {
@@ -119,24 +127,35 @@ export const SendMessage = ({ isConnectable }) => {
       case 'message':
         return (
           <div key="message">
+            <div className="message-input">
             <input type="text" placeholder="Enter your message..." />
+            </div>
             <button>Send</button>
           </div>
         );
-      case 'image':
-        return (
-          <div key="image">
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-            <button>Upload Image</button>
-            {uploadedImages.length > 0 && (
-              <div>
-                {uploadedImages.map((imageUrl, index) => (
-                  <img key={index} src={imageUrl} alt="Uploaded Image" />
-                ))}
+        case 'image':
+          return (
+            <div key="image">
+              <div className="file-upload-wrapper">
+                <button className="file-upload-button">Choose File</button>
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="file-upload-input" />
               </div>
-            )}
-          </div>
-        );
+              {uploadedImages.length > 0 && (
+                <div className="show-message-box">
+                  {uploadedImages.map((imageUrl, index) => (
+                    <img key={index} src={imageUrl} alt="Uploaded Image" className="uploaded-image" />
+                  ))}
+                </div>
+              )}
+              <input 
+                type="text" 
+                placeholder="Add a message..." 
+                value={message} 
+                onChange={handleInputChange} 
+                className="message-input" 
+              />
+            </div>
+          );
       case 'document':
         return (
           <div key="document">
@@ -191,6 +210,7 @@ export const SendMessage = ({ isConnectable }) => {
     </div>
   );
 };
+
 
 const AskQuestionPopup = ({ onSave, onCancel }) => {
   const [question, setQuestion] = useState('');
@@ -517,7 +537,273 @@ export const SetCondition = ({ data, isConnectable }) => {
 
     
       <Handle type="source" position={Position.Top} id={`button`} style={{ backgroundColor: isValid ? 'green' : 'red' }} />
-      <Handle type="target" position={Position.Bottom} id={`button`} style={{ backgroundColor: isValid ? 'red' : 'green' }} />
+      <Handle type="source" position={Position.Bottom} id={`button`} style={{ backgroundColor: isValid ? 'red' : 'green' }} />
     
     </div>);
 }; 
+export const IceBreaker = ({ data, isConnectable }) => {
+  const [iceBreakers, setIceBreakers] = useState(data.ice_breakers || []);
+  const [iceBreakersbutton,seticeBreakersButtons]=useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+
+
+  // Function to handle changing the body of an ice breaker
+  const handleChangeIceBreaker = (index, value) => {
+    const updatedIceBreakers = [...iceBreakers];
+    updatedIceBreakers[index].body = value;
+    setIceBreakers(updatedIceBreakers);
+  };
+
+  const handleAddIceBreaker = () => {
+    const newIceBreaker = { id: iceBreakers.length + 1, body: "Add Ice Breakers" };
+    setIceBreakers([...iceBreakers, newIceBreaker]);
+    data.ice_breakers = [...iceBreakers, newIceBreaker]; // update the data in the node
+  };
+
+
+  const handleAddButton = useCallback(() => {
+    if (iceBreakersbutton.length < 4) {
+      const newButtonId = iceBreakersbutton.length + 1; // Generate unique ID for the button
+      const newButton = { id: newButtonId, label: `Button ${newButtonId}` };
+      seticeBreakersButtons([...iceBreakersbutton, newButton]);
+    }
+  }, [iceBreakersbutton]);
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+    // Update data with the selected value
+    data.selectedOption = event.target.value;
+    setIsOpen(false); 
+  };
+
+  return (
+    <div className='IceBreaker'>
+    <div className="IceBreaker-Node" style={{ padding: 10, border: '1px solid #ddd', borderRadius: 5, position: 'relative' }}>
+      <h3>Ice Breakers</h3>
+    </div>
+    <div className="dropdown">
+          <div className={`dropdown-toggle ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+            <div className="dots"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+          </div>
+          {isOpen && (
+            <select value={selectedValue} onChange={handleSelectChange}>
+              <option value=""></option>
+              <option value="copy">Copy</option>
+              <option value="delete">Delete</option>
+            </select>
+          )}
+        </div>
+    <div>
+      {iceBreakers.length === 0 && (
+        <span onClick={handleAddIceBreaker} style={{ color: 'blue', cursor: 'pointer' }}>Add Ice Breaker</span>
+      )}
+      {iceBreakers.map((iceBreaker, index) => (
+        <div key={iceBreaker.id} style={{ marginBottom: 10 }}>
+          <input 
+            type="text"
+            value={iceBreaker.body}
+            onChange={(e) => handleChangeIceBreaker(index, e.target.value)}
+            style={{ width: '100%' }}
+          />
+        </div>
+      ))}
+    </div>
+    <div>
+      {iceBreakersbutton.map((button) => (
+        <div key={button.id} style={{ marginBottom: 5, position: 'relative' }}>
+          <button className='ice-breaker-button'>
+            {button.label}
+            <Handle
+              type="source"
+              position={Position.Right}
+              id={`button-${button.id}`}
+              isConnectable={isConnectable}
+              className="button-handle"
+            />
+          </button>
+        </div>
+      ))}
+      {iceBreakersbutton.length < 4 && (
+        <div>
+          <button onClick={handleAddButton}>+</button>
+        </div>
+      )}
+    </div>
+    </div>
+  );
+};
+export const PersistentMenu = ({data, isConnectable}) => {
+  const [menuItems, setMenuItems] = useState(data.pers_menu || []);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+
+  // Function to handle changing the body of a menu item
+  const handleChangeMenuItem = (index, value) => {
+    const updatedMenuItems = [...menuItems];
+    updatedMenuItems[index].body = value;
+    setMenuItems(updatedMenuItems);
+    data.pers_menu = updatedMenuItems; // Update the data in the node
+  };
+
+  // Function to handle adding a new menu item
+  const handleAddMenuItem = () => {
+    if (menuItems.length < 13) {
+      const newMenuItem = { body: "New Menu Item", type: "text", reply: "" };
+      setMenuItems([...menuItems, newMenuItem]);
+      data.pers_menu = [...menuItems, newMenuItem]; // Update the data in the node
+    }
+  };
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+    // Update data with the selected value
+    data.selectedOption = event.target.value;
+    setIsOpen(false); 
+  };
+
+  return (
+    <div className='PersistentMenu'>
+      <div className="PersistentMenu-Node" style={{ padding: 10, border: '1px solid #ddd', borderRadius: 5, position: 'relative' }}>
+        <h3>Persistent Menu</h3>
+      </div>
+      <div className="dropdown">
+          <div className={`dropdown-toggle ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+            <div className="dots"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+          </div>
+          {isOpen && (
+            <select value={selectedValue} onChange={handleSelectChange}>
+              <option value=""></option>
+              <option value="copy">Copy</option>
+              <option value="delete">Delete</option>
+            </select>
+          )}
+        </div>
+      <div>
+        {menuItems.length === 0 && (
+          <span onClick={handleAddMenuItem} style={{ color: 'blue', cursor: 'pointer' }}>Add Menu Item</span>
+        )}
+        {menuItems.map((item, index) => (
+          <div key={index} className="menu-item-container" style={{ marginBottom: 10, position: 'relative' }}>
+            <input
+              type="text"
+              value={item.body}
+              onChange={(e) => handleChangeMenuItem(index, e.target.value)}
+              style={{ width: '100%' }}
+            />
+            <Handle
+              type="source"
+              position={Position.Right}
+              id={`handle-${index}`}
+              isConnectable={isConnectable}
+              style={{ transform: 'translateY(-50%)'}}
+            />
+          </div>
+        ))}
+      </div>
+      {menuItems.length < 13 && (
+        <div>
+          <button onClick={handleAddMenuItem} style={{ cursor: 'pointer' }}>+</button>
+        </div>
+      )}
+    </div>
+  );
+};
+export const GenericTemplate = ({ data, isConnectable }) => {
+  const [templateData, setTemplateData] = useState({
+    id: data.id || '',
+    type: 'generic',
+    title: data.title || '',
+    subtitle: data.subtitle || '',
+    url: data.url || '',
+    image_url: data.image_url || ''
+  });
+  const [showSubtitleInput, setShowSubtitleInput] = useState(false);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [showImageUrlInput, setShowImageUrlInput] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const handleChange = (field, value) => {
+    const updatedData = { ...templateData, [field]: value };
+    setTemplateData(updatedData);
+    data[field] = value; // Update the data in the node
+  };
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+    // Update data with the selected value
+    data.selectedOption = event.target.value;
+    setIsOpen(false); 
+  };
+  return (
+    <div className="generic-template-node">
+      <h3>Generic Template</h3>
+      <div className="dropdown">
+          <div className={`dropdown-toggle ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+            <div className="dots"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+          </div>
+          {isOpen && (
+            <select value={selectedValue} onChange={handleSelectChange}>
+              <option value=""></option>
+              <option value="copy">Copy</option>
+              <option value="delete">Delete</option>
+            </select>
+          )}
+        </div>
+      <input
+        type="text"
+        placeholder="Title"
+        value={templateData.title}
+        onChange={(e) => handleChange('title', e.target.value)}
+      />
+
+      <button onClick={() => setShowSubtitleInput(!showSubtitleInput)}>
+        {showSubtitleInput ? 'Hide Subtitle' : 'Add Subtitle'}
+      </button>
+      {showSubtitleInput && (
+        <input
+          type="text"
+          placeholder="Subtitle"
+          value={templateData.subtitle}
+          onChange={(e) => handleChange('subtitle', e.target.value)}
+        />
+      )}
+
+      <button onClick={() => setShowUrlInput(!showUrlInput)}>
+        {showUrlInput ? 'Hide URL' : 'Add URL'}
+      </button>
+      {showUrlInput && (
+        <input
+          type="text"
+          placeholder="URL"
+          value={templateData.url}
+          onChange={(e) => handleChange('url', e.target.value)}
+        />
+      )}
+
+      <button onClick={() => setShowImageUrlInput(!showImageUrlInput)}>
+        {showImageUrlInput ? 'Hide Image URL' : 'Add Image URL'}
+      </button>
+      {showImageUrlInput && (
+        <input
+          type="text"
+          placeholder="Image URL"
+          value={templateData.image_url}
+          onChange={(e) => handleChange('image_url', e.target.value)}
+        />
+      )}
+
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        id="a"
+        isConnectable={isConnectable}
+        className="generic-handle"
+      />
+    </div>
+  );
+};

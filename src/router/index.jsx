@@ -35,10 +35,15 @@ import FaceB from "../pages/facebook/facebook";
 import Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
+import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
 import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
 import CampaignInfo from "../pages/Campaign/campaigninfo";
+import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
+import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
+
+import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -152,7 +157,10 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
        
           <Route path=":tenant_id/addlead" element={<Lead/>} />
-          {/*<Route path="/addform" element={<Form1/>} />*/}
+        
+          <Route path=":tenant_id/flow2" element={<FlowGraph2/>}/>
+          <Route path=":tenant_id/instagramflow" element={<InstagramFlow/>}/>
+          <Route path=":tenant_id/whatsappflow" element={<WhatsappFlow/>}/>
           <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
           <Route path=":tenant_id/ShowLead/:id" element={<ShowLead/>}/>
           <Route path=":tenant_id/convert/:id" element={<ConvertLead/>}/>
@@ -179,6 +187,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
         </>
       )}
 

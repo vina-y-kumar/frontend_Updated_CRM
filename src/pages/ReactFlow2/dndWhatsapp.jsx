@@ -9,14 +9,13 @@ import ReactFlow, {
   Background,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition } from './TextUpdaterNode';
+import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition } from './TextUpdaterNode.jsx';
 import axios from 'axios';
-import './dnd.css';
+import './dndWhatsapp.css';
 import e from 'cors';
 import { useMemo } from 'react';
-import { ContextMenu, MenuItem} from 'react-contextmenu';
 const lastNode = initialNodes[initialNodes.length - 1];
-import Sidebar from "./Sidebar";
+import Sidebar from "./WhastappSidebar.jsx";
 
 import "./dnd.css";
 import initialNodes from "./nodes.jsx";
@@ -29,7 +28,7 @@ let id = parseInt(lastNode.id) +1;
 
 const getId = () => `${id++}`;
 
-const DnDFlow = () => {
+const WhatsappFlow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -49,7 +48,7 @@ const DnDFlow = () => {
     buttonNode: ButtonNode,
     sendMessage: SendMessage,
     askQuestion: AskQuestion,
-    setCondition: SetCondition
+    setCondition: SetCondition,
   }), []);
 
   
@@ -81,9 +80,6 @@ const DnDFlow = () => {
     }
 
     
-    console.log(val.data.selectedOption);
-    console.log(val.type);
-    console.log(nodes);
   };
   const handleChange = (e) => {
     e.preventDefault();
@@ -147,6 +143,7 @@ const DnDFlow = () => {
     event.preventDefault();
 
     const type = event.dataTransfer.getData("application/reactflow");
+    console.log(type);
 
     // check if the dropped element is valid
     if (typeof type === "undefined" || !type) {
@@ -269,11 +266,11 @@ const DnDFlow = () => {
  
  
   return (
-    <div className="dndflow">
+    <div className="dndwhatsappflow">
       <div className="updatenode">
        </div>
       <Sidebar />
-      <button class="send-button" onClick={sendDataToBackend}>Send Data to Backend</button>
+      <button className="send-button" onClick={sendDataToBackend}>Send Data to Backend</button>
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
@@ -308,4 +305,4 @@ const DnDFlow = () => {
 
   
 
-export default DnDFlow;
+export default WhatsappFlow;

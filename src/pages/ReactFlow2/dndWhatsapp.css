@@ -1,4 +1,4 @@
-.dndflow {
+.dndwhatsappflow {
     flex-direction: column;
     display: flex;
     flex-grow: 1;
@@ -6,18 +6,18 @@
 
   }
   
-  .dndflow aside {
+  .dndwhatsappflow aside {
     border-right: 1px solid #eee;
     padding: 15px 10px;
     font-size: 12px;
     background: #fffdfa;
   }
   
-  .dndflow aside .description {
+  .dndwhatsappflow aside .description {
     margin-bottom: 10px;
   }
   
-  .dndflow .dndnode {
+  .dndwhatsappflow .dndnode {
     height: 20px;
     padding: 4px;
     border: 1px solid #1a192b;
@@ -30,31 +30,34 @@
     background-color: white;
   }
   
-  .dndflow .dndnode.input {
+  .dndwhatsappflow .dndnode.input {
     border-color: #0041d0;
     background-color: white;
   }
   
-  .dndflow .dndnode.output {
+  .dndwhatsappflow .dndnode.output {
     border-color: #ff0072;
     background-color: white;
   }
   
-  .dndflow .reactflow-wrapper {
+  .dndwhatsappflow .reactflow-wrapper {
     flex-grow: 1;
     height: 100%;
   }
   
-  .dndflow .selectall {
+  .dndwhatsappflow .selectall {
     margin-top: 10px;
   }
+  .reactflow-wrapper {
+  flex: 1; /* This makes sure the react flow takes up all available space */
+}
   
   @media screen and (min-width: 768px) {
-    .dndflow {
+    .dndwhatsappflow {
       flex-direction: row;
     }
   
-    .dndflow aside {
+    .dndwhatsappflow aside {
       width: 20%;
       max-width: 250px;
     }

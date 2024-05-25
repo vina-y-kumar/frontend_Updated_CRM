@@ -63,6 +63,12 @@ const Campaignform = () => {
       ...prevState,
       type: type,
     }));
+    if (type === 'Instagram') {
+      window.location.href = "/instagramflow";
+    }
+    else if (type === 'WhatsApp'){
+      window.location.href = "/whatsappflow"
+    }
   };
   return (
     <div>

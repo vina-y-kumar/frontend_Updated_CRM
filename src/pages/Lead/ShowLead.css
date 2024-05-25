@@ -10,9 +10,30 @@
     font-weight: 800;
     color: #171A1FFF;
 }
-.side_lead{
-
+.lead-data-chart{
+  display: flex;
+  flex-direction: column; /* Change to column layout */
+  justify-content: center;
+  align-items: center; /* Center align items */
+  margin-top: 20px; 
 }
+
+.lead_data_list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 0px;
+  position: absolute;
+ /* right: 10rem; */
+ margin-left: 27rem;
+  list-style-type: none;
+}
+
+.lead_data_list_data {
+  margin: 2px;
+  padding: 4px;
+}
+
 .pages_lead{
     display: flex;
     flex-direction: row;
@@ -83,6 +104,7 @@ font-size: 16px;
 line-height: 26px;
 font-weight: 400;
 color: #171A1FFF;
+
   }
   .lead_headd1{
     font-family: 'Manrope';
@@ -136,6 +158,16 @@ font-weight: 700;
 color: #323743FF;
 margin-top: 15px;
   }
+  .chart-canvas {
+    width: 300px  !important; /* Adjust the width as needed */
+    height: 150px !important; /* Adjust the height as needed */
+    margin-top: 20px !important;
+    margin-right: 230px;
+  }
+  .lead_num{
+    margin-right: 230px;
+  }
+  
   .lead_info_container-data{
     display: flex;
     flex-direction: row;
@@ -171,56 +203,30 @@ margin-top: 15px;
     color: #6D31EDFF;
     
   }
-  /* ShowLead.css */
-
-/* Keep existing styles */
-
-/* Adjustments for smaller screens */
+ 
 @media screen and (max-width: 768px) {
-    .pages_lead {
-      flex-direction: column; /* Change direction to column for smaller screens */
-      gap: 10px; /* Reduce gap between elements */
-    }
-  
-    .arrow_container,
-    .lead_info_container,
-    .lead-headings {
-      width: 100%; /* Make these containers full width */
-      margin-left: 0; /* Remove left margin */
-      position: relative; /* Position relative to adjust absolute positioning */
-      left: 0; /* Reset left position */
-    }
-  
-    .arrow_head {
-      margin-top: 20px; /* Reduce top margin */
-      flex-direction: column; /* Change direction to column for smaller screens */
-      align-items: center; /* Center align items */
-    }
-  
-    .lead_display {
-      flex-direction: column; /* Change direction to column for smaller screens */
-      align-items: center; /* Center align items */
-    }
-  
-    .lead_info_container-data {
-      flex-direction: column; /* Change direction to column for smaller screens */
-      align-items: center; /* Center align items */
-    }
-  
-    .task_lead_head {
-      flex-direction: column; /* Change direction to column for smaller screens */
-      align-items: center; /* Center align items */
-    }
-  
-    .sum_header {
-      margin-top: 10px; /* Reduce top margin */
-      text-align: center; /* Center align text */
-      width: 100%; /* Make headers full width */
-    }
+  .lead_info_container {
+    width: 90%; /* Adjust width for smaller screens */
+    margin: 0 auto; /* Center align container */
   }
+
+  .lead_info_container-data {
+    flex-direction: column; /* Change direction to column for smaller screens */
+    align-items: center; /* Center align items */
+  }
+
+  .lead_title-infovalue {
+    width: auto; /* Allow content to expand */
+    margin-top: 10px; /* Adjust spacing */
+  }
+
+  /* Add more styles as needed for responsiveness */
+}
+
 .head_lead_information{
   display: flex;
   flex-direction: column;
+ 
 
 }  
   .container{
@@ -232,7 +238,7 @@ margin-top: 15px;
 .big-lead-container{
 width: 200vh;
 height: 200vh;
-border: 1px solid;
+/* border: 1px solid #ddd; */
 display: flex;
 flex-direction:row ;
 margin-left: 20px;
@@ -255,6 +261,7 @@ flex-direction: column;
     line-height: 30px;
     font-weight: 700;
     color: #171A1FFF; 
+    margin-left: 20px;
   }
   .Lead_general_box{
     display: flex;
@@ -267,6 +274,7 @@ font-size: 16px;
 line-height: 26px;
 font-weight: 400;
 color: #6F7787FF;
+margin-left: 20px;
 }
 .lead_head_data{
   font-family: 'Manrope';
@@ -274,6 +282,141 @@ font-size: 16px;
 line-height: 26px;
 font-weight: 400;
 color: #323743FF;
+margin-right: 20px;
+margin-top: 30px;
 }
 
+  .upcoming_lead_activity{
+
+background: #FFFFFFFF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+margin-left: 20px;
+margin-top: 20px;
+  }
+  .small_lead_container{
+    width: 510px;
+height: 122px;
+background: #FFFAE1FF;
+border-radius: 8px;
+margin-left: 20px;
+margin-top: 20px;
+display: flex;
+flex-direction: column;
+
+
+
+  }
+  .small_lead_container1{
+    width: 510px;
+height: 122px;
+background: #FFF0F7FF;
+border-radius: 8px;
+margin-left: 20px;
+margin-top: 20px;
+
+  }
+  .lead_score_activity{
+    width: 550px;
+height: 298px;
+background: #FFFFFFFF;
+border-radius: 4px;
+margin-left: 20px;
+margin-top: 20px;
+
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+margin-left: 20px;
+  }
+
+  .lead_today{
+    margin-top: 10px; 
+
+    width: fit-content;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Manrope';
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: #5E4C00FF;
+    background: #FFD317FF;
+    border-radius: 14px;
+    margin-left: 20px;
+    position: relative;
+    top: 5px;
+
+
+
+
+
+  }
+  .lead_today1{
+    margin-top: 18px; 
+
+    width: fit-content;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Manrope';
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: #5E4C00FF;
+    background: #FF56A5FF;
+    border-radius: 14px;
+    margin-left: 20px;
+    position: relative;
+    top: 12px;
+  }
+  .lead_Internal{
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #171A1FFF;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+  }
   
+  .lead_Internal_data{
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    color: #6F7787FF;
+    margin-left: 30px;
+   
+  }
+  .lead_Internal_container{
+    display: flex;
+  flex-direction: column;
+  /* position:absolute; */
+  
+  }
+
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  /* Example adjustments */
+  .container1 {
+    flex-direction: column; 
+  }
+
+  .lead_display {
+    flex-direction: column; 
+    align-items: center; /* Center align items */
+  }
+
+
+}

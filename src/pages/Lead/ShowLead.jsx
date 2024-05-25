@@ -10,6 +10,19 @@ import { Sidebar } from "../../components/Sidebar";
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import axiosInstance from "../../api.jsx";
+import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
+import LocalOfferRoundedIcon from '@mui/icons-material/LocalOfferRounded';
+import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
+import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
+import AlternateEmailRoundedIcon from '@mui/icons-material/AlternateEmailRounded';
+import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
+import PaymentsRoundedIcon from '@mui/icons-material/PaymentsRounded';
+import ViewArrayRoundedIcon from '@mui/icons-material/ViewArrayRounded';
+import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
+import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
+import BrowseGalleryRoundedIcon from '@mui/icons-material/BrowseGalleryRounded';
+import Chart from "chart.js/auto"; // Import Chart.js library
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 
 const ShowLead = () => {
   const [showLead, setShowLead] = useState({
@@ -49,6 +62,35 @@ const ShowLead = () => {
     };
     fetchformData();
   }, [id]);
+  useEffect(() => {
+    const ctx = document.getElementById("leadScoreChart1").getContext("2d");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Lead Score", " "],
+        datasets: [
+          {
+            label: "Lead Score",
+            data: [80, 20],
+            backgroundColor: ["#4CAF50", "lightgrey"], // Set the permanent background color here
+            borderWidth: [0, 0],
+            hoverOffset: 10,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        cutout: "70%",
+      },
+    });
+  }, []);
+  
 
   const relatedListItems = [
     "Notes",
@@ -157,10 +199,10 @@ const ShowLead = () => {
         </div>
         <div>
           <div className="arrow_container">
-            {/* Your arrow content */}
-            {/* Your arrow content */}
+           
+
 <div className="lead_display"> 
-  <div className="lead_data_">
+  <NavLink to="/new-lead" className="lead_data_">
     <div className="lead_click">
       <DoneRoundedIcon style={{ width: '20px', height: '20px', fill: '#EEFDF3FF' }} />
     </div>
@@ -170,8 +212,8 @@ const ShowLead = () => {
     <div className="half-arrow">
       <ArrowForwardIosRoundedIcon/>
     </div>
-  </div>
-  <div className="lead_data_">
+  </NavLink>
+  <NavLink to="/proposal" className="lead_data_">
     <div className="lead_click">
       <DoneRoundedIcon style={{ width: '20px', height: '20px', fill: '#EEFDF3FF' }} />
     </div>
@@ -181,11 +223,10 @@ const ShowLead = () => {
     <div className="half-arrow">
       <ArrowForwardIosRoundedIcon/>
     </div>
-  </div>
-  {/* Add more arrow content as needed */}
-  <div className="lead_data_">
+  </NavLink>
+  <NavLink to="/negotiation" className="lead_data_">
     <div className="lead_click1">
-    <div className="lead_number2">3</div>
+      <div className="lead_number2">3</div>
     </div>
     <div>
       <h1 className="lead_headd">Negotiation </h1>
@@ -193,21 +234,21 @@ const ShowLead = () => {
     <div className="half-arrow">
       <ArrowForwardIosRoundedIcon/>
     </div>
-  </div>
-  <div className="lead_data_">
+  </NavLink>
+  <NavLink to="/contact-sent" className="lead_data_">
     <div className="lead_click2">
-    <div className="lead_number">4</div>
+      <div className="lead_number">4</div>
     </div>
     <div>
-      <h1 className="lead_headd">Contact Sent </h1>
+      <h1 className="lead_headd">Contact Sent</h1>
     </div>
     <div className="half-arrow">
       <ArrowForwardIosRoundedIcon/>
     </div>
-  </div>
-  <div className="lead_data_">
+  </NavLink>
+  <NavLink to="/close" className="lead_data_">
     <div className="lead_click2">
-    <div className="lead_number">5</div>
+      <div className="lead_number">5</div>
     </div>
     <div>
       <h1 className="lead_headd">Close</h1>
@@ -215,8 +256,10 @@ const ShowLead = () => {
     <div className="half-arrow">
       <ArrowForwardIosRoundedIcon/>
     </div>
-  </div>
+  </NavLink>
 </div>
+
+
 
           </div>
 
@@ -271,7 +314,11 @@ const ShowLead = () => {
       <div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Lead Code</h1>  
+       
+     <h1 className="head_Lead_">
+     <NewspaperRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Lead Code</h1>  
        </div>
        <div className="lead_head_data">
         {showLead.first_name}
@@ -279,7 +326,10 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Product Sample Business</h1>  
+     <h1 className="head_Lead_">
+     <LocalOfferRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Product Sample Business</h1>  
        </div>
        <div className="lead_head_data">
         {showLead.first_name}
@@ -287,7 +337,10 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Client</h1>  
+     <h1 className="head_Lead_">
+     <Groups2RoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Client</h1>  
        </div>
        <div className="lead_head_data">
         {showLead.LeadName}
@@ -295,7 +348,10 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Company</h1>  
+     <h1 className="head_Lead_">
+     <StoreRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Company</h1>  
        </div>
        <div className="lead_head_data">
         {showLead.company}
@@ -303,23 +359,35 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Phone Number</h1>  
+     <h1 className="head_Lead_">
+     <LocalPhoneRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Phone Number</h1>  
        </div>
-       <div className="lead_head_data">
+       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
         {showLead.phone}
        </div>
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Email</h1>  
+     <h1 className="head_Lead_">
+     <AlternateEmailRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Email</h1>  
        </div>
-       <div className="lead_head_data">
+       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+     
         {showLead.email}
        </div>
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Payment Method</h1>  
+     <h1 className="head_Lead_">
+     < CreditCardRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Payment Method
+
+     </h1>  
        </div>
        <div className="lead_head_data">
         {showLead.account_name}
@@ -327,7 +395,10 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Currency</h1>  
+     <h1 className="head_Lead_">
+     <PaymentsRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Currency</h1>  
        </div>
        <div className="lead_head_data">
         {showLead.website}
@@ -335,7 +406,10 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div >
-     <h1 className="head_Lead_">Fax</h1>  
+     <h1 className="head_Lead_">
+     <LocalPrintshopRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Fax</h1>  
        </div>
        <div className="lead_head_data">
         {showLead.fax}
@@ -343,9 +417,12 @@ const ShowLead = () => {
       </div>
       <div className="Lead_general_box">
        <div>
-     <h1 className="head_Lead_">Website</h1>  
+     <h1 className="head_Lead_">
+     <ViewArrayRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+
+      Website</h1>  
        </div>
-       <div className="lead_head_data">
+       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
         {showLead.website}
        </div>
       </div>
@@ -354,8 +431,65 @@ const ShowLead = () => {
 
   </div>
   <div>
-    <div className="upcoming_lead_activity"></div>
-    <div className="lead_score_activity"></div>
+    <div className="upcoming_lead_activity">
+      <div>
+        <h1 className="lead_general_head">
+          Upcoming activities
+        </h1>
+      </div>
+      <div className="small_lead_container">
+  <div>
+    <h1 className="lead_today"> Today</h1>
+  </div>
+  <div className="lead_Internal_container"> {/* Container for Internal preparation meeting and lead_Internal_data */}
+    <h1 className="lead_Internal"> Internal preparation meeting</h1>
+    <div className="lead_Internal_data"> {/* Nested container for lead_Internal_data */}
+      <BrowseGalleryRoundedIcon style={{width: '24px', height: '24px', marginRight: '20px', fill: 'grey' }}/>
+      <span>08:00-09:00</span>
+    </div>
+  </div>
+ 
+</div>
+
+
+      <div className="small_lead_container1">
+      <div>
+    <h1 className="lead_today1"> Sep30,2022</h1>
+  </div>
+  <div className="lead_Internal_container"> {/* Container for Internal preparation meeting and lead_Internal_data */}
+    <h1 className="lead_Internal"> External meeting - Negotiation</h1>
+    <div className="lead_Internal_data"> {/* Nested container for lead_Internal_data */}
+      <BrowseGalleryRoundedIcon style={{width: '24px', height: '24px', marginRight: '20px', fill: 'grey' }}/>
+      <span>08:00-09:00</span>
+    </div>
+  </div>
+      </div>
+
+    </div>
+    <div className="lead_score_activity">
+     
+  <h1 className="lead_general_head">Lead Score </h1>
+  <div className="lead-data-chart">
+  <canvas id="leadScoreChart1" className="chart-canvas"></canvas>
+  <div  className = 'lead_num 'style={{ fontFamily: 'Lexend', fontSize: '24px', lineHeight: '36px', fontWeight: 700, color: '#1DD75BFF', display: 'flex', alignItems: 'center' }}>
+    <ShowChartIcon style={{ width: '24px', height: '24px' }} />
+    80%
+  </div>
+  <div className="lead_data_list">
+  <ul >
+    <li className='lead_data_list_data '>Country/Region:UK</li>
+    <li className='lead_data_list_data '>Job Title:Manager</li>
+    <li className='lead_data_list_data '>ReturningOpportunity</li>
+    <li className='lead_data_list_data '>Est. Close Date:10</li>
+    <li className='lead_data_list_data '>Accept DemoMeeting</li>
+  </ul>
+</div>
+
+  </div>
+  
+</div>
+
+
   </div>
 
 </div>

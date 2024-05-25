@@ -95,7 +95,7 @@ export const Opportunities = () => {
               </Dropdown.Menu>
             </Dropdown>
             </div>
-            <div className="create2">
+            <div className="create1">
 
             <NavLink to={`/${tenantId}/opportunity`} id="btn3">
 

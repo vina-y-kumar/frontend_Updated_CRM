@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import "./LeadPage.css"
 
 function ConvertLead(props) {
+//Declarations
   const { id } = useParams();
   const [leadData, setLeadData] = useState();
   const [showConversionForm, setShowConversionForm] = useState(false);
@@ -14,6 +15,7 @@ function ConvertLead(props) {
       email: "",
       createdBy:1
   });
+
   const [contactFormData, setContactFormData] = useState({
       first_name: "",
       last_name:"",
@@ -21,62 +23,63 @@ function ConvertLead(props) {
       email: "",
       createdBy:1
   });
+
   const [error, setError] = useState(null);
   const [accountExists, setAccountExists] = useState(false);
   const [contactExists, setContactExists] = useState(false);
 
-  const handleAccountFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await axios.post("https://backendcrmnurenai.azurewebsites.net/accounts/", accountFormData);
-      setAccountExists(true);
-      console.log(response);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+//Functions
+                    const handleAccountFormSubmit = async (event) => {
+                      event.preventDefault();
+                      try {
+                        await axios.post("https://backendcrmnurenai.azurewebsites.net/accounts/", accountFormData);
+                        setAccountExists(true);
+                        console.log(response);
+                      } catch (error) {
+                        setError(error.message);
+                      }
+                    };
 
-  const handleContactFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await axios.post("https://backendcrmnurenai.azurewebsites.net/contacts/", contactFormData);
-      setContactExists(true);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+                  const handleContactFormSubmit = async (event) => {
+                    event.preventDefault();
+                    try {
+                      await axios.post("https://backendcrmnurenai.azurewebsites.net/contacts/", contactFormData);
+                      setContactExists(true);
+                    } catch (error) {
+                      setError(error.message);
+                    }
+                  };
 
-  useEffect(() => {
-    fetchLeadData();
-  }, []);
+                  useEffect(() => {
+                    fetchLeadData();
+                  }, []);
 
-  const fetchLeadData = async () => {
-    try {
-      const response = await axios.get(
-        `https://backendcrmnurenai.azurewebsites.net/leads/${id}`
-      );
-      setLeadData(response.data);
-      setAccountFormData({
-        Name: response.data.name,
-        phone: response.data.phone,
-        email: response.data.email,
-        createdBy:1
-      });
-      setContactFormData({
-        first_name: response.data.name,
-        last_name: "text",
-        phone: response.data.phone,
-        email: response.data.email,
-        createdBy:1
-      });
-    } catch (error) {
-      setError(error.message)
-      console.error("Error fetching contacts:", error);
-    }
-  };
+                  const fetchLeadData = async () => {
+                    try {
+                      const response = await axios.get(
+                        `https://backendcrmnurenai.azurewebsites.net/leads/${id}`
+                      );
+                      setLeadData(response.data);
+                      setAccountFormData({
+                        Name: response.data.name,
+                        phone: response.data.phone,
+                        email: response.data.email,
+                        createdBy:1
+                      });
+                      setContactFormData({
+                        first_name: response.data.name,
+                        last_name: "text",
+                        phone: response.data.phone,
+                        email: response.data.email,
+                        createdBy:1
+                      });
+                    } catch (error) {
+                      setError(error.message)
+                      console.error("Error fetching contacts:", error);
+                    }
+                  };
 
-  console.log(leadData);
-
+                  console.log(leadData);
   return (
     <div>
       <h1>Convert Lead Page </h1>

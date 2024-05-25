@@ -116,7 +116,7 @@ const Campaign = () => {
     <h1 className='total_campaign'> Total Campaigns</h1>
 <p className='total_campaign1'>20</p>
   </div>
-             <div className='campaign_secondbox'><h1 className='total_send'>Total Sended</h1>
+             <div className='campaign_secondbox'><h1 className='total_send'>Total Sent</h1>
              <p className='total_sended1'>2340</p></div>
              <div className='campaign_thirdbox'><h1 className='total_clicks'>Total Clicks</h1>
              <p className='total_clicks1'>243340</p></div>

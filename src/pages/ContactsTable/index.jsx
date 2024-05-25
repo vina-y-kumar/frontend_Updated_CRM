@@ -29,6 +29,11 @@ export const ContactsTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchAccountTerm, setSearchAccountTerm] = useState(""); // New state for account dropdown search
   const modelName = "contacts";
+  const [activeButton, setActiveButton] = useState("All Contacts");
+
+  const handleButtonClick = (status) => {
+    setActiveButton(status);
+  };
 
  
 
@@ -155,51 +160,45 @@ export const ContactsTable = () => {
   
   
   return (
-    <div className="calls1">
-       <div className="home_left_box1">
-        <Sidebar />
-      </div>
+  <div className="Contacts_main_page">
+    <div className="home_left_box1">
+      <Sidebar />
+    </div>
 
-      <div >
+   
 
-      </div>
-      <div className="contain1">
-
-      <div className="contain1" style={{width:"100%"}}>
-      <div className="contactlist">
-          <h1 >Contact list</h1>
-          </div>
-        <div className="meet1">
-        
-       
-
-          
-         
-        <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
-            Excel File
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>
-              <Link
-                to={`/bulk-import?model=${modelName}`}
-                className="import-excel-btn5"
-              >
-                Import Excel
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <button
-                onClick={handleDownloadExcel}
-                className="excel-download-btn1"
-              >
-                Excel
-              </button>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        </div>
+    <div className="contain1" style={{width:"100%"}}>
+              <div className="contactlist">
+                <h1 >Contact list</h1>
+                </div>
+              <div className="meet1">
+            
+  
+            <div>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
+                Excel File
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link
+                    to={`/bulk-import?model=${modelName}`}
+                    className="import-excel-btn5"
+                  >
+                    Import Excel
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <button
+                    onClick={handleDownloadExcel}
+                    className="excel-download-btn1"
+                  >
+                    Excel
+                  </button>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            </div>
           <div className="handle4">
           <NavLink to={`/${tenantId}/addcontact`} id="btn10">
                 +CreateContact
@@ -223,9 +222,9 @@ export const ContactsTable = () => {
 
         <div className="contact-boxes">
         <div className="contact-bigboxes">
-  <h1 className="newcontact">New contacts this Week</h1>
-  <Link to={`/${tenantId}/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
-                <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1>
+              <h1 className="newcontact">New contacts this Week</h1>
+              <Link to={`/${tenantId}/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
+               <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1>
                 <p className="paragraph1">{contacts.length > 0 && contacts[0].description}</p>
                 {/* Smiley */}
                 <div className="smiley1">
@@ -248,53 +247,71 @@ export const ContactsTable = () => {
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-</div>
-
-</div>
-<div  className="activeInactivebtn">
-  <div className="activeInactivebtn1">
-  <button className="activeinactive">All Contacts</button>
-  </div>
-  <div className="activeInactivebtn2">
-  <button>Active</button>
-
-  </div>
-  <div className="activeInactivebtn3">
-  <button>Inactive</button>
-  </div>
-  
- 
-
-</div>
-
- <div className="bigcontactbox">
- <div className="records10">
- <select
-  value={viewMode}
-  onChange={(e) => handleViewModeChange(e.target.value)}
-  className="view-mode-select7"
->
-  <option value="">View!</option>
-  <option value="table">Table View</option>
-  <option value="tile">Tile View</option>
-  <option value="list">List View</option>
-</select>
-          
-          
-          <select className="view-mode-select3" onChange={handleRecords1}>
-            <option value="">10 Records per page</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
-  
-      
-          {viewMode !== 'tile' && (
-  <h1 className="allcontacts">All contacts</h1>
-)}
-
-  
+          </div>
 
         </div>
+  <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+    <div className="activeInactivebtn">
+              <div className="activeInactivebtn1">
+                <button
+                  className={`${activeButton === "All Contacts" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("All Contacts")}
+                >
+                  All Contacts
+                </button>
+              </div>
+              <div className="activeInactivebtn2">
+                <button
+                  className={`${activeButton === "Active" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("Active")}
+                >
+                  Active
+                </button>
+              </div>
+            
+              <div className="activeInactivebtn3">
+                <button
+                  className={`${activeButton === "Inactive" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("Inactive")}
+                >
+                  Inactive
+                </button>
+              </div>
+                
+      </div>
+      <div style={{marginRight:'110px'}}>
+                   <select
+                      value={viewMode}
+                      onChange={(e) => handleViewModeChange(e.target.value)}
+                      className="view-mode-select7"
+                    >
+                      <option value="">View!</option>
+                      <option value="table">Table View</option>
+                      <option value="tile">Tile View</option>
+                      <option value="list">List View</option>
+                    </select>
+      </div>
+    </div>
+
+          <div className="bigcontactbox">
+          <div className="records10">
+          
+                    
+                    
+                    <select className="view-mode-select3" onChange={handleRecords1}>
+                      <option value="">10 Records per page</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                    </select>
+            
+                
+                    {viewMode !== 'tile' && (
+            <h1 className="allcontacts">All contacts</h1>
+          )}
+
+  
+
+          </div>
         <div className="bugs10">
           {/* <div className="filter-container">
             <h2>Filter Contacts by</h2>
@@ -332,9 +349,9 @@ export const ContactsTable = () => {
   
 
 
-{/* Table View */}
+        {/* Table View */}
 
-{viewMode === "table" && (
+        {viewMode === "table" && (
           <div className="table4">
             <table className="contacttable">
               <thead>
@@ -458,12 +475,10 @@ export const ContactsTable = () => {
           </div>
           )}
         </div>
-  </div>       
+       </div>       
         
         
       </div>
-    </div>
-  
-      </div>
+</div>
      );
     }

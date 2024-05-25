@@ -11,6 +11,7 @@ import msg from "../../assets/msg.webp";
 import "./accountsTableContent.css";
 import axiosInstance from '../../api';
 import { useAuth } from "../../authContext";
+import { NavLink } from 'react-router-dom';
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -23,6 +24,12 @@ const AccountsTable1 = () => {
 
   const [accounts, setAccounts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
+  const [activeButton, setActiveButton] = useState("All Accounts");
+
+  const handleButtonClick = (status) => {
+    setActiveButton(status);
+  };
+
   const tenantId = getTenantIdFromUrl();
   const modelName = "accounts";
 
@@ -87,65 +94,103 @@ const AccountsTable1 = () => {
   );
 
   return (
-    <div>
-<div className="account-boxes">
+  <div className="account_right_page_data">
+    <div className="account_page_top_header">
+              <div className="contactlist">
+              <h1 style={{paddingBottom:'100px'}}>Account list</h1>
+              </div>
+              <div style={{display:'flex',flexDirection:'row',marginTop:'90px'}}>
+              <div  style={{marginRight:'80px'}}>
+                          <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu">
+                              Excel File
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item>
+                                <Link
+                                  to={`/bulk-import?model=${modelName}`}
+                                  className="import-excel-btn4"
+                                >
+                                  Import Excel
+                                </Link>
+                              </Dropdown.Item>
+                              <Dropdown.Item>
+                                <button
+                                  onClick={handleDownloadExcel}
+                                  className="excel-download-btn1"
+                                >
+                                  Excel
+                                </button>
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                    </div>
+                    <div className="create1">
+                      <NavLink to={`/${tenantId}/addaccount`} id="btn3">+CreateAccount</NavLink>
+                    </div>
+              </div>
+
+    </div>
+    <div className="account-boxes">
         <div className="account-bigboxes">
-  <h1 className="newcontact">New Accounts this Week</h1>
-  <Link to={`/${tenantId}/accounts/${accounts[0]?.id}`} className="firstaccount-box">
-                <h1 className="heading1">{accounts.length > 0 && accounts[0].Name}</h1>
-                <p className="paragraph1">{accounts.length > 0 && accounts[0].description}</p>
-                {/* Smiley */}
-                <div className="smiley1">
-                  {generateSmiley2(generateRandomColor())}
-                </div>
-              </Link>
+                <h1 className="newcontact">New Accounts this Week</h1>
+                <Link to={`/${tenantId}/accounts/${accounts[0]?.id}`} className="firstaccount-box">
+                    <h1 className="heading1">{accounts.length > 0 && accounts[0].Name}</h1>
+                    <p className="paragraph1">{accounts.length > 0 && accounts[0].description}</p>
+                    {/* Smiley */}
+                    <div className="smiley1">
+                      {generateSmiley2(generateRandomColor())}
+                    </div>
+                 </Link>
               <Link to={`/${tenantId}/accounts/${accounts[1]?.id}`} className="secondaccount-box">
-                <h1 className="heading2">{accounts.length > 1 && accounts[1].Name}</h1>
-                <p className="paragraph2">{accounts.length > 1 && accounts[1].description}</p>
-                {/* Smiley */}
-                <div className="smiley2">
-                  {generateSmiley2(generateRandomColor())}
-                </div>
-              </Link>
+                    <h1 className="heading2">{accounts.length > 1 && accounts[1].Name}</h1>
+                    <p className="paragraph2">{accounts.length > 1 && accounts[1].description}</p>
+                    {/* Smiley */}
+                    <div className="smiley2">
+                      {generateSmiley2(generateRandomColor())}
+                    </div>
+              </Link>{/** */}
               <Link to={`/${tenantId}/accounts/${accounts[2]?.id}`} className="thirdaccount-box">
-                <h1 className="heading3">{accounts.length > 2 && accounts[2].Name}</h1>
-                <p className="paragraph3">{accounts.length > 2 && accounts[2].description}</p>
-                {/* Smiley */}
-                <div className="smiley3">
-                  {generateSmiley2(generateRandomColor())}
-                </div>
+                    <h1 className="heading3">{accounts.length > 2 && accounts[2].Name}</h1>
+                    <p className="paragraph3">{accounts.length > 2 && accounts[2].description}</p>
+                    {/* Smiley */}
+                    <div className="smiley3">
+                      {generateSmiley2(generateRandomColor())}
+                    </div>
               </Link>
              
-</div>
-
-</div>
-
-      <div className="file">
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu">
-            Excel File
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>
-              <Link
-                to={`/bulk-import?model=${modelName}`}
-                className="import-excel-btn4"
-              >
-                Import Excel
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <button
-                onClick={handleDownloadExcel}
-                className="excel-download-btn1"
-              >
-                Excel
-              </button>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        </div>
       </div>
-      <div style={{display:'flex',flexDirection:'row'}}>
+
+
+    <div style={{display:'flex',flexDirection:'row',justifyContent: 'space-between'}}>
+      
+      <div className="activeInactivebtn">
+              <div className="activeInactivebtn1">
+                <button
+                  className={`${activeButton === "All Accounts" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("All Accounts")}
+                >
+                  All Accounts
+                </button>
+              </div>
+              <div className="activeInactivebtn2">
+                <button
+                  className={`${activeButton === "Active" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("Active")}
+                >
+                  Active
+                </button>
+              </div>
+              <div className="activeInactivebtn3">
+                <button
+                  className={`${activeButton === "Inactive" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("Inactive")}
+                >
+                  Inactive
+                </button>
+              </div>
+      </div>
       <select
         value={viewMode}
         onChange={(e) => handleViewModeChange(e.target.value)}
@@ -156,28 +201,12 @@ const AccountsTable1 = () => {
         <option value="tile">Tile View</option>
         <option value="list">List View</option>
       </select>
-      <div  className="activeInactivebtn">
-  <div className="activeInactivebtn1">
-  <button className="activeinactive">All Contacts</button>
-  </div>
-  <div className="activeInactivebtn2">
-  <button>Active</button>
-
-  </div>
-  <div className="activeInactivebtn3">
-  <button>Inactive</button>
-  </div>
-  </div>
-  </div>
+    </div>
   
-      <div className="accounts-container">
+    <div className="accounts-container">
         <div className="accounts-header" style={{ width: "100%" }}>
           <h2 className="accountTableCenter">Accounts </h2>
-          <select className="view-mode-select2" style={{ float: "left" }}>
-            <option value="">50 Records per page</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
+        
         </div>
         {viewMode === "table" && (
           <div className="accounts-table-wrapper">

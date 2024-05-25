@@ -16,7 +16,7 @@ import CallPage from "../pages/CallPage/callpage";
 import Form2 from "../pages/ContactsTable/Form2";
 import ContactInfo from "../pages/ContactsTable/ContactInfo";
 import EmailComponent from "../pages/MassEmail/Compose";
-import AccountsPage from "../pages/AccountsPage/AccountPage";
+import AccountsPage from "../pages/AccountsInfoPage/AccountInfoPage";
 import ShowLead from "../pages/Lead/ShowLead";
 import AccountForm from "../pages/AccountsSection/AccountForm";
 import TaskTable from "../pages/TasksSection/TaskTable";
@@ -183,8 +183,8 @@ export const RouteWrapper = () => {
       )}
 
 
-    <Route path="*" element={<Login/>} />
-     {/*  <Route path="*" element={<NotFound />} />*/}
+    {/*<Route path="*" element={<Login/>} />*/}
+    <Route path="*" element={<NotFound />} />
     
 
       

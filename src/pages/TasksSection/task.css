@@ -10,23 +10,26 @@
     
     
 }
+.tasks_main_component{
+  display: flex;
+  flex-direction: row;
+}
 .create1{
   height: 34px;
-padding: 0 12px;
-margin-top: -5px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: 'Manrope';
-font-size: 14px;
-line-height: 25px;
-font-weight: 400;
-color: #FFFFFFFF;
-background: #62CD14FF;
-opacity: 1;
-border: none;
-border-radius: 4px;
-
+  padding: 0 12px;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #FFFFFFFF;
+  background: #62CD14FF;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
 }
 .task_header{
   font-family: 'Lexend';

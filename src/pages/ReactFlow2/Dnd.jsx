@@ -9,7 +9,7 @@ import ReactFlow, {
   Background,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition } from './TextUpdaterNode';
+import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition, IceBreaker, PersistentMenu, GenericTemplate } from './TextUpdaterNode';
 import axios from 'axios';
 import './dnd.css';
 import e from 'cors';
@@ -49,7 +49,10 @@ const DnDFlow = () => {
     buttonNode: ButtonNode,
     sendMessage: SendMessage,
     askQuestion: AskQuestion,
-    setCondition: SetCondition
+    setCondition: SetCondition,
+    iceBreaker: IceBreaker ,
+    persistentMenu : PersistentMenu,
+    genericTemplate : GenericTemplate
   }), []);
 
   
@@ -81,9 +84,6 @@ const DnDFlow = () => {
     }
 
     
-    console.log(val.data.selectedOption);
-    console.log(val.type);
-    console.log(nodes);
   };
   const handleChange = (e) => {
     e.preventDefault();
@@ -147,6 +147,7 @@ const DnDFlow = () => {
     event.preventDefault();
 
     const type = event.dataTransfer.getData("application/reactflow");
+    console.log(type);
 
     // check if the dropped element is valid
     if (typeof type === "undefined" || !type) {
@@ -273,7 +274,7 @@ const DnDFlow = () => {
       <div className="updatenode">
        </div>
       <Sidebar />
-      <button class="send-button" onClick={sendDataToBackend}>Send Data to Backend</button>
+      <button className="send-button" onClick={sendDataToBackend}>Send Data to Backend</button>
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow

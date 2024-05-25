@@ -9,14 +9,15 @@ import ReactFlow, {
   Background,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition } from './TextUpdaterNode';
+import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondition, IceBreaker, PersistentMenu, GenericTemplate } from './TextUpdaterNode';
 import axios from 'axios';
-import './dnd.css';
+import './dndInstagram.css';
 import e from 'cors';
 import { useMemo } from 'react';
 import { ContextMenu, MenuItem} from 'react-contextmenu';
 const lastNode = initialNodes[initialNodes.length - 1];
 import Sidebar from "./Sidebar";
+import Modal from 'react-modal';
 
 import "./dnd.css";
 import initialNodes from "./nodes.jsx";
@@ -29,7 +30,24 @@ let id = parseInt(lastNode.id) +1;
 
 const getId = () => `${id++}`;
 
-const DnDFlow = () => {
+const ModalComponent = ({ isOpen, onRequestClose, onSave, title, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <div className="modal-header">{title}</div>
+        <div className="modal-body">{children}</div>
+        <div className="modal-footer">
+          <button className="skip-button" onClick={onRequestClose}>Skip</button>
+          <button className="save-button" onClick={onSave}>Save</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const InstagramFlow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -41,6 +59,10 @@ const DnDFlow = () => {
   const [selectNodeId, setSelectedNodeId] = useState();
   const [showSetCondition, setShowSetCondition] = useState(false);
   const [selectedValueOption, setSelectedValueOption]=useState();
+  const [showIceBreaker, setShowIceBreaker] = useState(true);
+  const [showPersistentMenu, setShowPersistentMenu] = useState(false);
+  const [iceBreakers, setIceBreakers] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
 
 
   const nodeTypes = useMemo(() => ({ 
@@ -49,7 +71,10 @@ const DnDFlow = () => {
     buttonNode: ButtonNode,
     sendMessage: SendMessage,
     askQuestion: AskQuestion,
-    setCondition: SetCondition
+    setCondition: SetCondition,
+    iceBreaker: IceBreaker ,
+    persistentMenu : PersistentMenu,
+    genericTemplate : GenericTemplate
   }), []);
 
   
@@ -81,10 +106,8 @@ const DnDFlow = () => {
     }
 
     
-    console.log(val.data.selectedOption);
-    console.log(val.type);
-    console.log(nodes);
   };
+
   const handleChange = (e) => {
     e.preventDefault();
     setEditValue(e.target.value);
@@ -147,6 +170,7 @@ const DnDFlow = () => {
     event.preventDefault();
 
     const type = event.dataTransfer.getData("application/reactflow");
+    console.log(type);
 
     // check if the dropped element is valid
     if (typeof type === "undefined" || !type) {
@@ -264,18 +288,57 @@ const DnDFlow = () => {
   };
   
 
+  const handleSkipIceBreaker = () => {
+    setShowIceBreaker(false);
+    setShowPersistentMenu(true);
+  };
 
+  const handleSkipPersistentMenu = () => {
+    setShowPersistentMenu(false);
+  };
 
+  const addIceBreaker = () => {
+    setIceBreakers([...iceBreakers, { id: getId(), label: `IceBreaker ${iceBreakers.length + 1}` }]);
+    if (iceBreakers.length + 1 >= 4) {
+      handleSkipIceBreaker();
+    }
+  };
+
+  const addMenuItem = () => {
+    setMenuItems([...menuItems, { id: getId(), body: `Menu Item ${menuItems.length + 1}` }]);
+    if (menuItems.length + 1 >= 13) {
+      handleSkipPersistentMenu();
+    }
+  };
+
+  const saveIceBreakers = () => {
+    setNodes((nds) => nds.map((node) => {
+      if (node.type === 'iceBreaker') {
+        node.data.iceBreakers = iceBreakers;
+      }
+      return node;
+    }));
+    handleSkipIceBreaker();
+  };
+
+  const saveMenuItems = () => {
+    setNodes((nds) => nds.map((node) => {
+      if (node.type === 'persistentMenu') {
+        node.data.menuItems = menuItems;
+      }
+      return node;
+    }));
+    handleSkipPersistentMenu();
+  };
  
  
   return (
-    <div className="dndflow">
+    <div className="dndInstagramflow">
       <div className="updatenode">
        </div>
-      <Sidebar />
-      <button class="send-button" onClick={sendDataToBackend}>Send Data to Backend</button>
+       <Sidebar />
       <ReactFlowProvider>
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+        <div className="reactflow-wrapper" ref={reactFlowWrapper} style={{ width: '100%', height: '100vh' }}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -295,17 +358,45 @@ const DnDFlow = () => {
             <Controls />
             <MiniMap />
             <Background />
-            
           </ReactFlow>
-        </div>  
+        </div>
       </ReactFlowProvider>
-      
-      
+
+      <ModalComponent isOpen={showIceBreaker} onRequestClose={handleSkipIceBreaker} onSave={saveIceBreakers} title="Add IceBreaker">
+        {iceBreakers.map((breaker, index) => (
+          <div key={breaker.id}>
+            <input
+              type="text"
+              value={breaker.label}
+              onChange={(e) => {
+                const newIceBreakers = [...iceBreakers];
+                newIceBreakers[index].label = e.target.value;
+                setIceBreakers(newIceBreakers);
+              }}
+            />
+          </div>
+        ))}
+        {iceBreakers.length < 4 && <button className="add-button" onClick={addIceBreaker}>Add IceBreaker</button>}
+      </ModalComponent>
+
+      <ModalComponent isOpen={showPersistentMenu} onRequestClose={handleSkipPersistentMenu} onSave={saveMenuItems} title="Add Persistent Menu">
+        {menuItems.map((item, index) => (
+          <div key={item.id}>
+            <input
+              type="text"
+              value={item.body}
+              onChange={(e) => {
+                const newMenuItems = [...menuItems];
+                newMenuItems[index].body = e.target.value;
+                setMenuItems(newMenuItems);
+              }}
+            />
+          </div>
+        ))}
+        {menuItems.length < 13 && <button className="add-button" onClick={addMenuItem}>Add Menu Item</button>}
+      </ModalComponent>
     </div>
-    
   );
 };
 
-  
-
-export default DnDFlow;
+export default InstagramFlow;

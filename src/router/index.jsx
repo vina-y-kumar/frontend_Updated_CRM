@@ -42,7 +42,13 @@ import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 
 import InstagramPost from "../pages/instagram/instagrampost";
+<<<<<<< HEAD
+import Userprofile from "../pages/Userpage/Userprofile";
+
+
+=======
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
+>>>>>>> 5e657657b36f4aa4fbf3bf31b325d81cf492cd58
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -209,7 +215,12 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+<<<<<<< HEAD
+          <Route path=":tenant_id/user_id" element={<Userprofile />} />
+
+=======
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
+>>>>>>> 5e657657b36f4aa4fbf3bf31b325d81cf492cd58
         </>
       )}
 

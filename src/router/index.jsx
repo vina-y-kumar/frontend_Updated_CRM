@@ -46,6 +46,7 @@ import Userprofile from "../pages/Userpage/Userprofile";
 
 
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
+import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -156,6 +157,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/contacts" element={<ContactsTable/>}/> 
           <Route path=":tenant_id/lead" element={<LeadPage />} />
           <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
+          <Route path=":tenant_id/opportunitiesinfo" element={<OpportunitiesInfo />} />
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
        
           <Route path=":tenant_id/addlead" element={<Lead/>} />

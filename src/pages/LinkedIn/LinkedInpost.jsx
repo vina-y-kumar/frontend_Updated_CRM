@@ -361,6 +361,8 @@ const LinkedInPost = () => {
       <div className="Post-preview">
         <h1>Network Preview</h1>
         <p>Preview approximates how your content will display when published. Tests and updates by social networks may affect the final appearance. Report a difference you notice.</p>
+        {caption || files.length > 0 ? (
+        <div className="preview-area-content">
         <div className="preview-option-box">
         <div className="Preview-heading">
           LinkedIn
@@ -374,11 +376,13 @@ const LinkedInPost = () => {
             <div className="user-info">
         <h2 className="user-name">User Name</h2>
       </div>
-      <div className="media-grid">
+      <div className="caption-preview">
+          <p>{caption}</p>
+        </div>
+      <div className="post-media-grid">
         {files.map((file, index) => (
-          <div key={index} className="media-item">
+          <div key={index} className="post-media-item">
             <img src={URL.createObjectURL(file)} alt={`file preview ${index + 1}`} />
-            <button onClick={() => removeFile(index)}>Remove</button>
           </div>
         ))}
       </div>
@@ -392,13 +396,12 @@ const LinkedInPost = () => {
           <p>{comment}</p>
       </div>
       )}
-        <div className="caption-preview">
-          <p>{caption}</p>
-        </div>
           </div>
         )}
         </div>
+        </div>
       </div>
+       ) : null}
       </div>
         </div>
   );

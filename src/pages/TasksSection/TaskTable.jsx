@@ -67,36 +67,35 @@ export const TaskTable = () => {
 
 
   return (
-    <div className="all_students">
-      <div className='calls1'>
+    <div className="tasks_main_component">
         <div className="home_left_box1">
           <Sidebar />
         </div>
-        <div className="contain1" style={{width:"100%"}}>
+         <div className="contain1" style={{width:"100%"}}>
           <div className="meet1" >
             <div>
               <h1 className="task_header">Tasks</h1>
             </div>
             <div className="excel_header_task">
             <div>
-    <Dropdown>
-              <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
-                Excel File
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
-                    Import Excel
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <button onClick={handleDownloadExcel} className="excel-download-btn1">
-                    Excel
-                  </button>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-    </div>
+              <Dropdown>
+                  <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
+                    Excel File
+                  </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item>
+                    <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+                      Import Excel
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <button onClick={handleDownloadExcel} className="excel-download-btn1">
+                      Excel
+                    </button>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
            
           
              
@@ -110,20 +109,16 @@ export const TaskTable = () => {
           
           <div>
       <div className="records20" style={{ width: "100%" }}>
-        <select className="view-mode-select" style={{ float: "left" }}>
-          <option value="">50 Records per page</option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-        </select>
+   
         <select
-  value={viewMode}
-  onChange={(e) => handleViewModeChange(e.target.value)}
-  className="view-mode-select"
->
-  <option value="table">Table View</option>
-  <option value="tile">Tile View</option>
-  <option value="list">List View</option>
-</select>
+          value={viewMode}
+          onChange={(e) => handleViewModeChange(e.target.value)}
+          className="view-mode-select"
+        >
+          <option value="table">Table View</option>
+          <option value="tile">Tile View</option>
+          <option value="list">List View</option>
+        </select>
 
       </div>
 
@@ -208,9 +203,8 @@ export const TaskTable = () => {
         </div>
       )}
     </div>
-        </div>
-      </div>
-    </div>
+  </div>
+</div>
   );
 };
 export default TaskTable;

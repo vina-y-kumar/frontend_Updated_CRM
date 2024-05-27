@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sidebar } from "../../components/Sidebar";
+import { Sidebar } from "../../../components/Sidebar";
 import EmojiPicker from 'emoji-picker-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';

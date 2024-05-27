@@ -1,21 +1,11 @@
 
 
   
-   .pages1{
+  /* .pages1{
     position:relative;
     top: -35px;
     left: 5px;
-    
-    .header-content1 {
-      position: relative;
-    left: -19px;
-    color: #171A1FFF;
-    font-weight: 700;
-    font-family: 'Manrope';
-font-size: 20px;
-    } 
-
-   }
+   }*/
    .account-circle1 {
     display: inline-block;
     width: 85px;
@@ -33,10 +23,10 @@ font-size: 20px;
   .account-descp{
     position: relative;
     font-family: 'Manrope';
-font-size: 14px;
+    font-size: 14px;
     left: -450px;
     font-weight: 400;
-color: #9095A1FF;
+    color: #9095A1FF;
 
     top: -10px;
   }
@@ -47,16 +37,16 @@ color: #9095A1FF;
     position: relative;
     top: -2px;
     left: 55px;
-font-size: 14px;
-font-weight: 400;
-background: #FFFFFFFF;
-width: 70px;
-text-align: center; 
-height: 35px;
-border-radius: 4px;
-border-width: 1px;
-border-color: #9095A1FF;
-outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    background: #FFFFFFFF;
+    width: 70px;
+    text-align: center; 
+    height: 35px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #9095A1FF;
+    outline: none;
    }
   
    .blank-page1{
@@ -68,21 +58,21 @@ outline: none;
   
      .header-content{
       position: absolute;
-  top: 50px;
-  left: 380px;
-  font-family: 'Manrope';
-  font-size: 20px;
-  line-height: 30px;
-  font-weight: 700;
-  color: #171A1FFF;
+      top: 50px;
+      left: 380px;
+      font-family: 'Manrope';
+      font-size: 20px;
+      line-height: 30px;
+      font-weight: 700;
+      color: #171A1FFF;
      }
   
      .viewaccounts{
       position: absolute;
-  top: 10px;
-  left: 249px;
-  line-height: 10px;
-  margin-bottom:10px ;
+      top: 10px;
+      left: 249px;
+      line-height: 10px;
+      margin-bottom:10px ;
 
 
       font-weight: 1000;
@@ -94,14 +84,14 @@ outline: none;
   
      .visitwebsite{
       position: absolute;
-  top: 110px;
-  left: 320px;
-  width: 203px;
-  font-family: 'Manrope';
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 400;
-  color: #6D31EDFF;
+      top: 110px;
+      left: 320px;
+      width: 203px;
+      font-family: 'Manrope';
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      color: #6D31EDFF;
      }
   
      
@@ -133,9 +123,7 @@ outline: none;
       margin-top: 10px;
       color: blue;
     }
-    .email{
-    
-    }
+  
     .logo{
       float: left;
       height: 70px;
@@ -157,7 +145,7 @@ outline: none;
      
       
       /* width: 1088px; */
-  height: 368px;
+      height: 368px;
       background: #F8F9FAFF;
       border-radius: 8px;
       border-width: 1px;
@@ -281,12 +269,12 @@ outline: none;
       flex-wrap: wrap; /* Allow items to wrap */
       gap: 20px; /* Add gap between list items */
     }
-    h2{
+    /*h2{
       text-align: center;
       font-size: 16px;
       margin-bottom: 10px;
       font-weight: 600;
-    }
+    }*/
   
     .list-group-item:nth-child(1) {
       background-color: pink;

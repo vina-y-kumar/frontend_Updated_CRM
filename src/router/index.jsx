@@ -16,7 +16,7 @@ import CallPage from "../pages/CallPage/callpage";
 import Form2 from "../pages/ContactsTable/Form2";
 import ContactInfo from "../pages/ContactsTable/ContactInfo";
 import EmailComponent from "../pages/MassEmail/Compose";
-import AccountsPage from "../pages/AccountsPage/AccountPage";
+import AccountsPage from "../pages/AccountsInfoPage/AccountInfoPage";
 import ShowLead from "../pages/Lead/ShowLead";
 import AccountForm from "../pages/AccountsSection/AccountForm";
 import TaskTable from "../pages/TasksSection/TaskTable";
@@ -30,18 +30,21 @@ import AddTaskForm from "../pages/TasksSection/AddTask";
 import FlowGraph from "../pages/ReactFlow/Flowgraph";
 import Taskinfo from "../pages/TasksSection/Taskinfo";
 import SendEmail from "../pages/SendEmail/SendEmail";
-import WhatsApp from "../pages/WhatsApp/WhatsApp";
+import WhatsApp from "../pages/socialmedia/WhatsApp/WhatsApp";
 import FaceB from "../pages/facebook/facebook";
-import  Interaction from "../pages/InteractionPage/InteractionPage";
+import Interaction from "../pages/InteractionPage/InteractionPage";
 import AddInteractionForm from "../pages/InteractionPage/AddInteractionForm";
 import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsPage";
 import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
+import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
+import CampaignInfo from "../pages/Campaign/campaigninfo";
 import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
+import Userprofile from "../pages/Userpage/Userprofile";
 
-import InstagramPost from "../pages/instagram/instagrampost";
+
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
 export const RouteWrapper = () => {
@@ -158,34 +161,10 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
        
           <Route path=":tenant_id/addlead" element={<Lead/>} />
-          {/*<Route path="/addform" element={<Form1/>} />*/}
-          <Route path="/contactinfo/:id" element={<ContactInfo/>}/>
-          <Route path="/ShowLead/:id" element={<ShowLead/>}/>
-          <Route path="/convert/:id" element={<ConvertLead/>}/>
-          <Route path="/addaccount" element={<AccountForm/>} />
-          <Route path="/addcontact" element={<Form2/>}/>
-          <Route path="/meetings" element={<Met/>}  />
-          <Route path="/opportunity" element={<Form3/>} />
-          <Route path="/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
-          <Route path="tasks/:id" element={<Taskinfo/>}/>
-          <Route path="/accounts/:id" element={<AccountsPage />} />
-          <Route path="/send-email/:id" element={<SendEmail/>}/>
-          <Route path="/send-msg/:id" element={<WhatsApp/>}/>
-          <Route path="/email" element={<EmailComponent/>} />
-          <Route path="/tasks" element={<TaskTable/>} />
-          <Route path="/interaction" element={<Interaction/>}/>
-          <Route path="/campaign"  element= {<Campaign/>}/>
-          <Route path='/campaignform' element={<Campaignform/>}/>
-          <Route path="/addtask" element={<AddTaskForm/>}/>
-          <Route path="/compose" element={<EmailComponent/>}/>
-          <Route path="/bulk-import" element={<BulkImport/>}/>
-          <Route path="/flow" element={<FlowGraph/>}/>
-          <Route path="/FB" element={<FaceB/>}/>
-          <Route path="/addinteraction" element={<AddInteractionForm/>} />
-          <Route path="/interaction/:id" element={<InteractionDetailsPage/>} />
-          <Route path="/flow2" element={<FlowGraph2/>}/>
-          <Route path="/instagramflow" element={<InstagramFlow/>}/>
-          <Route path="/whatsappflow" element={<WhatsappFlow/>}/>
+        
+          <Route path=":tenant_id/flow2" element={<FlowGraph2/>}/>
+          <Route path=":tenant_id/instagramflow" element={<InstagramFlow/>}/>
+          <Route path=":tenant_id/whatsappflow" element={<WhatsappFlow/>}/>
           <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
           <Route path=":tenant_id/ShowLead/:id" element={<ShowLead/>}/>
           <Route path=":tenant_id/convert/:id" element={<ConvertLead/>}/>
@@ -210,14 +189,17 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/interaction/:id" element={<InteractionDetailsPage/>} />
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
+          <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path=":tenant_id/user_id" element={<Userprofile />} />
+
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
         </>
       )}
 
 
-    <Route path="*" element={<Login/>} />
-     {/*  <Route path="*" element={<NotFound />} />*/}
+    {/*<Route path="*" element={<Login/>} />*/}
+    <Route path="*" element={<NotFound />} />
     
 
       

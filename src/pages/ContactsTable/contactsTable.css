@@ -8,7 +8,10 @@ margin-top: 30px;
 
 }
 
-
+.Contacts_main_page{
+  display:flex;
+  flex-direction: row;
+}
 
 .firstcontact-box
 {
@@ -274,8 +277,7 @@ left: 150px;
   height: 36px;
   position: absolute; /* Change position to absolute */
   /* Adjust positioning based on your layout */
-  top: -90px;
-  left: 1050px;
+  margin-top: 80px;
 }
 
 .bugs10{
@@ -1078,63 +1080,45 @@ font-weight: 800;
 color: #171A1FFF;
 }
 
-.activeInactivebtn{
-display: flex;
-flex-direction: row;
-margin: 60px;
-gap: 50px;
+.activeInactivebtn {
+  display: flex;
+  flex-direction: row;
+  margin: 60px;
+  gap: 50px;
 }
-.activeInactivebtn1{
-  /* align-items: center;
-justify-content: center;
-font-family: 'Manrope';
-font-size: 14px;
-line-height: 22px;
-font-weight: 400;
-color: #6D31EDFF;
-background: #00000000;
-opacity: 1;
-border-radius: 18px 18px 18px 18px;
-cursor: pointer;
 
-*/
-width: 140px;
-height: 45px;
-align-items: center;
-justify-content: center;
-font-family: 'Manrope';
-font-size: 14px;
-line-height: 22px;
-font-weight: 400;
-color: #FFFFFFFF;
-background: #6D31EDFF;
-opacity: 1;
-border-radius: 35px 35px 35px 35px ;
-cursor: pointer;
-
-}
-.activeInactivebtn1 :hover{
-  color: #6D31EDFF;
-background: #E4D9FCFF;
-}
-.activeinactive{
-  position: relative;
-  top: 10px;
-  left: 26px;
-}
-.activeInactivebtn2{
+.activeInactivebtn button {
   font-family: 'Manrope';
-font-size: 16px;
-line-height: 22px;
-font-weight: 400;
-color: #6D31EDFF;
-background: #00000000;
-opacity: 1;
-border-radius: 18px 18px 18px 18px;
-cursor: pointer;
-position: relative;
-top: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6D31EDFF;
+  background: #00000000;
+  opacity: 1;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  top: 12px;
+  padding: 10px 20px;
+  border-radius: 18px;
+  transition: background-color 0.3s, color 0.3s;
 }
+
+.activeInactivebtn button:hover {
+  color: #6D31EDFF;
+  background-color: #E4D9FCFF;
+}
+
+.activeInactivebtn .activeinactive {
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 35px;
+  padding: 10px 20px;
+}
+
+.activeInactivebtn .activeinactive:hover {
+  background-color: #E4D9FCFF;
+}
+
 .records10{
   margin:0px;
   padding:0px;
@@ -1148,19 +1132,6 @@ background: #FFFFFFFF;
 border-color: #F3F4F6FF;
 
   border-radius: 3px;
-}
-.activeInactivebtn3{
-  font-family: 'Manrope';
-font-size: 16px;
-line-height: 22px;
-font-weight: 400;
-color: #6D31EDFF;
-background: #00000000;
-opacity: 1;
-border-radius: 18px 18px 18px 18px;
-cursor: pointer;
-position: relative;
-top: 12px;
 }
 .allcontacts{
 position: relative;

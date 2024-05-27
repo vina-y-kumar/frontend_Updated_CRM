@@ -12,8 +12,16 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import axiosInstance from '../../api';
-
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 const Campaign = () => {
+  const tenantId=getTenantIdFromUrl();
   const modelName = "campaigns";
   const [campaign, setCampaigns] = useState([]);
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
@@ -39,11 +47,12 @@ const Campaign = () => {
   const fetchCampaigns = async () => {
     try {
       const response = await axiosInstance.get('/campaign/');
-      const data = await response.json();
+      const data = await response.data;
+     
       setCampaigns(data);
       setFilteredCampaigns(data);
     } catch (error) {
-      console.error("Error fetching campaigns:", error);
+      console.log("Error fetching campaigns:", error);
     }
   };
   const handleRecords3 = (event) => {
@@ -93,7 +102,7 @@ const Campaign = () => {
         </Dropdown>
         </div>
         <div>
-        <NavLink to="/campaignform" id="btn11">
+        <NavLink to={`/${tenantId}/campaignform`} id="btn11">
                 +CreateCampaign
               </NavLink>
         </div>
@@ -107,7 +116,7 @@ const Campaign = () => {
     <h1 className='total_campaign'> Total Campaigns</h1>
 <p className='total_campaign1'>20</p>
   </div>
-             <div className='campaign_secondbox'><h1 className='total_send'>Total Sended</h1>
+             <div className='campaign_secondbox'><h1 className='total_send'>Total Sent</h1>
              <p className='total_sended1'>2340</p></div>
              <div className='campaign_thirdbox'><h1 className='total_clicks'>Total Clicks</h1>
              <p className='total_clicks1'>243340</p></div>
@@ -169,9 +178,14 @@ const Campaign = () => {
                   filteredCampaigns.map((campaign) => (
                     <tr className="campaign_table_row" key={campaign.id}>
                       <td classname='campaign_data_name'>
+                      <Link to={`/${tenantId}/campaigninfo/${campaign.id}`}>
                        {campaign.campaign_name}
+                       </Link>
                       </td>
-                      <td className="campaign_data_owner">{campaign.campaign_owner}</td>
+                      <td className="campaign_data_owner">
+                        
+                        {campaign.campaign_owner}
+                        </td>
                       <td className="cont_email">
                       {campaign.type}
                       </td>

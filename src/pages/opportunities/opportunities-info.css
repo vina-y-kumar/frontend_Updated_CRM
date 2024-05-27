@@ -1,0 +1,93 @@
+.Opportunities-info-page{
+  display: flex;
+}
+.Sidebar{
+  width: 256px;
+  height: 700px;
+  margin-top: 0px;
+  background: #FAFAFBFF;
+  padding-top: 20px;
+  border-radius: 0px;
+  border-width: 1px;
+  /* border-color: #FFFFFFFF; */
+  /* border-style: solid; */
+  position: relative;
+  top: 1px;
+ }
+.opportunities-info {
+    padding: 20px;
+  }
+  
+  .opportunities-info h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Adjust color as needed */
+    margin-bottom: 20px;
+  }
+  .content{
+    margin-left: 8rem;
+  }
+  .info-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .info-item label {
+    flex: 1;
+    font-weight: bold;
+    margin-left: 70px;
+  }
+  
+  .info-item input[type="text"] {
+    flex: 2;
+    margin-top: 4px; /* Adjust the top margin */
+    margin-bottom: 4px; /* Adjust the bottom margin */
+    padding: 8px;
+    width: calc(100% - 10px); /* Adjust input width */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+  }
+  /* Existing styles */
+
+.info-box-custom {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: #333;
+  }
+  
+  .info-box-custom .info-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .info-box-custom .info-item label {
+    flex: 1;
+    font-weight: bold;
+    margin-left: 70px;
+  }
+  
+  .info-box-custom .info-item textarea {
+    flex: 2;
+    margin-top: 4px; /* Adjust the top margin */
+    margin-bottom: 4px; /* Adjust the bottom margin */
+    padding: 8px;
+    width: calc(100% - 10px); /* Adjust input width */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    resize: vertical; /* Allow vertical resizing */
+  }
+  

@@ -18,6 +18,10 @@ export const ContactsTable = () => {
   const [contacts, setContacts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
   const tenantId=getTenantIdFromUrl();
+  const [activeContacts, setActiveContacts] = useState([]);
+
+  const [inactiveContacts, setInactiveContacts] = useState([]);
+
   const [newContact, setNewContact] = useState({
     first_name: "",
     account: "",
@@ -39,6 +43,8 @@ export const ContactsTable = () => {
 
   useEffect(() => {
     fetchContacts();
+    fetchActiveContacts();
+
   }, []);
 
   const fetchContacts = async () => {
@@ -49,6 +55,20 @@ export const ContactsTable = () => {
       setFilteredContacts(data);
     } catch (error) {
       console.error("Error fetching contacts:", error);
+    }
+  };
+
+  const fetchActiveContacts = async () => {
+    try {
+      const response = await axiosInstance.get('/active_contacts/');
+      const data = response.data;
+      // Assuming the response includes 'active' field indicating active or inactive status
+      const active = data.filter(contact => contact.active);
+      const inactive = data.filter(contact => !contact.active);
+      setActiveContacts(active);
+      setInactiveContacts(inactive);
+    } catch (error) {
+      console.error("Error fetching active contacts:", error);
     }
   };
   const handleInputChange = (event) => {
@@ -279,6 +299,25 @@ export const ContactsTable = () => {
               </div>
                 
       </div>
+
+      {activeButton === "Active" && (
+            <div>
+              <h2>Active Contacts</h2>
+              {/* Display active contacts */}
+              {activeContacts.map(contact => (
+                <div key={contact.id}>{contact.first_name} {contact.last_name}</div>
+              ))}
+            </div>
+          )}
+          {activeButton === "Inactive" && (
+            <div>
+              <h2>Inactive Contacts</h2>
+              {/* Display inactive contacts */}
+              {inactiveContacts.map(contact => (
+                <div key={contact.id}>{contact.first_name} {contact.last_name}</div>
+              ))}
+            </div>
+          )}
       <div style={{marginRight:'110px'}}>
                    <select
                       value={viewMode}

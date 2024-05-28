@@ -126,6 +126,30 @@ const AddTaskForm = () => {
     }
   };
 
+  const handleCancel = () => {
+    
+    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+    
+  
+    if (isConfirmed) {
+      console.log("Cancel button clicked");
+     
+      window.location.href = `../${tenantId}/tasks`;
+    }
+  };
+  
+  
+  const handleSaveAsDraft = () => {
+    // Implement save as draft logic here
+    console.log("Save as Draft button clicked");
+  
+  };
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    // Call your submit logic here
+    handleSubmit(event);
+  };
+  
   return (
     <div className="task_form">
       <div className="relatedTask_back">
@@ -137,9 +161,9 @@ const AddTaskForm = () => {
             <h1>Create Task</h1>
           </div>
           <div className='btnsss_task'>
-            <button type="button" className="btn-submit_cancel_task">Cancel</button>
-            <button type="button" className="btn-submit_save_task">Save as Draft</button>
-            <button type="submit" className="btn-submit_submit_task" onClick={handleSubmit}>Submit</button>
+            <button type="button" onClick={handleCancel} className="btn-submit_cancel_task">Cancel</button>
+            <button type="button"   onClick={handleSaveAsDraft}  className="btn-submit_save_task">Save as Draft</button>
+            <button type="submit"  onClick={handleSubmitForm} className="btn-submit_submit_task">Submit</button>
           </div>
         </div>
         <div className="form_task_form">

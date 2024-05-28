@@ -25,6 +25,9 @@ const AccountsTable1 = () => {
   const [accounts, setAccounts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
   const [activeButton, setActiveButton] = useState("All Accounts");
+  const [activeContacts, setActiveContacts] = useState([]);
+
+  const [inactiveContacts, setInactiveContacts] = useState([]);
 
   const handleButtonClick = (status) => {
     setActiveButton(status);
@@ -36,7 +39,7 @@ const AccountsTable1 = () => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await axiosInstance.get('accounts/'); // Relative URL, no need for full URL
+        const response = await axiosInstance.get('accounts/'); 
         setAccounts(response.data);
       } catch (error) {
         console.error('Error fetching accounts:', error);
@@ -46,6 +49,19 @@ const AccountsTable1 = () => {
     fetchAccounts();
   }, []);
 
+
+  const fetchActiveContacts = async () => {
+    try {
+      const response = await axiosInstance.get('/active_accounts/');
+      const data = response.data;
+      const active = data.filter(contact => contact.active);
+      const inactive = data.filter(contact => !contact.active);
+      setActiveContacts(active);
+      setInactiveContacts(inactive);
+    } catch (error) {
+      console.error("Error fetching active contacts:", error);
+    }
+  };
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
   };

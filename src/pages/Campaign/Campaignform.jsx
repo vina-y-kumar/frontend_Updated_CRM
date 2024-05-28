@@ -70,6 +70,30 @@ const Campaignform = () => {
       window.location.href = "/whatsappflow"
     }
   };
+
+  const handleCancel = () => {
+    
+    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+    
+  
+    if (isConfirmed) {
+      console.log("Cancel button clicked");
+     
+      window.location.href = `../${tenantId}/campaign`;
+    }
+  };
+  
+  
+  const handleSaveAsDraft = () => {
+    // Implement save as draft logic here
+    console.log("Save as Draft button clicked");
+  
+  };
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    // Call your submit logic here
+    handleSubmit(event);
+  };
   return (
     <div>
       <div className='campaign_form_head'>
@@ -82,12 +106,12 @@ const Campaignform = () => {
 
     </div>
     <div className='btnsss10'>
-   <button type="cancel" className="btn-submit50">Cancel</button>
+   <button type="cancel"  onClick={handleCancel} className="btn-submit50">Cancel</button>
 
-   <button type="save" className="btn-submit40">Save as Draft</button>
+   <button type="save"  onClick={handleSaveAsDraft} className="btn-submit40">Save as Draft</button>
 
 
-   <button type="submit" className="btn-submit60" onClick={handleSubmit}>Submit</button>
+   <button type="submit"  onClick={handleSubmitForm} className="btn-submit60" >Submit</button>
 
    </div>
    <div className='capaign_form_container'>

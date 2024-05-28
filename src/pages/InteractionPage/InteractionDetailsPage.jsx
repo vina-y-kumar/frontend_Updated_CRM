@@ -23,7 +23,7 @@ const InteractionDetailsPage = () => {
   useEffect(() => {
     const fetchInteractions = async () => {
       try {
-        const response = await axiosInstance.get(`/interaction/`);
+        const response = await axiosInstance.get(`/interaction/${id}`);
         const data = response.data;
         console.log("Fetched Data:", data);
 

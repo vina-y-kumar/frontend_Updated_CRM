@@ -59,35 +59,42 @@ export const InteractionTable = () => {
         <Sidebar />
       </div>
       <div className="interection_head">
-      <div className="int_heading">
-        <h1>Interaction</h1>
-      </div>
-      <div className="excel_int_drop">
-        <div>
-    <Dropdown>
-              <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-int">
-                Excel File
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
-                    Import Excel
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <button onClick={handleDownloadExcel} className="excel-download-btn1">
-                    Excel
-                  </button>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-    </div>
-    <div className="add_int">
-      <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
+            <div className="int_heading">
+              <div>
+              <h1>Interaction</h1>
+              </div>
+             <div style={{display:'flex',flexDirection:'row'}}>
+            
+           
+        
+                  <div className="excel_int_drop">
+                          <Dropdown>
+                          <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-int">
+                            Excel File
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item>
+                              <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+                                Import Excel
+                              </Link>
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                              <button onClick={handleDownloadExcel} className="excel-download-btn1">
+                                Excel
+                              </button>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                          </div>
+                          <div className="add_int">
+                      
+                      <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
 
-      </div>
-    </div>
-      </div>
+                    </div>
+                          
+                        </div>
+                  
+                </div>
      
       
 
@@ -122,6 +129,7 @@ export const InteractionTable = () => {
         )}
       </div>
       {selectedInteraction && <InteractionDetailsPage />}
+    </div>
     </div>
   );
 };

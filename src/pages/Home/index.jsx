@@ -36,7 +36,7 @@ export const Home = () => {
  
   return (
     <div className="home">
-      <div className="container">
+      <div>
         <div className="home_inner">
           <div className="home_left_box">
             <Sidebar />

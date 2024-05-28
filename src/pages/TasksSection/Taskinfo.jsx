@@ -8,9 +8,9 @@ const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
-    return pathArray[1]; // Assumes tenant_id is the first part of the path
+    return pathArray[1]; 
   }
-  return null; // Return null if tenant ID is not found or not in the expected place
+  return null;
 };
 export const Taskinfo=()=>{
   const tenantId = getTenantIdFromUrl();
@@ -99,7 +99,7 @@ export const Taskinfo=()=>{
                       CreatedDate: "",
                       createdBy: "",
                     });
-                    setModalOpen1(false);
+                    setIsModalOpen(false);
                   };
                   const handleCloseTask = () => {
                     setIsModalOpen(true);
@@ -117,27 +117,36 @@ export const Taskinfo=()=>{
     <div>
       <div className="alltogether">
         <div className="subjectlist">
-          <div className="info5">
-            <ul>
-              {tasks.map((task, index) => (
-                <li key={task.id}>
-                  <Link to={`/${tenantId}/tasks/${task.id}`}>{task.subject}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        
+          <Link to={`../${tenantId}/tasks`}  id='back-inter-task' >
+            Back
+          </Link>
+        
         </div>
 
         <div className="addtasks">
+          <div className="task-head">
+            <h1>Tasks Info</h1>
+          </div>
           <div className="combine">
-            <div className="info">
-              <h1>head section</h1>
+          
+            
               <div className="para1">
-                <p className="para">Priority - {addtasktable.priority} </p>
-                <p className="para">Due Date -{addtasktable.due_date}</p>
-                <p className="para">Status - {addtasktable.status}</p>
-                <p className="para">Related To - {addtasktable.related_to}</p>
-                <p className="para">Task Owner - {addtasktable.account}</p>
+                <ul >
+
+                  <l1 className='task-info-data'>Priority -
+             <span  className='task-prior'>  {addtasktable.priority}</span>     </l1>
+                  <li className='task-info-data'>Due Date -
+                  <span  className='task-prior'>  {addtasktable.due_date}</span>  </li>
+                  <li className='task-info-data'>Status - 
+                  <span  className='task-prior'>  {addtasktable.status}</span> </li>
+                  <li className='task-info-data'>Related To-
+                  <span  className='task-prior'>  {addtasktable.related_to}</span> </li>
+                  <li className='task-info-data'>Task Owner -
+                  <span  className='task-prior'>  {addtasktable.account}</span> </li>
+                </ul>
+
+              
               </div>
               <div className="closetask">
                 <button
@@ -162,11 +171,11 @@ export const Taskinfo=()=>{
                     </div>
                   </div>
                 </Modal>
-              </div>
+             
             </div>
           </div>
 
-          <div className="info">
+          <div className="info-task-show">
             <div className="hidedetail">
               <button onClick={toggleAdditionalDetails}>
                 {addtasktable ? "Hide Details" : "Show Details"}
@@ -177,31 +186,45 @@ export const Taskinfo=()=>{
             <div className="showdetails"></div>
             {addtasktable && (
               <div className="detail">
-                <h1>Task Information</h1>
-                <div className="add">
-                  <div>
-                    <p>Task Owner {addtasktable.contact}</p>
-                    <p>Subject - {addtasktable.subject}</p>
-                    <p>Due Date - {addtasktable.due_date}</p>
-                    <p>Related To - {addtasktable.related_to}</p>
-                    <p>Status - {addtasktable.status}</p>
-                    <p>Priority - {addtasktable.priority}</p>
-                    <p>Created By - {addtasktable.createdBy}</p>
-                    <p>Modified By- {addtasktable.modifiedBy} </p>
-                    <p>Reminder - {addtasktable.Reminder}</p>
-                    <p>Repeat - {addtasktable.repeat}</p>
-                    <p>Closed Time - {addtasktable.closedTime}</p>
-                    <h2> Description Information </h2>
-                    <p className="add1">
+                <h1 className='task-info-head'>Task Information :</h1>
+                <div className="para1">
+                  <div >
+                  <ul className="hide-task-info" >
+
+<l1 className='task-info-data1'>Task Owner -
+<span  className='task-prior'>  {addtasktable.contact}</span>     </l1>
+<li className='task-info-data1'>Subject -
+<span  className='task-prior'>  {addtasktable.subject}</span>  </li>
+<li className='task-info-data1'>Due Date - 
+<span  className='task-prior'>  {addtasktable.due_date}</span> </li>
+<li className='task-info-data1'>Related To-
+<span  className='task-prior'>  {addtasktable.related_to}</span> </li>
+<li className='task-info-data1'>Status -
+<span  className='task-prior'>  {addtasktable.status}</span> </li>
+<li className='task-info-data1'>Priority -
+<span  className='task-prior'>  {addtasktable.priority}</span> </li>
+<li className='task-info-data1'>Created By -
+<span  className='task-prior'>  {addtasktable.createdBy}</span> </li>
+{/* <li className='task-info-data'>Modified By -
+<span  className='task-prior'>  {addtasktable.modifiedBy}</span> </li>
+<li className='task-info-data'>Reminder -
+<span  className='task-prior'>  {addtasktable.Reminder}</span> </li>
+<li className='task-info-data'>Closed Time -
+<span  className='task-prior'>  {addtasktable.closedTime}</span> </li> */}
+
+</ul>
+                  
+                    {/* <h2> Description Information </h2> */}
+                    {/* <p className="add1">
                       {" "}
                       Description - {addtasktable.description}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </div>
             )}
           </div>
-          <div className="info">
+          <div className="info-noteee">
             <div className="notes-container">
               <div className="recent">
                 <div className="notes">
@@ -219,7 +242,7 @@ export const Taskinfo=()=>{
                 </div>
               </div>
 
-              <form onSubmit={handleAddNote}>
+              <form  className='form_taskk'  onSubmit={handleAddNote}>
                 <textarea
                   name="Notes"
                   value={addtasktable.Notes}
@@ -227,44 +250,42 @@ export const Taskinfo=()=>{
                   className="notes-textarea"
                   placeholder="add a note........"
                 ></textarea>
-                <button type="submit" className="add-note-button">
-                  Add Note
-                </button>
+              
               </form>
             </div>
           </div>
-          <div className="info">
-            <div className="info1">
+          <div className="info-attach">
+            <div >
               <div className="heads">
                 <h2>Attachments</h2>
               </div>
-              <div className="attach">
-                <select onChange={handleAttach}>
-                  <option value="">Attach</option>
+              <div className="attachment-upload2">
+  <label htmlFor="attachment-input1" className="clicktoupload2">Upload</label>
+  <input type="file" id="attachment-input1" style={{ display: 'none' }} />
+</div>
 
-                  <option value="1">Upload File</option>
-                  <option value="2">Documents </option>
-                  <option value="3">Zoho Workdrive</option>
-                  <option value="4">Other Cloud Drives</option>
-                  <option value="3">Link(URL)</option>
-                </select>
-              </div>
             </div>
           </div>
-          <div className="info">
+          
+          <div className="info-link">
             <div className="info1">
               <div className="heads">
                 <h2>Links</h2>
+
               </div>
-              <div className="addmanage">
-                <button>Add</button>
-                <button>Manage</button>
-              </div>
+              <div className="linksbtn">
+              <button>+Add Manage</button>
+            </div>
+              
             </div>
           </div>
-          <div className="info">
-            <div className="info1">
+          <div className="info-action">
+            <div className="heads">
               <h2>Upcoming Actions</h2>
+
+            </div>
+            <div className="linksbtn">
+              <button>+Add Data</button>
             </div>
           </div>
         </div>

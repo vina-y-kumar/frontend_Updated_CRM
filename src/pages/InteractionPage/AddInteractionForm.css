@@ -61,4 +61,116 @@
   .submit-button:hover {
     background-color: #0056b3;
   }
-  
+
+  /* css of InteractionPAge */
+
+  .inter{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .interaction_back{
+    width: 256px;
+    height: 1100px;
+    background: #FAFAFBFF;
+    border-radius: 0px;
+    border-width: 1px;
+    border-color: #FFFFFFFF;
+    border-style: solid;
+    box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+  }
+  .Interaction_head{
+font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+margin-top: 50px;
+  }
+  .combine_inter{
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    margin-left: 20px;
+  }
+  .first_inter{
+    width: 1098px;
+height: 287px;
+background: #F8F9FAFF;
+border-radius: 3px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 4px 9px
+  }
+  .second_inter{
+ 
+    width: 1106px;
+height: 172px;
+background: #F8F9FAFF;
+border-radius: 8px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+  }
+  .note_combine{
+display:flex;
+flex-direction: column;
+  }
+  .note_head{
+
+    font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+margin-left: 45rem;
+margin-top: 10px;
+  }
+
+  .note_inter{
+    width: 945px;
+height: 61px;
+padding-top: 37px;
+padding-bottom: 7px;
+padding-left: 12px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+color: #171A1FFF;
+margin-top: 1px;
+/* background: #FFFFFFFF; */
+border-radius: 4px;
+/* border-width: 1px; */
+border-color: #9095A11C;
+  }
+  .first_inter_data{
+    margin-left: 30px;
+    padding-top: 20px;
+ 
+  }
+  .first_inter_data1{
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #171A1FFF;
+  }
+
+  #back-inter{
+    /* padding: 100px; */
+  margin-left: 100px;
+  font-family: "Manrope";
+ 
+
+    border: 1px solid #DDD ;
+    position: relative;
+    border-radius: 4px;
+    top: 100px;
+
+    
+  }

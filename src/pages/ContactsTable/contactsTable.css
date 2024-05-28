@@ -1280,8 +1280,9 @@ color: #171A1FFF;
 /* Adjust positioning of account details */
 .para1 {
   position: relative;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-left: 38px;
+  padding: 9px;
 }
 
 .para1 .contactinfo_email,

@@ -95,6 +95,20 @@ function AccountForm() {
       <span className="material-icons" style={{ fontSize: "50px", fontFamily: "'Material Symbols Outlined'" }}>person</span>
     </div>
   );
+ 
+  
+  
+
+  const handleSaveAsDraft = () => {
+    // Implement save as draft logic here
+    console.log("Save as Draft button clicked");
+
+  };
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    // Call your submit logic here
+    handleSubmit(event);
+  };
 
   return (
     <div className="account_form_submit">
@@ -109,12 +123,12 @@ function AccountForm() {
    <div className='form_account'>
    <Header className="create_account" name="Create Account"/>
    <div className='btnsss'>
-   <button type="cancel" className="btn-submit2">Cancel</button>
+   <button type="cancel"  className="btn-submit2">Cancel</button>
 
-   <button type="save" className="btn-submit1">Save as Draft</button>
+   <button type="save" onClick={handleSaveAsDraft}  className="btn-submit1">Save as Draft</button>
 
 
-   <button type="submit" className="btn-submit3">Submit</button>
+   <button type="submit" onClick={handleSubmitForm} className="btn-submit3">Submit</button>
 
    </div>
    <div className="photo">

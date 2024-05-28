@@ -474,3 +474,27 @@
     border-radius: 4px;
     margin-top: 10px;
   }
+  .LinkedINauth {
+    text-align: center;
+  }
+  
+  .LinkedINauth h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .LinkedINauth button {
+    background-color: #0077B5;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .LinkedINauth button:hover {
+    background-color: #005d91;
+  }
+  

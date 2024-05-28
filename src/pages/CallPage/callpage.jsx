@@ -427,17 +427,22 @@ const handleCreateMeeting = async (e) => {
                 </tr>
               </thead>
               <tbody>
-                {calls.map((call) => (
-                  <tr key={call.id}>
-                    <td className="call_to">{call.call_to}</td>
-                    <td className="call_type">{call.call_type}</td>
-                    <td className="call_start">{call.start_time}</td>
-                    <td className="call_duration">{call.call_duration}</td>
-                    <td className="call_related">{call.related_to}</td>
-                    <td className="call_location">{call.location}</td>
-                    <td className="call_record">{call.voice_recording}</td>
-                  </tr>
-                ))}
+              {calls.map((call) => (
+    <tr key={call.id}>
+        <td className="call_to">{call.call_to}</td>
+        <td className='call_to'>
+            <Link to={`/${tenantId}/callpage/${call.id}`}>
+                {call.call_type}
+            </Link>
+        </td>
+        <td className="call_start">{call.start_time}</td>
+        <td className="call_duration">{call.call_duration}</td>
+        <td className="call_related">{call.related_to}</td>
+        <td className="call_location">{call.location}</td>
+        <td className="call_record">{call.voice_recording}</td>
+    </tr>
+))}
+
               </tbody>
             </table>
           </div>

@@ -26,6 +26,9 @@ const LinkedInPost = () => {
   const [selectedTime, setSelectedTime] = useState('12:00');
   const [isPreviewVisible, setIsPreviewVisible] = useState(true);
   const [showComment, setShowComment] = useState(false);
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [profileInfo, setProfileInfo] = useState({ name: '', profilePicture: '' });
+  const [tokenFetched, setTokenFetched] = useState(false);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -47,6 +50,18 @@ const LinkedInPost = () => {
   const handleImageUpload = (e) => {
     const newFiles = Array.from(e.target.files);
     addFiles(newFiles);
+  
+    // Iterate over each file to read it as binary data
+    newFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const binaryData = reader.result; // Binary data of the uploaded image
+        console.log('Binary data:', binaryData);
+  
+        // Perform further operations with the binary data if needed
+      };
+      reader.readAsBinaryString(file);
+    });
   };
 
   const addFiles = (newFiles) => {
@@ -210,6 +225,71 @@ const LinkedInPost = () => {
     console.log('Scheduled Date:', selectedDate);
     console.log('Scheduled Time:', selectedTime);
   };
+
+ 
+
+  useEffect(() => {
+    // Function to handle getting access token after redirect
+    const handleAccessToken = async () => {
+      // Get authorization code from URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const state = urlParams.get('state');
+      console.log('Authorization code:', code);
+      console.log('Authorization state:', state);
+
+      if (!code) {
+        console.error('Authorization code not found in URL');
+        return;
+      }
+
+      try {
+        // Send code to get access token
+        const response = await fetch('https://a5e045197a4f3ef4ba03ff0dc5cee344.serveo.net/getAccessToken', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code , state }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Access token response:', data);
+          setAuthenticatedUser(data.access_token);
+        } else {
+          console.error('Failed to get access token', response.status, response.statusText);
+          const errorData = await response.json();
+          console.error('Error details:', errorData);
+        }
+      } catch (error) {
+        console.error('Error fetching access token:', error);
+      }
+    };
+
+    handleAccessToken();
+  }, []);
+
+ /* useEffect(() => {
+    const fetchProfileInfo = async () => {
+
+      try {
+        const response = await fetch('https://a5e045197a4f3ef4ba03ff0dc5cee344.serveo.net/getProfileInfo');
+        if (response.ok) {
+          const data = await response.json();
+          setProfileInfo(data);
+          console.log(data);
+        } else {
+          console.error('Failed to fetch profile info', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching profile info:', error);
+      }
+    };
+
+    fetchProfileInfo();
+  }, []);*/
+
   
   return (
     <div className="LinkedIn_post">

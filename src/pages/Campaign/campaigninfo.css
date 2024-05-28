@@ -1,0 +1,50 @@
+.campaign-info-page {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .campaign-sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .campaign-info {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 40px;
+    margin-bottom: 30px;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info-box {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .info-row p {
+    margin: 5px 0;
+    flex: 1;
+  }
+  
+  .info-row p strong {
+    margin-right: 10px;
+  }
+  

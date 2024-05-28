@@ -47,7 +47,11 @@ import Userprofile from "../pages/Userpage/Userprofile";
 
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
+
 import LinkedInAuthPage from "../pages/LinkedIn/newLinkedInAuth";
+import Callpageinfo from "../pages/CallPage/Callpageinfo";
+import Meetinginfo from "../pages/Meetings/Meetinginfo";
+
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -172,9 +176,12 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/addaccount" element={<AccountForm/>} />
           <Route path=":tenant_id/addcontact" element={<Form2/>}/>
           <Route path=":tenant_id/meetings" element={<Met/>}  />
+          <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
+
           <Route path=":tenant_id/opportunity" element={<Form3/>} />
           <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
           <Route path=":tenant_id/tasks/:id" element={<Taskinfo/>}/>
+          <Route path=":tenant_id/callpage/:id"  element={<Callpageinfo/>}/>
           <Route path=":tenant_id/accounts/:id" element={<AccountsPage />} />
           <Route path=":tenant_id/send-email/:id" element={<SendEmail/>}/>
           <Route path=":tenant_id/send-msg/:id" element={<WhatsApp/>}/>

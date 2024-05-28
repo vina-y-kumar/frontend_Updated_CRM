@@ -153,6 +153,30 @@ const Form3 = () => {
         }));
     }
 };
+const handleCancel = () => {
+    
+  const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+  
+
+  if (isConfirmed) {
+    console.log("Cancel button clicked");
+   
+    window.location.href = `../${tenantId}/opportunities`;
+  }
+};
+
+
+const handleSaveAsDraft = () => {
+  // Implement save as draft logic here
+  console.log("Save as Draft button clicked");
+
+};
+const handleSubmitForm = (event) => {
+  event.preventDefault(); // Prevent default form submission behavior
+  // Call your submit logic here
+  handleSubmit(event);
+};
+
 
     return (
       <div className="opportunityfill_forms">
@@ -170,9 +194,9 @@ const Form3 = () => {
             <h1 className="oppo_form">Create Opportunity</h1>
           </div>
           <div className='btnsss_oopo'>
-            <button type="cancel" className="btn-submit_cancel">Cancel</button>
-            <button type="save" className="btn-submit_save">Save as Draft</button>
-            <button type="submit" className="btn-submit_submit">Submit</button>
+            <button type="cancel" onClick={handleCancel} className="btn-submit_cancel">Cancel</button>
+            <button type="save" onClick={handleSaveAsDraft}   className="btn-submit_save">Save as Draft</button>
+            <button type="submit" onClick={handleSubmitForm}  className="btn-submit_submit">Submit</button>
           </div>
         </div>
         <div className='oppo_form_contain'>

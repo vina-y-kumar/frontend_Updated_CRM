@@ -370,9 +370,7 @@ top: 4px;
   left: 140px;
 }
 .cadence{
-  position: relative;
-  top: 10px;
-  left: -55px;
+ margin-left: 20px;
   font-family: 'Manrope';
 font-size: 18px;
 line-height: 28px;
@@ -399,9 +397,9 @@ color: #171A1FFF;
   border-color: #6D31EDFF;
   border-style: solid;
   gap: 4px;
-  position: relative;
-  left: 60px;
-  top: 30px;
+  margin-left: 20px;
+  margin-top: 20px;
+  padding-bottom: 12px;
   
 }
 .notes{
@@ -448,11 +446,6 @@ color: #171A1F7D;
   left: -20px;
 }
 
-.owner {
-  margin-top: -23px;
-  position: relative;
-  left: -24px;
-}
 
 
 .para {
@@ -530,12 +523,15 @@ color: #171A1F7D;
 .button-group {
   margin-top: 5rem;
   border-radius: 9px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin-top: 10px;
 
 }
 
 .button-timeline,
 .button-overview {
-  margin-right: 1rem;
   padding: 0.5rem 1rem;
   /* border-radius: 9px; */
   background-color: #f5f5f5;
@@ -563,6 +559,7 @@ cursor: pointer;
   width: 124.84px;
 height: 36px;
 display: flex;
+
 flex: 1 1 0;
 align-items: center;
 justify-content: center;
@@ -575,9 +572,7 @@ background: #F3F4F6FF;
 opacity: 1;
 border-radius: 0px 18px 18px 0px;
 cursor: pointer;
-position: relative;
-top: -36px;
-left: 110px;
+
 }
 
 .button-overview:hover {
@@ -1144,6 +1139,13 @@ top: -16px;
 
 
 }
+.table10--{
+  height: 313px;
+  width: 960px;
+    opacity: 1;
+    border-radius: 8px;
+    box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+}
 .contacttablerow{
   border: 1px solid #ddd;
 }
@@ -1271,7 +1273,8 @@ color: #171A1FFF;
   font-weight: 700;
   color: #171A1FFF;
   position: relative;
-  top: 30px;
+  top: 5px;
+  margin-left: 20px;
 }
 .para1 p {
   margin-bottom: 23px; /* Add margin bottom to create space between each column */
@@ -1809,10 +1812,11 @@ border: 1px solid #ddd;
   background-color: #F3F4F6FF;
   border: 1px solid #DEE1E645;
   cursor: pointer;
-  position: absolute;
-  top: 347%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+position: absolute;
+margin-left: 33%;
+margin-top: 50px;
+
+  /* transform: translate(-50%, -50%); */
 }
 
 .attachment-upload1 input[type="file"] {
@@ -1875,9 +1879,8 @@ border-color: #DEE1E645;
   margin-top: 40px;
 }
 .info_deals2{
-  position: relative;
-  top: 13px;
-  left: -60px;
+ margin-left: 42%;
+ margin-top: 10px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -1941,9 +1944,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .closed_activity{
-  position: relative;
-  top: 13px;
-  left: -70px;
+margin-left: 20px;
+margin-top: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -1962,9 +1964,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .invite_meet{
-  position: relative;
-  top: 10px;
-  left: -70px;
+margin-left: 20px;
+margin-top: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -1984,9 +1985,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .info-pro{
-  position: relative;
-  top: 10px;
-  left: -70px;
+margin-top: 20px;
+margin-left: 40%;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -2029,9 +2029,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .cases,.info-quto,.purchase,.invoice,.infi-campi{
-  position: relative;
-  top: 10px;
-  left: -70px;
+ margin-left: 20px;
+ margin-top: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -2068,9 +2067,8 @@ border-color: #DEE1E645;
   margin-top: 45px; 
 }
 .info-sale{
-  position: relative;
-  top: 10px;
-  left: -70px;
+  margin-top: 20px;
+  margin-left: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;

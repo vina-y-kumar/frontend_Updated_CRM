@@ -97,7 +97,6 @@ export const InteractionTable = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Entity ID</th>
                   <th>Type</th>
                   <th>Interaction Type</th>
@@ -108,8 +107,7 @@ export const InteractionTable = () => {
               <tbody>
                 {filteredInteractions.map((interaction) => (
                   <tr key={interaction.id}>
-                    <td><Link to={`/${tenantId}/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.id}</Link></td>
-                    <td>{interaction.entity_id}</td>
+                    <td><Link to={`/${tenantId}/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.entity_id}</Link></td>
                     <td>{entityTypeNames[interaction.entity_type] || interaction.entity_type}</td>
                     <td>{interaction.interaction_type}</td>
                     <td>{interaction.interaction_datetime}</td>

@@ -74,7 +74,6 @@ const InteractionDetailsPage = () => {
           </div>
           <div className="first_inter">
   <ul className='first_inter_data'>
-    <li className='first_inter_data1'>ID    : {interaction && interaction.id}</li>
     <li className='first_inter_data1'>Entry ID  : {interaction && interaction.entity_id}</li>
     <li className='first_inter_data1'>Entity Type  : {interaction && interaction.entity_type}</li>
     <li className='first_inter_data1'>Interaction Type  : {interaction && interaction.interaction_type}</li>

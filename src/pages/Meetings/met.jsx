@@ -294,9 +294,14 @@ useEffect(() => {
         </tr>
       </thead>
       <tbody>
+    
         {meetings.map((meeting) => (
           <tr key={meeting.id}>
-            <td className='title_row_data'>{meeting.title}</td>
+           
+            <td className='title_row_data'>
+            <Link to={`/${tenantId}/meetings/${meeting.id}`}>
+            {meeting.title}
+                    </Link></td>
             <td className="from_row_data">{meeting.from_time}</td>
             <td className="to_row_data">{meeting.to_time}</td>
             <td className="related_row_data">{meeting.related_to}</td>

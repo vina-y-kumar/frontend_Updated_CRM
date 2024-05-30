@@ -25,12 +25,12 @@
     margin:4px;
 }
 
-.dropdown {
+.dropdown_flow {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-toggle {
+.dropdown_flow-toggle {
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -58,12 +58,12 @@
   top: 16px;
 }
 
-.dropdown {
+.dropdown_flow {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-toggle {
+.dropdown_flow-toggle {
   cursor: pointer;
 }
 

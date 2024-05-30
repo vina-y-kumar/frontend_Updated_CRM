@@ -422,12 +422,12 @@ top: 40px;
 }
 /* Media queries for responsiveness */
 
-@media (max-width: 1200px) {
+/*@media (max-width: 1200px) {
   .table10 {
     width: 100%;
     margin-left: 0;
   }
-}
+}*/
 
 @media (max-width: 1000px) {
   .meet {
@@ -594,3 +594,101 @@ color: #171A1FFF;
    
   }
 } */
+
+/* css of meeting info */
+
+.meet-head{
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+.meetinglist{
+  width: 256px;
+  height: 1100px;
+  background: #FAFAFBFF;
+  border-radius: 0px;
+  border-width: 1px;
+  border-color: #FFFFFFFF;
+  border-style: solid;
+  box-shadow: 0px 2px 5px
+    
+    
+}
+.meeting-infohead{
+  
+    font-family: 'Lexend';
+    font-size: 32px;
+    line-height: 48px;
+    font-weight: 800;
+    color: #171A1FFF;
+    margin-top: 80px;
+    
+}
+.meeting_infobox1{
+width: 1098px;
+height: 355px;
+background: #F8F9FAFF;
+border-radius: 3px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+margin-top: 30px;
+}
+
+.meet-list{
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #171A1FFF;
+  margin-left: 7%;
+  padding-top: 10px;
+}
+
+.meet-list-data,.meet-list-data1,.meet-list-data2,.meet-list-data3,.meet-list-data4,.meet-list-data5{
+  width: 292px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 22px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+
+}
+.meet-list-data{
+  margin-left: 30px;
+}
+.meet-list-data1{
+  margin-left: 30px;
+}
+.meet-list-data2{
+  margin-left: 45px;
+}
+.meet-list-data3{
+  margin-left: 5px;
+}
+.meet-list-data4{
+  margin-left: 25px;
+}
+.meet-list-data5{
+  margin-left: 25px;
+}
+.meeting_infobox2{
+  width: 1098px;
+  height: 255px;
+  background: #F8F9FAFF;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #F3F4F6FF;
+  border-style: solid;
+  box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+  margin-top: 40px;
+ 
+}

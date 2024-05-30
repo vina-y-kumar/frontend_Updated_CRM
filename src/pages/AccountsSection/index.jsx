@@ -6,12 +6,12 @@ import './AccountForm.jsx';
 import { NavLink } from 'react-router-dom';
 
 const getTenantIdFromUrl = () => {
-  // Example: Extract tenant_id from "/3/home"
+
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
-    return pathArray[1]; // Assumes tenant_id is the first part of the path
+    return pathArray[1]; 
   }
-  return null; // Return null if tenant ID is not found or not in the expected place
+  return null; 
 };
 
 
@@ -22,7 +22,7 @@ export const AccountsTable = () => {
     const selectedValue = event.target.value;
     console.log("Action required:", selectedValue);
 
-    // Check the selected value and redirect accordingly
+    
     if (selectedValue === "1") {
       // Redirect to the bulk import page
       navigate('/bulk-import');

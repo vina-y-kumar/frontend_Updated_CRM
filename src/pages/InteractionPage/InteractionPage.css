@@ -1,10 +1,11 @@
 .interaction-table {
   display: flex;
+  flex-direction: row;
 }
 
 @media (max-width: 767px) {
   .interaction-table {
-    flex-direction: column; /* Stack items vertically on smaller screens */
+    flex-direction: row; /* Stack items vertically on smaller screens */
   }
 }
 
@@ -21,8 +22,8 @@
   border-radius: 7px;
   background-color: white;
   flex: 1;
-  margin-left: -1100px;
-  margin-top: 200px;
+  /*margin-left: -1100px;*/
+  /*margin-top: 200px;*/
   width: 1253px;
   height: 893px;
   opacity: 1;
@@ -45,8 +46,8 @@
 
 .interection_head {
   display: flex;
-  flex-direction: row;
-  gap: 800px;
+  flex-direction: column;
+  /*gap: 800px;*/
   margin-top: 50px;
   align-items: flex-start;
 }
@@ -96,8 +97,12 @@
 .int_heading {
   font-family: 'Lexend';
   font-size: 32px;
+  width: 100%;
   line-height: 48px;
   font-weight: 800;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   color: #171A1FFF;
   margin-left: 10px;
 }
@@ -126,13 +131,13 @@
   background-color: #28a745; /* Green */
   color: #fff; /* White */
   border: none;
-  padding: 0.625rem 1.25rem;
+ padding: 10px;
   font-size: 16px;
-  border-radius: 0.3125rem;
+  /*border-radius: 0.3125rem;*/
   cursor: pointer;
-  position: absolute;
-  top: 6.25rem;
-  right: 2.25rem;
+   /*position: absolute;
+ top: 6.25rem;*/
+  /*right: 2.25rem;*/
 }
 
 .add-interaction-button:hover {

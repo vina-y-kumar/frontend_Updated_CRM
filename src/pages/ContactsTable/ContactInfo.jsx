@@ -318,8 +318,13 @@ const tenantId=getTenantIdFromUrl();
           </div>
 
             <div className="button-group" >
-            <button className="button-overview">Overview</button>
-            <button className="button-timeline">Timeline</button>
+              <div>
+              <button className="button-overview">Overview</button>
+              </div>
+         <div>
+         <button className="button-timeline">Timeline</button>
+         </div>
+         
           </div> 
           <div className="info-hideandshowDetail" >
             <div className="hidedetail">
@@ -522,7 +527,7 @@ const tenantId=getTenantIdFromUrl();
               </div>
 
               <div className="Cadence_table">
-                <table className="table10">
+                <table className="table10--">
                   <thead>
                     <tr>
                       <th className="table_cadence-row">Cadence Name</th>

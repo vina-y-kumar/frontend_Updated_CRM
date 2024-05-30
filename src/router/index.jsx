@@ -47,8 +47,11 @@ import Userprofile from "../pages/Userpage/Userprofile";
 
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
+
+import LinkedInAuthPage from "../pages/LinkedIn/newLinkedInAuth";
 import Callpageinfo from "../pages/CallPage/Callpageinfo";
 import Meetinginfo from "../pages/Meetings/Meetinginfo";
+
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
@@ -197,7 +200,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
           <Route path=":tenant_id/user_id" element={<Userprofile />} />
-
+          <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
         </>
       )}

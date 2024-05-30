@@ -230,8 +230,8 @@ line-height: 22px;
 font-weight: 400;
 color: #171A1FFF;
 position: relative;
-top: 56px;
-left: 120px;
+top: 70px;
+/*left: 120px;*/
 }
 .contactaddress{
   font-family: 'Manrope';
@@ -240,8 +240,8 @@ line-height: 20px;
 font-weight: 400;
 color: #6F7787FF;
 position: relative;
-top: -40px;
-left: 120px;
+top: -30px;
+/*left: 120px;*/
 }
 .contactemail{
   font-family: 'Manrope';
@@ -250,8 +250,8 @@ line-height: 22px;
 font-weight: 400;
 color: #323743FF;
 position: relative;
-top: -40px;
-left: 120px;
+top: -30px;
+/*left: 120px;*/
 }
 .contfirst-name{
   font-family: 'Manrope';

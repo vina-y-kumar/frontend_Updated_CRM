@@ -11,7 +11,7 @@ top: 30px;
 
 .campaign_page{
     display: flex;
-    justify-content: flex-start;
+    flex-direction: row;
 }
 #btn11{
     padding: 7px 11px 9px 12px;
@@ -55,7 +55,7 @@ gap: 20px;
 justify-content: flex-end;
 margin-left: 20px;
 position: relative;
-left: 750px;
+
   }
   .campaign_firstbox{
     width: 237px;
@@ -92,14 +92,14 @@ height: 300px;
 color: aqua;
   }
   .campaign-boxes{
-    width: 1200px;
+  width: 1200px;
   height: 400px;
   background: #ffffff;
   border-radius: 4px;
   position: relative;
   position: relative;
-  top: 200px;
-  left: -410px;
+  top: 20px;
+  left: 20px;
   
   }
   .campaign-bigboxes{
@@ -113,13 +113,12 @@ gap: 30px;
     flex-direction: row;
   }
   .social_btn{
-
+    width:250px;  
     position: relative;
     display: flex;
     flex-direction: row;
     gap: 40px;
-    left: -1450px;
-    top: 400px;
+   
 font-family: 'Manrope';
 font-size: 14px;
 line-height: 22px;
@@ -227,8 +226,6 @@ opacity: 1;
 border-radius: 8px;
 box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
 position: relative;
-top: 500px;
-right: 1720px;
   }
   .Campaign_table_name,.Campaign_table_owner,.Campaign_table_channel,.Campaign_table_created,.Campaign_table_status,.Campaign_table_est{
            
@@ -257,8 +254,6 @@ right: 1720px;
     border-width: 0px;
     outline: none;
     position: relative;
-    top: 350px;
-    left: -600px;
   }
   /*  form css */
   .campaign_form_head{

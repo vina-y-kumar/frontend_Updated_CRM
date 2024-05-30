@@ -2,11 +2,8 @@ import React from "react";
 import { InteractionTable } from "./Interaction";
 
 const InteractionPage = () => {
-  return (
-    <div>
-     
+  return (   
       <InteractionTable />
-    </div>
   );
 };
 

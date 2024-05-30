@@ -422,12 +422,12 @@ top: 40px;
 }
 /* Media queries for responsiveness */
 
-@media (max-width: 1200px) {
+/*@media (max-width: 1200px) {
   .table10 {
     width: 100%;
     margin-left: 0;
   }
-}
+}*/
 
 @media (max-width: 1000px) {
   .meet {

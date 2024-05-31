@@ -25,43 +25,66 @@ const AccountsTable1 = () => {
   const [accounts, setAccounts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
   const [activeButton, setActiveButton] = useState("All Accounts");
-  const [activeContacts, setActiveContacts] = useState([]);
+  const [activeAccounts, setActiveAccounts] = useState([]);
 
-  const [inactiveContacts, setInactiveContacts] = useState([]);
+  const [inactiveAccounts, setInactiveAccounts] = useState([]);
+ 
 
   const handleButtonClick = (status) => {
+    console.log("Clicked:", status);
     setActiveButton(status);
   };
+
+  console.log("Active Button:", activeButton);
 
   const tenantId = getTenantIdFromUrl();
   const modelName = "accounts";
 
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await axiosInstance.get('accounts/'); 
-        setAccounts(response.data);
-      } catch (error) {
-        console.error('Error fetching accounts:', error);
-      }
-    };
-
-    fetchAccounts();
-  }, []);
+  const fetchAccounts = async () => {
+    try {
+      const response = await axiosInstance.get('accounts/'); 
+  
+      setAccounts(response.data);
+    } catch (error) {
+      console.error('Error fetching accounts:', error);
+    }
+  };
 
 
-  const fetchActiveContacts = async () => {
+
+
+  const fetchActiveAccounts = async () => {
     try {
       const response = await axiosInstance.get('/active_accounts/');
-      const data = response.data;
-      const active = data.filter(contact => contact.active);
-      const inactive = data.filter(contact => !contact.active);
-      setActiveContacts(active);
-      setInactiveContacts(inactive);
+      const data = response.data.most_active_accounts;
+  
+      if (Array.isArray(data)) {
+        const active = data.filter(account => account.isActive);
+        console.log("^^^^^^^",active);
+        const inactive = [...active].reverse(); // Reverse the active accounts data
+        console.log("ppppppp",inactive);
+
+        
+        setActiveAccounts(active);
+        setInactiveAccounts(inactive);
+      } else {
+        console.error("Data received from server is not an array:", data);
+      }
     } catch (error) {
       console.error("Error fetching active contacts:", error);
     }
   };
+  
+  
+
+
+  useEffect(() => {
+  
+    fetchAccounts();
+    fetchActiveAccounts();
+  }, []);
+  
+  
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
   };
@@ -88,10 +111,17 @@ const AccountsTable1 = () => {
   };
 
   const getCircleColor = (letter) => {
-    const colors = ['#ff6347', '#32cd32', '#1e90ff', '#ff69b4', '#ffd700']; // Define your color palette
-    const index = letter.charCodeAt(0) % colors.length;
-    return colors[index];
+    if (letter && letter.length > 0) {
+      const colors = ['#ff6347', '#32cd32', '#1e90ff', '#ff69b4', '#ffd700']; // Define your color palette
+      const index = letter.charCodeAt(0) % colors.length;
+      return colors[index];
+    } else {
+      // If letter is undefined or an empty string, return a default color
+      return '#000000'; // You can choose any default color here
+    }
   };
+
+ 
    
   const generateRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -102,12 +132,120 @@ const AccountsTable1 = () => {
     return color;
   };
 
-  
+  const fetchRecentData = async () => {
+    try {
+      const response = await axiosInstance.get(`/recent_request/accounts/`);
+      setAccounts(response.data);
+      
+      console.log("*##########",response);
+    } catch (error) {
+      console.error('Error fetching recent data:', error);
+    }
+  };
+
+  const handleRecentButtonClick = () => {
+    fetchRecentData();
+  }; 
   const generateSmiley2 = (color) => (
     <div className="colored-circle1" style={{ backgroundColor: color }}>
       <i className="far fa-smile fa-lg"  style={{ fontSize: "38px" }}></i> 
     </div>
   );
+
+const renderTableRows = () => {
+  switch (activeButton) {
+    case "All Accounts":
+      return accounts.map((account, index) => (
+        <tr className="tablerows" key={account.id}>
+        <td>
+          <Link to={`/${tenantId}/accounts/${account.id}`}>
+          <span className="account-circle" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+
+              {account.company.charAt(0).toUpperCase()}
+            </span>
+          </Link>
+        </td>
+        <td>
+          <Link to={`/${tenantId}/accounts/${account.id}`}>
+            {account.company}
+          </Link>
+        </td>
+        <td>{account.phone}</td>
+        <td className="accountIndus">{account.industry}</td>
+        <td className="accountnames">{account.Name}</td>
+        <td className="accountems">{account.email}</td>
+      </tr>
+      ));
+    case "Active":
+      return activeAccounts.map((account, index) => (
+        <tr className="tablerows" key={account.id}>
+        {/* Circle in table data cell */}
+        <td>
+          <Link to={`/${tenantId}/accounts/${account.id}`}>
+            <span className="account-circle" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+              {account.company.charAt(0).toUpperCase()}
+            </span>
+          </Link>
+        </td>
+        <td>
+          <Link to={`/${tenantId}/accounts/${account.id}`}>
+            {account.company}
+          </Link>
+        </td>
+        <td>{account.phone}</td>
+        <td className="accountIndus">{account.industry}</td>
+        <td className="accountnames">{account.Name}</td>
+        <td className="accountems">{account.email}</td>
+      </tr>
+      ));
+    case "Inactive":
+      return inactiveAccounts.map((account, index) => (
+        <tr className="tablerows" key={account.id}>
+        {/* Circle in table data cell */}
+        <td>
+          <Link to={`/${tenantId}/accounts/${account.id}`}>
+            <span className="account-circle" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+              {account.company.charAt(0).toUpperCase()}
+            </span>
+          </Link>
+        </td>
+        <td>
+          <Link to={`/${tenantId}/accounts/${account.id}`}>
+            {account.company}
+          </Link>
+        </td>
+        <td>{account.phone}</td>
+        <td className="accountIndus">{account.industry}</td>
+        <td className="accountnames">{account.Name}</td>
+        <td className="accountems">{account.email}</td>
+      </tr>
+      ));
+    case "Recent":
+      return accounts.map((account, index) => (
+      
+        <tr className="tablerows" key={account.id}>
+          <td>
+            <Link to={`/${tenantId}/accounts/${account.id}`}>
+              
+            </Link>
+          </td>
+          <td>
+            <Link to={`/${tenantId}/accounts/${account.id}`}>
+              {account.company}
+            </Link>
+          </td>
+          <td>{account.id}</td>
+          <td className="accountIndus">{account.created_on}</td>
+          <td className="accountnames">{account.Name}</td>
+          <td className="accountems">{account.email}</td>
+        </tr>
+      ));
+    
+    default:
+      return null;
+  }
+};
+
 
   return (
   <div className="account_right_page_data">
@@ -206,6 +344,19 @@ const AccountsTable1 = () => {
                   Inactive
                 </button>
               </div>
+
+              <div className="activeInactivebtn4">
+          <button
+            className={`${activeButton === "Recent" ? "activeinactive " : ""}`}
+            onClick={() => {
+              handleButtonClick("Recent");
+              handleRecentButtonClick();
+            }}
+          >
+            Recent
+          </button>
+        </div>
+            
       </div>
       <select
         value={viewMode}
@@ -225,44 +376,26 @@ const AccountsTable1 = () => {
         
         </div>
         {viewMode === "table" && (
-          <div className="accounts-table-wrapper">
-            <table>
-              <thead className="thead1">
-                <tr>
-                  <th></th> {/* Empty th for alignment */}
-                  <th>Account Name</th>
-                  <th>Phone Number</th>
-                  <th>Industry</th>
-                  <th>Account Owner</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {accounts.map((account, index) => (
-                  <tr className="tablerows" key={account.id}>
-                    {/* Circle in table data cell */}
-                    <td>
-                      <Link to={`/${tenantId}/accounts/${account.id}`}>
-                        <span className="account-circle" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
-                          {account.company.charAt(0).toUpperCase()}
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={`/${tenantId}/accounts/${account.id}`}>
-                        {account.company}
-                      </Link>
-                    </td>
-                    <td>{account.phone}</td>
-                    <td className="accountIndus">{account.industry}</td>
-                    <td className="accountnames">{account.Name}</td>
-                    <td className="accountems">{account.email}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+  <div className="accounts-table-wrapper">
+    <table>
+      <thead className="thead1">
+        <tr>
+          <th></th> {/* Empty th for alignment */}
+          <th>Account Name</th>
+          <th>Phone Number</th>
+          <th>Industry</th>
+          <th>Account Owner</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+   <tbody>
+   {renderTableRows()}
+
+   </tbody>
+    </table>
+  </div>
+)}
+
 
         {viewMode === "tile" && (
           <div className='accounts-tiles-wrapper'>

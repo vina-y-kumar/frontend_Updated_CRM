@@ -4,9 +4,10 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 800;
 color: #171A1FFF;
-position: relative;
-left:70px;
-top: 30px;
+margin-left: 20px;
+margin-top: 50px;
+/* padding-top: 40px; */
+position: absolute;
 }
 
 .campaign_page{
@@ -48,13 +49,19 @@ top: 30px;
    
     
   }
+  .campaign_filter_btn{
+  
+  position:absolute;
+  bottom: 43%;
+  margin-left: 40px;
+  }
   .campaign_excelbtn{
 display: flex;
-margin-top: 50px;
+margin-top: 10px;
 gap: 20px;
 justify-content: flex-end;
 margin-left: 20px;
-position: relative;
+margin-top: 70px;
 
   }
   .campaign_firstbox{
@@ -105,6 +112,7 @@ color: aqua;
   .campaign-bigboxes{
 display: inline-flex;
 gap: 30px;
+padding: 20px;
   }
   .campaign_btn_social{
   
@@ -225,7 +233,9 @@ height: 893px;
 opacity: 1;
 border-radius: 8px;
 box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
-position: relative;
+position: absolute;
+margin-left: 40px;
+top: 65%;
   }
   .Campaign_table_name,.Campaign_table_owner,.Campaign_table_channel,.Campaign_table_created,.Campaign_table_status,.Campaign_table_est{
            
@@ -253,7 +263,9 @@ position: relative;
     border-radius: 4px;
     border-width: 0px;
     outline: none;
-    position: relative;
+    position: absolute;
+    margin-left: 83rem;
+    top: 2px;
   }
   /*  form css */
   .campaign_form_head{
@@ -411,8 +423,10 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+/* padding-left: 30px; */
+position: absolute;
+top: 8rem;
+margin-left: 35px;
   }
   .total_sended1{
     font-family: 'Lexend';
@@ -420,8 +434,11 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+margin-left: 22px;
+position: absolute;
+top: 8rem;
+
+
   }
   .total_clicks1{
     font-family: 'Lexend';
@@ -429,8 +446,9 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+margin-left: 22px;
+position: absolute;
+top: 8rem;
   }
   .total_revenue1{
     font-family: 'Lexend';
@@ -438,8 +456,9 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+margin-left: 22px;
+position: absolute;
+top: 8rem;
   }
 
   .campaign_forms{

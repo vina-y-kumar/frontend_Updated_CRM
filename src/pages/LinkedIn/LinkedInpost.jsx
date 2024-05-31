@@ -6,6 +6,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import './LinkedInpost.css';
+/*import { initializeApp } from 'firebase/app';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBPsLD_NgSwchMrpG2U81UsH_USQGSiNZU",
+  authDomain: "nurenai.firebaseapp.com",
+  databaseURL: "https://nurenai-default-rtdb.firebaseio.com",
+  projectId: "nurenai",
+  storageBucket: "nurenai.appspot.com",
+  messagingSenderId: "667498046930",
+  appId: "1:667498046930:web:cb281b053ddc016e18940b"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);*/
 
 const LinkedInPost = () => {
   const [text, setText] = useState('');
@@ -28,7 +43,7 @@ const LinkedInPost = () => {
   const [showComment, setShowComment] = useState(false);
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [profileInfo, setProfileInfo] = useState({ name: '', profilePicture: '' });
-  const [tokenFetched, setTokenFetched] = useState(false);
+  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -47,21 +62,54 @@ const LinkedInPost = () => {
     addFiles(newFiles);
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const newFiles = Array.from(e.target.files);
     addFiles(newFiles);
-  
-    // Iterate over each file to read it as binary data
+
+    // Iterate over each file to read it as binary data and upload to Firebase
     newFiles.forEach(file => {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const binaryData = reader.result; // Binary data of the uploaded image
         console.log('Binary data:', binaryData);
-  
-        // Perform further operations with the binary data if needed
+
+        // Convert binary string to a suitable format if needed
+        const binaryBuffer = new Uint8Array(binaryData.split("").map(char => char.charCodeAt(0)));
+        const binaryNumber = Array.from(binaryBuffer).map(byte => byte.toString(2).padStart(8, '0')).join('');
+
+        // Prepare the payload
+        const payload = {
+          imageBinary: binaryNumber,
+          imageURL:" imageURL",
+          textBody: 'This is a sample text body.',
+          title: 'Sample Title',
+          subtitle: 'Sample Subtitle'
+        };
+
+        // Make the POST request
+        const result = await postData('https://df28-139-5-197-163.ngrok-free.app/postImage', payload);
+        console.log(result);
       };
       reader.readAsBinaryString(file);
     });
+  };
+
+ /* const uploadImageToFirebase = async (file) => {
+    const storageRef = ref(storage, `images/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  };*/
+
+  const postData = async (url = '', data = {}) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
   };
 
   const addFiles = (newFiles) => {
@@ -245,7 +293,7 @@ const LinkedInPost = () => {
 
       try {
         // Send code to get access token
-        const response = await fetch('https://a5e045197a4f3ef4ba03ff0dc5cee344.serveo.net/getAccessToken', {
+        const response = await fetch('https://969f71281649d6d298116a3e3ed6e6c4.serveo.net/getAccessToken', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -270,25 +318,6 @@ const LinkedInPost = () => {
     handleAccessToken();
   }, []);
 
- /* useEffect(() => {
-    const fetchProfileInfo = async () => {
-
-      try {
-        const response = await fetch('https://a5e045197a4f3ef4ba03ff0dc5cee344.serveo.net/getProfileInfo');
-        if (response.ok) {
-          const data = await response.json();
-          setProfileInfo(data);
-          console.log(data);
-        } else {
-          console.error('Failed to fetch profile info', response.status, response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching profile info:', error);
-      }
-    };
-
-    fetchProfileInfo();
-  }, []);*/
 
   
   return (

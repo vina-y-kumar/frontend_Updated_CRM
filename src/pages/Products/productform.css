@@ -1,0 +1,64 @@
+.product-form-container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5rem;
+}
+
+.product-form-section-heading {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+  
+  .form-buttons-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+  
+  .product-form-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .product-form-button-save {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .product-form-button-secondary {
+    background-color: #6c757d;
+    color: #fff;
+  }
+  
+  .product-forms{
+    position: relative;
+    background: #F8F9FAFF;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #F3F4F6FF;
+    border-style: solid;
+    margin-left: 20px;
+    margin-top: -20px;
+    }
+    .account_forms2{
+      width: 1096px;
+      position: relative;
+      margin-top: 10px;
+      margin-left: 25px;
+      height: 285px;
+      background: #F8F9FAFF;
+      border-radius: 8px;
+      border-width: 1px;
+      border-color: #F3F4F6FF;
+      border-style: solid;
+      box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+    }

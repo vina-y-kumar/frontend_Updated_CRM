@@ -23,14 +23,9 @@ const leadStages = {
   'dead': { label: 'Dead', color: '#5c62d6' }
 };
 
-function Kanban() {
+function Kanban({ leadCountsData }) {
   const tenantId = getTenantIdFromUrl();
-  const [columns, setColumns] = useState({
-   
-  });
-
-  // Define state for lead counts
-  const [leadCounts, setLeadCounts] = useState({});
+  const [columns, setColumns] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +37,6 @@ function Kanban() {
         // Calculate the sum of leads for each stage
         const leadCountsResponse = await axiosInstance.get('/leads_sum/');
         const leadCountsData = leadCountsResponse.data;
-
-        // Update leadCounts state with lead counts data
-        setLeadCounts(leadCountsData);
 
         const categorizedLeads = {};
         for (const stage in leadStages) {
@@ -75,10 +67,6 @@ function Kanban() {
     fetchData();
   }, []);
 
-  
-
-  
-
   const mapLeadsToCards = (leads) => {
     return leads.map((lead) => ({
       id: lead.id.toString(),
@@ -94,73 +82,9 @@ function Kanban() {
       enquery_type: lead.enquery_type
     }));
   };
+
   const onDragEnd = async (result) => {
-    const { source, destination, draggableId } = result;
-    if (!destination) return;
-
-    const startColumn = columns[source.droppableId];
-    const endColumn = columns[destination.droppableId];
-
-    if (startColumn === endColumn) {
-      // Logic for moving within the same column
-      const newCards = Array.from(startColumn.cards);
-      newCards.splice(source.index, 1);
-      newCards.splice(destination.index, 0, startColumn.cards[source.index]);
-      const newColumn = {
-        ...startColumn,
-        cards: newCards,
-      };
-      setColumns({ ...columns, [source.droppableId]: newColumn });
-    } else {
-      // Logic for moving to a different column
-      const startCards = Array.from(startColumn.cards);
-      const endCards = Array.from(endColumn.cards);
-      const [movedCard] = startCards.splice(source.index, 1);
-      endCards.splice(destination.index, 0, {
-        ...movedCard,
-        status: endColumn.title,
-      });
-
-      try {
-        await sendEmail(movedCard.email, endColumn.title, localStorage.getItem("token"));
-
-        const leadData = {
-          ...movedCard, // Include existing lead data
-          status: mapStatusToBackend(endColumn.title), // Update the status
-          first_name: movedCard.first_name,
-          last_name: movedCard.last_name,
-          email: movedCard.email,
-          assigned_to: movedCard.assigned_to,
-          createdBy: movedCard.createdBy,
-        };
-        // Make a PUT request to update the lead status in the backend
-        await axiosInstance.put(`/leads/${movedCard.id}/`, leadData);
-      } catch (error) {
-        console.error('Error sending email or updating lead status:', error);
-      }
-
-      const newColumns = {
-        ...columns,
-        [source.droppableId]: { ...startColumn, cards: startCards },
-        [destination.droppableId]: { ...endColumn, cards: endCards },
-      };
-      setColumns(newColumns);
-    } 
-  };
-
-  const mapStatusToBackend = (frontendStatus) => {
-    switch (frontendStatus) {
-      case 'New':
-        return 'assigned';
-      case 'Proposals':
-        return 'in process';
-      case 'Negotiations':
-        return 'converted';
-      case 'Contracts Sent':
-        return 'recycled';
-      default:
-        return 'assigned';
-    }
+    // Your onDragEnd logic here
   };
 
   return (
@@ -177,7 +101,7 @@ function Kanban() {
                     className="title htext1"
                     style={{ backgroundColor: column.bg }}
                   >
-                    {column.title}
+                    {column.title} ({column.count})
                   </div>
                   <Droppable droppableId={columnId}>
                     {(provided) => (
@@ -204,31 +128,34 @@ function Kanban() {
                                   <div className="status">{card.status}</div>
                                 </div>
                                 <div className="content_">
+                                  {/* Content of the card */}
                                   {columnId === 'new' && (
-                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  )}
-                                  {columnId !== '0' ? (
-                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  ) : (
-                                    <NavLink to={`/${tenantId}/lead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  )}
-                                  <div className="c2">
-                                    {card.address}
-                                    <div className="r1">$1,000</div>
-                                  </div>
-                                  <div className="c2">
-                                    {card.email}
-                                    <div className="r1">-</div>
-                                  </div>
-                                  <div className="c2">{card.website}</div>
+                        <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      )}
+                      {columnId !== '0' ? (
+                        <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      ) : (
+                        <NavLink to={`/${tenantId}/lead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      )}
+                      <div className="c2">
+                        {card.address}
+                        <div className="r1">$1,000</div>
+                      </div>
+                      <div className="c2">
+                        {card.email}
+                        <div className="r1">-</div>
+                      </div>
+                      <div className="c2">{card.website}</div>
+                    </div>
+
                                 </div>
-                              </div>
+                        
                             )}
                           </Draggable>
                         ))}

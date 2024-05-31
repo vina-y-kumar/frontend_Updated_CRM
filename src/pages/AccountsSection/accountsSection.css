@@ -30,9 +30,9 @@ font-size: 14px;
   color: #171A1FFF;
 }
 .account_forms{
-position: relative;
+
 width: 1096px;
-height: 700px;
+height: 560px;
 background: #F8F9FAFF;
 border-radius: 8px;
 border-width: 1px;
@@ -40,10 +40,11 @@ border-color: #F3F4F6FF;
 border-style: solid;
 box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
 margin-left: 20px;
-margin-top: -20px;
+padding-top: 20px;
 }
 .account_forms2{
   width: 1096px;
+  
   position: relative;
   margin-top: 10px;
   margin-left: 25px;
@@ -68,3 +69,120 @@ margin-top: -20px;
   padding: 0px;
 }
 
+.acc_head{
+font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+}
+.btnsss1 {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 12px;
+  
+  
+}
+.create_account3{
+  font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+margin-left: 20px;
+}
+.anual_ownership,.anual_email,.account_name,.account_site,.parent_account,.account_number,.account_type,
+.industryy,.anual_revenue,.ratings,.anual_phone,.anual_fax,.anual_website,.anual_ticker,.anual_owner,.anual_employess{
+  font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.anual_ticker{
+  margin-left: 2rem;
+}
+.anual_employess{
+  margin-left: 5rem;
+}
+.anual_fax{
+  margin-left: 10rem;
+}
+.ratings{
+  margin-left: 8rem;
+}
+.industryy{
+margin-left: 6rem;
+}
+.anual_email{
+  margin-left: 7rem;
+}
+.account_site{
+  margin-left: 2rem;
+}
+.account_type{
+margin-left: 1.3rem;
+}
+.anual_phone{
+  margin-left: 7rem;
+}
+.anual_website{
+  margin-left: 6rem;
+}
+.anual_owner{
+  margin-left: 4rem;
+}
+.form-control_account1{
+  width: 260px;
+height: 36px;
+padding-left: 12px;
+padding-right: 12px;
+font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #F3F4F6FF;
+border-radius: 4px;
+border-width: 1px;
+border-color: #DEE1E645;
+outline: none;
+margin-left: 20px;
+}
+.info_address{
+  font-family: 'Manrope';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.bill_street,.bill_city,.bill_state,.bill_code,.bill_country,.ship_street,.ship_city,.ship_state,.ship_code,.ship_country,.ship_descri
+{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+}
+.bill_state{
+  margin-left: 10px;
+}
+.ship_city{
+  margin-left: 15px;
+}
+.bill_city{
+  margin-left: 20px;
+}
+.bill_code{
+  margin-left: 20px;
+}
+.photo{
+  margin-left: 50px;
+}
+.upload_icon{
+  margin-left: 60px;
+  
+}
+.pic_btn{
+  position: absolute;
+  top: 1px;
+}

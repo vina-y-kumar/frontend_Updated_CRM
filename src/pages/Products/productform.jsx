@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './productform.css';
 
 const ProductForm = () => {
@@ -42,22 +43,31 @@ const ProductForm = () => {
   };
 
   return (
-      <div className="product-forms-page">
+    <div className="product-forms-page">
+      <div className="product-Sidebar">
+        <Link to="">Back</Link>
+      </div>
+    <div className="product-form-container">
       <h1 className="product-form-heading">Create Product</h1>
       <div className="form-buttons-container">
-        <button type="submit" className="product-form-button product-form-button-save">Save</button>
-        <button type="button" className="product-form-button product-form-button-secondary">Save and New</button>
-        <button type="button" className="product-form-button product-form-button-secondary">Cancel</button>
+        <button type="submit" className="product-form-button product-form-button-submit">Submit</button>
+        <button type="button" className="product-form-button product-form-button-savedraft">Save as Draft</button>
+        <button type="button" className="product-form-button product-form-button-cancel">Cancel</button>
       </div>
-      <form className="product-form-container" onSubmit={handleSubmit}>
-      <h2 className="product-form-section-heading">Product Image</h2>
-      <div className="product-header">
-      <input type="file" name="productImage" className="product-form-input" onChange={handleChange} />
-      </div>
-      <div className="product-form-heading1">
-      <h2 className="product-form-information-heading">Product Information</h2>
-      </div>
-      <div className="product-forms">
+      
+      <form onSubmit={handleSubmit}>
+        <div className="product-section">
+          <h2 className="product-section-heading">Product Image</h2>
+          <div className="product-header">
+            <input type="file" name="productImage" className="product-form-input" onChange={handleChange} />
+          </div>
+        </div>
+  
+        <div className="product-section">
+          <div className="product-section-heading">
+            <h2>Product Information</h2>
+          </div>
+          <div className="product-forms">
       <div className="form-group col-md-6 ">
                                 <label htmlFor="Name" className='product_anual_ownership'>Product Owner:</label>
                                 <input
@@ -176,10 +186,164 @@ const ProductForm = () => {
                                 />
                                 </div>
                                 </div>
+                                 </div>
+                    </form>
+  </div>
+  <div className="price-information">
+  <div className="price-information-heading">
+    <h2>Price Information</h2>
+  </div>
+  <div className="price-forms">
+    <div className="form-group col-md-6">
+      <label htmlFor="unitPrice">Unit Price:</label>
+      <input
+        type="text"
+        className="form-control_unit-price"
+        id="unitPrice"
+        name="unitPrice"
+        value={formData.unitPrice}
+        onChange={handleChange}
+        placeholder="Enter Unit Price"
+      />
+    </div>
+    <div className="form-group col-md-6">
+      <label htmlFor="commissionRate">Commission Rate:</label>
+      <input
+        type="text"
+        className="form-control_commission-rate"
+        id="commissionRate"
+        name="commissionRate"
+        value={formData.commissionRate}
+        onChange={handleChange}
+        placeholder="Enter Commission Rate"
+      />
+    </div>
+    <div className="form-group col-md-6">
+      <label htmlFor="tax">Tax:</label>
+      <input
+        type="text"
+        className="form-control_tax"
+        id="tax"
+        name="tax"
+        value={formData.tax}
+        onChange={handleChange}
+        placeholder="Enter Tax"
+      />
+    </div>
+    <div className="form-group col-md-6">
+      <label htmlFor="taxable">Taxable:</label>
+      <input
+        type="checkbox"
+        className="form-control_taxable"
+        id="taxable"
+        name="taxable"
+        checked={formData.taxable}
+        onChange={handleChange}
+      />
+    </div>
+   
+  </div>
+</div>
+<div className="stock-information">
+  <div className="stock-information-heading">
+    <h2>Stock Information</h2>
+  </div>
+  <div className="stock-forms">
+    <div className="form-group">
+      <label htmlFor="usageUnit">Usage Unit:</label>
+      <input
+        type="text"
+        className="form-control_usage-unit"
+        id="usageUnit"
+        name="usageUnit"
+        value={formData.usageUnit}
+        onChange={handleChange}
+        placeholder="Enter Usage Unit"
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="quantityInStock">Quantity in Stock:</label>
+      <input
+        type="text"
+        className="form-control_quantity-in-stock"
+        id="quantityInStock"
+        name="quantityInStock"
+        value={formData.quantityInStock}
+        onChange={handleChange}
+        placeholder="Enter Quantity in Stock"
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="handler">Handler:</label>
+      <input
+        type="text"
+        className="form-control_handler"
+        id="handler"
+        name="handler"
+        value={formData.handler}
+        onChange={handleChange}
+        placeholder="Enter Handler"
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="qtyOrdered">Qty Ordered:</label>
+      <input
+        type="text"
+        className="form-control_qty-ordered"
+        id="qtyOrdered"
+        name="qtyOrdered"
+        value={formData.qtyOrdered}
+        onChange={handleChange}
+        placeholder="Enter Qty Ordered"
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="reorderLevel">Reorder Level:</label>
+      <input
+        type="text"
+        className="form-control_reorder-level"
+        id="reorderLevel"
+        name="reorderLevel"
+        value={formData.reorderLevel}
+        onChange={handleChange}
+        placeholder="Enter Reorder Level"
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="quantityInDemand">Quantity in Demand:</label>
+      <input
+        type="text"
+        className="form-control_quantity-in-demand"
+        id="quantityInDemand"
+        name="quantityInDemand"
+        value={formData.quantityInDemand}
+        onChange={handleChange}
+        placeholder="Enter Quantity in Demand"
+      />
+    </div>
+  </div>
+</div>
+<div className="description-information">
+  <div className="description-information-heading">
+    <h2>Description Information</h2>
+  </div>
+  <div className="description-forms">
+    <div className="form-group">
+      <label htmlFor="description">Description:</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="4"
+        className="form-control_description"
+        value={formData.description}
+        onChange={handleChange}
+        placeholder="Enter Description"
+      ></textarea>
+    </div>
+  </div>
+</div>
 
-                          
-      </form>
-      </div>
+</div>
   );
 };
 

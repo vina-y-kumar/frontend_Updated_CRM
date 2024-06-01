@@ -165,7 +165,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/contacts" element={<ContactsTable/>}/> 
           <Route path=":tenant_id/lead" element={<LeadPage />} />
           <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
-          <Route path=":tenant_id/opportunitiesinfo" element={<OpportunitiesInfo />} />
+          <Route path=":tenant_id/ShowOpportunity/:id" element={<OpportunitiesInfo />} />
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
        
           <Route path=":tenant_id/addlead" element={<Lead/>} />

@@ -49,6 +49,7 @@ import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
 
 import LinkedInAuthPage from "../pages/LinkedIn/newLinkedInAuth";
+import { Product } from "../pages/Products/Product";
 import Callpageinfo from "../pages/CallPage/Callpageinfo";
 import Meetinginfo from "../pages/Meetings/Meetinginfo";
 import Remind from "../pages/Reminders/Reminder";
@@ -218,6 +219,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/user_id" element={<Userprofile />} />
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
+          <Route path=":tenant_id/product"  element= {<Product/>}/>
         </>
       )}
 

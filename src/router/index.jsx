@@ -52,6 +52,12 @@ import LinkedInAuthPage from "../pages/LinkedIn/newLinkedInAuth";
 import { Product } from "../pages/Products/Product";
 import Callpageinfo from "../pages/CallPage/Callpageinfo";
 import Meetinginfo from "../pages/Meetings/Meetinginfo";
+import Remind from "../pages/Reminders/Reminder";
+import Reminderform from "../pages/Reminders/createreminder";
+import Vendors from "../pages/Vendors/vendors";
+import Vendorsform from "../pages/Vendors/createVendors";
+import VendorInfo from "../pages/Vendors/vendorInfo";
+import TopNavbar from "../pages/TopNavbar/TopNavbar";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -165,6 +171,16 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
           <Route path=":tenant_id/opportunitiesinfo" element={<OpportunitiesInfo />} />
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
+          <Route path=":tenant_id/reminder" element={<Remind/>}/>
+          <Route path=":tenant_id/createreminder" element={<Reminderform/>}/>
+          <Route path=":tenant_id/vendors" element={<Vendors/>}/>
+          <Route path=":tenant_id/createVendors" element={<Vendorsform/>}/>
+          <Route path=":tenant_id/Vendorsinfo/:id" element={<VendorInfo/>}/>
+          <Route path=":tenant_id/topNavbar" element={<TopNavbar/>}/>
+
+
+
+
        
           <Route path=":tenant_id/addlead" element={<Lead/>} />
         

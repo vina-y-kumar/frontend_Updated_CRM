@@ -83,9 +83,28 @@ function Kanban({ leadCountsData }) {
     }));
   };
 
-  const onDragEnd = async (result) => {
-    // Your onDragEnd logic here
+  const onDragEnd = (result) => {
+    const { source, destination, draggableId } = result;
+    if (!destination) return;
+
+    const sourceColumn = columns[source.droppableId];
+    const destinationColumn = columns[destination.droppableId];
+    const movedCard = sourceColumn.cards.find(card => card.id === draggableId);
+
+    const updatedSourceCards = sourceColumn.cards.filter(card => card.id !== draggableId);
+    const updatedSourceColumn = { ...sourceColumn, cards: updatedSourceCards };
+
+    const updatedDestinationCards = [...destinationColumn.cards, movedCard];
+    const updatedDestinationColumn = { ...destinationColumn, cards: updatedDestinationCards };
+
+    const updatedColumns = {
+      ...columns,
+      [source.droppableId]: updatedSourceColumn,
+      [destination.droppableId]: updatedDestinationColumn
+    };
+    setColumns(updatedColumns);
   };
+
 
   return (
     <>

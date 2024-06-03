@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import ProductForm from "./productform";
 import { Sidebar } from "../../components/Sidebar";
 import { NavLink,Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
@@ -14,7 +14,9 @@ export const Product = ()=>{
         <div className="product-content">
             <div className="product-header">
             <h1>Products</h1>
+            <Link to="/productform">
             <button className="add-product-button">Create Product</button>
+          </Link>
             </div>
             <table className="product-table">
                     <thead>
@@ -26,7 +28,7 @@ export const Product = ()=>{
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Example rows */}
+                        
                         <tr>
                             <td>Product 1</td>
                             <td>001</td>

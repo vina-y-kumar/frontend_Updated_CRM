@@ -16,6 +16,7 @@ export const Register = () => {
   const [newOrganisationName, setNewOrganisationName] = useState("");
   const [newOrganisationTenantId, setNewOrganisationTenantId] = useState("");
   const [newOrganisationPassword, setNewOrganisationPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // Fetch organisation names from the backend when component mounts
@@ -36,6 +37,7 @@ export const Register = () => {
 
    const authRegister = async() => {
     event.preventDefault(); 
+    setIsSubmitting(true);
     // Find the tenant ID associated with the selected organisation
     const selectedOrg = organisations.find((org) => org.name === organisation);
     const selectedTenantId = selectedOrg ? selectedOrg.tenantId : "";
@@ -69,6 +71,9 @@ export const Register = () => {
       
     } catch (error) {
       console.error("Registration failed:", error);
+    }
+    finally {
+      setIsSubmitting(false); // End loading
     }
   };
 

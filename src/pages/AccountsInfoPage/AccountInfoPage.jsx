@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // Import Link
 import "./page.css";
+import uploadFileToAzure from "../../azureUpload.jsx";
 
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
@@ -42,7 +43,7 @@ const AccountsPage = () => {
       try {
         // Upload the file to Azure Blob Storage
         console.log('Uploading file to Azure Blob Storage...');
-      //const fileUrl = await uploadFileToAzure(selectedFile);
+      const fileUrl = await uploadFileToAzure(selectedFile);
         console.log('File uploaded to Azure, URL:', fileUrl);
   
         // Send a POST request to your backend with the file URL
@@ -73,11 +74,9 @@ const AccountsPage = () => {
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/accounts/${id}`
-        );
+        const response = await axiosInstance.get(`/accounts/${id}`);
         setAccount(response.data);
-        console.log(response.data[0].Name);  // Adjusted to correctly access the name
+        console.log(response.data[0].name);  // Adjusted to correctly access the name
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -89,6 +88,7 @@ const AccountsPage = () => {
   if (!account) {
     return <div className="loader"></div>; // Show a loading message while fetching data
   }
+  
 
   const contactPersons = [
     {
@@ -164,6 +164,8 @@ const AccountsPage = () => {
     const index = letter.charCodeAt(0) % colors.length;
     return colors[index];
   };
+
+  
   return (
     <>
       <div className="classs">

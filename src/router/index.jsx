@@ -52,6 +52,10 @@ import LinkedInAuthPage from "../pages/LinkedIn/newLinkedInAuth";
 import { Product } from "../pages/Products/Product";
 import Callpageinfo from "../pages/CallPage/Callpageinfo";
 import Meetinginfo from "../pages/Meetings/Meetinginfo";
+
+import ProductForm from "../pages/Products/productform";
+import { ProductInfo } from "../pages/Products/productinfo";
+
 import Remind from "../pages/Reminders/Reminder";
 import Reminderform from "../pages/Reminders/createreminder";
 import Vendors from "../pages/Vendors/vendors";
@@ -169,7 +173,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/contacts" element={<ContactsTable/>}/> 
           <Route path=":tenant_id/lead" element={<LeadPage />} />
           <Route path=":tenant_id/opportunities" element={<Opportunities />} /> 
-          <Route path=":tenant_id/opportunitiesinfo" element={<OpportunitiesInfo />} />
+          <Route path=":tenant_id/ShowOpportunity/:id" element={<OpportunitiesInfo />} />
           <Route path=":tenant_id/dashboard" element={<Dashboard />} />
           <Route path=":tenant_id/reminder" element={<Remind/>}/>
           <Route path=":tenant_id/createreminder" element={<Reminderform/>}/>
@@ -220,6 +224,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
           <Route path=":tenant_id/product"  element= {<Product/>}/>
+          <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
+          <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
         </>
       )}
 

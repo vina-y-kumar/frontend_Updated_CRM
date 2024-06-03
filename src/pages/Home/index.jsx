@@ -45,19 +45,27 @@ export const Home = () => {
             <Header name="Report" />
             <div className="home_right_box_inner">
               <Card />
-              <BarChart1 />
-              <LineChart1 />
-              <br />
-              <br />
+           
+            
+              <div className="chart-container" style={{marginTop:'50px'}}>
+              <div className="chart">
+                  <Donut />
+                </div>
+              
+              <div className="chart">
+              <LineChart1 /> 
+              </div>
+              </div>
               <div className="chart-container">
                 <div className="chart">
                   <Funnel />
                 </div>
                 <div className="chart">
-                  <Donut />
+              <BarChart1 />
+              </div>
                 </div>
               </div>
-            </div>
+          
           </div>
         </div>
       </div>

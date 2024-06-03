@@ -134,6 +134,22 @@ function Form2() {
         tenant: tenantId,
       };
       const response = await axiosInstance.post('/contacts/',dataToSend);
+      const contactId = response.data.id;
+      const interactionData = {
+        entity_type: "Contact",
+        entity_id: contactId,
+        interaction_type: "Note",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Contact created with id : ${contactId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       console.log("Form submitted successfully:", response.data);
       setContactData({
         ContactOwner: "",

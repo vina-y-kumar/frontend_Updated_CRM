@@ -73,7 +73,7 @@ export const LeadPage = () =>
         <div className="upper"><img className="person-icon"  alt="person icon" /></div>
       </div> */}
       <Header name="Leads" />
-      <h3>Total Leads: 25</h3>
+     
       <div className="lead_add_btn">
         <div className="navlinks">
         <NavLink to={`/${tenantId}/addlead`} id="btn" style={{ backgroundColor: '#62CD14FF' }}>+ New</NavLink>

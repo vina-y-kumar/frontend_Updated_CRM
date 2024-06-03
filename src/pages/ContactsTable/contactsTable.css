@@ -115,11 +115,7 @@ color: #565D6DFF;
 justify-content: flex-end;
 gap: 20px;
 }
-.upload_icon1{
-  position: relative;
-  left: 140px;
-   top: -100px;
-}
+
 .view-mode-select5{
   float: right;
   padding: 5px;

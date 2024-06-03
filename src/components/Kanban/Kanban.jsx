@@ -154,6 +154,7 @@ function Kanban({ leadCountsData }) {
     }
   };
 
+
   return (
     <>
       <br />

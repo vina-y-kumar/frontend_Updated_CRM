@@ -109,13 +109,8 @@ export const Opportunities = () => {
        
         
       </div>
-<<<<<<< HEAD
-      <div className="oppo_kanban">
-      {viewMode === "kanban" ? <Kanban2 /> : <OpportunitiesTable opportunities={oppourtunity} />}
-=======
       <div>
       {viewMode === "kanban" ? <Kanban2 /> : <OpportunitiesTable opportunities={oppourtunity} handleOpportunityClick={handleOpportunityClick} />}
->>>>>>> cb626bfdb24582ec92a85777e0ba2fe7eb69dab6
       </div>
       </div>
     </div>

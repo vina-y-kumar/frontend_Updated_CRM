@@ -6,12 +6,9 @@ import { Link } from "react-router-dom";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
 import axiosInstance from "../../api";
-<<<<<<< HEAD
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
-=======
 import { useAuth } from "../../authContext";
->>>>>>> cb626bfdb24582ec92a85777e0ba2fe7eb69dab6
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"

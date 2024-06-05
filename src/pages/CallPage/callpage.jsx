@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -170,6 +172,10 @@ const handleCreateMeeting = async (e) => {
   };
 
   return (
+    <div>
+       <div className="call_nav">
+    <TopNavbar/>
+  </div>
     <div className="calls">
       <div className="home_left_box">
         <Sidebar />
@@ -502,6 +508,8 @@ const handleCreateMeeting = async (e) => {
       )}*/ } 
       </div>
     </div>
+    </div>
+   
   );
 };
 

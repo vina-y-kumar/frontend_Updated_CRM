@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../api';
 import { useAuth } from '../../authContext';
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 function CreateNewAccountForm() {
   const { userId } = useAuth(); // Get userId from your auth context
@@ -49,7 +51,10 @@ function CreateNewAccountForm() {
   };
 
   return (
+   <div>
+   
     <div>
+     
       <h2>Create New Account</h2>
       <form onSubmit={handleAccountSubmit}>
         <div className="form-group">
@@ -96,6 +101,7 @@ function CreateNewAccountForm() {
         </button>
       </form>
     </div>
+   </div>
   );
 }
 

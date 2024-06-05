@@ -9,6 +9,8 @@ import axiosInstance from "../../api";
 import * as XLSX from "xlsx"; 
 import io from 'socket.io-client';
 import { useAuth } from "../../authContext";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const ReminderPopup = ({ subject }) => {
   return (
@@ -129,7 +131,12 @@ useEffect(() => {
   };
 
   return (
+   <div>
+     <div className="oppo_nav">
+    <TopNavbar/>
+  </div>
     <div className="calls">
+      
       <div className="home_left_box">
         <Sidebar />
       </div>
@@ -359,6 +366,7 @@ useEffect(() => {
         
       </div>
     </div>
+   </div>
   );
 };
 

@@ -761,9 +761,9 @@ font-family: 'Manrope';
 .relatedList-Contacts{
     
   font-family: 'Manrope';
-  position: relative;
-  top: -45px;
-  left: -100px;
+ position: relative;
+ right: 16rem;
+ bottom: 4rem;
 font-size: 14px;
 font-weight: 400;
 width: 70px;
@@ -773,6 +773,7 @@ border-radius: 4px;
 border-width: 1px;
 border-color: #9095A1FF;
 outline: none;
+
  }
  /* .selector {
   font-family: 'Material Icons';
@@ -1168,9 +1169,261 @@ font-size: 20px;
 line-height: 30px;
 font-weight: 700;
 color: #171A1FFF;
+margin-left: 14rem;
 position: relative;
-top: 29px;
-left: -400px;
+top: 9rem;
+}
+.note-head-contact{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 800;
+}
+
+.button-edit{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+margin-left: 90%;
+position: relative;
+bottom: 24rem;
+}
+.button-edit1{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+/* margin-left: 30rem; */
+position: relative;
+bottom: 14rem;
+left: 100rem;
+}
+.button-edit2--{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+margin-left: 42rem;
+position: relative;
+bottom: 12rem;
+}
+.button-saves{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 10rem;
+  left: 85rem;}
+
+  .button-cancels{
+    font-family: 'Lexend';
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    background: red;
+    opacity: 1;
+    color: #FFFFFFFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+    position: relative;
+    bottom: 10rem;
+    left: 85rem;
+  }
+
+  .button-saves1{
+    font-family: 'Lexend';
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    background: #62CD14FF;
+    opacity: 1;
+    color: #FFFFFFFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+    position: relative;
+    bottom: 15rem;
+    left: 85rem;}
+  
+    .button-cancels1{
+      font-family: 'Lexend';
+      font-size: 20px;
+      line-height: 22px;
+      font-weight: 500;
+      background: red;
+      opacity: 1;
+      color: #FFFFFFFF;
+      width: 100px;
+      height: 30px;
+      border-radius: 6px;
+      position: relative;
+      position: relative;
+      bottom: 15rem;
+      left: 85rem;
+    }
+.edit-box1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 20rem;
+  left: 90rem;
+}
+.button-editmail{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 12rem;
+  left: 40rem;
+}
+.button-editmail1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 12rem;
+  left: 95rem; 
+}
+.edit-box2{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 12rem;
+  left: 40rem;
+}
+.button-save1box{
+font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 20rem;
+  left: 85rem;
+}
+.button-save2{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 13rem;
+  left: 85rem;
+}
+.button-cancel2{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: red;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 13rem;
+  left: 85rem;
+}
+
+.button-cancel1box{
+  font-family: 'Lexend';
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    background: red;
+    opacity: 1;
+    color: #FFFFFFFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+    position: relative;
+    bottom: 20rem;
+    left: 85rem;
+  }
+
+.button-cancel{
+  font-family: 'Manrope';
+  color: red;
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600; 
+position: relative;
+bottom: 13rem;
+left: 90rem;
+}
+.button-save1{
+  font-family: 'Manrope';
+  color: green;
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+position: relative;
+bottom: 20rem;
+left: 90rem;
+}
+.button-cancel1{
+  font-family: 'Manrope';
+  color: red;
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600; 
+position: relative;
+bottom: 20rem;
+left: 90rem;
 }
 .owner3{
   font-family: 'Manrope';
@@ -1178,9 +1431,9 @@ font-size: 14px;
 line-height: 22px;
 font-weight: 400;
 color: #9095A1FF;
+margin-left: 14rem;
 position: relative;
-left: -400px;
-top: 20px;
+top: 9rem;
 }
 .visitLinkedin{
   width: 203px;
@@ -1197,7 +1450,15 @@ top: 20px;
   position: relative;
   left: 3%;
 }
-
+.photo11{
+  
+  margin-top:8rem;
+}
+.upload_icon1_contact{
+position: relative;
+left: 15rem;
+bottom: 10rem;
+}
 .info-contactOwner{
   margin-top: -30px;
   
@@ -1404,7 +1665,6 @@ color: #171A1FFF;
 .show-hideDetails {
   position: relative;
   margin-top: 30px;
-  margin-left: 70px;
 }
 
 .show-hideDetails .contactinfo_ContactName,
@@ -2183,6 +2443,8 @@ padding-top: 4px;
  }
  .contactfill_forms{
 display: flex;
+position: relative;
+bottom: 5rem;
  }
  .btnsss1{
   display: flex;
@@ -2276,7 +2538,7 @@ display: flex;
     top: -40px;
     left: -550px;
   }
-  .upload_button1{
+  .upload_button1-image{
     position: relative;
     top: -100px;
     left: 90px;
@@ -2722,7 +2984,7 @@ margin-bottom: 40px;
     margin: auto;
   }
 
-  .upload_button1 {
+  .upload_button1-image {
     left: 0;
     top: 0;
     margin: auto;
@@ -2755,7 +3017,7 @@ margin-bottom: 40px;
     left: -400px; /* Adjust as needed */
   }
 
-  .upload_button1 {
+  .upload_button1-image {
     left: 120px; /* Adjust as needed */
   }
 
@@ -2793,7 +3055,7 @@ margin-bottom: 40px;
     left: -550px;
   }
 
-  .upload_button1 {
+  .upload_button1-image {
     left: 90px;
   }
 
@@ -2835,7 +3097,7 @@ margin-bottom: 40px;
 }
 
 /* Contact form styles */
-.back_container1 {
+.back_container111 {
   width: 250px;
   height: 700px;
   margin-top: 2px;
@@ -2844,7 +3106,7 @@ margin-bottom: 40px;
   padding-top: 20px;
   border-radius: 0px;
   position: relative;
-  top: 1px;
+bottom: 13rem;
 }
 
 .relatedList-Contacts3 {
@@ -2930,7 +3192,7 @@ margin-bottom: 40px;
 }
 
 /* Upload button styles */
-.upload_button1 {
+.upload_button1-image {
   position: relative;
   top: -100px;
   left: 90px;
@@ -2940,6 +3202,10 @@ margin-bottom: 40px;
   line-height: 22px;
   font-weight: 400;
   color: #6D31EDFF;
+}
+.cont__info{
+  position: relative;
+  bottom: 19rem;
 }
 
 /* Contact info styles */
@@ -3272,5 +3538,24 @@ margin-bottom: 40px;
   margin-left: 1px;
 }
 .form-control_account3{
+  margin-left: 20px;
+}
+.contact_nav{
+  margin-left: 20rem;
+  position: relative;
+  bottom: 6rem;
+}
+.contain1{
+  position: relative;
+  bottom: 7rem;
+}
+.contactinfo_accountName1,.contactinfo_email1,.contactinfo_leadSource1,.contactinfo.vendorName1{
+  background-color: #00000000;
+  font-size: 16px;
+  margin-left: 20px;
+}
+.contactinfo.ContactName2{
+  background-color: #00000000;
+  font-size: 16px;
   margin-left: 20px;
 }

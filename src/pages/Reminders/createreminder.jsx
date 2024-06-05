@@ -8,6 +8,8 @@ import "./Reminder.css";
 import axiosInstance from "../../api.jsx";
 import "./Reminder.jsx";
 import { useAuth } from "../../authContext.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 
 
@@ -100,114 +102,121 @@ const Reminderform = () => {
         handleSubmit(event);
       };
   return (
-    <div className="reminder_form_page">
- <div className="relatedremind_back">
-        <Link className='task_back' to={`/${tenantId}/reminder`}>Back</Link>
+   <div>
+     <div className="remind_topNave">
+      <TopNavbar/>
       </div>
-
-      <div>
-      <div>
-      <div>
-    <h1 className="create_form_head"  >Create  Reminder</h1>
-</div>
-
-<div>
-<div className='btnsss_remind'>
-            <button type="button" onClick={handleCancel} className="btn-submit_cancel_remind">Cancel</button>
-            <button type="button"   onClick={handleSaveAsDraft}  className="btn-submit_save_remind">Save as Draft</button>
-            <button type="submit"  onClick={handleSubmitForm} className="btn-submit_submit_remind">Submit</button>
-          </div>
-</div>
-      </div>
-
-
-
-        <div className='form-remind'>
-        <form onSubmit={handleSubmit}>
-      <div className="front_section" >
-        <div className="left-section">
-          <label   className='remind_sub' htmlFor="subject">Subject:</label>
-          <input 
-            type="text" 
-            id="subject" 
-            className="form-control-remind"
-
-            name="subject" 
-            value={remindData.subject} 
-            onChange={handleInputChange} 
-            placeholder="Enter subject"
-
-          />
-          <label className='remind_sub' htmlFor="event_date_time">Event Date Time:</label>
-          <input 
-            type="datetime-local" 
-            id="event_date_time" 
-            className="form-control-remind"
-
-            name="event_date_time" 
-            value={remindData.event_date_time} 
-            onChange={handleInputChange} 
-            placeholder="Enter event date"
-
-          />
-          <label className='remind_sub' htmlFor="time_trigger">Time Trigger:</label>
-          <input 
-            type="text" 
-            id="time_trigger"
-            className="form-control-remind"
- 
-            name="time_trigger" 
-            value={remindData.time_trigger} 
-            onChange={handleInputChange} 
-            placeholder="Enter time"
-
-          />
-
+      <div className="reminder_form_page">
+        
+   <div className="relatedremind_back">
+          <Link className='task_back' to={`/${tenantId}/reminder`}>Back</Link>
         </div>
-        <div className="right-section">
-          <label htmlFor="trigger_type" className='remind_sub'>Trigger Type:</label>
-          <input 
-            type="text" 
-            id="trigger_type" 
-            className="form-control-remind"
-            name="trigger_type" 
-            value={remindData.trigger_type} 
-            onChange={handleInputChange} 
-            placeholder="Enter trigger"
-
-          />
-          <label htmlFor="is_triggered" className='remind_sub'>Is Triggered:</label>
-          <input 
-            type="text" 
-            id="is_triggered" 
-            name="is_triggered"
-            className="form-control-remind" 
-            value={remindData.is_triggered} 
-            onChange={handleInputChange} 
-            placeholder="Enter is trigger"
-
-          />
-          <label htmlFor="createdBy" className='remind_sub'>Created By:</label>
-          <input 
-            type="text" 
-            id="createdBy" 
-            className="form-control-remind"
-            name="createdBy" 
-            value={remindData.createdBy} 
-            onChange={handleInputChange} 
-            placeholder="Enter created"
-
-          />
-        </div>
-      </div>
-
-      <button className="submit-remind" type="submit">Submit</button>
-    </form>
-        </div>
-      </div>
-    
-    
+       
+        <div>
+        
+        <div>
+        <div>
+      <h1 className="create_form_head"  >Create  Reminder</h1>
   </div>
+  
+  <div>
+  <div className='btnsss_remind'>
+              <button type="button" onClick={handleCancel} className="btn-submit_cancel_remind">Cancel</button>
+              <button type="button"   onClick={handleSaveAsDraft}  className="btn-submit_save_remind">Save as Draft</button>
+              <button type="submit"  onClick={handleSubmitForm} className="btn-submit_submit_remind">Submit</button>
+            </div>
+  </div>
+        </div>
+  
+  
+  
+          <div className='form-remind'>
+          <form onSubmit={handleSubmit}>
+        <div className="front_section" >
+          <div className="left-section">
+            <label   className='remind_sub' htmlFor="subject">Subject:</label>
+            <input 
+              type="text" 
+              id="subject" 
+              className="form-control-remind"
+  
+              name="subject" 
+              value={remindData.subject} 
+              onChange={handleInputChange} 
+              placeholder="Enter subject"
+  
+            />
+            <label className='remind_sub' htmlFor="event_date_time">Event Date Time:</label>
+            <input 
+              type="datetime-local" 
+              id="event_date_time" 
+              className="form-control-remind"
+  
+              name="event_date_time" 
+              value={remindData.event_date_time} 
+              onChange={handleInputChange} 
+              placeholder="Enter event date"
+  
+            />
+            <label className='remind_sub' htmlFor="time_trigger">Time Trigger:</label>
+            <input 
+              type="text" 
+              id="time_trigger"
+              className="form-control-remind"
+   
+              name="time_trigger" 
+              value={remindData.time_trigger} 
+              onChange={handleInputChange} 
+              placeholder="Enter time"
+  
+            />
+  
+          </div>
+          <div className="right-section">
+            <label htmlFor="trigger_type" className='remind_sub'>Trigger Type:</label>
+            <input 
+              type="text" 
+              id="trigger_type" 
+              className="form-control-remind"
+              name="trigger_type" 
+              value={remindData.trigger_type} 
+              onChange={handleInputChange} 
+              placeholder="Enter trigger"
+  
+            />
+            <label htmlFor="is_triggered" className='remind_sub'>Is Triggered:</label>
+            <input 
+              type="text" 
+              id="is_triggered" 
+              name="is_triggered"
+              className="form-control-remind" 
+              value={remindData.is_triggered} 
+              onChange={handleInputChange} 
+              placeholder="Enter is trigger"
+  
+            />
+            <label htmlFor="createdBy" className='remind_sub'>Created By:</label>
+            <input 
+              type="text" 
+              id="createdBy" 
+              className="form-control-remind"
+              name="createdBy" 
+              value={remindData.createdBy} 
+              onChange={handleInputChange} 
+              placeholder="Enter created"
+  
+            />
+          </div>
+        </div>
+  
+        <button className="submit-remind" type="submit">Submit</button>
+      </form>
+          </div>
+        </div>
+      
+      
+    </div>
+   </div>
   )
 }
 

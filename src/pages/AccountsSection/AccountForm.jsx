@@ -6,6 +6,8 @@ import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Im
 import { useAuth } from '../../authContext';
 import { Header } from '../../components/Header';
 import axiosInstance from '../../api';
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -121,9 +123,13 @@ function AccountForm() {
   };
 
   return (
+    <div>
+      <div className="account_nav">
+    <TopNavbar/>
+  </div>
     <div className="account_form_submit" style={{display:'flex',flexDirection:'row'}}>
-       <div className="back_container1">
-        <div className="relatedList-Contacts3">
+       <div className="back_container122">
+        <div className="relatedList-Accounts3">
           <Link to={`../${tenantId}/accounts`}> Back</Link>
         </div>
       </div>
@@ -513,6 +519,7 @@ function AccountForm() {
                             
                 </form> 
       </div>
+    </div>
     </div>
   );
 }

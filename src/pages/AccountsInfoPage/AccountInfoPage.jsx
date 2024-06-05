@@ -5,6 +5,10 @@ import "./page.css";
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
+
+
 //import uploadFileToAzure from "../../azureUpload.jsx";  
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -166,6 +170,9 @@ const AccountsPage = () => {
   };
   return (
     <>
+     <div className="account_nav">
+    <TopNavbar/>
+  </div>
       <div className="classs">
         <div className="buttonss">
           <div className="pages1">

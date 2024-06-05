@@ -10,6 +10,9 @@ import './vendors.css';
 import './vendors.jsx';
 import { useAuth } from "../../authContext.jsx";
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import { Navbar } from "react-bootstrap";
+
 
 const getTenantIdFromUrl = () => {
     // Example: Extract tenant_id from "/3/home"
@@ -117,255 +120,270 @@ const Vendorsform = () => {
       };
 
   return (
-    <div className="vendor_form_page">
-    <div className="relatedvendor_back">
-           <Link className='task_back' to={`/${tenantId}/vendors`}>Back</Link>
-         </div>
-   
-         <div>
-         <div>
-         <div>
-       <h1 className="create_form_vendor"  >Create Vendors</h1>
-   </div>
-   <div className="photo100">
-          {generateSmiley31()}
-          <div className='pic_btn1'>
-          <FileUploadRoundedIcon className="upload_icon133" />
-          <button className="upload_button1">Upload Image</button>
-          </div>
+  <div>
+      <div className="toppp">
+      <TopNavbar/>
+      </div>
+      <div className="vendor_form_page">
        
-        </div>
-        
-   
-   <div>
-   <div className='btnsss_vendor'>
-               <button type="button" onClick={handleCancel} className="btn-submit_cancel_vendor">Cancel</button>
-               <button type="button"   onClick={handleSaveAsDraft}  className="btn-submit_save_vendor">Save as Draft</button>
-               <button type="submit"  onClick={handleSubmitForm} className="btn-submit_submit_vendor">Submit</button>
-             </div>
-   </div>
-         </div>
-   
-   
-   
-           <div className='form-vendor'>
-           
-           <form onSubmit={handleSubmit}>
+      <div className="relatedvendor_back">
+             <Link className='task_back' to={`/${tenantId}/vendors`}>Back</Link>
+           </div>
+          
+         
            <div>
-            <h1 className='ad-vendor_ad' >Vendor Information</h1>
-         </div>
-         <div className="front_section-vendor" >
-           <div className="left-section-vendor">
-             <label   className='vendor_sub' htmlFor="vendor_owner">Vendor Owner</label>
-             <input 
-               type="text" 
-               id="vendor_owner" 
-               className="form-control-remind"
-   
-               name="vendor_owner" 
-               value={vendorData.vendor_owner} 
-               onChange={handleInputChange} 
-               placeholder="Enter vendor Owner"
-   
-             />
-             <label className='vendor_sub' htmlFor="phone">Phone :</label>
-             <input 
-               type="text" 
-               id="phone" 
-               className="form-control-vendor"
-   
-               name="phone" 
-               value={vendorData.phone} 
-               onChange={handleInputChange} 
-               placeholder="Enter phone number"
-   
-             />
-             <label className='vendor_sub' htmlFor="website">Website :</label>
-             <input 
-               type="text" 
-               id="website"
-               className="form-control-vendor"
-    
-               name="website" 
-               value={vendorData.website} 
-               onChange={handleInputChange} 
-               placeholder="Enter website"
-   
-             />
-             <label className='vendor_sub' htmlFor="category">GL Account :</label>
-             <input 
-               type="text" 
-               id="category"
-               className="form-control-vendor"
-    
-               name="category" 
-               value={vendorData.category} 
-               onChange={handleInputChange} 
-               placeholder="Enter account"
-   
-             />
-      
-
-           </div>
-           <div className="right-section-vendor">
-             <label htmlFor="vendor_name" className='vendor_sub'>Vendor Name:</label>
-             <input 
-               type="text" 
-               id="vendor_name" 
-               className="form-control-vendor"
-               name="vendor_name" 
-               value={vendorData.vendor_name} 
-               onChange={handleInputChange} 
-               placeholder="Enter vendor_name"
-   
-             />
-             <label htmlFor="email" className='vendor_sub'>Email :</label>
-             <input 
-               type="text" 
-               id="email" 
-               name="email"
-               className="form-control-vendor" 
-               value={vendorData.email} 
-               onChange={handleInputChange} 
-               placeholder="Enter email"
-   
-             />
-             <label htmlFor="category" className='vendor_sub'>Catagory :</label>
-             <input 
-               type="text" 
-               id="category" 
-               className="form-control-vendor"
-               name="category" 
-               value={vendorData.category} 
-               onChange={handleInputChange} 
-               placeholder="Enter category"
-   
-             />
-               <label htmlFor="email" className='vendor_sub'>Email Opt Out :</label>
-             <input 
-               type="text" 
-               id="email" 
-               className="form-control-vendor"
-               name="email" 
-               value={vendorData.email} 
-               onChange={handleInputChange} 
-               placeholder="Enter email opt "
-   
-             />
-           </div>
-         </div>
-         <div>
-            <h1 className="ad-vendor">Address Information</h1>
-         </div>
-         <div className="second_vendor_form">
-         <div className="front_section-vendor" >
-           <div className="left-section-vendor">
-             <label   className='vendor_sub' htmlFor="street">Street</label>
-             <input 
-               type="text" 
-               id="street" 
-               className="form-control-vendor"
-   
-               name="street" 
-               value={vendorData.street} 
-               onChange={handleInputChange} 
-               placeholder="Enter street"
-   
-             />
-             <label className='vendor_sub' htmlFor="state">State :</label>
-             <input 
-               type="text" 
-               id="state" 
-               className="form-control-vendor"
-   
-               name="state" 
-               value={vendorData.state} 
-               onChange={handleInputChange} 
-               placeholder="Enter state"
-   
-             />
-           
-      
-
-           </div>
-           <div className="right-section-vendor">
-             <label htmlFor="city" className='vendor_sub'>City :</label>
-             <input 
-               type="text" 
-               id="city" 
-               className="form-control-vendor"
-               name="city" 
-               value={vendorData.city} 
-               onChange={handleInputChange} 
-               placeholder="Enter city"
-   
-             />
-             <label htmlFor="zipcode" className='vendor_sub'>Zip code :</label>
-             <input 
-               type="text" 
-               id="zipcode" 
-               name="zipcode"
-               className="form-control-vendor" 
-               value={vendorData.zipcode} 
-               onChange={handleInputChange} 
-               placeholder="Enter zipcode"
-   
-             />
-             <label htmlFor="country" className='vendor_sub'>Country :</label>
-             <input 
-               type="text" 
-               id="country" 
-               className="form-control-vendor"
-               name="country" 
-               value={vendorData.country} 
-               onChange={handleInputChange} 
-               placeholder="Enter country"
-   
-             />
+          
+          
+  
+           <div>
+          
+  
+         
+           <div>
+          
             
-           </div>
-         </div>
-
-         </div>
-        
-         <div>
-         <label   className='ad-vendor-des' htmlFor="description">Description:</label>
-             <input 
-               type="text" 
-               id="description" 
-               className="form-vend-desc"
-   
-               name="description" 
-               value={vendorData.description} 
-               onChange={handleInputChange} 
-               placeholder="Enter description"
-   
-             />
-            </div>
-            <div className="tanent-vendor">
-<div>
-<label   className='ad-vendor-ten' htmlFor="tenantId">Tanent:</label>
-             <input 
-               type="text" 
-               id="tenantId" 
-               className="form-vend-tanent"
-   
-               name="tenantId" 
-               value={tenantId}
-               onChange={handleInputChange} 
-             
-   
-             />   
-</div>
-            </div>
-   
-         <button className="submit-vendor" type="submit">Submit</button>
-       </form>
-           </div>
-         </div>
-       
-       
+         <h1 className="create_form_vendor"  >Create Vendors</h1>
      </div>
+     <div className="photo100">
+            {generateSmiley31()}
+            <div className='pic_btn1'>
+            <FileUploadRoundedIcon  className="upload_icon133"   />
+            <button className="upload_button1">Upload Image</button>
+            </div>
+         
+          </div>
+          
+     
+     <div>
+     <div className='btnsss_vendor'>
+                 <button type="button" onClick={handleCancel} className="btn-submit_cancel_vendor">Cancel</button>
+                 <button type="button"   onClick={handleSaveAsDraft}  className="btn-submit_save_vendor">Save as Draft</button>
+                 <button type="submit"  onClick={handleSubmitForm} className="btn-submit_submit_vendor">Submit</button>
+               </div>
+     </div>
+           </div>
+     
+     
+     
+             <div className='form-vendor'>
+             
+             <form onSubmit={handleSubmit}>
+             <div>
+              <h1 className='ad-vendor_ad' >Vendor Information</h1>
+           </div>
+           <div className="front_section-vendor" >
+             <div className="left-section-vendor">
+               <label   className='vendor_sub' htmlFor="vendor_owner">Vendor Owner</label>
+               <input 
+                 type="text" 
+                 id="vendor_owner" 
+                 className="form-control-remind"
+     
+                 name="vendor_owner" 
+                 value={vendorData.vendor_owner} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter vendor Owner"
+     
+               />
+               <label className='vendor_sub' htmlFor="phone">Phone :</label>
+               <input 
+                 type="text" 
+                 id="phone" 
+                 className="form-control-vendor"
+     
+                 name="phone" 
+                 value={vendorData.phone} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter phone number"
+     
+               />
+               <label className='vendor_sub' htmlFor="website">Website :</label>
+               <input 
+                 type="text" 
+                 id="website"
+                 className="form-control-vendor"
+      
+                 name="website" 
+                 value={vendorData.website} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter website"
+     
+               />
+               <label className='vendor_sub' htmlFor="category">GL Account :</label>
+               <input 
+                 type="text" 
+                 id="category"
+                 className="form-control-vendor"
+      
+                 name="category" 
+                 value={vendorData.category} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter account"
+     
+               />
+        
+  
+             </div>
+             <div className="right-section-vendor">
+               <label htmlFor="vendor_name" className='vendor_sub'>Vendor Name:</label>
+               <input 
+                 type="text" 
+                 id="vendor_name" 
+                 className="form-control-vendor"
+                 name="vendor_name" 
+                 value={vendorData.vendor_name} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter vendor_name"
+     
+               />
+               <label htmlFor="email" className='vendor_sub'>Email :</label>
+               <input 
+                 type="text" 
+                 id="email" 
+                 name="email"
+                 className="form-control-vendor" 
+                 value={vendorData.email} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter email"
+     
+               />
+               <label htmlFor="category" className='vendor_sub'>Catagory :</label>
+               <input 
+                 type="text" 
+                 id="category" 
+                 className="form-control-vendor"
+                 name="category" 
+                 value={vendorData.category} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter category"
+     
+               />
+                 <label htmlFor="email" className='vendor_sub'>Email Opt Out :</label>
+               <input 
+                 type="text" 
+                 id="email" 
+                 className="form-control-vendor"
+                 name="email" 
+                 value={vendorData.email} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter email opt "
+     
+               />
+             </div>
+           </div>
+           <div>
+              <h1 className="ad-vendor">Address Information</h1>
+           </div>
+           <div className="second_vendor_form">
+           <div className="front_section-vendor" >
+             <div className="left-section-vendor">
+               <label   className='vendor_sub' htmlFor="street">Street</label>
+               <input 
+                 type="text" 
+                 id="street" 
+                 className="form-control-vendor"
+     
+                 name="street" 
+                 value={vendorData.street} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter street"
+     
+               />
+               <label className='vendor_sub' htmlFor="state">State :</label>
+               <input 
+                 type="text" 
+                 id="state" 
+                 className="form-control-vendor"
+     
+                 name="state" 
+                 value={vendorData.state} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter state"
+     
+               />
+             
+        
+  
+             </div>
+             <div className="right-section-vendor">
+               <label htmlFor="city" className='vendor_sub'>City :</label>
+               <input 
+                 type="text" 
+                 id="city" 
+                 className="form-control-vendor"
+                 name="city" 
+                 value={vendorData.city} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter city"
+     
+               />
+               <label htmlFor="zipcode" className='vendor_sub'>Zip code :</label>
+               <input 
+                 type="text" 
+                 id="zipcode" 
+                 name="zipcode"
+                 className="form-control-vendor" 
+                 value={vendorData.zipcode} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter zipcode"
+     
+               />
+               <label htmlFor="country" className='vendor_sub'>Country :</label>
+               <input 
+                 type="text" 
+                 id="country" 
+                 className="form-control-vendor"
+                 name="country" 
+                 value={vendorData.country} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter country"
+     
+               />
+              
+             </div>
+           </div>
+  
+           </div>
+          
+           <div>
+           <label   className='ad-vendor-des' htmlFor="description">Description:</label>
+               <input 
+                 type="text" 
+                 id="description" 
+                 className="form-vend-desc"
+     
+                 name="description" 
+                 value={vendorData.description} 
+                 onChange={handleInputChange} 
+                 placeholder="Enter description"
+     
+               />
+              </div>
+              <div className="tanent-vendor">
+  <div>
+  <label   className='ad-vendor-ten' htmlFor="tenantId">Tanent:</label>
+               <input 
+                 type="text" 
+                 id="tenantId" 
+                 className="form-vend-tanent"
+     
+                 name="tenantId" 
+                 value={tenantId}
+                 onChange={handleInputChange} 
+               
+     
+               />   
+  </div>
+              </div>
+     
+           <button className="submit-vendor" type="submit">Submit</button>
+         </form>
+             </div>
+           </div>
+         
+         
+       </div>
+  </div>
   )
 }
 

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
 import { Dropdown  } from "react-bootstrap";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 import axios from "axios";
 import "./task.css";
@@ -67,19 +69,27 @@ export const TaskTable = () => {
 
 
   return (
+   <div>
+   
     <div className="tasks_main_component">
+      
         <div className="home_left_box1">
           <Sidebar />
         </div>
+      
          <div className="contain1" style={{width:"100%"}}>
+         <div className="task__data">
+      <TopNavbar/>
+     </div>
           <div className="meet1" >
+         
             <div>
               <h1 className="task_header">Tasks</h1>
             </div>
             <div className="excel_header_task">
             <div>
               <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
+                  <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6-task">
                     Excel File
                   </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -113,7 +123,7 @@ export const TaskTable = () => {
         <select
           value={viewMode}
           onChange={(e) => handleViewModeChange(e.target.value)}
-          className="view-mode-select"
+          className="view-mode-select_task"
         >
           <option value="table">Table View</option>
           <option value="tile">Tile View</option>
@@ -205,6 +215,7 @@ export const TaskTable = () => {
     </div>
   </div>
 </div>
+   </div>
   );
 };
 export default TaskTable;

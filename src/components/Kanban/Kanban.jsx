@@ -83,26 +83,75 @@ function Kanban({ leadCountsData }) {
     }));
   };
 
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
 
-    const sourceColumn = columns[source.droppableId];
-    const destinationColumn = columns[destination.droppableId];
-    const movedCard = sourceColumn.cards.find(card => card.id === draggableId);
+    const startColumn = columns[source.droppableId];
+    const endColumn = columns[destination.droppableId];
 
-    const updatedSourceCards = sourceColumn.cards.filter(card => card.id !== draggableId);
-    const updatedSourceColumn = { ...sourceColumn, cards: updatedSourceCards };
+    if (startColumn === endColumn) {
+      // Logic for moving within the same column
+      const newCards = Array.from(startColumn.cards);
+      newCards.splice(source.index, 1);
+      newCards.splice(destination.index, 0, startColumn.cards[source.index]);
+      const newColumn = {
+        ...startColumn,
+        cards: newCards,
+      };
+      setColumns({ ...columns, [source.droppableId]: newColumn });
+    } else {
+      // Logic for moving to a different column
+      const startCards = Array.from(startColumn.cards);
+      const endCards = Array.from(endColumn.cards);
+      const [movedCard] = startCards.splice(source.index, 1);
+      endCards.splice(destination.index, 0, {
+        ...movedCard,
+        status: endColumn.title,
+      });
 
-    const updatedDestinationCards = [...destinationColumn.cards, movedCard];
-    const updatedDestinationColumn = { ...destinationColumn, cards: updatedDestinationCards };
+      try {
+       
 
-    const updatedColumns = {
-      ...columns,
-      [source.droppableId]: updatedSourceColumn,
-      [destination.droppableId]: updatedDestinationColumn
-    };
-    setColumns(updatedColumns);
+        const leadData = {
+          ...movedCard, // Include existing lead data
+          status: mapStatusToBackend(endColumn.title), // Update the status
+          first_name: movedCard.first_name,
+          last_name: movedCard.last_name,
+          email: movedCard.email,
+          assigned_to: movedCard.assigned_to,
+          createdBy: movedCard.createdBy,
+          tenant:tenantId,
+        };
+        // Make a PUT request to update the lead status in the backend
+        await axiosInstance.put(`leads/${movedCard.id}/`, leadData);
+      } catch (error) {
+        console.error('Error sending email or updating lead status:', error);
+      }
+
+      const newColumns = {
+        ...columns,
+        [source.droppableId]: { ...startColumn, cards: startCards },
+        [destination.droppableId]: { ...endColumn, cards: endCards },
+      };
+      setColumns(newColumns);
+    } 
+  };
+  const mapStatusToBackend = (frontendStatus) => {
+    switch (frontendStatus) {
+      case 'Assigned':
+        return 'assigned';
+      case 'In Process':
+        return 'in process';
+      case 'Converted':
+        return 'converted';
+      case 'Recycled':
+        return 'recycled';
+      case 'Dead':
+        return 'dead';
+      default:
+        return 'assigned';
+    }
   };
 
 
@@ -164,11 +213,11 @@ function Kanban({ leadCountsData }) {
                       )}
                       <div className="c2">
                         {card.address}
-                        <div className="r1">$1,000</div>
+                      
                       </div>
                       <div className="c2">
                         {card.email}
-                        <div className="r1">-</div>
+                      
                       </div>
                       <div className="c2">{card.website}</div>
                     </div>

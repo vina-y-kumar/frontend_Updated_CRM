@@ -380,17 +380,17 @@ export const ContactsTable = () => {
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/${tenantId}/contactinfo/${contacts[2]?.id}`} className="secondcontact-box">
-                <h1 className="heading2">{contacts.length > 2 && contacts[2].first_name}</h1>
-                <p className="paragraph2">{contacts.length > 2 && contacts[2].description}</p>
+              <Link to={`/${tenantId}/contactinfo/${contacts[1]?.id}`} className="secondcontact-box">
+                <h1 className="heading2">{contacts.length > 1 && contacts[1].first_name}</h1>
+                <p className="paragraph2">{contacts.length > 1 && contacts[1].description}</p>
                 {/* Smiley */}
                 <div className="smiley2">
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/${tenantId}/contactinfo/${contacts[3]?.id}`} className="thirdcontact-box">
-                <h1 className="heading3">{contacts.length > 3 && contacts[3].first_name}</h1>
-                <p className="paragraph3">{contacts.length > 3 && contacts[3].description}</p>
+              <Link to={`/${tenantId}/contactinfo/${contacts[2]?.id}`} className="thirdcontact-box">
+                <h1 className="heading3">{contacts.length > 2 && contacts[2].first_name}</h1>
+                <p className="paragraph3">{contacts.length > 2 && contacts[2].description}</p>
                 {/* Smiley */}
                 <div className="smiley3">
                   {generateSmiley1(generateRandomColor())}

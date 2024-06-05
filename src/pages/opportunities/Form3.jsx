@@ -131,6 +131,22 @@ const Form3 = () => {
             tenant: tenantId,
           };
           const response = await axiosInstance.post('/opportunities/',dataToSend);
+          const opportunityId = response.data.id;
+          const interactionData = {
+            entity_type: "opportunity",
+            entity_id: opportunityId,
+            interaction_type: "Event",
+            tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+            notes: `Opportunity created with id : ${opportunityId} created by user : ${userId}`,
+            interaction_datetime: new Date().toISOString(),
+          };
+
+          try {
+              await axiosInstance.post('/interaction/', interactionData);
+              console.log('Interaction logged successfully');
+            } catch (error) {
+              console.error('Error logging interaction:', error);
+            }
            
             console.log("Form submitted successfully:", response.data);
             setOppourtunityData({

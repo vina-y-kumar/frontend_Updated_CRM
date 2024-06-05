@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { OpportunitiesContent } from "../../components/OpportunitiesContent";
 import "./Form3.jsx";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink,Link ,useParams} from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 import * as XLSX from "xlsx";
@@ -14,6 +14,7 @@ import OpportunitiesTable from "./opportunitiesTable.jsx";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 export const Opportunities = () => {
+  
   const { pathname } = useLocation();
   const tenantId = getTenantIdFromUrl();
   const [viewMode, setViewMode] = useState("kanban");
@@ -54,6 +55,11 @@ export const Opportunities = () => {
 
   const handleRecords = (event) => {
     console.log("Records per page: ", event.target.value);
+  };
+
+  const handleOpportunityClick = (id) => {
+    const tenantId = getTenantIdFromUrl();
+    navigate(`/${tenantId}/ShowOpportunity/${id}`);
   };
 
   return (
@@ -103,8 +109,13 @@ export const Opportunities = () => {
        
         
       </div>
+<<<<<<< HEAD
       <div className="oppo_kanban">
       {viewMode === "kanban" ? <Kanban2 /> : <OpportunitiesTable opportunities={oppourtunity} />}
+=======
+      <div>
+      {viewMode === "kanban" ? <Kanban2 /> : <OpportunitiesTable opportunities={oppourtunity} handleOpportunityClick={handleOpportunityClick} />}
+>>>>>>> cb626bfdb24582ec92a85777e0ba2fe7eb69dab6
       </div>
       </div>
     </div>

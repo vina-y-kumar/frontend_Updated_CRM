@@ -77,6 +77,22 @@ function AccountForm() {
       };
   
       const response = await axiosInstance.post('/accounts/', dataToSend);
+      const accountId = response.data.id;
+      const interactionData = {
+        entity_type: "Account",
+        entity_id: accountId,
+        interaction_type: "Event",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Account created with id : ${accountId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       console.log('Form submitted successfully:', response.data);
       setAccountData({
         Name: '',

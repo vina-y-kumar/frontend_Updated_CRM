@@ -106,6 +106,22 @@ useEffect(() => {
         participants:1,
       };
       const response = await axiosInstance.post('/meetings/',dataToSend);
+      const meetingsId = response.data.id;
+      const interactionData = {
+        entity_type: "meetings",
+        entity_id: meetingsId,
+        interaction_type: "Event",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Meeting created with id : ${meetingsId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       
       console.log("Meeting created successfully:", response.data);
       setMeetings([...meetings, response.data]);
@@ -270,11 +286,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="record5">
-          <select className="page">
-            <option value="">10 Records per page</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
+          
           <select
             value={viewMode}
             onChange={(e) => handleViewModeChange(e.target.value)}

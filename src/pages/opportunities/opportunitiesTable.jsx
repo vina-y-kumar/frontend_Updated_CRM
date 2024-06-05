@@ -1,7 +1,7 @@
 import React from 'react';
  // Adjust the path to your CSS file as needed
 
-const OpportunitiesTable = ({ opportunities }) => {
+const OpportunitiesTable = ({ opportunities , handleOpportunityClick }) => {
   const renderStageCellStyle = (stage) => {
     // Implement your logic for cell styling based on stage
     // For example, return different class names based on stage
@@ -34,7 +34,7 @@ const OpportunitiesTable = ({ opportunities }) => {
         </thead>
         <tbody>
           {opportunities.map((opportunity) => (
-            <tr key={opportunity.id}>
+               <tr key={opportunity.id} onClick={() => handleOpportunityClick(opportunity.id)}>
               <td className="row_oppo_name">{opportunity.name}</td>
               <td className="row_oppo_account">{opportunity.account}</td>
               <td className={renderStageCellStyle(opportunity.stage)}>

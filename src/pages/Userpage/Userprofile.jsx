@@ -13,7 +13,7 @@ import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 
 const UserProfile = () => {
-  const { userId } = useAuth(); // Access userId from the auth context
+  const { userId } = useAuth(); 
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [isEditing, setIsEditing] = useState(false);

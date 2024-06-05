@@ -11,12 +11,11 @@ import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 import "./index.jsx";
 const getTenantIdFromUrl = () => {
-  // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
     return pathArray[1]; // Assumes tenant_id is the first part of the path
   }
-  return null; // Return null if tenant ID is not found or not in the expected place
+  return null; 
 };
 
 const ContactInfo = ( ) => {
@@ -72,6 +71,8 @@ const tenantId=getTenantIdFromUrl();
   const [isEditingContactInfo, setIsEditingContactInfo] = useState(false);
 const [isEditingInfo, setIsEditingInfo] = useState(false);
 const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
+const [photoColor, setPhotoColor] = useState("blue");
+
 
 
   const [editedEmail, setEditedEmail] = useState('');
@@ -170,76 +171,10 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
   const handleChange = (e, field) => {
     // Handle input changes and update corresponding state variables
     const value = e.target.value;
-    switch (field) {
-      case 'email':
-        setEditedEmail(value);
-        break;
-      case 'phone':
-        setEditedPhone(value);
-        break;
-      case 'address':
-        setEditedAddress(value);
-        break;
-      case 'account':
-        setEditedAccount(value);
-        break;
-      case 'accountName':
-        setEditedAccountName(value);
-        break;
-      case 'leadSource':
-        setEditedLeadSource(value); 
-        break; 
-      case 'vendorName':
-        seteditedVendorName(value);
-        break;
-      case 'ContactName':
-        setEditedContactName(value);
-        break;  
-      case 'OtherPhone':
-        setEditedOtherPhone(value);
-        break;
-      case 'assistant':
-        setEditedAssistant(value); 
-        break; 
-      case 'createdBy':
-        setCreatedBy(value);  
-        break; 
-      case 'ModifiedBy':
-        setModifiedBy(value);  
-        break; 
-      case 'Currency1':
-        setEditedCurrency(value);
-        break;
-      case 'Fax':
-        setEditFax(value);
-        break;  
-      case 'DateOfBirth':
-        setEditDOB(value);  
-        break;
-      case 'AsstPhone':
-        setEditAsstphone(value);  
-        break;
-      case 'emailOptOut':
-        setEmailOptOut(value); 
-        break;
-      case 'SkypeId':
-        setSkypeID(value);
-        break;   
-      case 'secondaryEmail':
-        setSecondaryEmail(value);
-        break;
-      case 'Twitter':
-        seteditTwitter(value);  
-        break;
-      case 'Notes':
-        seteditNote(value);  
-        break;
-       
-
-
-      default:
-        break;
-    }
+    setContactInfo(prevState => ({
+      ...prevState,
+      [field]: value
+    }));
   };
   const handleAddNote = (event) => {
     event.preventDefault();
@@ -260,7 +195,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
       entity_id: id, // Change the entity ID to match the current entity
       interaction_type: "Note",
       tenant_id: tenantId, // Make sure you have tenant_id available
-      notes: "Account info changed in contact", // Update the notes as needed
+      notes: "Account info changed in contact", 
       interaction_datetime: new Date().toISOString(),
     };
   
@@ -278,6 +213,8 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
       const response = await axiosInstance.put(`/contacts/${id}/`, contactinfo);
       console.log("Contact information updated:", response.data);
       setIsEditing(false); 
+      setIsEditingContactInfo(false); // Add this line to reset editing state
+
       await handleSaveButtonClick();
 
     } catch (error) {
@@ -313,15 +250,20 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
     });
     setModalOpen1(false);
   };
-  const generateRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
+  useEffect(() => {
+    const generateRandomColor = () => {
+      const letters = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    };
 
+    if (!photoColor) {
+      setPhotoColor(generateRandomColor());
+    }
+  }, [photoColor]); 
   const generateSmiley2 = (color) => (
     <div className="colored-circle2" style={{ backgroundColor: color, color:"white" }}>
       <span className="material-icons" style={{ fontSize: "60px", fontFamily: "'Material Symbols Outlined'" }}>person</span>
@@ -482,10 +424,9 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
           <div>
           <h2 className="owner1"> {contactinfo.first_name}</h2>
           <h2 className="owner3"> {contactinfo.address}</h2>
-          <div className="photo11">
-          {generateSmiley2(generateRandomColor())}
-
-          </div>
+          <div className="photo11" >
+        {generateSmiley2(photoColor)}
+      </div>
           <a
               className="visitLinkedin"
               href={contactinfo.website}
@@ -510,7 +451,8 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactinfo-para1">Email:</strong>
             <input
               type="text"
-              value={editedEmail}
+              value={contactinfo.email}
+
               onChange={(e) => handleChange(e, 'email')}
               className="contactinfo_email"
             />
@@ -519,7 +461,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactinfo-para2">Phone:</strong>
             <input
               type="text"
-              value={editedPhone}
+              value={contactinfo.phone}
               onChange={(e) => handleChange(e, 'phone')}
               className="contactinfo_phone"
             />
@@ -528,7 +470,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactinfo-para3">Address:</strong>
             <input
               type="text"
-              value={editedAddress}
+              value={contactinfo.address}
               onChange={(e) => handleChange(e, 'address')}
               className="contactinfo_address"
             />
@@ -537,7 +479,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactinfo-para4">Account:</strong>
             <input
               type="text"
-              value={editedAccount}
+              value={contactinfo.account}
               onChange={(e) => handleChange(e, 'account')}
               className="contactinfo_account"
             />
@@ -600,7 +542,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para2">Account Name:</strong>
             <input
               type="text"
-              value={editedAccountName}
+              value={contactinfo.accountName}
               onChange={(e) => handleChange(e, 'accountName')}
               className="contactinfo_accountName1"
             />
@@ -609,7 +551,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para1">Email:</strong>
             <input
               type="text"
-              value={editedEmail}
+              value={contactinfo.email}
               onChange={(e) => handleChange(e, 'email')}
               className="contactinfo_email1"
             />
@@ -619,7 +561,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para3">Lead Source:</strong>
             <input
               type="text"
-              value={editedLeadSource}
+              value={contactinfo.leadSource}
               onChange={(e) => handleChange(e, 'leadSource')}
               className="contactinfo_leadSource1"
             />
@@ -659,7 +601,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para4">Contact Name:</strong>
             <input
               type="text"
-              value={editedContactName}
+              value={contactinfo.ContactName}
               onChange={(e) => handleChange(e, 'ContactName')}
               className="contactinfo_leadSource1"
             />
@@ -668,7 +610,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para5">Vendor Name:</strong>
             <input
               type="text"
-              value={editedvendorName}
+              value={contactinfo.vendorName}
               onChange={(e) => handleChange(e, 'vendorName')}
               className="contactinfo_leadSource1"
             />
@@ -678,7 +620,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para6">Other Phone:</strong>
             <input
               type="text"
-              value={editedOtherPhone}
+              value={contactinfo.OtherPhone}
               onChange={(e) => handleChange(e, 'OtherPhone')}
               className="contactinfo_leadSource1"
             />
@@ -687,7 +629,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para7">Address:</strong>
             <input
               type="text"
-              value={editedAddress}
+              value={contactinfo.address}
               onChange={(e) => handleChange(e, 'address')}
               className="contactinfo_leadSource1"
             />
@@ -733,7 +675,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para8">Assistant:</strong>
             <input
               type="text"
-              value={editedassistant}
+              value={contactinfo.assistant}
               onChange={(e) => handleChange(e, 'assistant')}
               className="contactinfo_leadSource1"
             />
@@ -742,7 +684,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para9">Created By:</strong>
             <input
               type="text"
-              value={editecreatedby}
+              value={contactinfo.createdBy}
               onChange={(e) => handleChange(e, 'createdBy')}
               className="contactinfo_leadSource1"
             />
@@ -752,7 +694,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para10">Modified By:</strong>
             <input
               type="text"
-              value={editemodifieddby}
+              value={contactinfo.ModifiedBy}
               onChange={(e) => handleChange(e, 'ModifiedBy')}
               className="contactinfo_leadSource1"
             />
@@ -761,7 +703,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para11"> Currency :</strong>
             <input
               type="text"
-              value={editecurrency}
+              value={contactinfo.Currency1}
               onChange={(e) => handleChange(e, 'Currency1')}
               className="contactinfo_leadSource1"
             />
@@ -770,7 +712,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para12">Account:</strong>
             <input
               type="text"
-              value={editedAccount}
+              value={contactinfo.account}
               onChange={(e) => handleChange(e, 'account')}
               className="contactinfo_leadSource1"
             />
@@ -779,7 +721,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para13"> Fax :</strong>
             <input
               type="text"
-              value={editfax}
+              value={contactinfo.Fax}
               onChange={(e) => handleChange(e, 'Fax')}
               className="contactinfo_leadSource1"
             />
@@ -827,7 +769,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para14">Date of Birth:</strong>
             <input
               type="text"
-              value={editDOB}
+              value={contactinfo.DateOfBirth}
               onChange={(e) => handleChange(e, 'DateOfBirth')}
               className="contactinfo_leadSource1"
             />
@@ -836,7 +778,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para15">Asst Phone:</strong>
             <input
               type="text"
-              value={editAsstphone}
+              value={contactinfo.AsstPhone}
               onChange={(e) => handleChange(e, 'AsstPhone')}
               className="contactinfo_leadSource1"
             />
@@ -846,7 +788,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para16">Email Opt Out:</strong>
             <input
               type="text"
-              value={editemailOptOut}
+              value={contactinfo.emailOptOut}
               onChange={(e) => handleChange(e, 'emailOptOut')}
               className="contactinfo_leadSource1"
             />
@@ -855,7 +797,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para17"> Skype ID :</strong>
             <input
               type="text"
-              value={editskypeid}
+              value={contactinfo.SkypeId}
               onChange={(e) => handleChange(e, 'SkypeID')}
               className="contactinfo_leadSource1"
             />
@@ -864,7 +806,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para18">Secondary Email:</strong>
             <input
               type="text"
-              value={editsecondaryEmail}
+              value={contactinfo.secondaryEmail}
               onChange={(e) => handleChange(e, 'SecondaryEmail')}
               className="contactinfo_leadSource1"
             />
@@ -873,7 +815,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para19"> Twitter :</strong>
             <input
               type="text"
-              value={editTwitter}
+              value={contactinfo.Twitter}
               onChange={(e) => handleChange(e, 'Twitter')}
               className="contactinfo_leadSource1"
             />
@@ -940,7 +882,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para20">Mailing Street:</strong>
             <input
               type="text"
-              value={editmailingstreet}
+              value={contactinfo.MailingStreet}
               onChange={(e) => handleChange(e, 'MailingStreet')}
               className="contactinfo_leadSource1"
             />
@@ -949,7 +891,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para21">Mailing Zip :</strong>
             <input
               type="text"
-              value={editmailingzip}
+              value={contactinfo.MailingZip}
               onChange={(e) => handleChange(e, 'MailingZip')}
               className="contactinfo_leadSource1"
             />
@@ -959,7 +901,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para22">Mailing Country :</strong>
             <input
               type="text"
-              value={editmailingcountry}
+              value={contactinfo.MailingCountry}
               onChange={(e) => handleChange(e, 'MailingCountry')}
               className="contactinfo_leadSource1"
             />
@@ -968,7 +910,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para23"> Mailing City:</strong>
             <input
               type="text"
-              value={editmailingcity}
+              value={contactinfo.MailingCity}
               onChange={(e) => handleChange(e, 'MailingCity')}
               className="contactinfo_leadSource1"
             />
@@ -1012,7 +954,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para24">Other Country:</strong>
             <input
               type="text"
-              value={editothercountry}
+              value={contactinfo.OtherCountry}
               onChange={(e) => handleChange(e, 'OtherCountry')}
               className="contactinfo_leadSource1"
             />
@@ -1021,7 +963,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para25">Other City :</strong>
             <input
               type="text"
-              value={editothercity}
+              value={contactinfo.OtherCity}
               onChange={(e) => handleChange(e, 'OtherCity')}
               className="contactinfo_leadSource1"
             />
@@ -1031,7 +973,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para26">Other State :</strong>
             <input
               type="text"
-              value={editotherstate}
+              value={contactinfo.OtherState}
               onChange={(e) => handleChange(e, 'OtherState')}
               className="contactinfo_leadSource1"
             />
@@ -1040,7 +982,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
             <strong className="contactdetails-para27"> Other Zip:</strong>
             <input
               type="text"
-              value={editotherzip}
+              value={contactinfo.OtherZip}
               onChange={(e) => handleChange(e, 'OtherZip')}
               className="contactinfo_leadSource1"
             />
@@ -1105,7 +1047,7 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
         <p>
             <input
               type="text"
-              value={editothercountry}
+              value={contactinfo.Notes}
               onChange={(e) => handleChange(e, 'Noted')}
               className="notes-textarea"
             />

@@ -15,7 +15,7 @@
 }
 
 .user-profile-wrapper {
-  width: 70vw; /* Responsive width */
+  width: 78vw; /* Responsive width */
   height: 100vh; /* Responsive height */
   background: #FFFFFFFF;
   border-radius: 1vw; /* Responsive border radius */
@@ -23,6 +23,7 @@
   box-shadow: 0px 1vw 2vw #171a1f, 0px 0px 0.4vw #171a1f; /* Responsive box shadow */
   margin: 12vh auto; /* Center vertically */
   position: absolute;
+  margin-top: 20px;
   left:0.5;
 }
 
@@ -65,7 +66,7 @@
 
 
 .container-behind-avatar {
-  width: 70vw; /* Responsive width */
+  width: 78vw; /* Responsive width */
   height: 30vh; /* Responsive height */
   background: #F5F1FEFF;
   border-radius: 1vw; /* Responsive border radius */
@@ -129,8 +130,9 @@ opacity: 1;
 border: none;
 border-radius: 4px;
 gap: 6px;
-margin-top: -65rem;
-margin-left: 80rem;
+position: absolute;
+bottom: 76rem;
+left: 102rem;
 }
 
 
@@ -183,4 +185,10 @@ margin-left: 80rem;
   margin-left: 800px;
   margin-top: 170px;
   mask: radial-gradient(circle at -100% -50%, transparent 50%, white 55%);
+}
+.right_div{
+  
+  position: relative;
+  bottom: 5rem;
+  right: 11.7rem;
 }

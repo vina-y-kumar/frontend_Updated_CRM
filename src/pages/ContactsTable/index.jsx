@@ -3,6 +3,8 @@ import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 import * as XLSX from "xlsx"; // Importing xlsx library
 
@@ -303,6 +305,10 @@ export const ContactsTable = () => {
 
   
   return (
+ <div>
+     <div className="contact_nav">
+    <TopNavbar/>
+  </div>
   <div className="Contacts_main_page">
     <div className="home_left_box1">
       <Sidebar />
@@ -636,6 +642,7 @@ export const ContactsTable = () => {
         
         
       </div>
+ </div>
 
      );
     }

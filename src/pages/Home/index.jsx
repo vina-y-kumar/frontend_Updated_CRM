@@ -6,6 +6,8 @@ import { BarChart1 } from "../../components/BarChart.js/index.jsx";
 import { useState, useEffect } from "react";
 import { Data } from "../../Data";
 import React from "react";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 // Import useState from React
 
@@ -36,6 +38,9 @@ export const Home = () => {
  
   return (
     <div className="home">
+       <div className="call_nav">
+    <TopNavbar/>
+  </div>
       <div>
         <div className="home_inner">
           <div className="home_left_box">

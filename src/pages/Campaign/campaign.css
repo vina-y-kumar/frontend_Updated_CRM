@@ -9,10 +9,15 @@ margin-top: 50px;
 /* padding-top: 40px; */
 position: absolute;
 }
+.cap_head{
+  position: relative;
+  bottom:5rem;
+}
 
 .campaign_page{
     display: flex;
     flex-direction: row;
+    
 }
 #btn11{
     padding: 7px 11px 9px 12px;
@@ -105,7 +110,7 @@ color: aqua;
   border-radius: 4px;
   position: relative;
   position: relative;
-  top: 20px;
+  bottom: 5rem;
   left: 20px;
   
   }
@@ -293,6 +298,12 @@ top: 60px;
 
   
    }
+   .campaign_nav{
+    margin-left: 20rem;
+    position: relative;
+    bottom: 6rem;
+  }
+   
    .btn-submit40{
     width: 140px;
     height: 36px;

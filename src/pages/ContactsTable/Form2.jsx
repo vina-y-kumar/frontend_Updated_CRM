@@ -11,6 +11,7 @@ import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
 import axiosInstance from "../../api";
 import { useAuth } from "../../authContext";
 import "./contactsTable.css";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -218,9 +219,13 @@ function Form2() {
   };
 
   return (
+   <div>
+     <div className="contact_nav">
+    <TopNavbar/>
+  </div>
     <div className="contactfill_forms">
       {showCreateNewAccountForm && <CreateNewAccountForm />}
-      <div className="back_container1">
+      <div className="back_container111">
         <div className="relatedList-Contacts3">
           <Link to={`../${tenantId}/contacts`}> Back</Link>
         </div>
@@ -235,8 +240,8 @@ function Form2() {
         <div className="photo">
           {generateSmiley4(photoColor)}
         </div>
-        <FileUploadRoundedIcon className="upload_icon1" />
-        <button className="upload_button1">Upload Image</button>
+        <FileUploadRoundedIcon className="upload_icon1_contact" />
+        <button className="upload_button1-image">Upload Image</button>
         <h1 className="cont_infoo">Contact Information</h1>
         <form onSubmit={handleSubmit}>
         <div className="contact_form_fill">
@@ -565,6 +570,7 @@ function Form2() {
       </form>
       </div>
     </div>
+   </div>
   );
 }
 

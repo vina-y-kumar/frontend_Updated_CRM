@@ -9,6 +9,8 @@ import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import "./Userprofile.css";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const UserProfile = () => {
   const { userId } = useAuth(); // Access userId from the auth context
@@ -58,10 +60,17 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile-container">
+          
+
       <div className="home_left_box4">
         <Sidebar />
+      
       </div>
       <div>
+        <div className="right_div">
+        <TopNavbar/>
+        </div>
+       
       <div>
         <h2 className="user-profile-container1">User Profile</h2>
       </div>

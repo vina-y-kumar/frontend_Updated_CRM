@@ -87,6 +87,18 @@
     display: flex;
     flex-direction: row;
     gap: 40px;
+    margin-top: 10px;
+  }
+  .toppp{
+    margin-left: 12rem;
+     position: relative;
+     bottom: 5rem;
+    
+    
+  }
+  .right_div_head{
+    position: relative;
+    bottom: 100px;
   }
 
   .relatedvendor_back {
@@ -98,7 +110,8 @@
     border-color: #ffffff;
     border-style: solid;
     box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
-    margin-bottom: 20px;
+  position: relative;
+  bottom: 15rem;
   }
   .create_form_vendor{
     font-family: 'Lexend';
@@ -112,8 +125,10 @@
         display: flex;
         gap: 20px;
         justify-content: flex-end;
-        margin-top: -30px;
+     
         flex-wrap: wrap;
+        position:relative;
+        bottom: 14rem;
       }
       .btn-submit_save_vendor, .btn-submit_cancel_vendor, .btn-submit_submit_vendor {
         width: 140px;
@@ -204,7 +219,7 @@ margin-top: 20px;
         font-weight: 700;
         color: #171A1FFF;
         position: absolute;
-        top: 24rem;
+        top: 37rem;
       }
 
       .ad-vendor-des{
@@ -325,13 +340,25 @@ margin-left: 50px;
           }
 
           .upload_icon133{
-            margin-top: 17rem;
+            margin-top: 30rem;
            margin-left: 15rem;
           }
+         
           .upload_button1{
             position: absolute;
-            top: 17rem;
+            top: 29.5rem;
             left: 12rem;
+            width: 203px;
+            font-family: 'Manrope';
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+            color: #6D31EDFF;
+          }
+          .upload_button13{
+            position: relative;
+            top: 10rem;
+            left: 9rem; 
             width: 203px;
             font-family: 'Manrope';
             font-size: 14px;
@@ -341,7 +368,7 @@ margin-left: 50px;
           }
           .pic_btn1{
             position: absolute;
-            top: 1px;
+            top: 10px;
           }
           .colored-circle31 {
             width: 80px;

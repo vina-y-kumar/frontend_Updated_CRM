@@ -312,6 +312,13 @@ margin-top: 20px;
     border-style: solid;
     box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
     margin-bottom: 20px;
+    position: relative;
+    bottom: 13rem;
+  }
+  .remind_topNave{
+    margin-left: 16rem;
+    position: relative;
+    bottom: 5rem;
   }
   .remind_back {
     width: 95px;
@@ -335,6 +342,7 @@ margin-top: 20px;
     display: flex;
     flex-direction: row;
     gap: 40px;
+    /* margin-top: 6rem; */
   }
   .submit-remind {
     width: 140px;
@@ -355,4 +363,12 @@ margin-top: 20px;
     margin-left: 45rem;
    
   }
- 
+  .home_left_box4{
+    position: relative;
+  bottom: 13rem;
+  }
+  .Add-reminder-topnav{
+    position: relative;
+    bottom: 5rem;
+    margin-left: 18rem;
+  }

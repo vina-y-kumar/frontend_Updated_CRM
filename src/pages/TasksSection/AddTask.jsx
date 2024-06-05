@@ -10,6 +10,8 @@ import "./task.css";
 import axiosInstance from "../../api.jsx";
 import "./TaskTable.jsx";
 import { useAuth } from "../../authContext.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -167,11 +169,18 @@ const AddTaskForm = () => {
   };
   
   return (
-    <div className="task_form">
+    <div>
+      <div className="Add-task-topnav">
+        <TopNavbar/>
+      </div>
+      <div className="task_form">
       <div className="relatedTask_back">
         <Link className='task_back' to={`/${tenantId}/tasks`}>Back</Link>
       </div>
+     
       <div>
+     
+      
         <div className="task_head_line">
           <div className="task_form_header">
             <h1>Create Task</h1>
@@ -322,6 +331,7 @@ const AddTaskForm = () => {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 };

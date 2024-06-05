@@ -1,6 +1,7 @@
 import './campaign.css';
 import { NavLink, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
@@ -68,12 +69,17 @@ const Campaign = () => {
 
 
   return (
+   <div>
+     <div className="campaign_nav">
+    <TopNavbar/>
+  </div>
     <div className='campaign_page'>
       <div className="home_left_box1">
         <Sidebar />
       </div>
       <div style={{display:'flex',flexDirection:'column'}}>
-      <div>
+   <div className='cap_head'>
+   <div>
         <h1 className="campaign_heading">Campaigns</h1>
       </div>
       <div className='campaign_excelbtn'>
@@ -108,6 +114,7 @@ const Campaign = () => {
                     </NavLink>
               </div>
       </div>
+   </div>
 
 
 
@@ -198,6 +205,7 @@ const Campaign = () => {
         </div>
       </div>
     </div>
+   </div>
   )
 }
 

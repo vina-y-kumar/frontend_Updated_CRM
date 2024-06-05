@@ -8,6 +8,8 @@ import './Reminder.css';
 import './createreminder.jsx';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 
 const getTenantIdFromUrl = () => {
@@ -44,7 +46,9 @@ const Remind = () => {
 
   return (
     <div >
-
+ <div className="Add-reminder-topnav">
+        <TopNavbar/>
+      </div>
       <div className="remind_page">
       <div className="home_left_box4">
         <Sidebar />

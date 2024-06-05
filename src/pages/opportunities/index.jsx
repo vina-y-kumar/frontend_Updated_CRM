@@ -11,6 +11,8 @@ import { Dropdown } from "react-bootstrap";
 import axiosInstance from "../../api.jsx";
 import Kanban2 from "../../components/Kanban/Kanban2"; // Adjust the path as needed
 import OpportunitiesTable from "./opportunitiesTable.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 export const Opportunities = () => {
   
   const { pathname } = useLocation();
@@ -61,10 +63,16 @@ export const Opportunities = () => {
   };
 
   return (
+    <div>
+      <div className="oppo_nav">
+    <TopNavbar/>
+  </div>
     <div className="opportunities-container">
+     
       <div className="opportunities-sidebar">
         <Sidebar />
       </div>
+     
       <div>
       <div className="opportunities-content">
         <div className="opportunities-header">
@@ -101,10 +109,16 @@ export const Opportunities = () => {
        
         
       </div>
+<<<<<<< HEAD
+      <div className="oppo_kanban">
+      {viewMode === "kanban" ? <Kanban2 /> : <OpportunitiesTable opportunities={oppourtunity} />}
+=======
       <div>
       {viewMode === "kanban" ? <Kanban2 /> : <OpportunitiesTable opportunities={oppourtunity} handleOpportunityClick={handleOpportunityClick} />}
+>>>>>>> cb626bfdb24582ec92a85777e0ba2fe7eb69dab6
       </div>
       </div>
+    </div>
     </div>
   );
 };

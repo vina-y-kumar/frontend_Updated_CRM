@@ -6,6 +6,8 @@ import { Sidebar } from "../../components/Sidebar";
 import { Dropdown, Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
 import * as XLSX from "xlsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');
@@ -49,7 +51,11 @@ const Vendors = () => {
       <div className="home_left_box4">
         <Sidebar />
       </div>
+    
       <div>
+      <div className="right_div">
+        <TopNavbar/>
+        </div>
       <div className="vendor-merge">
      <div className="vendor-head">
         <h1>Vendors</h1>

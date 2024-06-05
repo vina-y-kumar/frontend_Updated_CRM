@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import GridLayout from "react-grid-layout";
 import './dashboard.css';
 
+
 // Import your components from different parts of your code
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
@@ -42,6 +43,8 @@ const Dashboard = () => {
     setIsExpanded((prevState) => !prevState);
   };
   return (
+   <div>
+  
     <div className="attendance">
      
         
@@ -57,6 +60,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+   </div>
   
    
   );

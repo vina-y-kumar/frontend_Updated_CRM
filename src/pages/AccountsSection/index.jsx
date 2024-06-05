@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import './AccountForm.jsx';
 import { NavLink } from 'react-router-dom';
 
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
 
   const pathArray = window.location.pathname.split('/');
@@ -42,6 +44,10 @@ export const AccountsTable = () => {
  
 
   return (
+    <div>
+      <div className="account_nav">
+    <TopNavbar/>
+  </div>
     <div className='accounts_main_page'>
               <div className="home_left_box1">
                 <Sidebar />
@@ -50,5 +56,7 @@ export const AccountsTable = () => {
               <AccountsTable1/>
               </div>
     </div>
+    </div>
+    
   );
 };

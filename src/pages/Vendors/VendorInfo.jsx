@@ -6,6 +6,8 @@ import "./vendors.jsx";
 import axiosInstance from "../../api.jsx";
 import './vendors.css';
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 
 
@@ -166,15 +168,22 @@ const VendorInfo = () => {
        
 
 </div>
+
+
 <div>
-  <div>
+<div className="right_div">
+        <TopNavbar/>
+        </div>
+
+ <div className="right_div_head">
+ <div>
     <h1 className="vendinfo-head">Vendor Details</h1>
   </div>
   <div className="photo100">
             {generateSmiley310()}
             <div className='pic_btn1'>
-              <FileUploadRoundedIcon className="upload_icon133" />
-              <button className="upload_button1">Upload Image</button>
+             {/* <FileUploadRoundedIcon className="44" /> */}
+              <button className="upload_button13">Upload Image</button>
             </div>
           </div>
           <div className="button-group-vendor" >
@@ -370,6 +379,7 @@ const VendorInfo = () => {
               </div>
             </div>
             </div>
+ </div>
 </div>
 </div>
 

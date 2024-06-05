@@ -10,6 +10,8 @@ import * as XLSX from "xlsx";
 import LeadTable from "../../components/Kanban/LeadTable/LeadTable";
 import { useAuth } from "../../authContext";
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
                     const getTenantIdFromUrl = () => {
                       // Example: Extract tenant_id from "/3/home"
@@ -61,6 +63,10 @@ export const LeadPage = () =>
                       };
 
   return (
+   <div>
+     <div className="lead_nav">
+    <TopNavbar/>
+  </div>
     <div className="head-section">
     <div className="pay_left_box">
       <Sidebar />
@@ -103,6 +109,7 @@ export const LeadPage = () =>
       {viewMode === "kanban" ? <Kanban /> : <LeadTable />}
     </div>
   </div>
+   </div>
   
     
 

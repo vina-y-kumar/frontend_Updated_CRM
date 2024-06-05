@@ -18,10 +18,21 @@
 .pay_inner {
   display: flex;
 }
-
+.lead_nav{
+  margin-left: 20rem;
+  position: relative;
+  bottom: 6rem;
+}
+.pay_left_box{
+  position: relative;
+  bottom: 7rem;
+  margin-left: 1.5rem;
+}
 /* .pay_left_box {} */
 .head-section{
   display: flex;
+  position: relative;
+  bottom: 5.8rem;
 
 }
 .btn-container {

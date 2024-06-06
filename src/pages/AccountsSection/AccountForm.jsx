@@ -6,6 +6,8 @@ import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Im
 import { useAuth } from '../../authContext';
 import { Header } from '../../components/Header';
 import axiosInstance from '../../api';
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -75,6 +77,22 @@ function AccountForm() {
       };
   
       const response = await axiosInstance.post('/accounts/', dataToSend);
+      const accountId = response.data.id;
+      const interactionData = {
+        entity_type: "Account",
+        entity_id: accountId,
+        interaction_type: "Event",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Account created with id : ${accountId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       console.log('Form submitted successfully:', response.data);
       setAccountData({
         Name: '',
@@ -121,9 +139,13 @@ function AccountForm() {
   };
 
   return (
+    <div>
+      <div className="account_nav">
+    <TopNavbar/>
+  </div>
     <div className="account_form_submit" style={{display:'flex',flexDirection:'row'}}>
-       <div className="back_container1">
-        <div className="relatedList-Contacts3">
+       <div className="back_container122">
+        <div className="relatedList-Accounts3">
           <Link to={`../${tenantId}/accounts`}> Back</Link>
         </div>
       </div>
@@ -513,6 +535,7 @@ function AccountForm() {
                             
                 </form> 
       </div>
+    </div>
     </div>
   );
 }

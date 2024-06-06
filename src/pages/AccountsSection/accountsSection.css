@@ -186,3 +186,55 @@ color: #171A1FFF;
   position: absolute;
   top: 1px;
 }
+.accounts_containerofcomp_accountstable1{
+  position: relative;
+  bottom: 5rem;
+}
+.relatedList-Accounts3{
+    
+  font-family: 'Manrope';
+
+font-size: 14px;
+font-weight: 400;
+width: 80px;
+text-align: center; 
+height: 35px;
+border-radius: 4px;
+border-width: 1px;
+border-color: #9095A1FF;
+outline: none;
+position: relative;
+top: 170px;
+left: 10px;
+padding-left: 2px;
+padding-top: 4px;
+
+ }
+ .form_account{
+  position: relative;
+  bottom: 5.5rem;
+ }
+ .back_container122{
+  
+  width: 250px;
+  height: 700px;
+  margin-top: 2px;
+  background: #FAFAFBFF;
+  margin-left: 1px;
+  padding-top: 20px;
+  border-radius: 0px;
+  border-width: 1px;
+  /* border-color: #FFFFFFFF; */
+  /* border-style: solid; */
+  position: relative;
+  bottom: 14rem;
+ }
+.home_left_box1{
+  position: relative;
+  bottom: 13rem;
+}
+.account_nav{
+  margin-left: 20rem;
+  position: relative;
+  bottom: 6rem;
+}

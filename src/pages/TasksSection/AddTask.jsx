@@ -10,6 +10,8 @@ import "./task.css";
 import axiosInstance from "../../api.jsx";
 import "./TaskTable.jsx";
 import { useAuth } from "../../authContext.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -110,6 +112,22 @@ const AddTaskForm = () => {
       };
 
       const response = await axiosInstance.post('/tasks/', dataToSend);
+      const tasksId = response.data.id;
+          const interactionData = {
+            entity_type: "tasks",
+            entity_id:tasksId,
+            interaction_type: "Event",
+            tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+            notes: `Task created with id : ${tasksId} created by user : ${userId}`,
+            interaction_datetime: new Date().toISOString(),
+          };
+
+          try {
+              await axiosInstance.post('/interaction/', interactionData);
+              console.log('Interaction logged successfully');
+            } catch (error) {
+              console.error('Error logging interaction:', error);
+            }
       console.log("Form submitted successfully:", response.data);
       setTaskData({
         subject: "",
@@ -151,11 +169,18 @@ const AddTaskForm = () => {
   };
   
   return (
-    <div className="task_form">
+    <div>
+      <div className="Add-task-topnav">
+        <TopNavbar/>
+      </div>
+      <div className="task_form">
       <div className="relatedTask_back">
         <Link className='task_back' to={`/${tenantId}/tasks`}>Back</Link>
       </div>
+     
       <div>
+     
+      
         <div className="task_head_line">
           <div className="task_form_header">
             <h1>Create Task</h1>
@@ -306,6 +331,7 @@ const AddTaskForm = () => {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 };

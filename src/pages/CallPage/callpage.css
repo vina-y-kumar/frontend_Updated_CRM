@@ -530,7 +530,10 @@ left: 180px;
   }
 
 }
-
+.calls{
+  position: relative;
+  bottom: 20px;
+}
 
 
 .calls-tiles-container {
@@ -577,9 +580,15 @@ display: flex;
   border-width: 1px;
   border-color: #FFFFFFFF;
   border-style: solid;
-  box-shadow: 0px 2px 5px
+  box-shadow: 0px 2px 5px;
+  position: relative;
+  bottom: 14rem;
     
     
+}
+.call_info_pagee{
+  position: relative;
+  bottom: 10rem;
 }
 .call_head{
 
@@ -592,6 +601,18 @@ display: flex;
     margin-top: 80px;
     
 
+}
+.call-info{
+  
+}
+.button-edit3{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 3px;
+  font-weight: 600;
+  position: relative;
+  left: 90rem;
+  bottom: 50rem;
 }
 .call-details{
 width: 1081px;
@@ -606,22 +627,21 @@ margin-top: 30px;
 margin-left: 30px;
 display: flex;
 flex-direction: row;
-gap: 40%;
+gap: 10%;
 
 }
 .callpage_list{
-margin-left: 80px;
+margin-left: 60px;
 padding-top: 20px;
-}
-.callpage_list1{
 
-  }
+}
+
 
 .callpage_listtt{
   font-family: 'Manrope';
   font-size: 15px;
   line-height: 22px;
-  font-weight: 400;
+  font-weight: 500;
   color: #171A1FFF;
   padding: 13px;
 }
@@ -639,6 +659,7 @@ border-radius: 4px;
 border-width: 1px;
 border-color: #DEE1E645;
 outline: none;
+margin-left: 20px;
 }
 .Call-merge{
 display: flex;
@@ -663,5 +684,65 @@ border-radius: 4px;
 border-width: 1px;
 border-color: #DEE1E645;
 outline: none;
-margin-left: 30px;
+position: relative;
+
+}
+.callpage_list_da{
+  margin-left: 2rem;
+  font-size: 16px;
+}
+
+.call_nav{
+  margin-left: 20rem;
+  position: relative;
+  bottom: 6rem;
+}
+.call-info{
+ display: flex;
+ margin-top: 12rem; 
+}
+.edit-call{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  margin-top: 20px;
+  
+}
+.edit-call-save{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  margin-top: 20px;
+  
+}
+.edit-call-cancel{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 400;
+  background: red;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 4px;
+  
 }

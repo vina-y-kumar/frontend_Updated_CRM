@@ -5,7 +5,12 @@
   flex-direction: row;
   padding: 0px;
   margin:0px;
+  
 } 
+.meettt-info{
+  position: relative;
+  bottom: 10rem;
+}
 .meet{
   margin:20px;
   padding:10px;
@@ -175,7 +180,10 @@ box-shadow: 0px 17px 35px #171a1f, 0px 0px 2px #171a1f;
   justify-content: center;
   padding: 7px 11px 9px 12px;
   position: relative;
-  top: -5px;
+}
+.home_left_box{
+  position: relative;
+bottom: 13rem;
 }
 .meeting_head{
   font-family: 'Lexend';
@@ -610,7 +618,9 @@ color: #171A1FFF;
   border-width: 1px;
   border-color: #FFFFFFFF;
   border-style: solid;
-  box-shadow: 0px 2px 5px
+  box-shadow: 0px 2px 5px;
+  position: relative;
+  bottom: 13rem;
     
     
 }
@@ -691,4 +701,104 @@ margin-top: 30px;
   box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
   margin-top: 40px;
  
+}
+.edit-meeting{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 31rem;
+  left: 90rem;
+}
+.edit-meeting-save{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 32rem;
+  left: 85rem;
+  
+}
+.edit-meeting-cancel{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 400;
+  background: red;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 4px;
+  position: relative;
+  bottom: 32rem;
+  left: 87rem;
+  
+}
+.edit-meeting1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 15rem;
+  left: 90rem;
+}
+.edit-meeting-save1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 15rem;
+  left: 85rem;
+  
+}
+.edit-meeting-cancel1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 400;
+  background: red;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 4px;
+  position: relative;
+  bottom: 15rem;
+  left: 87rem;
+  
 }

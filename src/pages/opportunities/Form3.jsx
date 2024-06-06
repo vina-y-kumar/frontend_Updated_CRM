@@ -10,6 +10,8 @@ import "./opportunities.css";
 import "./index.jsx";
 import axiosInstance from "../../api.jsx";
 import { useAuth } from "../../authContext.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -129,6 +131,22 @@ const Form3 = () => {
             tenant: tenantId,
           };
           const response = await axiosInstance.post('/opportunities/',dataToSend);
+          const opportunityId = response.data.id;
+          const interactionData = {
+            entity_type: "opportunity",
+            entity_id: opportunityId,
+            interaction_type: "Event",
+            tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+            notes: `Opportunity created with id : ${opportunityId} created by user : ${userId}`,
+            interaction_datetime: new Date().toISOString(),
+          };
+
+          try {
+              await axiosInstance.post('/interaction/', interactionData);
+              console.log('Interaction logged successfully');
+            } catch (error) {
+              console.error('Error logging interaction:', error);
+            }
            
             console.log("Form submitted successfully:", response.data);
             setOppourtunityData({
@@ -193,8 +211,13 @@ const handleSubmitForm = (event) => {
 
 
     return (
+    <div>
+        <div className="oops_navform">
+      <TopNavbar/>
+    </div>
       <div className="opportunityfill_forms">
       {showCreateNewAccountForm && <CreateNewAccountForm />}
+     
 
       <div className="relatedOppo_back">
         {/* <Link className='oppo_back' to="/opportunities"> Back</Link> */}
@@ -457,6 +480,7 @@ const handleSubmitForm = (event) => {
           </form>
         </div>
       </div>
+    </div>
     </div>
         );
       };

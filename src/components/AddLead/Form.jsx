@@ -79,7 +79,23 @@ useEffect(() => {
         tenant: tenantId,
       };
       const response = await axiosInstance.post(`/leads/`, dataToSend);
+      const leadId = response.data.id;
 
+      const interactionData = {
+        entity_type: "Lead",
+        entity_id: leadId,
+        interaction_type: "Note",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Lead with id : ${leadId}created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       Swal.fire({
         title: 'Good job!',
         text: 'Lead Created Successfully!',

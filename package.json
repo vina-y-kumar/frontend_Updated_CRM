@@ -33,6 +33,7 @@
     "react-contextmenu": "^2.14.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
+    "react-facebook": "^9.0.12",
     "react-flow-renderer": "^10.3.17",
     "react-funnel-pipeline": "^0.2.0",
     "react-google-charts": "^4.0.1",

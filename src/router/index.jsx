@@ -41,6 +41,8 @@ import Campaignform from "../pages/Campaign/Campaignform";
 import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 
+import InstaCards from "../pages/instagram/InstaCards";
+
 import InstagramPost from "../pages/instagram/instagrampost";
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 export const RouteWrapper = () => {
@@ -210,6 +212,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
+
+          <Route path=":tenant_id/InstaCards"  element= {<InstaCards/>}/>
         </>
       )}
 

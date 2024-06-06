@@ -1,0 +1,76 @@
+.report-sidebar1{
+    width: 256px;
+height: 1188px;
+background: #FAFAFBFF;
+border-radius: 0px;
+border-width: 1px;
+border-color: #FFFFFFFF;
+border-style: solid;
+box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+padding: 20px;
+margin:auto;
+}
+.report-page{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.report_nav{
+   position: relative;
+   bottom: 5rem;
+   right: 5rem;
+}
+.excel-dropdown-menu6-report {
+    /* Your custom styles here */
+    font-family: 'Manrope';
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    background: #6D31EDFF;
+    border-radius: 4px;
+    width: 77px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 11px 9px 12px;
+    position: relative;
+    
+  }
+  .report-excel{
+    display: flex;
+    flex-direction: row;
+    margin-left: 105rem;
+    gap: 20px;
+  }
+
+  .createreport{
+    height: 34px;
+    padding: 0 12px;
+    margin-top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope';
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 400;
+    color: #FFFFFFFF;
+    background: #62CD14FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+  }
+  .report-merge-excel{
+    display: flex;
+    flex-direction: column;
+  }
+  .report-head{
+font-family: 'Lexend';
+font-size: 32px;
+line-height: 48px;
+font-weight: 800;
+color: #171A1FFF;
+margin-left: 20px;
+  }

@@ -137,13 +137,14 @@
       border: 1px solid slategray;
       position: relative;
       top: 80px;
+      height: fit-content;
     }
     
     .overview{
      
       
       /* width: 1088px; */
-      height: 368px;
+      height: 400px;
       background: #F8F9FAFF;
       border-radius: 8px;
       border-width: 1px;
@@ -521,6 +522,7 @@ padding-left: 10px;
   position: relative;
   margin-top: 50px;
   margin-left: 38px;
+
 }
 
 .account-details .account-names,
@@ -552,7 +554,7 @@ padding-left: 10px;
 margin-top: 180px;
 }
 .account-info{
-    height: 300px;
+    height: 400px;
   background: #F8F9FAFF;
   border-radius: 8px;
   border-width: 1px;
@@ -658,6 +660,7 @@ padding-left: 10px;
         position: relative;
         margin-top: 50px;
         margin-left: 50px;
+        
       
       }
       
@@ -672,7 +675,7 @@ padding-left: 10px;
       }
 
       .address-info{
-        height: 300px;
+        height: 400px;
       background: #F8F9FAFF;
       border-radius: 8px;
       border-width: 1px;
@@ -1038,5 +1041,47 @@ margin-left: 20px;
     width: 350px;
   }
 }
+.accounts-button {
+  padding: 10px 15px;
+  margin-left: 95rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button.edit-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-/* Add more media queries as needed for smaller screen sizes */
+/* Style for the Save button */
+button.save-button {
+  background-color: #008CBA; /* Blue */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Style for the Cancel button */
+button.cancel-button {
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

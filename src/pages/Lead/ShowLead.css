@@ -420,3 +420,22 @@ margin-left: 20px;
 
 
 }
+.lead-button {
+  background-color: #6D31EDFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 60%;
+}
+
+.lead-save-button,
+.lead-cancel-button {
+  background-color: #4CAF50;
+}
+
+.lead-button:disabled {
+  background-color: lightgray;
+  cursor: not-allowed;
+}

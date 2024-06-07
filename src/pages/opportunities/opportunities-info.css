@@ -92,3 +92,33 @@
 .textarea-pair textarea {
   width: calc(100% - 1rem); /* Adjust width for textarea */
 }
+.opportunity-button {
+  padding: 10px 15px;
+  margin-left: 70rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button.edit-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  height: 4rem;
+}
+
+/* Style for the Save button */
+button.save-button {
+  background-color: #008CBA; /* Blue */
+  color: white;
+}
+
+/* Style for the Cancel button */
+button.cancel-button {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

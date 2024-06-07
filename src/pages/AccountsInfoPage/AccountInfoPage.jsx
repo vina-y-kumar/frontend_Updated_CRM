@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // Import Link
 import "./page.css";
-import uploadFileToAzure from "../../azureUpload.jsx";
+import uploadToBlob from "../../azureUpload.jsx";
 
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
@@ -23,7 +23,61 @@ const getTenantIdFromUrl = () => {
 const AccountsPage = () => {
   const tenantId=getTenantIdFromUrl();
     const [file, setFile] = useState(null);
-    
+    const [isEditing, setIsEditing] = useState(false);
+  const [editedValues, setEditedValues] = useState({});
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
+
+  const handleMoreClick = () => {
+    setShowAllFiles(!showAllFiles);
+  };
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index}>
+        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+      </li>
+    ));
+  };
+
+  
+ 
+  /*const handleFileUploadtoAzure = () => {
+    if (sasTokenUrl === '') return;
+  
+    convertFileToArrayBuffer(selectedFile)
+      .then((fileArrayBuffer) => {
+        if (
+          fileArrayBuffer === null ||
+          fileArrayBuffer.byteLength < 1 ||
+          fileArrayBuffer.byteLength > 256000
+        )
+          return;
+  
+        const blockBlobClient = new blockBlobClient(sasTokenUrl);
+        return blockBlobClient.uploadData(fileArrayBuffer);
+      })
+      .then(() => {
+        setUploadStatus('Successfully finished upload');
+        return request.get(`/api/list?container=${containerName}`);
+      })
+      /**
+       * @param {AxiosResponse} result
+       */
+     /* .then((result) => {
+        // Process the result here
+        // Assuming result is of type AxiosResponse
+        const data = result.data;
+        const list = data.list;
+        setList(list);
+      })
+      .catch((error) => {
+        // Handle errors here
+        console.error('Error:', error);
+        setUploadStatus(`Error: ${error.message}`);
+      });
+  };*/
 
   const companyInfo = {
     name: "Neuren AI",
@@ -36,33 +90,32 @@ const AccountsPage = () => {
     revenue: "$10 million",
     contactNumber: "+1 123-456-7890",
   };
-  const handleFileChange = async (event) => {
+  const handleUploadedFile = async (event) => {
     const selectedFile = event.target.files[0];
     console.log('Selected file:', selectedFile);
     
     if (selectedFile) {
       setFile(selectedFile);
       console.log('File state set:', selectedFile);
-  
+
       try {
-        // Upload the file to Azure Blob Storage
         console.log('Uploading file to Azure Blob Storage...');
-      const fileUrl = await uploadFileToAzure(selectedFile);
+        const fileUrl = await uploadToBlob(selectedFile);
         console.log('File uploaded to Azure, URL:', fileUrl);
-  
-        // Send a POST request to your backend with the file URL
+
         console.log('Sending POST request to backend...');
-        const response = await axios.post('http://127.0.0.1:8000/documents/', {
+        const response = await axiosInstance.post('/documents/', {
           name: selectedFile.name,
           document_type: selectedFile.type,
           description: 'Your file description',
           file_url: fileUrl,
-          entity_type: 'your_entity_type',
-          entity_id: 'your_entity_id',
+          entity_type: 10,
+          entity_id: id,
           tenant: tenantId,
         });
         console.log('POST request successful, response:', response.data);
-  
+
+        setUploadedFiles(prevFiles => [...prevFiles, { name: selectedFile.name, url: fileUrl }]);
         console.log('File uploaded successfully:', response.data);
       } catch (error) {
         console.error('Error uploading file:', error);
@@ -89,9 +142,25 @@ const AccountsPage = () => {
     fetchAccountData();
   }, [id]);
 
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      try {
+        const response = await axiosInstance.get(`/documents/?entity_id=${id}&entity_type=10&tenant=${tenantId}`);
+        setUploadedFiles(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
+    };
+    fetchUploadedFiles();
+  }, [id, tenantId]);
+
   if (!account) {
     return <div className="loader"></div>; // Show a loading message while fetching data
   }
+
+  
+
   
 
   const contactPersons = [
@@ -140,6 +209,7 @@ const AccountsPage = () => {
     const files = event.target.files;
     setAttachments([...attachments, ...files]);
   };
+  
 
   const handleDeleteAttachment = (index) => {
     const updatedAttachments = [...attachments];
@@ -167,6 +237,55 @@ const AccountsPage = () => {
     const colors = ['#ff6347', '#32cd32', '#1e90ff', '#ff69b4', '#ffd700']; // Define your color palette
     const index = letter.charCodeAt(0) % colors.length;
     return colors[index];
+  };
+
+  const handleEdit1 = () => {
+    setIsEditing(true);
+  };
+  const handleEdit2 = () => {
+    setIsEditing(true);
+  };
+  const handleEdit3 = () => {
+    setIsEditing(true);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axiosInstance.patch(`/accounts/${id}/`, editedValues);
+      console.log('Form submitted successfully:', response.data);
+      // Optionally, you can update the local state with the response data
+      setAccount(response.data);
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+    setIsEditing(false);
+
+    const interactionData = {
+      entity_type: "Account",
+      entity_id: id,
+      interaction_type: "Note",
+      tenant_id: tenantId, 
+      notes: `User with ${id} makes changes in the details of the ${id}`,
+    };
+  
+    try {
+        await axiosInstance.post('/interaction/', interactionData);
+        console.log('Interaction logged successfully');
+      } catch (error) {
+        console.error('Error logging interaction:', error);
+      }
+  }
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedValues(account); // Reset edited values to original opportunity data
   };
 
   
@@ -231,34 +350,91 @@ const AccountsPage = () => {
               </a>
             </div>
             <div className="overview" id='Company Overview'>
-              <h2 className="accountinfos">Company Overview</h2>
-              <div className="account-details">
-                <p>
-                  <strong className="account-para1">Account Owner:</strong>
-                  <div className="account-names"> {account.Name}</div>
-                </p>
-                <p>
-                  <strong className="account-para2">Industry:</strong>
-                  <div className="account-industry">{account.industry}</div>
-                </p>
-                <p>
-                  <strong className="account-para3">Description:</strong>
-                  <div className="account-desc">{account.description}</div>
-                </p>
-                <p>
-                  <strong className="account-para4">Employees:</strong>
-                  <div className="account-employe">{companyInfo.employees}</div>
-                </p>
-                <p>
-                  <strong className="account-para5">Annual Revenue:</strong>
-                  <div className="account-revenue">{companyInfo.revenue}</div>
-                </p>
-                <p>
-                  <strong className="account-para6">Contact Number:</strong>
-                  <div className="account-phone">{account.phone}</div>
-                </p>
-              </div>
-            </div>
+      <h2 className="accountinfos">Company Overview</h2>
+      <div className="accounts-button">
+        <button className="edit-button" onClick={handleEdit1} disabled={isEditing}>Edit</button>
+        {isEditing && (
+          <>
+            <button className="save-button" onClick={handleSubmit}>Save</button>
+            <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+          </>
+        )}
+      </div>
+      <div className="account-details">
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="Name">Account Owner:</label>
+            <input
+              type="text"
+              id="Name"
+              name="Name"
+              value={isEditing ? editedValues.Name : account.Name}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="industry">Industry:</label>
+            <input
+              type="text"
+              id="industry"
+              name="industry"
+              value={isEditing ? editedValues.industry : account.industry}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="description">Description:</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              value={isEditing ? editedValues.description : account.description}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="employees">Employees:</label>
+            <input
+              type="text"
+              id="employees"
+              name="employees"
+              value={isEditing ? editedValues.employees : companyInfo.employees}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="revenue">Annual Revenue:</label>
+            <input
+              type="text"
+              id="revenue"
+              name="revenue"
+              value={isEditing ? editedValues.revenue : companyInfo.revenue}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="phone">Contact Number:</label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              value={isEditing ? editedValues.phone : account.phone}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+      </div>
+      </div>
+      </div>
 
             <div className="contacts" id="Contacts">
               <ul className="list-group">
@@ -278,58 +454,143 @@ const AccountsPage = () => {
             </div>
             <div className="account-info" id="Account Information">
               <h2 className="accountinfos">Account Information</h2>
-              <div className="addresssinformation">
-                <p>
-                  <strong className="accountinfos1">Account Number:</strong>
-                  <div className="account-number">
-                    {accountInfo.accountNumber}
-                  </div>
-                </p>
-                <p>
-                  <strong className="accountinfos2">Account Type:</strong>
-                  <div className="account-type"> {accountInfo.accountType}</div>
-                </p>
-                <p>
-                  <strong className="accountinfos3">Start Date:</strong>
-                  <div className="account-startdate">
-                    {" "}
-                    {accountInfo.startDate}
-                  </div>
-                </p>
-                <p>
-                  <strong className="accountinfos4">Renewal Date:</strong>
-                  <div className="account-renewaldate">
-                    {" "}
-                    {accountInfo.renewalDate}
-                  </div>
-                </p>
-              </div>
-            </div>
+              <div className="accounts-button">
+        <button className="edit-button" onClick={handleEdit2} disabled={isEditing}>Edit</button>
+        {isEditing && (
+          <>
+            <button className="save-button" onClick={handleSubmit}>Save</button>
+            <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+          </>
+        )}
+      </div>
+      <div className="addresssinformation">
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="accountNumber">Account Number:</label>
+            <input
+              type="text"
+              id="accountNumber"
+              name="accountNumber"
+              value={isEditing ? editedValues.accountNumber : accountInfo.accountNumber}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="accountType">Account Type:</label>
+            <input
+              type="text"
+              id="accountType"
+              name="accountType"
+              value={isEditing ? editedValues.accountType : accountInfo.accountType}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="startDate">Start Date:</label>
+            <input
+              type="text"
+              id="startDate"
+              name="startDate"
+              value={isEditing ? editedValues.startDate : accountInfo.startDate}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="renewalDate">Renewal Date:</label>
+            <input
+              type="text"
+              id="renewalDate"
+              name="renewalDate"
+              value={isEditing ? editedValues.renewalDate : accountInfo.renewalDate}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+      </div>
+      </div>
             <div className="address-info" id="Address Information">
               <h2 className="accountinfos">Address Information</h2>
-              <div className="addressOverview">
-                <p>
-                  <strong className="address-placepara1">Street:</strong>
-                  <div className="account-street"> {addressInfo.street}</div>
-                </p>
-                <p>
-                  <strong className="address-placepara2">City:</strong>
-                  <div className="account-city"> {addressInfo.city}</div>
-                </p>
-                <p>
-                  <strong className="address-placepara3">State:</strong>
-                  <div className="account-state"> {addressInfo.state}</div>
-                </p>
-                <p>
-                  <strong className="address-placepara4">ZIP Code:</strong>
-                  <div className="account-zip">{addressInfo.zip} </div>
-                </p>
-                <p>
-                  <strong className="address-placepara5">Country:</strong>
-                  <div className="account-country">{addressInfo.country}</div>
-                </p>
-              </div>
-            </div>
+              <div className="accounts-button">
+        <button className="edit-button" onClick={handleEdit3} disabled={isEditing}>Edit</button>
+        {isEditing && (
+          <>
+            <button className="save-button" onClick={handleSubmit}>Save</button>
+            <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+          </>
+        )}
+      </div>
+      <div className="addressOverview">
+      <div className="addresssinformation">
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="street">Street:</label>
+            <input
+              type="text"
+              id="street"
+              name="street"
+              value={isEditing ? editedValues.street : addressInfo.street}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="city">City:</label>
+            <input
+              type="text"
+              id="city"
+              name="city"
+              value={isEditing ? editedValues.city : addressInfo.city}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="state">State:</label>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              value={isEditing ? editedValues.state : addressInfo.state}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+          <div className="info-pair">
+            <label htmlFor="zip">ZIP Code:</label>
+            <input
+              type="text"
+              id="zip"
+              name="zip"
+              value={isEditing ? editedValues.zip : addressInfo.zip}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+        <div className="info-row">
+          <div className="info-pair">
+            <label htmlFor="country">Country:</label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              value={isEditing ? editedValues.country : addressInfo.country}
+              onChange={handleChange}
+              readOnly={!isEditing}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
             {/* <div className="attachment-section">
               <h2 className="attachments">Attachments</h2>
               <input
@@ -365,14 +626,40 @@ const AccountsPage = () => {
   <input type="file" onChange={handleFileUpload} multiple />
   <button className="upload-button">Upload Files</button>
 </div> */}
-   <div className="attachment-section" id='Attachments'>
+    <div className="attachment-section" id="Attachments">
       <div className="attachments">Attachments</div>
       <div className="attachment-upload">
-        <input type="file" id="attachment-input" onChange={handleFileChange} style={{ display: 'none' }} />
+        <input
+          type="file"
+          id="attachment-input"
+          onChange={handleUploadedFile}
+          style={{ display: 'none' }}
+        />
         <label htmlFor="attachment-input">
-          <div className="clicktoupload">clicktoupload</div>
+          <div className="clicktoupload">click to upload</div>
         </label>
       </div>
+      <div className="uploaded-files">
+        <ul>
+          {renderFiles(uploadedFiles.slice(0, 3))}
+        </ul>
+        {uploadedFiles.length > 3 && (
+          <button  className=" show-more-button"onClick={handleMoreClick}>
+            {showAllFiles ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </div>
+      {showAllFiles && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Uploaded Files</h2>
+            <button className="close-button" onClick={handleMoreClick}>Close</button>
+            <ul>
+              {renderFiles(uploadedFiles)}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
           </div>
         </div>

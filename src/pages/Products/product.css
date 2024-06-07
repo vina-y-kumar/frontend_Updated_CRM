@@ -20,15 +20,112 @@
     font-size: 2em;
     font-weight: bold;
 }
-.add-product-button {
+
+.product-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-search-bar {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 2rem;
+    width: 20rem;
+}
+
+.product-import-export-container {
+    position: relative;
+    display: inline-block;
+}
+
+.product-import-export-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color:#6D31EDFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 2rem;
+}
+
+.product-import-export-button:hover {
+    background-color: #0056b3;
+}
+
+.product-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100px;
+}
+
+.product-import-export-container:hover .dropdown-content {
+    display: block;
+}
+
+.product-import-label {
+    display: block;
+    padding: 5px 10px;
+    background-color: #6D31EDFF;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.product-import-label:hover {
+    background-color: #0056b3;
+}
+
+.product-export-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #6D31EDFF;
+    color: white;
+    cursor: pointer;
+}
+
+.product-export-button:hover {
+    background-color: #0056b3;
+}
+
+
+.product-add-product-button {
     padding: 10px 20px;
     font-size: 1em;
     color: #fff;
-    background-color: #007BFF;
+    background-color:#62CD14FF;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 2rem;
 }
-.add-product-button:hover {
-    background-color: #0056b3;
+.product-add-product-button:hover {
+    background-color: #4CA110FF;
 }
+.product-filter-container {
+    margin-bottom: 15px;
+  }
+  
+  .product-filter-select,
+  .product-filter-input {
+    margin-right: 10px;
+    padding: 5px;
+  }
+  .product-table-container {
+    position: relative;
+    width: 1267;
+    height: fit-content;
+    border-radius: 8px;
+    box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+    padding: 20px;
+    background-color: white; /* Add a background color to the box */
+  }

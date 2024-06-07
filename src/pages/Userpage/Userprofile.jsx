@@ -5,20 +5,35 @@ import { useAuth } from "../../authContext";
 import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import { useParams } from "react-router-dom";
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import "./Userprofile.css";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; 
+import uploadToBlob from "../../azureUpload.jsx";
+
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 
 const UserProfile = () => {
   const { userId } = useAuth();
+  const tenantId=getTenantIdFromUrl();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({});
   const [profileImageFile, setProfileImageFile] = useState(null); 
   const [profileImageUrl, setProfileImageUrl] = useState(null); 
+  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState('')
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -48,22 +63,72 @@ const UserProfile = () => {
     }
   };
 
+   const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+  
+      try {
+        // Upload the file to Azure Blob Storage
+        console.log('Uploading file to Azure Blob Storage...');
+      const fileUrl = await uploadToBlob(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+
+       
+  
+        // Send a POST request to your backend with the file URL
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 7,
+          entity_id: id,
+          tenant : tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+  
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+  const handleProfileImageUpload = (e) => {
+    const file = e.target.files[0];
+    setProfileImageFile(file);
+    const imageUrl = URL.createObjectURL(file);
+    setProfileImageUrl(imageUrl);
+    console.log(imageUrl);
+
+    
+  };
+
+  const fetchProfileImageUrl = async () => {
+    try {
+      const response = await axiosInstance.get(`/documents/`); // Adjust the endpoint as needed
+      console.log('GET request successful, response:', response.data[20]);
+      setProfileImageUrl(response.data[20].file_url); // Assuming response.data.file_url contains the URL
+    
+    } catch (error) {
+      console.error('Error fetching file URL:', error);
+    }
+  };
+
+  useEffect(() => {
+      fetchProfileImageUrl();
+    
+  }, [id]);
+
   const handleSaveChanges = async () => {
     try {
       let updatedUser = { ...editedUser }; // Create a copy of editedUser
-    
-      // Upload the profile image if it exists
-      if (profileImageFile) {
-        const formData = new FormData();
-        formData.append('file', profileImageFile);
-        const response = await axiosInstance.post('YOUR_UPLOAD_ENDPOINT', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        console.log('Upload success:', response.data);
-        updatedUser.profile_image = response.data.url; 
-      }
       
       await axiosInstance.put(`/get-user/ee/`, updatedUser);
       
@@ -85,12 +150,7 @@ const UserProfile = () => {
     }));
   };
 
-  const handleProfileImageUpload = (e) => {
-    const file = e.target.files[0];
-    setProfileImageFile(file);
-    const imageUrl = URL.createObjectURL(file);
-    setProfileImageUrl(imageUrl);
-  };
+  
 
   useEffect(() => {
     if (!isEditing) {
@@ -98,14 +158,16 @@ const UserProfile = () => {
     }
   }, [isEditing]);
 
+  
+
   return (
     <div className="user-profile-container">
       <div className="home_left_box4">
         <Sidebar />
       </div>
       <div>
-        <div className="right_div">
-          <TopNavbar/>
+      <div className="right_div">
+          <TopNavbar profileImageUrl={profileImageUrl} />
         </div>
         <div>
           <h2 className="user-profile-container1">User Profile</h2>
@@ -122,7 +184,7 @@ const UserProfile = () => {
                   <div className='semi-half-circle3'></div>
                   <div className='semi-half-circle4'></div>
                 </div> 
-                <label htmlFor="profile-image" className="avatar" onClick={() => document.getElementById("profile-image").click()}>
+                <label htmlFor="profile-image" className="avatar" onChange={handleFileChange}  onClick={() => document.getElementById("profile-image").click()}>
                   {profileImageUrl && <img src={profileImageUrl} alt="Profile" />}
                   <span className=' profile-user'>Profile</span>
                   <input

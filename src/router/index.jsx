@@ -69,6 +69,7 @@ export const RouteWrapper = () => {
   const [reminderMessage, setReminderMessage] = useState("");
   const { authenticated } = useAuth();
   
+  
   const showReminder = (message) => {
     setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
   };

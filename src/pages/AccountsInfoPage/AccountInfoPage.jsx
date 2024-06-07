@@ -25,10 +25,25 @@ const AccountsPage = () => {
     const [file, setFile] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({});
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
+
+  const handleMoreClick = () => {
+    setShowAllFiles(!showAllFiles);
+  };
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index}>
+        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+      </li>
+    ));
+  };
 
   
  
-  const handleFileUploadtoAzure = () => {
+  /*const handleFileUploadtoAzure = () => {
     if (sasTokenUrl === '') return;
   
     convertFileToArrayBuffer(selectedFile)
@@ -50,7 +65,7 @@ const AccountsPage = () => {
       /**
        * @param {AxiosResponse} result
        */
-      .then((result) => {
+     /* .then((result) => {
         // Process the result here
         // Assuming result is of type AxiosResponse
         const data = result.data;
@@ -62,7 +77,7 @@ const AccountsPage = () => {
         console.error('Error:', error);
         setUploadStatus(`Error: ${error.message}`);
       });
-  };
+  };*/
 
   const companyInfo = {
     name: "Neuren AI",
@@ -75,33 +90,32 @@ const AccountsPage = () => {
     revenue: "$10 million",
     contactNumber: "+1 123-456-7890",
   };
-  const handleFileChange = async (event) => {
+  const handleUploadedFile = async (event) => {
     const selectedFile = event.target.files[0];
     console.log('Selected file:', selectedFile);
     
     if (selectedFile) {
       setFile(selectedFile);
       console.log('File state set:', selectedFile);
-  
+
       try {
-        // Upload the file to Azure Blob Storage
         console.log('Uploading file to Azure Blob Storage...');
-      const fileUrl = await uploadToBlob(selectedFile);
+        const fileUrl = await uploadToBlob(selectedFile);
         console.log('File uploaded to Azure, URL:', fileUrl);
-  
-        // Send a POST request to your backend with the file URL
+
         console.log('Sending POST request to backend...');
-        const response = await axios.post('http://127.0.0.1:8000/documents/', {
+        const response = await axiosInstance.post('/documents/', {
           name: selectedFile.name,
           document_type: selectedFile.type,
           description: 'Your file description',
           file_url: fileUrl,
-          entity_type: 'Account',
+          entity_type: 10,
           entity_id: id,
           tenant: tenantId,
         });
         console.log('POST request successful, response:', response.data);
-  
+
+        setUploadedFiles(prevFiles => [...prevFiles, { name: selectedFile.name, url: fileUrl }]);
         console.log('File uploaded successfully:', response.data);
       } catch (error) {
         console.error('Error uploading file:', error);
@@ -127,6 +141,19 @@ const AccountsPage = () => {
   
     fetchAccountData();
   }, [id]);
+
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      try {
+        const response = await axiosInstance.get(`/documents/?entity_id=${id}&entity_type=10&tenant=${tenantId}`);
+        setUploadedFiles(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
+    };
+    fetchUploadedFiles();
+  }, [id, tenantId]);
 
   if (!account) {
     return <div className="loader"></div>; // Show a loading message while fetching data
@@ -182,6 +209,7 @@ const AccountsPage = () => {
     const files = event.target.files;
     setAttachments([...attachments, ...files]);
   };
+  
 
   const handleDeleteAttachment = (index) => {
     const updatedAttachments = [...attachments];
@@ -598,14 +626,40 @@ const AccountsPage = () => {
   <input type="file" onChange={handleFileUpload} multiple />
   <button className="upload-button">Upload Files</button>
 </div> */}
-   <div className="attachment-section" id='Attachments'>
+    <div className="attachment-section" id="Attachments">
       <div className="attachments">Attachments</div>
       <div className="attachment-upload">
-        <input type="file" id="attachment-input" onChange={handleFileChange}  style={{ display: 'none' }} />
-        <label htmlFor="attachment-input" onChange={handleFileUploadtoAzure}>
-          <div className="clicktoupload">clicktoupload</div>
+        <input
+          type="file"
+          id="attachment-input"
+          onChange={handleUploadedFile}
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="attachment-input">
+          <div className="clicktoupload">click to upload</div>
         </label>
       </div>
+      <div className="uploaded-files">
+        <ul>
+          {renderFiles(uploadedFiles.slice(0, 3))}
+        </ul>
+        {uploadedFiles.length > 3 && (
+          <button  className=" show-more-button"onClick={handleMoreClick}>
+            {showAllFiles ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </div>
+      {showAllFiles && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Uploaded Files</h2>
+            <button className="close-button" onClick={handleMoreClick}>Close</button>
+            <ul>
+              {renderFiles(uploadedFiles)}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
           </div>
         </div>

@@ -99,7 +99,7 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile-container">
-      <div className="home_left_box4">
+      <div className="home_left_box1" style={{"top":"0rem"}}>
         <Sidebar />
       </div>
       <div>

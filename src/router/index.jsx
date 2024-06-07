@@ -62,6 +62,8 @@ import Vendors from "../pages/Vendors/vendors";
 import Vendorsform from "../pages/Vendors/createVendors";
 import VendorInfo from "../pages/Vendors/vendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
+import Report from "../pages/Reports/report";
+import Reportform from "../pages/Reports/reportform";
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -198,6 +200,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/addcontact" element={<Form2/>}/>
           <Route path=":tenant_id/meetings" element={<Met/>}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
+
+          <Route path=":tenant_id/report"   element={<Report/>}/>  
+          <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
 
           <Route path=":tenant_id/opportunity" element={<Form3/>} />
           <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />

@@ -55,7 +55,8 @@ export const InteractionTable = () => {
 
   return (
     <div className="interaction-table">
-      <div className="home_left_box1">
+
+<div className="home_left_box1" style={{"top":"0rem"}}>
         <Sidebar />
       </div>
       <div className="interection_head">

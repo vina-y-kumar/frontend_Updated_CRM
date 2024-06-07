@@ -7,7 +7,6 @@ import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
-import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import "./Userprofile.css";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; 
 
@@ -122,20 +121,20 @@ const UserProfile = () => {
                   <div className='semi-half-circle3'></div>
                   <div className='semi-half-circle4'></div>
                 </div> 
-                <label htmlFor="profile-image" className="avatar" onClick={() => document.getElementById("profile-image").click()}>
+                <label htmlFor="profile-image" className="avatar">
                   {profileImageUrl && <img src={profileImageUrl} alt="Profile" />}
                   <span className=' profile-user'>Profile</span>
-                  <input
-                    type="file"
-                    id="profile-image"
-                    accept="image/*"
-                    onChange={handleProfileImageUpload}
-                    style={{ display: "none" }}
-                  />
                 </label>
+                <input
+                  type="file"
+                  id="profile-image"
+                  accept="image/*"
+                  onChange={handleProfileImageUpload}
+                  style={{ display: "none" }}
+                />
               </div>
               <div className="profile_font">
-                <div className='use_mate' >
+                <div className='use_mate'>
                   <div className="material-icons-container">
                     <InsertCommentRoundedIcon  style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }}/>
                   </div>
@@ -146,8 +145,8 @@ const UserProfile = () => {
                     <CallRoundedIcon  style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }}/>
                   </div>
                 </div>
-                <div className="profile_data"  style={{ margin: '20px', fontSize: '18px',  marginLeft: '20px' }}>
-                  <div   style={{ marginBottom: '16px' }}>
+                <div className="profile_data" style={{ margin: '20px', fontSize: '18px', marginLeft: '20px' }}>
+                  <div style={{ marginBottom: '16px' }}>
                     <BadgeRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
                     {isEditing ? (
                       <input
@@ -162,66 +161,61 @@ const UserProfile = () => {
                     )}
                   </div>
                   <div style={{ marginBottom: '16px' }}>
-                  <MailOutlineRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="email"
-                      value={editedUser.email}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.email}</span>
-                  )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <CallRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      value={editedUser.phoneNumber}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.phoneNumber}</span>
-                  )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <LocationOnRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="address"
-                      value={editedUser.address}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.address}</span>
-                  )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <InsertCommentRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="job_profile"
-                      value={editedUser.job_profile}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.job_profile}</span>
-                  )}
-                </div>
-
+                    <MailOutlineRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="email"
+                        value={editedUser.email}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.email}</span>
+                    )}
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <CallRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="phoneNumber"
+                        value={editedUser.phoneNumber}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.phoneNumber}</span>
+                    )}
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <LocationOnRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="address"
+                        value={editedUser.address}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.address}</span>
+                    )}
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <InsertCommentRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="job_profile"
+                        value={editedUser.job_profile}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.job_profile}</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -231,7 +225,7 @@ const UserProfile = () => {
           <div className="edit-profile-form">
             {isEditing ? (
               <>
-                <button  className="btn_username-save" onClick={handleSaveChanges}>Save</button>
+                <button className="btn_username-save" onClick={handleSaveChanges}>Save</button>
                 <button className="btn_username-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
               </>
             ) : (

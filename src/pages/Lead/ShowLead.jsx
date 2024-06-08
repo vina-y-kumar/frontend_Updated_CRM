@@ -50,7 +50,11 @@ const ShowLead = () => {
 
   const { id } = useParams();
   const [met, setMet] = useState([]);
-  
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedValues, setEditedValues] = useState({});
+  const [editedLead, setEditedLead] = useState({});
+
+
   useEffect(() => {
     const fetchformData = async () => {
       try {
@@ -114,6 +118,10 @@ const ShowLead = () => {
       ...showLead,
       [event.target.name]: event.target.value,
     });
+    setEditedValues({
+      ...editedValues,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleAddNote = (event) => {
@@ -165,6 +173,19 @@ const ShowLead = () => {
     }
   };
 
+  const handleSave = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axiosInstance.patch(`/leads/${id}`, editedLead); // Use editedLead instead of editedValues
+      console.log("ShowLead Information submitted :", response.data);
+      setShowLead(response.data);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error In ShowLead Information:", error);
+    }
+    setIsEditing(false);
+  };
+
   const handleAttach = () => {
     console.log("Attach happened");
   };
@@ -181,6 +202,17 @@ const ShowLead = () => {
     // Add logic here to handle conversion
     console.log("Lead converted");
   };
+
+  const handleEdit = () => {
+    setEditedLead({ ...showLead });
+    setIsEditing(true);
+  };
+  
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  
 
   return (
     <div className="container1">
@@ -307,126 +339,221 @@ const ShowLead = () => {
 </div>
 
 <div className="big-lead-container">
-  <div  className="general-lead-container">
-    <div>
-      <h1 className="lead_general_head">General info</h1>
-      </div>
-      <div>
-      <div className="Lead_general_box">
-       <div>
-       
-     <h1 className="head_Lead_">
-     <NewspaperRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Lead Code</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.first_name}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <LocalOfferRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Product Sample Business</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.first_name}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <Groups2RoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Client</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.LeadName}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <StoreRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Company</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.company}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <LocalPhoneRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Phone Number</h1>  
-       </div>
-       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
-        {showLead.phone}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <AlternateEmailRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Email</h1>  
-       </div>
-       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
-     
-        {showLead.email}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     < CreditCardRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Payment Method
-
-     </h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.account_name}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <PaymentsRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Currency</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.website}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div >
-     <h1 className="head_Lead_">
-     <LocalPrintshopRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Fax</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.fax}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <ViewArrayRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Website</h1>  
-       </div>
-       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
-        {showLead.website}
-       </div>
-      </div>
-      </div>
+      <div className="general-lead-container">
+        <div>
+          <h1 className="lead_general_head">General info</h1>
+          <div className="lead-button">
+            <button className="lead-button" onClick={handleEdit} disabled={isEditing}>Edit</button>
+            {isEditing && (
+              <>
+                <button className="lead-save-button" onClick={handleSave}>Save</button>
+                <button className="lead-cancel-button" onClick={handleCancel}>Cancel</button>
+              </>
+            )}
+          </div>
+        </div>
+        <div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <NewspaperRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Lead Code
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="first_name"
+                  value={editedLead.first_name}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.first_name
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <LocalOfferRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Product Sample Business
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="productSampleBusiness"
+                  value={editedLead.productSampleBusiness}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.productSampleBusiness
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <Groups2RoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Client
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="client"
+                  value={editedLead.client}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.client
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <StoreRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Company
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="company"
+                  value={editedLead.company}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.company
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <LocalPhoneRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Phone Number
+              </h1>
+            </div>
+            <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="phone"
+                  value={editedLead.phone}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.phone
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <AlternateEmailRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Email
+              </h1>
+            </div>
+            <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="email"
+                  value={editedLead.email}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.email
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <CreditCardRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Payment Method
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="paymentMethod"
+                  value={editedLead.paymentMethod}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.paymentMethod
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <PaymentsRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Currency
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="currency"
+                  value={editedLead.currency}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.currency
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <LocalPrintshopRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Fax
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="fax"
+                  value={editedLead.fax}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.fax
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <ViewArrayRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Website
+              </h1>
+            </div>
+            <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="website"
+                  value={editedLead.website}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.website
+              )}
+            </div>
+          </div>
+          </div>
      
 
   </div>

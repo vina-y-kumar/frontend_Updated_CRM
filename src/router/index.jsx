@@ -67,6 +67,8 @@ import Reportform from "../pages/Reports/reportform";
 import Loyalityform from "../pages/LoyaltyProgram/Loyalityform";
 import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
 import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
+import Custom from "../pages/CustomModel/custom";
+// import CustomModelForm from "../pages/CustomModel/customform";
 
 
 export const RouteWrapper = () => {
@@ -238,6 +240,10 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
           <Route path=":tenant_id/product"  element= {<Product/>}/>
           <Route path=":tenant_id/loyalty"  element= {<Loyalcard/>}/>
+          <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
+          {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
+
+          
           <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
 
 

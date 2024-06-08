@@ -371,7 +371,7 @@ const Report = () => {
                 return (
                 <div className='report-page'>
                     <div className="report-sidebar1">
-                        <ul>
+                        <ul className='report-sidebardata'>
                             {reportListItems.map((item, index) => (
                                 <li key={index} onClick={() => setReportId(item)}>
                                     {item}

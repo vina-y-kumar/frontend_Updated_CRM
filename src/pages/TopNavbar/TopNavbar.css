@@ -17,6 +17,46 @@ margin-top: 20px;
 .topNavbar2{
     margin-top: 20px;
     margin-left: 10px; /* Add 7px gap */
+}
 
-    
+.notification-icon-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.notification-count {
+    position: absolute;
+    top: +10px;
+    left: +25px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: 36px; /* Adjust based on the height of your notification icon */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 250px; /* Adjust based on your design */
+    z-index: 1000;
+}
+
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
 }

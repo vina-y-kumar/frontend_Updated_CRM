@@ -26,6 +26,8 @@ const uploadToBlob = async (file) => {
     console.error('Error uploading file to Azure:', error);
     throw error;
   }
+
+  
 };
 
 export default uploadToBlob;

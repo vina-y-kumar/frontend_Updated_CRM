@@ -62,6 +62,14 @@ import Vendors from "../pages/Vendors/vendors";
 import Vendorsform from "../pages/Vendors/createVendors";
 import VendorInfo from "../pages/Vendors/vendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
+import Report from "../pages/Reports/report";
+import Reportform from "../pages/Reports/reportform";
+import Loyalityform from "../pages/LoyaltyProgram/Loyalityform";
+import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
+import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
+import Custom from "../pages/CustomModel/custom";
+// import CustomModelForm from "../pages/CustomModel/customform";
+
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
@@ -200,6 +208,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/meetings" element={<Met/>}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
 
+          <Route path=":tenant_id/report"   element={<Report/>}/>  
+          <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
+
           <Route path=":tenant_id/opportunity" element={<Form3/>} />
           <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
           <Route path=":tenant_id/tasks/:id" element={<Taskinfo/>}/>
@@ -211,6 +222,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/tasks" element={<TaskTable/>} />
           <Route path=":tenant_id/interaction" element={<Interaction/>}/>
           <Route path=":tenant_id/addtask" element={<AddTaskForm/>}/>
+          <Route path=":tenant_id/loyaltyform" element ={<Loyalityform/>}/>
+          
+
           <Route path=":tenant_id/compose" element={<EmailComponent/>}/>
           <Route path=":tenant_id/bulk-import" element={<BulkImport/>}/>
           <Route path=":tenant_id/flow" element={<FlowGraph/>}/>
@@ -225,6 +239,16 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
           <Route path=":tenant_id/product"  element= {<Product/>}/>
+          <Route path=":tenant_id/loyalty"  element= {<Loyalcard/>}/>
+          <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
+          {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
+
+          
+          <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
+
+
+
+
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
         </>

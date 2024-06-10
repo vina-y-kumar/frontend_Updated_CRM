@@ -72,6 +72,7 @@ const tenantId=getTenantIdFromUrl();
 const [isEditingInfo, setIsEditingInfo] = useState(false);
 const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
 const [photoColor, setPhotoColor] = useState("blue");
+const [file, setFile] = useState(null);
 
 
 
@@ -79,6 +80,8 @@ const [photoColor, setPhotoColor] = useState("blue");
   const[editedAccountName,setEditedAccountName] =useState('');
   const [editedPhone, setEditedPhone] = useState('');
   const [editedOtherPhone, setEditedOtherPhone] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
 
   const[editedLeadSource, setEditedLeadSource]= useState('');
   const[editedvendorName, seteditedVendorName]=useState('');
@@ -107,7 +110,9 @@ const [photoColor, setPhotoColor] = useState("blue");
 
 
 
-
+  const handleMoreClick = () => {
+    setShowAllFiles(!showAllFiles);
+  };
 
 
 
@@ -149,6 +154,19 @@ const [photoColor, setPhotoColor] = useState("blue");
     }
   };
 
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      try {
+        const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
+        setUploadedFiles(response.data);
+        
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
+    };
+    fetchUploadedFiles();
+  }, [id, tenantId, ]);
+
   const relatedListItems = [
     "Notes",
     "Cadences",
@@ -165,7 +183,42 @@ const [photoColor, setPhotoColor] = useState("blue");
     "Emails",
     "Invoices",
   ];
- 
+  
+  const handleUploadedFile = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+
+      try {
+        console.log('Uploading file to Azure Blob Storage...');
+        const fileUrl = await uploadToBlob(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 1,
+          entity_id: id,
+          tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+
+        setUploadedFiles(prevFiles => [...prevFiles, { name: selectedFile.name, url: fileUrl }]);
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+  
   
 
   const handleChange = (e, field) => {
@@ -371,17 +424,18 @@ const [photoColor, setPhotoColor] = useState("blue");
     setSkypeID(contactinfo.SkypeId);
     setSecondaryEmail(contactinfo.secondaryEmail);
     seteditTwitter(contactinfo.Twitter);
-
-
-
-
-
-
-
-
-
-
   };
+
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index} className="account-file-item">
+        <span className="file-icon">📄</span>
+        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+      </li>
+    ));
+  };
+
 
  
   return (
@@ -1118,21 +1172,46 @@ const [photoColor, setPhotoColor] = useState("blue");
           </div>
         </div>
 
-        <div className="info_Attach" id='Attachments'>
-          <div className="info1">
-            <div >
-              <h2 className="heads_Attach">Attachments</h2>
-            </div>
-            <div class="attachment-upload1">
-              <input type="file" id="attachment-input" />
-              <label for="attachment-input">
-                <div className="clicktoupload1">clicktoupload</div>
-              </label>
-            </div>
-            
-          </div>
+        <div className="info_Attach" id="Attachments">
+      <div className="info1">
+        <div>
+          <h2 className="heads_Attach">Attachments</h2>
         </div>
-
+        <div className="attachment-upload1">
+          <input
+            type="file"
+            id="attachment-input"
+            onChange={handleUploadedFile}
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="attachment-input">
+            <div className="clicktoupload1">click to upload</div>
+          </label>
+        </div>
+        <div className="uploaded-files">
+          <ul>
+            {renderFiles(uploadedFiles.slice(0, 3))}
+          </ul>
+          {uploadedFiles.length > 3 && (
+            <a href="#" className="show-more-button" onClick={handleMoreClick}>
+              Show More
+              {showAllFiles ? ' Show Less' : ''}
+            </a>
+          )}
+        </div>
+        {showAllFiles && (
+          <div className="popup">
+            <div className="popup-content">
+              <h2>Uploaded Files</h2>
+              <button className="close-button" onClick={handleMoreClick}>Close</button>
+              <ul>
+                {renderFiles(uploadedFiles)}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
         <div className="info_deals" id='Deals'>
           <h2 className="info_deals2">Deals</h2>
           <div className="deal">

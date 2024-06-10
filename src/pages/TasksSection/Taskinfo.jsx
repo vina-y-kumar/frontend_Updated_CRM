@@ -4,7 +4,8 @@ import Modal from "react-modal";
 import { Link, useParams } from "react-router-dom";
 import "./TaskTable.jsx";
 import axiosInstance from "../../api.jsx";
-import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import TopNavbar from "../TopNavbar/TopNavbar.jsx";
+import "./task.css";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -21,6 +22,8 @@ export const Taskinfo=()=>{
   const [isCompleted, setIsCompleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({});
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
   
 
   const [addtasktable, setAddTaskTable] = useState({
@@ -42,6 +45,65 @@ export const Taskinfo=()=>{
 
   const { id } = useParams();
 
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index} className="account-file-item">
+        <span className="file-icon">📄</span>
+        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+      </li>
+    ));
+  };
+
+  const handleUploadedFile = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+
+      try {
+        console.log('Uploading file to Azure Blob Storage...');
+        const fileUrl = await uploadToBlob(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 12,
+          entity_id: id,
+          tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+
+        setUploadedFiles(prevFiles => [...prevFiles, { name: selectedFile.name, url: fileUrl }]);
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+  const handleMoreClick = () => {
+    setShowAllFiles(!showAllFiles);
+  };
+
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      try {
+        const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
+        setUploadedFiles(response.data);
+        
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
+    };
+    fetchUploadedFiles();
+  }, [id, tenantId, ]);
   
 
             const [meetings, setMeetings] = useState([]);
@@ -352,19 +414,43 @@ export const Taskinfo=()=>{
   </div>
 </div>
 
-
-  
-
           <div className="info-attach">
             <div >
               <div className="heads">
                 <h2>Attachments</h2>
               </div>
               <div className="attachment-upload2">
+              <input
+          type="file"
+          id="attachment-input"
+          onChange={handleUploadedFile}
+          style={{ display: 'none' }}
+        />
   <label htmlFor="attachment-input1" className="clicktoupload2">Upload</label>
-  <input type="file" id="attachment-input1" style={{ display: 'none' }} />
+  
 </div>
-
+<div className="uploaded-files">
+          <ul>
+            {renderFiles(uploadedFiles.slice(0, 3))}
+          </ul>
+          {uploadedFiles.length > 3 && (
+            <a href="#" className="show-more-button" onClick={handleMoreClick}>
+              Show More
+              {showAllFiles ? ' Show Less' : ''}
+            </a>
+          )}
+        </div>
+        {showAllFiles && (
+          <div className="popup">
+            <div className="popup-content">
+              <h2>Uploaded Files</h2>
+              <button className="close-button" onClick={handleMoreClick}>Close</button>
+              <ul>
+                {renderFiles(uploadedFiles)}
+              </ul>
+            </div>
+          </div>
+        )}
             </div>
           </div>
           

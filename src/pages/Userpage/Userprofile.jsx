@@ -8,7 +8,6 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import { useParams } from "react-router-dom";
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
-import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import "./Userprofile.css";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; 
 import uploadToBlob from "../../azureUpload.jsx";
@@ -24,16 +23,12 @@ const getTenantIdFromUrl = () => {
 
 const UserProfile = () => {
   const { userId } = useAuth();
-  const tenantId=getTenantIdFromUrl();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({});
   const [profileImageFile, setProfileImageFile] = useState(null); 
   const [profileImageUrl, setProfileImageUrl] = useState(null); 
-  const [file, setFile] = useState(null);
-  const [fileUrl, setFileUrl] = useState('')
-  const { id } = useParams();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -63,6 +58,62 @@ const UserProfile = () => {
     }
   };
 
+  const handleSaveChanges = async () => {
+    try {
+      let updatedUser = { ...editedUser }; // Create a copy of editedUser
+    
+      // Upload the profile image if it exists
+      if (profileImageFile) {
+        const formData = new FormData();
+        formData.append('file', profileImageFile);
+        const response = await axiosInstance.post('YOUR_UPLOAD_ENDPOINT', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Upload success:', response.data);
+        updatedUser.profile_image = response.data.url; 
+      }
+      
+      await axiosInstance.put(`/get-user/ee/`, updatedUser);
+      
+      setEditedUser(updatedUser);
+      
+      const notes = `User profile updated with new data: <describe the changes made>`;
+      setIsEditing(false); 
+      console.log("User data updated successfully!");
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedUser(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleProfileImageUpload = (e) => {
+    const file = e.target.files[0];
+    setProfileImageFile(file);
+    const imageUrl = URL.createObjectURL(file);
+    setProfileImageUrl(imageUrl);
+  };
+
+  useEffect(() => {
+    if (!isEditing) {
+      fetchUserData();
+    }
+  }, [isEditing]);
+ 
+  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState('')
+  const { id } = useParams();
+
+
+ 
    const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     console.log('Selected file:', selectedFile);
@@ -100,15 +151,7 @@ const UserProfile = () => {
       console.log('No file selected');
     }
   };
-  const handleProfileImageUpload = (e) => {
-    const file = e.target.files[0];
-    setProfileImageFile(file);
-    const imageUrl = URL.createObjectURL(file);
-    setProfileImageUrl(imageUrl);
-    console.log(imageUrl);
-
-    
-  };
+ 
 
   const fetchProfileImageUrl = async () => {
     try {
@@ -126,43 +169,12 @@ const UserProfile = () => {
     
   }, [id]);
 
-  const handleSaveChanges = async () => {
-    try {
-      let updatedUser = { ...editedUser }; // Create a copy of editedUser
-      
-      await axiosInstance.put(`/get-user/ee/`, updatedUser);
-      
-      setEditedUser(updatedUser);
-      
-      const notes = `User profile updated with new data: <describe the changes made>`;
-      setIsEditing(false); 
-      console.log("User data updated successfully!");
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
-  };
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUser(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  
-
-  useEffect(() => {
-    if (!isEditing) {
-      fetchUserData();
-    }
-  }, [isEditing]);
-
+ 
   
 
   return (
     <div className="user-profile-container">
-      <div className="home_left_box4">
+      <div className="home_left_box1" style={{"top":"0rem"}}>
         <Sidebar />
       </div>
       <div>
@@ -187,17 +199,17 @@ const UserProfile = () => {
                 <label htmlFor="profile-image" className="avatar" onChange={handleFileChange}  onClick={() => document.getElementById("profile-image").click()}>
                   {profileImageUrl && <img src={profileImageUrl} alt="Profile" />}
                   <span className=' profile-user'>Profile</span>
-                  <input
-                    type="file"
-                    id="profile-image"
-                    accept="image/*"
-                    onChange={handleProfileImageUpload}
-                    style={{ display: "none" }}
-                  />
                 </label>
+                <input
+                  type="file"
+                  id="profile-image"
+                  accept="image/*"
+                  onChange={handleProfileImageUpload}
+                  style={{ display: "none" }}
+                />
               </div>
               <div className="profile_font">
-                <div className='use_mate' >
+                <div className='use_mate'>
                   <div className="material-icons-container">
                     <InsertCommentRoundedIcon  style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }}/>
                   </div>
@@ -208,8 +220,8 @@ const UserProfile = () => {
                     <CallRoundedIcon  style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }}/>
                   </div>
                 </div>
-                <div className="profile_data"  style={{ margin: '20px', fontSize: '18px',  marginLeft: '20px' }}>
-                  <div   style={{ marginBottom: '16px' }}>
+                <div className="profile_data" style={{ margin: '20px', fontSize: '18px', marginLeft: '20px' }}>
+                  <div style={{ marginBottom: '16px' }}>
                     <BadgeRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
                     {isEditing ? (
                       <input
@@ -224,66 +236,61 @@ const UserProfile = () => {
                     )}
                   </div>
                   <div style={{ marginBottom: '16px' }}>
-                  <MailOutlineRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="email"
-                      value={editedUser.email}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.email}</span>
-                  )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <CallRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      value={editedUser.phoneNumber}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.phoneNumber}</span>
-                  )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <LocationOnRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="address"
-                      value={editedUser.address}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.address}</span>
-                  )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <InsertCommentRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="job_profile"
-                      value={editedUser.job_profile}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: '10px', padding: '5px' }}
-
-                    />
-                  ) : (
-                    <span className="user-info">{user.job_profile}</span>
-                  )}
-                </div>
-
+                    <MailOutlineRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="email"
+                        value={editedUser.email}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.email}</span>
+                    )}
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <CallRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="phoneNumber"
+                        value={editedUser.phoneNumber}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.phoneNumber}</span>
+                    )}
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <LocationOnRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="address"
+                        value={editedUser.address}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.address}</span>
+                    )}
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <InsertCommentRoundedIcon style={{ width: '24px', height: '24px', fill: '#6D31EDFF' }} />
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="job_profile"
+                        value={editedUser.job_profile}
+                        onChange={handleInputChange}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                      />
+                    ) : (
+                      <span className="user-info">{user.job_profile}</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -293,7 +300,7 @@ const UserProfile = () => {
           <div className="edit-profile-form">
             {isEditing ? (
               <>
-                <button  className="btn_username-save" onClick={handleSaveChanges}>Save</button>
+                <button className="btn_username-save" onClick={handleSaveChanges}>Save</button>
                 <button className="btn_username-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
               </>
             ) : (

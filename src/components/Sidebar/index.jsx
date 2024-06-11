@@ -196,6 +196,14 @@ export const Sidebar = () => {
             <li className="sidebar_item">
              <NavLink className="sidebar_link" to={formatLink("/campaign")}>
                 <span style={{ display: 'flex', alignItems:'center' }}>
+                  <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                  <p className="sidebar_link_text">Campaigns</p>
+                </span>
+              </NavLink>
+            </li>
+            <li className="sidebar_item">
+             <NavLink className="sidebar_link" to={formatLink("/vendors")}>
+                <span style={{ display: 'flex', alignItems:'center' }}>
                   {/* <img
                     src={Interaction}
                     alt="icon"
@@ -204,7 +212,22 @@ export const Sidebar = () => {
                     height={10}
                   /> */}
                   <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
-                  <p className="sidebar_link_text">Campaigns</p>
+                  <p className="sidebar_link_text">Vendors</p>
+                </span>
+              </NavLink>
+            </li>
+            <li className="sidebar_item">
+             <NavLink className="sidebar_link" to={formatLink("/product")}>
+                <span style={{ display: 'flex', alignItems:'center' }}>
+                  {/* <img
+                    src={Interaction}
+                    alt="icon"
+                    className="sidebar_link_img"
+                    width={20}
+                    height={10}
+                  /> */}
+                  <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                  <p className="sidebar_link_text">Products</p>
                 </span>
               </NavLink>
             </li>

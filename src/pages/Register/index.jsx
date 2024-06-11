@@ -43,10 +43,11 @@ export const Register = () => {
     const selectedTenantId = selectedOrg ? selectedOrg.tenantId : "";
 
     try {
-      const response = await fetch(`https://webappbaackend.azurewebsites.net/register/`, {
+      const response = await fetch(`http://127.0.0.1:8000/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Tenant-ID":3,
         },
         body: JSON.stringify({
           username: username,
@@ -155,7 +156,7 @@ export const Register = () => {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
               >
-                <option value="admin">Admin</option>
+                <option value="Admin">Admin</option>
                 <option value="employee">Employee</option>
                 <option value="manager">Manager</option>
               </select>

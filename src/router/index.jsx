@@ -40,7 +40,7 @@ import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
 import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
 import CampaignInfo from "../pages/Campaign/campaigninfo";
-import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
+//import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 import Userprofile from "../pages/Userpage/Userprofile";
 
@@ -60,7 +60,7 @@ import Remind from "../pages/Reminders/Reminder";
 import Reminderform from "../pages/Reminders/createreminder";
 import Vendors from "../pages/Vendors/vendors";
 import Vendorsform from "../pages/Vendors/createVendors";
-import VendorInfo from "../pages/Vendors/vendorInfo";
+import VendorInfo from "../pages/Vendors/VendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
 import Report from "../pages/Reports/report";
 import Reportform from "../pages/Reports/reportform";
@@ -198,7 +198,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/addlead" element={<Lead/>} />
         
           <Route path=":tenant_id/flow2" element={<FlowGraph2/>}/>
-          <Route path=":tenant_id/instagramflow" element={<InstagramFlow/>}/>
+          {/* <Route path=":tenant_id/instagramflow" element={<InstagramFlow/>}/>*/}
           <Route path=":tenant_id/whatsappflow" element={<WhatsappFlow/>}/>
           <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
           <Route path=":tenant_id/ShowLead/:id" element={<ShowLead/>}/>

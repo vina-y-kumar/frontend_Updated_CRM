@@ -6,23 +6,18 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import './LinkedInpost.css';
-/*import { initializeApp } from 'firebase/app';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBPsLD_NgSwchMrpG2U81UsH_USQGSiNZU",
-  authDomain: "nurenai.firebaseapp.com",
-  databaseURL: "https://nurenai-default-rtdb.firebaseio.com",
-  projectId: "nurenai",
-  storageBucket: "nurenai.appspot.com",
-  messagingSenderId: "667498046930",
-  appId: "1:667498046930:web:cb281b053ddc016e18940b"
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
 };
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);*/
-
 const LinkedInPost = () => {
+  const tenantId=getTenantIdFromUrl();
   const [text, setText] = useState('');
   const [dragging, setDragging] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -42,6 +37,7 @@ const LinkedInPost = () => {
   const [isPreviewVisible, setIsPreviewVisible] = useState(true);
   const [showComment, setShowComment] = useState(false);
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [profilePost, setProfilePost] = useState(null);
   const [profileInfo, setProfileInfo] = useState({ name: '', profilePicture: '' });
   
 
@@ -93,6 +89,71 @@ const LinkedInPost = () => {
       reader.readAsBinaryString(file);
     });
   };
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+  
+      try {
+        // Upload the file to Azure Blob Storage
+        console.log('Uploading file to Azure Blob Storage...');
+      const fileUrl = await uploadToBlob(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+
+       
+  
+        // Send a POST request to your backend with the file URL
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 7,
+          tenant : tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+  
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+
+  useEffect(() => {
+    const fetchProfilePost = async () => {
+      try {
+       
+        console.log('Tenant ID:', tenantId);
+  
+        const response = await axiosInstance.get(`/return-documents/`);
+        console.log('GET request successful, response:', response.data);
+  
+        const documents = response.data.documents;
+    if (documents && documents.length > 0) {
+        const profileImage = documents[0].file;
+        console.log('Found profile image:', profileImage);
+        setProfilePost(profileImage);
+    } else {
+        console.log('No profile image found.');
+        setProfilePost(null); // Set a default image URL or null if no image found
+    }
+      } catch (error) {
+        console.error('Error fetching profile image:', error);
+      }
+    };
+  
+    if (tenantId) {
+      fetchProfilePost();
+    }
+  }, [tenantId]);
 
  /* const uploadImageToFirebase = async (file) => {
     const storageRef = ref(storage, `images/${file.name}`);

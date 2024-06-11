@@ -7,6 +7,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import axiosInstance from "../../api.jsx";
 import "./contactsTable.css";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
@@ -76,11 +77,16 @@ const tenantId=getTenantIdFromUrl();
 const [isEditingInfo, setIsEditingInfo] = useState(false);
 const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
 const [photoColor, setPhotoColor] = useState("blue");
+<<<<<<< HEAD
 const [timeline, setTimeline] = useState([]); // New state variable for timeline data
 const [showTimeline, setShowTimeline] = useState(false); 
 
 
 
+=======
+const [file, setFile] = useState(null);
+const [selectedFile, setSelectedFile] = useState(null);
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
 
 
 
@@ -88,6 +94,8 @@ const [showTimeline, setShowTimeline] = useState(false);
   const[editedAccountName,setEditedAccountName] =useState('');
   const [editedPhone, setEditedPhone] = useState('');
   const [editedOtherPhone, setEditedOtherPhone] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
 
   const[editedLeadSource, setEditedLeadSource]= useState('');
   const[editedvendorName, seteditedVendorName]=useState('');
@@ -116,11 +124,25 @@ const [showTimeline, setShowTimeline] = useState(false);
 
 
 
+  const handleMoreClick = () => {
+    setShowAllFiles(!showAllFiles);
+  };
+  const handleFileClick = (file) => {
+    setSelectedFile(file);
+    console.log(selectedFile)
+    setShowAllFiles(false);
+  };
 
 
-
-
-
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = selectedFile.file_url;
+    link.download = selectedFile.name;
+    link.click();
+  };
+  const closePopup = () => {
+    setSelectedFile(null);
+  };
 
   
 
@@ -182,6 +204,19 @@ const [showTimeline, setShowTimeline] = useState(false);
     }
   };
 
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      try {
+        const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
+        setUploadedFiles(response.data);
+        
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
+    };
+    fetchUploadedFiles();
+  }, [id, tenantId, ]);
+
   const relatedListItems = [
     "Notes",
     "Cadences",
@@ -198,7 +233,42 @@ const [showTimeline, setShowTimeline] = useState(false);
     "Emails",
     "Invoices",
   ];
- 
+  
+  const handleUploadedFile = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+
+      try {
+        console.log('Uploading file to Azure Blob Storage...');
+        const fileUrl = await uploadToBlob(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 1,
+          entity_id: id,
+          tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+
+        setUploadedFiles(prevFiles => [...prevFiles, { name: selectedFile.name, url: fileUrl }]);
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+  
   
 
   const handleChange = (e, field) => {
@@ -404,17 +474,18 @@ const [showTimeline, setShowTimeline] = useState(false);
     setSkypeID(contactinfo.SkypeId);
     setSecondaryEmail(contactinfo.secondaryEmail);
     seteditTwitter(contactinfo.Twitter);
-
-
-
-
-
-
-
-
-
-
   };
+
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index} className="account-file-item">
+        <span className="file-icon">📄</span>
+        <a href={file.url} target="_blank" rel="noopener noreferrer"  onClick={() => handleFileClick(file)}>{file.name}</a>
+      </li>
+    ));
+  };
+
 
  
   return (
@@ -905,8 +976,446 @@ const [showTimeline, setShowTimeline] = useState(false);
 
 
 
+<<<<<<< HEAD
      <div className="info_AdditionalDetails">
        <h2 className="addinfo1"> Additional Information</h2>
+=======
+        <div className="info_AdditionalDetails">
+          <h2 className="addinfo1"> Additional Information</h2>
+         
+          <div className="locate-map-button-container">
+            <button className="locate-map-button">
+              <span className="locate-map-button-text">Locate Map</span>
+            </button>
+          </div>
+
+          <div className="add">
+            <div className="OtherMailing">
+            {isEditingInfo ? (
+        <>
+        <p>
+            <strong className="contactdetails-para20">Mailing Street:</strong>
+            <input
+              type="text"
+              value={contactinfo.MailingStreet}
+              onChange={(e) => handleChange(e, 'MailingStreet')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+          <p>
+            <strong className="contactdetails-para21">Mailing Zip :</strong>
+            <input
+              type="text"
+              value={contactinfo.MailingZip}
+              onChange={(e) => handleChange(e, 'MailingZip')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+          
+          <p>
+            <strong className="contactdetails-para22">Mailing Country :</strong>
+            <input
+              type="text"
+              value={contactinfo.MailingCountry}
+              onChange={(e) => handleChange(e, 'MailingCountry')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+          <p>
+            <strong className="contactdetails-para23"> Mailing City:</strong>
+            <input
+              type="text"
+              value={contactinfo.MailingCity}
+              onChange={(e) => handleChange(e, 'MailingCity')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+         
+        
+          <button onClick={handleSubmit} className="button-saves1">
+            Save
+          </button>
+          <button onClick={handleCancelOtherInfo} className="button-cancels1">
+            Cancel
+          </button>
+        </>
+      ) : (  
+              <>
+              <p>
+                <strong className="contactdetails-para20"> Mailing Street: </strong>
+                <div className="contactinfo_mailingstreet"> {contactinfo.MailingStreet}</div>
+              </p>
+              <p>
+                <strong className="contactdetails-para21"> Mailing Zip: </strong>
+                <div className="contactinfo_mailingzip"> {contactinfo.MailingZip}</div>
+              </p>
+              <p>
+                <strong className="contactdetails-para22"> Mailing Country: </strong>
+                <div className="contactinfo_mailingcountry"> {contactinfo.MailingCountry}</div>
+              </p>
+              <p>
+                <strong className="contactdetails-para23"> Mailing City: </strong>
+                <div className="contactinfo_mailingcity"> {contactinfo.MailingCity}</div>
+              </p>
+            
+              </>
+      )}
+                           
+            </div>
+            <div className="othercontactinfo">
+            {isEditingInfo ? (
+        <>
+        <p>
+            <strong className="contactdetails-para24">Other Country:</strong>
+            <input
+              type="text"
+              value={contactinfo.OtherCountry}
+              onChange={(e) => handleChange(e, 'OtherCountry')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+          <p>
+            <strong className="contactdetails-para25">Other City :</strong>
+            <input
+              type="text"
+              value={contactinfo.OtherCity}
+              onChange={(e) => handleChange(e, 'OtherCity')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+          
+          <p>
+            <strong className="contactdetails-para26">Other State :</strong>
+            <input
+              type="text"
+              value={contactinfo.OtherState}
+              onChange={(e) => handleChange(e, 'OtherState')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+          <p>
+            <strong className="contactdetails-para27"> Other Zip:</strong>
+            <input
+              type="text"
+              value={contactinfo.OtherZip}
+              onChange={(e) => handleChange(e, 'OtherZip')}
+              className="contactinfo_leadSource1"
+            />
+          </p>
+         
+        
+          <button onClick={handleSubmit} className="button-save2">
+            Save
+          </button>
+          <button onClick={handleCancelOtherInfo} className="button-cancel2">
+            Cancel
+          </button>
+        </>
+      ) : ( 
+              <>
+              <p>
+                <strong className="contactdetails-para24"> Other Country: </strong>
+                <div className="contactinfo_othercountry"> {contactinfo.OtherCountry}</div>
+              </p>
+              <p>
+                <strong className="contactdetails-para25"> Other City: </strong>
+                <div className="contactinfo_othercity"> {contactinfo.OtherCity}</div>
+              </p>
+              <p>
+                <strong className="contactdetails-para26"> Other State: </strong>
+                <div className="contactinfo_otherstate"> {contactinfo.OtherState}</div>
+              </p>
+              <p>
+                <strong className="contactdetails-para27"> Other Zip: </strong>
+                <div className="contactinfo_otherzip"> {contactinfo.OtherZip}</div>
+              </p>
+              <button onClick={handleOtherInfo} className="button-editmail">
+            Edit
+          </button>
+
+              </>
+      )}
+             
+            </div>
+          </div>
+         
+        </div>
+        <div  id="Notes" className="info_notes">
+          <div className="notes-container">
+            <div className="recent">
+              <div className="notes">
+                <h1 className="note-head-contact">Notes</h1>
+              </div>
+
+              <div className="Noted-head">
+                <button className="recent-notes-button"> Recent Notes</button>
+
+                <ul className="recent-notes-list">
+                  {/* {contactinfo.RecentNotes.map(note => (
+                    <li key={note.id}>{note.text}</li>
+                  ))} */}
+                </ul>
+              </div>
+            </div>
+            {isEditingInfoNote ? (
+        <>
+        <p>
+            <input
+              type="text"
+              value={contactinfo.Notes}
+              onChange={(e) => handleChange(e, 'Noted')}
+              className="notes-textarea"
+            />
+          </p>
+        
+         
+        
+          <button onClick={handleSubmit} className="button-save2">
+            Save
+          </button>
+          <button onClick={handleOtherNotedCancel} className="button-cancel2">
+            Cancel
+          </button>
+        </>
+      ) : ( 
+
+          <>
+          <form onSubmit={handleAddNote}>
+              <textarea
+                name="Notes"
+                value={contactinfo.Notes}
+                onChange={handleChange}
+                className="notes-textarea"
+                placeholder="Add Notes........"
+              >
+
+              </textarea>
+              
+            </form>
+            <button onClick={handleOtherNoted} className="button-editmail1">
+            Edit
+          </button>
+          </>
+      )}
+          </div>
+        </div>
+        <div className="info_cadence" id='Cadences'>
+          <h2 className="cadence"> Cadences </h2>
+          
+          <div>
+            <div className="addcadencebtn">
+            <button onClick={() => setModalOpen1(true)}>+Add Cadence</button>
+
+            </div>
+
+            <div className="Cadence_table">
+              <table className="table10--">
+                <thead>
+                  <tr>
+                    <th className="table_cadence-row">Cadence Name</th>
+                    <th className="table_cadence-row"> Modules </th>
+                    <th className="table_cadence-row">Created Date</th>
+                    <th className="table_cadence-row">Created By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {meetings.map((meeting) => (
+                    <tr className="table_cadence_table">
+                      <td className="table_cadence-data">{meeting.CadenceName}</td>
+                      <td className="table_cadence-data">{meeting.Modules}</td>
+                      <td className="table_cadence-data">{meeting.CreatedDate}</td>
+                      <td className="table_cadence-data">{meeting.createdBy}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div className="info_Attach" id="Attachments">
+      <div className="info1">
+        <div>
+          <h2 className="heads_Attach">Attachments</h2>
+        </div>
+        <div className="attachment-upload1">
+          <input
+            type="file"
+            id="attachment-input"
+            onChange={handleUploadedFile}
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="attachment-input">
+            <div className="clicktoupload1">click to upload</div>
+          </label>
+        </div>
+        <div className="uploaded-files">
+          <ul>
+            {renderFiles(uploadedFiles.slice(0, 3))}
+          </ul>
+          {uploadedFiles.length > 3 && (
+            <a href="#" className="show-more-button" onClick={handleMoreClick}>
+              Show More
+              {showAllFiles ? ' Show Less' : ''}
+            </a>
+          )}
+        </div>
+        {showAllFiles && (
+          <div className="popup">
+            <div className="popup-content">
+              <h2>Uploaded Files</h2>
+              <button className="close-button" onClick={handleMoreClick}>Close</button>
+              <ul>
+                {renderFiles(uploadedFiles)}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+      {selectedFile && (
+        <div className="file-popup">
+          <div className="file-popup-content">
+            <div className="file-popup-header">
+              <h2>{selectedFile.name}</h2>
+              <button onClick={handleDownload}>Download</button>
+              <button onClick={closePopup}>Close</button>
+            </div>
+            <TransformWrapper>
+              <TransformComponent>
+                <iframe
+                  src={selectedFile.file_url}
+                  style={{ width: '100%', height: '500px' }}
+                  title={selectedFile.name}
+                />
+              </TransformComponent>
+            </TransformWrapper>
+          </div>
+        </div>
+      )}
+    </div>
+        <div className="info_deals" id='Deals'>
+          <h2 className="info_deals2">Deals</h2>
+          <div className="deal">
+            <button>+New Deal</button>
+          </div>
+        </div>
+
+        <div className="info_activities">
+          <div className="actvities" id='Open Activities'>
+            <div>
+              <h2 className='open_activity'>Open Activities</h2>
+            </div>
+            <div className="added">
+              <select onChange={handleNew}>
+                <option value="">+Add New Activity</option>
+
+                <option value="1">Task</option>
+                <option value="2"> meeting </option>
+                <option value="3">call</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="info_closed"  id='Closed Activities'>
+          <h2 className="closed_activity">Closed Activities</h2>
+        </div>
+        <div className="info_meeting" id='Invited Meetings'>
+          <h2 className="invite_meet">Invite Meetings</h2>
+          <div className="meeting_cont"
+          >
+         
+            <div className="meeting_container">
+            <h1 className="meet_title">Meeting title</h1>
+            <div>
+              <p className="timing"> 10:00 - 11:00 AM</p>
+              <p className="rooms"> Room 20</p>
+           <h1 className="externals"> External
+            </h1>
+            </div>
+            </div>
+            <div className="meeting_container1">
+            <h1 className="meet_title">Meeting title</h1>
+            <div>
+              <p className="timing"> 10:00 - 11:00 AM</p>
+              <p className="rooms"> Room 20</p>
+           <h1 className="externals"> External
+            </h1>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div className="info_product" id='Products'>
+          <h2 className="info-pro">Products</h2>
+          <div className="productsbtn">
+            <button>+Add Products</button>
+          </div>
+        </div>
+        <div className="info_cases" id='Cases'>
+          <h2 className="cases">Cases</h2>
+          <div className="Assignnew">
+            <div className="assign1">
+              {" "}
+              <button>Assign</button>
+            </div>
+            <div className="assign2">
+              {" "}
+              <button>New</button>
+            </div>
+          </div>
+        </div>
+        <div className="info_Quotes" id='Quotes'>
+          <h2 className="info-quto">Quotes</h2>
+          <div className="Assignnew">
+            <div className="assign1">
+              {" "}
+              <button>Assign</button>
+            </div>
+            <div className="assign2">
+              {" "}
+              <button>New</button>
+            </div>
+          </div>
+        </div>
+        <div className="info_sales" id='Sales Orders'>
+          <h2 className="info-sale">Sales Order</h2>
+          <div className="Assignnew">
+            <div className="assign1">
+              {" "}
+              <button>Assign</button>
+            </div>
+            <div className="assign2">
+              {" "}
+              <button>New</button>
+            </div>
+          </div>
+        </div>
+        <div className="info_purchase" id='Purchase Orders'>
+          <h2 className="purchase">Purchase Order</h2>
+          <div className="Assignnew">
+            <div className="assign1">
+              {" "}
+              <button>Assign</button>
+            </div>
+            <div className="assign2">
+              {" "}
+              <button>New</button>
+            </div>
+          </div>
+        </div>
+        <div className="info_invoice" id='Invoices'>
+          <h2 className="invoice">Invoices</h2>
+          <div className="Assignnew">
+            <div className="assign1">
+              {" "}
+              <button>Assign</button>
+            </div>
+            <div className="assign2">
+              {" "}
+              <button>New</button>
+            </div>
+          </div>
+        </div>
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
       
        <div className="locate-map-button-container">
          <button className="locate-map-button">

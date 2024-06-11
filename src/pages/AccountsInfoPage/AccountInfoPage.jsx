@@ -155,12 +155,8 @@ const AccountsPage = () => {
       try {
         const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
         setUploadedFiles(response.data);
-<<<<<<< HEAD
-        console.log("fetched docs===",uploadedFiles);
-=======
         
         
->>>>>>> 295c5bd2405440c419cb9dcc63d17c8d75f22120
       } catch (error) {
         console.error("Error fetching uploaded files:", error);
       }

@@ -48,10 +48,12 @@ const BulkImport = () => {
       formData.append('model_name', modelName); 
       formData.append('file', excelFile); 
       formData.append('column_mappings_json', JSON.stringify(columnMappings));
+      formData.append('model_name', "Account");
 
-      const response = await axiosInstance.post('/uploadexcel/', formData, {
+      const response = await axios.post('http://127.0.0.1:8000/uploadexcel/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'X-Tenant-ID': 3
         },
       });
 
@@ -70,22 +72,26 @@ const BulkImport = () => {
       formData.append('startrow', startrow);
       console.log("file",excelFile);
 
-      axiosInstance
-        .post('/excel-column/', formData)
-        .then((response) => {
-          const columnNames = response.data.columns.map(column => {
-            if (typeof column === 'string') {
-              return column.toLowerCase();
-            } else {
-              return ''; // or any default value
-            }
-          });
-          setColumns(columnNames);
-          initializeColumnMappings(columnNames);
-        })
-        .catch((error) => {
-          console.error('Error retrieving column names:', error);
+      axios.post('https://webappbaackend.azurewebsites.net/excel-column/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-Tenant-ID': 3 // Custom header for tenant ID
+      }
+    })
+      .then((response) => {
+        const columnNames = response.data.columns.map(column => {
+          if (typeof column === 'string') {
+            return column;
+          } else {
+            return ''; // or any default value
+          }
         });
+        setColumns(columnNames);
+        initializeColumnMappings(columnNames);
+      })
+      .catch((error) => {
+        console.error('Error retrieving column names:', error);
+      });
     }
   };
 
@@ -186,11 +192,11 @@ const BulkImport = () => {
                 {column}
                 <select value={selectedValues[column] || ''} onChange={(e) => handleEntityChange(e, column)}>
                   <option value=''> Select Entity</option>
-                  <option value='first_name'>First Name</option>
+                  <option value='Name'>First Name</option>
                   <option value='last_name'>Last Name</option>
                   <option value='email'>Email</option>
                   <option value='phone'>Phone</option>
-                  <option value='createdBy'>Created By</option>
+                  <option value='created_by'>Created By</option>
                 </select>
               </li>
             ))}

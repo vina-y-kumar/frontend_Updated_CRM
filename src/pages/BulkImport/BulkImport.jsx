@@ -50,7 +50,7 @@ const BulkImport = () => {
       formData.append('column_mappings_json', JSON.stringify(columnMappings));
       formData.append('model_name', "Account");
 
-      const response = await axios.post('http://127.0.0.1:8000/uploadexcel/', formData, {
+      const response = await axios.post('https://webappbaackend.azurewebsites.net/uploadexcel/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'X-Tenant-ID': 3

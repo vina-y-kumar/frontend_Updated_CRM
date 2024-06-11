@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './BulkImport.css';
 import { Sidebar } from "../../components/Sidebar";
@@ -15,6 +15,7 @@ const BulkImport = () => {
   const [columnMappings, setColumnMappings] = useState({});
   const [requiredColumns, setRequiredColumns] = useState([]);
   const [selectedValues, setSelectedValues] = useState({});
+  const fileInputRef = useRef(null);
   const validModelNames = ["Lead", "Contact", "Account", "calls", "meetings", "Opportunity"];
 
   useEffect(() => {
@@ -25,6 +26,22 @@ const BulkImport = () => {
     }
   }, []);
 
+  const handlebrowseExcelFile = () =>{
+    fileInputRef.current.click();
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setExcelFile(file);
+    console.log(excelFile);
+    setColumns([]);
+    setSelectedValues({});
+  };
+
+  useEffect(() => {
+    console.log(excelFile);
+}, [excelFile]);
+
   const handleUploadExcel = async () => {
     try {
       const formData = new FormData();
@@ -32,7 +49,7 @@ const BulkImport = () => {
       formData.append('file', excelFile); 
       formData.append('column_mappings_json', JSON.stringify(columnMappings));
 
-      const response = await axios.post('https://webappbaackend.azurewebsites.net/uploadexcel/', formData, {
+      const response = await axiosInstance.post('/uploadexcel/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -51,6 +68,7 @@ const BulkImport = () => {
       const formData = new FormData();
       formData.append('file', excelFile);
       formData.append('startrow', startrow);
+      console.log("file",excelFile);
 
       axiosInstance
         .post('/excel-column/', formData)
@@ -133,12 +151,7 @@ const BulkImport = () => {
     e.dataTransfer.dropEffect = 'copy';
   };
 
-  const handleFileChange = (e) => {
-    setExcelFile(e.target.files[0]);
-    console.log(excelFile);
-    setColumns([]);
-    setSelectedValues({});
-  };
+  
   
 
   return(
@@ -156,10 +169,11 @@ const BulkImport = () => {
               <div className="bulk-upload-container" onDrop={handleDrop} onDragOver={handleDragOver}>
                 <p>Drag and drop your file here</p>
                 <p>or</p>
-                
-                <button className="uploadexcel" onClick={handleUploadExcel}>Browse</button>
-                <p>Download sample file CSV or XLSX</p>
                 <input type='file' accept='.xlsx,.xls' onChange={handleFileChange} />
+      <p>Download sample file CSV or XLSX</p>
+      {excelFile && (
+                  <button className="uploadexcel2" onClick={handleUploadExcel}>Upload Excel</button>
+                )}
                 <div className='get'>
         <button className='getcolumn' onClick={getExcelColumnNames}>Get Columns</button>
       </div>

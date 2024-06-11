@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // Import Link
 import "./page.css";
 import uploadToBlob from "../../azureUpload.jsx";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
+import { FaSearchPlus, FaSearchMinus, FaDownload } from 'react-icons/fa';
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
 import axiosInstance from "../../api";
@@ -30,19 +32,28 @@ const AccountsPage = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [showAllFiles, setShowAllFiles] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
 
   const handleMoreClick = () => {
     setShowAllFiles(!showAllFiles);
   };
 
-  const renderFiles = (files) => {
-    return files.map((file, index) => (
-      <li key={index} className="account-file-item">
-        <span className="file-icon">📄</span>
-        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
-      </li>
-    ));
+  const handleFileClick = (file) => {
+    setSelectedFile(file);
+    console.log(selectedFile)
+    setShowAllFiles(false);
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = selectedFile.file_url;
+    link.download = selectedFile.name;
+    link.click();
+  };
+
+  const closePopup = () => {
+    setSelectedFile(null);
   };
 
   const companyInfo = {
@@ -145,12 +156,22 @@ const AccountsPage = () => {
         const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
         setUploadedFiles(response.data);
         
+        
       } catch (error) {
         console.error("Error fetching uploaded files:", error);
       }
     };
     fetchUploadedFiles();
   }, [id, tenantId, ]);
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index} className="account-file-item">
+        <span className="file-icon">📄</span>
+        <a href={file.url} target="_blank" rel="noopener noreferrer" onClick={() => handleFileClick(file)}>{file.name}</a>
+      </li>
+    ));
+  };
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -311,6 +332,14 @@ const AccountsPage = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setEditedValues(account); // Reset edited values to original opportunity data
+  };
+
+  const handleZoomIn = () => {
+    setZoomLevel(prevZoomLevel => prevZoomLevel * 1.2);
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prevZoomLevel => prevZoomLevel / 1.2);
   };
 
   
@@ -698,6 +727,38 @@ const AccountsPage = () => {
         </div>
       )}
     </div>
+    {selectedFile && (
+        <div className="file-popup">
+          <div className="file-popup-content">
+            <div className="file-popup-header">
+              <h2>{selectedFile.name}</h2>
+              <div className="file-preview-container">
+        <div className="zoom-buttons">
+          <button onClick={handleZoomIn}>
+            <i className="fas fa-search-plus"></i>
+          </button>
+          <button onClick={handleZoomOut}>
+            <i className="fas fa-search-minus"></i>
+          </button>
+          <button onClick={handleDownload}>
+            <i className="fas fa-download"></i>
+          </button>
+        </div>
+      </div>
+              <button onClick={closePopup}>Close</button>
+            </div>
+            <TransformWrapper>
+              <TransformComponent>
+                <iframe
+                  src={selectedFile.file_url}
+                  style={{ width: '100%', height: '500px' }}
+                  title={selectedFile.name}
+                />
+              </TransformComponent>
+            </TransformWrapper>
+          </div>
+        </div>
+      )}
           </div>
         </div>
       </div>

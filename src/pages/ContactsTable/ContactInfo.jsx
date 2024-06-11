@@ -7,6 +7,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import axiosInstance from "../../api.jsx";
 import "./contactsTable.css";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 import "./index.jsx";
@@ -73,6 +74,7 @@ const [isEditingInfo, setIsEditingInfo] = useState(false);
 const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
 const [photoColor, setPhotoColor] = useState("blue");
 const [file, setFile] = useState(null);
+const [selectedFile, setSelectedFile] = useState(null);
 
 
 
@@ -113,10 +115,22 @@ const [file, setFile] = useState(null);
   const handleMoreClick = () => {
     setShowAllFiles(!showAllFiles);
   };
+  const handleFileClick = (file) => {
+    setSelectedFile(file);
+    console.log(selectedFile)
+    setShowAllFiles(false);
+  };
 
 
-
-
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = selectedFile.file_url;
+    link.download = selectedFile.name;
+    link.click();
+  };
+  const closePopup = () => {
+    setSelectedFile(null);
+  };
 
   
 
@@ -431,7 +445,7 @@ const [file, setFile] = useState(null);
     return files.map((file, index) => (
       <li key={index} className="account-file-item">
         <span className="file-icon">📄</span>
-        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+        <a href={file.url} target="_blank" rel="noopener noreferrer"  onClick={() => handleFileClick(file)}>{file.name}</a>
       </li>
     ));
   };
@@ -1211,6 +1225,26 @@ const [file, setFile] = useState(null);
           </div>
         )}
       </div>
+      {selectedFile && (
+        <div className="file-popup">
+          <div className="file-popup-content">
+            <div className="file-popup-header">
+              <h2>{selectedFile.name}</h2>
+              <button onClick={handleDownload}>Download</button>
+              <button onClick={closePopup}>Close</button>
+            </div>
+            <TransformWrapper>
+              <TransformComponent>
+                <iframe
+                  src={selectedFile.file_url}
+                  style={{ width: '100%', height: '500px' }}
+                  title={selectedFile.name}
+                />
+              </TransformComponent>
+            </TransformWrapper>
+          </div>
+        </div>
+      )}
     </div>
         <div className="info_deals" id='Deals'>
           <h2 className="info_deals2">Deals</h2>

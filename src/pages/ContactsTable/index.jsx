@@ -331,7 +331,7 @@ export const ContactsTable = () => {
               <Dropdown.Menu>
                 <Dropdown.Item>
                   <Link
-                    to={`/bulk-import?model=${modelName}`}
+                    to={`/${tenantId}/bulk-import/?model=${modelName}`}
                     className="import-excel-btn5"
                   >
                     Import Excel

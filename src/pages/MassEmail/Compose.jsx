@@ -5,7 +5,7 @@ import './email.css'
 import MassEmailComponent from './MassEmail';
 
 const CLIENT_ID =  "667498046930-3df54a3fajc619jhqoumfn6go8cplpcj.apps.googleusercontent.com"; 
-const REDIRECT_URI = 'http://localhost:5174/compose/3'; // Update with your redirect URI
+const REDIRECT_URI = 'http://localhost:5173/compose/3'; // Update with your redirect URI
 const SCOPES = 'https://www.googleapis.com/auth/gmail.send'; // Scopes required for Gmail API access
 
 const ComposeEmail = () => {

@@ -27,7 +27,7 @@ const BulkImport = () => {
       formData.append('file', excelFile); 
       formData.append('column_mappings_json', JSON.stringify(columnMappings));
 
-      const response = await axios.post('http://127.0.0.1:8000/uploadexcel/', formData, {
+      const response = await axios.post('https://webappbaackend.azurewebsites.net/uploadexcel/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -52,7 +52,12 @@ const BulkImport = () => {
       formData.append('startrow', startrow);
 
       axios
-        .post('https://backendcrmnurenai.azurewebsites.net/excel-column/', formData)
+        .post('http://127.0.0.1:8000/excel-column/', formData,{
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Tenant-Id':3
+          },
+        })
         .then((response) => {
           const columnNames = response.data.columns.map(column => {
             if (typeof column === 'string') {

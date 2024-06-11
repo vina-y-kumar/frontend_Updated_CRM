@@ -79,7 +79,7 @@ export const TaskTable = () => {
         </div>
       
          <div className="contain1" style={{width:"100%"}}>
-         <div className="task__data">
+         <div className="task__data" style={{marginTop:'-5rem'}}>
       <TopNavbar/>
      </div>
           <div className="meet1" >

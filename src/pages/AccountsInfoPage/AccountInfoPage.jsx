@@ -147,7 +147,7 @@ const AccountsPage = () => {
       try {
         const response = await axiosInstance.get(`/documents/?entity_id=${id}&entity_type=10&tenant=${tenantId}`);
         setUploadedFiles(response.data);
-        console.log(response.data);
+        console.log("fetched docs===",uploadedFiles);
       } catch (error) {
         console.error("Error fetching uploaded files:", error);
       }

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // Import Link
 import "./page.css";
 import uploadToBlob from "../../azureUpload.jsx";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
+import { FaSearchPlus, FaSearchMinus, FaDownload } from 'react-icons/fa';
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
 import axiosInstance from "../../api";
@@ -22,62 +24,37 @@ const getTenantIdFromUrl = () => {
 
 const AccountsPage = () => {
   const tenantId=getTenantIdFromUrl();
+  const { id } = useParams(); 
     const [file, setFile] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({});
   const [uploadStatus, setUploadStatus] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [showAllFiles, setShowAllFiles] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
 
   const handleMoreClick = () => {
     setShowAllFiles(!showAllFiles);
   };
 
-  const renderFiles = (files) => {
-    return files.map((file, index) => (
-      <li key={index}>
-        <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
-      </li>
-    ));
+  const handleFileClick = (file) => {
+    setSelectedFile(file);
+    console.log(selectedFile)
+    setShowAllFiles(false);
   };
 
-  
- 
-  /*const handleFileUploadtoAzure = () => {
-    if (sasTokenUrl === '') return;
-  
-    convertFileToArrayBuffer(selectedFile)
-      .then((fileArrayBuffer) => {
-        if (
-          fileArrayBuffer === null ||
-          fileArrayBuffer.byteLength < 1 ||
-          fileArrayBuffer.byteLength > 256000
-        )
-          return;
-  
-        const blockBlobClient = new blockBlobClient(sasTokenUrl);
-        return blockBlobClient.uploadData(fileArrayBuffer);
-      })
-      .then(() => {
-        setUploadStatus('Successfully finished upload');
-        return request.get(`/api/list?container=${containerName}`);
-      })
-      /**
-       * @param {AxiosResponse} result
-       */
-     /* .then((result) => {
-        // Process the result here
-        // Assuming result is of type AxiosResponse
-        const data = result.data;
-        const list = data.list;
-        setList(list);
-      })
-      .catch((error) => {
-        // Handle errors here
-        console.error('Error:', error);
-        setUploadStatus(`Error: ${error.message}`);
-      });
-  };*/
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = selectedFile.file_url;
+    link.download = selectedFile.name;
+    link.click();
+  };
+
+  const closePopup = () => {
+    setSelectedFile(null);
+  };
 
   const companyInfo = {
     name: "Neuren AI",
@@ -125,15 +102,46 @@ const AccountsPage = () => {
     }
   };
   
-  const { id } = useParams(); // Get the account ID from the URL parameter
+  // Get the account ID from the URL parameter
   const [account, setAccount] = useState(null);
   const [attachments, setAttachments] = useState([]);
+
+
+  const handleProfileImageUpload = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      try {
+        const fileUrl = await uploadToBlob(selectedFile);
+        setProfileImage(fileUrl);
+  
+        // Save the profile image URL to the backend
+        await axiosInstance.patch(`/accounts/${id}/`, { profile_image_url: fileUrl });
+  
+        // Optionally, fetch the updated account data to update the state
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+            name: selectedFile.name,
+            document_type: selectedFile.type,
+            description: 'Your file description',
+            file_url: fileUrl,
+            entity_type: 10,
+            entity_id: id,
+            tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+       
+      } catch (error) {
+        console.error('Error uploading profile image:', error);
+      }
+    }
+  };
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
         const response = await axiosInstance.get(`/accounts/${id}`);
         setAccount(response.data);
-        console.log(response.data[0].name);  // Adjusted to correctly access the name
+        console.log(response.data[24].name); 
+        
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -145,14 +153,52 @@ const AccountsPage = () => {
   useEffect(() => {
     const fetchUploadedFiles = async () => {
       try {
-        const response = await axiosInstance.get(`/documents/?entity_id=${id}&entity_type=10&tenant=${tenantId}`);
+        const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
         setUploadedFiles(response.data);
-        console.log(response.data);
+        
+        
       } catch (error) {
         console.error("Error fetching uploaded files:", error);
       }
     };
     fetchUploadedFiles();
+  }, [id, tenantId, ]);
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index} className="account-file-item">
+        <span className="file-icon">📄</span>
+        <a href={file.url} target="_blank" rel="noopener noreferrer" onClick={() => handleFileClick(file)}>{file.name}</a>
+      </li>
+    ));
+  };
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        console.log('Fetching profile image for account:', id);
+        console.log('Tenant ID:', tenantId);
+  
+        const response = await axiosInstance.get(`/return-documents/10/${id}`);
+        console.log('GET request successful, response:', response.data);
+  
+        const documents = response.data.documents;
+    if (documents && documents.length > 0) {
+        const profileImage = documents[0].file;
+        console.log('Found profile image:', profileImage);
+        setProfileImage(profileImage);
+    } else {
+        console.log('No profile image found.');
+        setProfileImage(null); // Set a default image URL or null if no image found
+    }
+      } catch (error) {
+        console.error('Error fetching profile image:', error);
+      }
+    };
+  
+    if (id && tenantId) {
+      fetchProfileImage();
+    }
   }, [id, tenantId]);
 
   if (!account) {
@@ -288,6 +334,14 @@ const AccountsPage = () => {
     setEditedValues(account); // Reset edited values to original opportunity data
   };
 
+  const handleZoomIn = () => {
+    setZoomLevel(prevZoomLevel => prevZoomLevel * 1.2);
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prevZoomLevel => prevZoomLevel / 1.2);
+  };
+
   
   return (
     <>
@@ -319,11 +373,22 @@ const AccountsPage = () => {
 
             <div className="header">
               <h1 className="viewaccounts">View Account</h1>
-              {/* <img src={companyInfo.logo} className="logo" alt="Company Logo" /> */}
-              
-              <span className="account-circle1" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
-                          {account.company.charAt(0).toUpperCase()}
-              </span>
+              <label htmlFor="profile-image-upload" className="upload-image-label">
+              {profileImage ? (
+                <img src={profileImage} alt="Profile" className="profile-image" />
+              ) : (
+                <span className="account-circle1" style={{ backgroundColor: getCircleColor(account.company.charAt(0)) }}>
+                  {account.company.charAt(0).toUpperCase()}
+                </span>
+              )}
+              <input
+                type="file"
+                id="profile-image-upload"
+                onChange={handleProfileImageUpload}
+                style={{ display: 'none' }}
+              />
+               </label>
+             
                      
               <a
                 href={`mailto:${account.email}`}
@@ -644,9 +709,10 @@ const AccountsPage = () => {
           {renderFiles(uploadedFiles.slice(0, 3))}
         </ul>
         {uploadedFiles.length > 3 && (
-          <button  className=" show-more-button"onClick={handleMoreClick}>
-            {showAllFiles ? 'Show Less' : 'Show More'}
-          </button>
+         <a href="#" className="show-more-button" onClick={handleMoreClick}>
+         Show More
+       {showAllFiles ? 'Show Less' : ''}
+            </a>
         )}
       </div>
       {showAllFiles && (
@@ -661,6 +727,38 @@ const AccountsPage = () => {
         </div>
       )}
     </div>
+    {selectedFile && (
+        <div className="file-popup">
+          <div className="file-popup-content">
+            <div className="file-popup-header">
+              <h2>{selectedFile.name}</h2>
+              <div className="file-preview-container">
+        <div className="zoom-buttons">
+          <button onClick={handleZoomIn}>
+            <i className="fas fa-search-plus"></i>
+          </button>
+          <button onClick={handleZoomOut}>
+            <i className="fas fa-search-minus"></i>
+          </button>
+          <button onClick={handleDownload}>
+            <i className="fas fa-download"></i>
+          </button>
+        </div>
+      </div>
+              <button onClick={closePopup}>Close</button>
+            </div>
+            <TransformWrapper>
+              <TransformComponent>
+                <iframe
+                  src={selectedFile.file_url}
+                  style={{ width: '100%', height: '500px' }}
+                  title={selectedFile.name}
+                />
+              </TransformComponent>
+            </TransformWrapper>
+          </div>
+        </div>
+      )}
           </div>
         </div>
       </div>

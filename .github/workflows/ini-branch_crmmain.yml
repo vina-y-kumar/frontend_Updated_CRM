@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - crmnurenai
+name: Build and deploy Node.js app to Azure Web App - crmmain
 
 on:
   push:
@@ -57,15 +57,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4F37B747FDD847DD98C61064CCD9089C }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C6F8754158E8439A86EDFDFC51CEA562 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_296267F1F6494D5B93B2A9CEFAEEA1FD }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DD602F67B8AC46F9AD8F807AB5A89060 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A818A957157548F2BF03641ACCE1539D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3A2541E107E14ABC8B44E521F21D22E4 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'crmnurenai'
+          app-name: 'crmmain'
           slot-name: 'Production'
           package: .
           

@@ -60,7 +60,7 @@ import Remind from "../pages/Reminders/Reminder";
 import Reminderform from "../pages/Reminders/createreminder";
 import Vendors from "../pages/Vendors/vendors";
 import Vendorsform from "../pages/Vendors/createVendors";
-import VendorInfo from "../pages/Vendors/vendorInfo";
+import VendorInfo from "../pages/Vendors/VendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
 import Report from "../pages/Reports/report";
 import Reportform from "../pages/Reports/reportform";

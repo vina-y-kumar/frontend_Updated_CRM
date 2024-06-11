@@ -5,7 +5,6 @@ import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
-
 import * as XLSX from "xlsx"; // Importing xlsx library
 
 const getTenantIdFromUrl = () => {
@@ -23,6 +22,8 @@ export const ContactsTable = () => {
   const [activeContacts, setActiveContacts] = useState([]);
 
   const [inactiveContacts, setInactiveContacts] = useState([]);
+  const [recentContacts, setRecentContacts] = useState([]); // New state for recent contacts
+
 
   const [newContact, setNewContact] = useState({
     first_name: "",
@@ -59,7 +60,6 @@ export const ContactsTable = () => {
     }
   };
 
-
   const fetchActiveContacts = async () => {
     try {
       const response = await axiosInstance.get('/active_contacts/');
@@ -68,8 +68,8 @@ export const ContactsTable = () => {
       if (Array.isArray(data)) {
         
         
-        const inactive = data.filter(contact => !contact.isActive);
-        const active = [...inactive].reverse();
+        const inactive = data.filter(contact => contact.isActive);
+        const active = data.filter(contact => !contact.isActive);
         console.log("@@@@@",inactive);
 
       
@@ -154,6 +154,7 @@ export const ContactsTable = () => {
     }
   };
 
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
     if (event.target.value === "") {
@@ -218,86 +219,85 @@ export const ContactsTable = () => {
   }; 
 
 
+  
   const renderTableRows = () => {
     switch (activeButton) {
-      case "All Accounts":
+      case "All Contacts":
         return contacts.map((contact, index) => (
           <tr className="contacttablerow" key={contact.id}>
-                  <td>
-                    {generateSmiley(generateRandomColor())}
-                    <div className="cont-first_name">
-                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
-                        {contact.first_name}
-                      </Link>
-                    </div>
-                  </td>
-                  <td className="contlast_name">{contact.last_name}</td>
-                  <td className="cont_email">
-                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
-                  </td>
-                  <td className="cont_phone">{contact.phone}</td>
-                  <td className="cont_phone">{contact.address}</td>
-                </tr>
+            <td>
+              {generateSmiley(generateRandomColor())}
+              <div className="cont-first_name">
+                <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                  {contact.first_name}
+                </Link>
+              </div>
+            </td>
+            <td className="contlast_name">{contact.last_name}</td>
+            <td className="cont_email">
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </td>
+            <td className="cont_phone">{contact.phone}</td>
+            <td className="cont_phone">{contact.address}</td>
+          </tr>
         ));
       case "Active":
         return activeContacts.map((contact, index) => (
           <tr className="contacttablerow" key={contact.id}>
-          <td>
-            {generateSmiley(generateRandomColor())}
-            <div className="cont-first_name">
-              <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
-                {contact.first_name}
-              </Link>
-            </div>
-          </td>
-          <td className="contlast_name">{contact.last_name}</td>
-          <td className="cont_email">
-            <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          </td>
-          <td className="cont_phone">{contact.phone}</td>
-          <td className="cont_phone">{contact.address}</td>
-        </tr>
+            <td>
+              {generateSmiley(generateRandomColor())}
+              <div className="cont-first_name">
+                <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                  {contact.first_name}
+                </Link>
+              </div>
+            </td>
+            <td className="contlast_name">{contact.last_name}</td>
+            <td className="cont_email">
+              <a href={`mailto:{contact.email}`}>{contact.email}</a>
+            </td>
+            <td className="cont_phone">{contact.phone}</td>
+            <td className="cont_phone">{contact.address}</td>
+          </tr>
         ));
       case "Inactive":
         return inactiveContacts.map((contact, index) => (
           <tr className="contacttablerow" key={contact.id}>
-          <td>
-            {generateSmiley(generateRandomColor())}
-            <div className="cont-first_name">
-              <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
-                {contact.first_name}
-              </Link>
-            </div>
-          </td>
-          <td className="contlast_name">{contact.last_name}</td>
-          <td className="cont_email">
-            <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          </td>
-          <td className="cont_phone">{contact.phone}</td>
-          <td className="cont_phone">{contact.address}</td>
-        </tr>
+            <td>
+              {generateSmiley(generateRandomColor())}
+              <div className="cont-first_name">
+                <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                  {contact.first_name}
+                </Link>
+              </div>
+            </td>
+            <td className="contlast_name">{contact.last_name}</td>
+            <td className="cont_email">
+              <a href={`mailto:{contact.email}`}>{contact.email}</a>
+            </td>
+            <td className="cont_phone">{contact.phone}</td>
+            <td className="cont_phone">{contact.address}</td>
+          </tr>
         ));
       case "Recent":
-        return contacts.map((contact, index) => (
+        return recentContacts.map((contact, index) => (
           <tr className="contacttablerow" key={contact.id}>
-          <td>
-            {generateSmiley(generateRandomColor())}
-            <div className="cont-first_name">
-              <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
-                {contact.first_name}
-              </Link>
-            </div>
-          </td>
-          <td className="contlast_name">{contact.last_name}</td>
-          <td className="cont_email">
-            <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          </td>
-          <td className="cont_phone">{contact.id}</td>
-          <td className="cont_phone">{contact.created_on}</td>
-        </tr>
-          
+            <td>
+              {generateSmiley(generateRandomColor())}
+              <div className="cont-first_name">
+                <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                  {contact.first_name}
+                </Link>
+              </div>
+            </td>
+            <td className="contlast_name">{contact.last_name}</td>
+            <td className="cont_email">
+              <a href={`mailto:{contact.email}`}>{contact.email}</a>
+            </td>
+            <td className="cont_phone">{contact.createdOn}</td>
+            <td className="cont_phone">{contact.address}</td>
+          </tr>
         ));
-      
       default:
         return null;
     }

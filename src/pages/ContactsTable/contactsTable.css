@@ -3559,3 +3559,124 @@ bottom: 13rem;
   font-size: 16px;
   margin-left: 20px;
 }
+
+.timeline-contact{
+  width: 660px;
+height: auto;
+background: #FFFFFFFF;
+border-radius: 18px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+margin-left: 30rem;
+margin-top: 10rem;
+
+}
+.timeline-btn-contact{
+  width: 657px;
+height: 56px;
+display: flex;
+align-items: center;
+font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 400;
+opacity: 1;
+gap: 4rem;
+margin-left: 1px;
+border: 1px solid  #eee;
+
+
+}
+.timeline-btn1-contact,.timeline-btn2-contact,.timeline-btn3-contact,.timeline-btn4-contact{
+  margin-left: 40px;
+  justify-content: center;
+color: #565D6DFF;
+border-radius: 0px;
+cursor: pointer;
+white-space: nowrap;
+font-weight: 800;
+font-size: 18px;
+color: #6D31EDFF;
+}
+.timeline-oopo-contact{
+
+
+ 
+  width: 460px;
+  height: 128px;
+  border-radius: 8px;
+  }
+  .timeline-data-contact,.timeline-data2-contact{
+    font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 800;
+color: #171A1FFF;
+  }
+
+ 
+  .contract-contact{
+    font-family: 'Manrope';
+font-size: 18px;
+line-height: 22px;
+font-weight: 800;
+color: #171A1FFF;
+
+  }
+  .textdesign-contact{
+    width: 44px;
+height: 44px;
+background: pink;
+border-radius: 22px;
+margin-top: 20px;
+margin-left: 20px;
+  }
+  .textdesign1-contact{
+    width: 44px;
+height: 44px;
+background: #F5F1FEFF;
+border-radius: 22px;
+margin-top: 20px;
+margin-left: 20px;
+  }
+  .textdesign2-contact{
+    width: 44px;
+height: 44px;
+background: #4F56A5FF;
+border-radius: 22px;
+margin-top: 20px;
+margin-left: 20px;
+  }
+  .data-timeline-contact{
+    display: flex;
+    gap: 20px;
+
+  }
+  .timeline_data1-contact{
+    width: 460px;
+height: 128px;
+background: #FAFAFBFF;
+border-radius: 8px;
+font-size: 16px;
+font-family: "lexend";
+padding: 20px;
+margin-left: 10rem;
+
+  }
+  .time-box2{
+    margin-top: 30px;
+  }
+  .timeline-button-contact{
+    background-color: #b976f3;
+    width: 120px;
+    height: 40px;
+    border-radius: 30px;
+    margin-top: 20px;
+    position: relative;
+    left: 45rem;
+    bottom: 30px;
+    color: #fff;
+    font-size: 15px;
+
+  }

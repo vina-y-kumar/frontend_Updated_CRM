@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom";
 import "./login.css";
 import Spline from "@splinetool/react-spline";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../../authContext";
 import { useNavigate } from "react-router-dom";
+
+// Extract tenant_id from the URL dynamically within handleSubmit
 const getTenantIdFromUrl = () => {
-  // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
+  console.log('Path array:', pathArray); // Debugging log
   if (pathArray.length >= 2) {
     return pathArray[1]; // Assumes tenant_id is the first part of the path
   }
@@ -17,58 +19,57 @@ export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { authenticated, login } = useAuth(); // Using login from useAuth
-  const tenantId=getTenantIdFromUrl();
+  const { authenticated, login } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      if (isSubmitting) return; // Prevent multiple submissions
+    if (isSubmitting) return; // Prevent multiple submissions
 
-    setIsSubmitting(true); 
-    // Construct the request data
+    setIsSubmitting(true);
+    setError(""); // Clear previous errors
+
+    console.log('Form submitted');
+    console.log('Username:', username);
+    console.log('Password:', password);
+
     const data = {
-        username: username,
-        password: password,
+      username: username,
+      password: password,
     };
 
-    // Send a POST request to the backend
+    console.log('Request data:', data);
+
     fetch('https://webappbaackend.azurewebsites.net/login/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-        return response.json();
+      console.log('Response received:', response);
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+      return response.json();
     })
     .then(data => {
-      // Handle successful login response
-      alert('Login successful');
-      // Update authentication state and store user data
-      login(data.user_id,data.tenant_id); // Assuming your backend returns user data in `data.user`
-      // Redirect to the home page with the tenant_id received from the backend
+      console.log('Login successful:', data); 
+      alert(`Login successful as ${data.role}`);
+      login(data.user_id, data.tenant_id, data.role); 
+
       const tenantId = data.tenant_id;
+      console.log('Navigating to:', `/${tenantId}/home`);
       navigate(`/${tenantId}/home`);
     })
     .catch(error => {
-        // Handle login failure
-        console.error('Login error:', error);
-        alert('Login failed');
-        setIsSubmitting(false);
+      console.error('Login error:', error);
+      setError('Login failed. Please check your credentials and try again.');
+      setIsSubmitting(false);
     });
   };
-
-  /*useEffect(() => {
-    if (authenticated) {
-      // Redirect to the home page if user is authenticated
-      navigate(`/${tenantId}/home`);
-    }
-  }, [authenticated, navigate]);*/
 
   return (
     <div className="login">
@@ -76,6 +77,7 @@ export const Login = () => {
       <div className="container">
         <div className="login_inner">
           <h2 className="login_paragraph">Login</h2>
+          {error && <div className="error-message">{error}</div>}
           <form className="login_form" onSubmit={handleSubmit}>
             <label htmlFor="username" className="login_label">
               <input
@@ -102,8 +104,8 @@ export const Login = () => {
             <NavLink className="login_navigate" to="/">
               register?
             </NavLink>
-            <button className="login_btn" type="submit">
-              Login
+            <button className="login_btn" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axiosInstance from "../../api.jsx";
 import './opportunities-info.css';
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded';
+import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -18,6 +22,8 @@ const OpportunitiesInfo = () => {
   const tenantId=getTenantIdFromUrl();
   const [isEditing, setIsEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({});
+  const [timeline, setTimeline] = useState([]); // New state variable for timeline data
+  const [showTimeline, setShowTimeline] = useState(false); 
 
   useEffect(() => {
     fetchOpportunity();
@@ -33,6 +39,20 @@ const OpportunitiesInfo = () => {
       console.error('Error fetching opportunity details:', error);
     }
   };
+
+ 
+  
+  
+  // Inside OpportunitiesInfo component
+  console.log('showTimeline:', showTimeline);
+  console.log('timeline:', timeline);
+  console.log('isArray:', Array.isArray(timeline));
+  
+  if (showTimeline && timeline && Array.isArray(timeline)) {
+    console.log('Rendering timeline');
+    // Render timeline component here
+  }
+  
 
   const stages = [
     'QUALIFICATION',
@@ -86,9 +106,32 @@ const OpportunitiesInfo = () => {
     setEditedValues(opportunity); // Reset edited values to original opportunity data
   };
 
+  const fetchTimeline = async () => {
+    try {
+      const response = await axiosInstance.get(`/interaction/9/${id}/`);
+      setTimeline(response.data.interactions); // Set the timeline with interactions array
+      console.log('Timeline data fetched successfully:', response.data);
+    } catch (error) {
+      console.error('Error fetching timeline data:', error);
+    }
+  };
+  const toggleTimeline = async () => {
+    setShowTimeline(prevShowTimeline => !prevShowTimeline);
+    if (!showTimeline && timeline.length === 0) { // Check if timeline is empty
+      await fetchTimeline();
+    }
+  };
+  
+
   if (!opportunity) {
     return <div>Loading...</div>;
   }
+
+  const colors = ['#black', '#33ff77', '#3366ff', '#ff33bb', '#33ffff', '#ffff33', '#9933ff', '#33ffbb', '#ff3366'];
+
+const getColor = (index) => {
+  return colors[index % colors.length];
+};
 
   return (
     <div className="Opportunities-info-page">
@@ -98,6 +141,7 @@ const OpportunitiesInfo = () => {
       <div className="opportunities-info">
         <h1>Opportunities Info</h1>
         <div className="opportunity-button">
+          
         <button className="edit-button" onClick={handleEdit} disabled={isEditing}>Edit</button>
         {isEditing && (
           <>
@@ -105,35 +149,42 @@ const OpportunitiesInfo = () => {
             <button className="cancel-button" onClick={handleCancel}>Cancel</button>
           </>
         )}
+           <button className="timeline-button" onClick={toggleTimeline}>
+            {showTimeline ? 'HideTimeline' : 'Show Timeline'}
+          </button>
+
+         
       </div>
       </div>
       <div className="content">
-        <div className="info-box">
-          <div className="info-row">
-            <div className="info-pair">
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={editedValues.name}
-                onChange={handleChange}
-                readOnly={!isEditing}
-              />
-            </div>
-            <div className="info-pair">
-              <label htmlFor="account">Account:</label>
-              <input
-                type="text"
-                id="account"
-                name="account"
-                value={editedValues.account}
-                onChange={handleChange}
-                readOnly={!isEditing}
-              />
-            </div>
-          </div>
-          <div className="info-row">
+      {!showTimeline && (
+ <div>
+   <div className="info-box">
+    <div className="info-row">
+      <div className="info-pair">
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={editedValues.name}
+          onChange={handleChange}
+          readOnly={!isEditing}
+        />
+      </div>
+      <div className="info-pair">
+        <label htmlFor="account">Account:</label>
+        <input
+          type="text"
+          id="account"
+          name="account"
+          value={editedValues.account}
+          onChange={handleChange}
+          readOnly={!isEditing}
+        />
+      </div>
+    </div>
+    <div className="info-row">
       <div className="info-pair">
         <label htmlFor="stage">Stage:</label>
         {isEditing ? (
@@ -158,20 +209,20 @@ const OpportunitiesInfo = () => {
             readOnly
           />
         )}
+      </div>
+      <div className="info-pair">
+        <label htmlFor="amount">Amount:</label>
+        <input
+          type="text"
+          id="amount"
+          name="amount"
+          value={editedValues.amount}
+          onChange={handleChange}
+          readOnly={!isEditing}
+        />
+      </div>
     </div>
-            <div className="info-pair">
-              <label htmlFor="amount">Amount:</label>
-              <input
-                type="text"
-                id="amount"
-                name="amount"
-                value={editedValues.amount}
-                onChange={handleChange}
-                readOnly={!isEditing}
-              />
-            </div>
-          </div>
-          <div className="info-row">
+    <div className="info-row">
             <div className="info-pair">
               <label htmlFor="leadSource">Lead Source:</label>
               <input
@@ -183,7 +234,7 @@ const OpportunitiesInfo = () => {
                 readOnly={!isEditing}
               />
             </div>
-            <div className="info-pair">
+             <div className="info-pair">
               <label htmlFor="probability">Probability:</label>
               <input
                 type="text"
@@ -194,10 +245,12 @@ const OpportunitiesInfo = () => {
                 readOnly={!isEditing}
               />
             </div>
-          </div>
-        </div>
-        <div className="info-box-custom">
-          <div className="info-row">
+            </div>
+    {/* Add more info-row elements with info-pair for additional fields as needed */}
+  </div>
+
+  <div className="info-box-custom">
+  <div className="info-row">
             <div className="info-pair">
               <label htmlFor="contacts">Contacts:</label>
               <input
@@ -269,9 +322,87 @@ const OpportunitiesInfo = () => {
               />
             </div>
           </div>
-        </div>
-      </div>
+ 
+  </div>
+  
+ </div>
+ 
+  
+)}
+
+{showTimeline && timeline.length > 0 && (
+  <div className="timeline">
+    <div className='timeline-btn'>
+      <button className='timeline-btn1'>Deals</button>
+      <button className='timeline-btn2'>Messages</button>
+      <button className='timeline-btn3'>Schedule</button>
+      <button className='timeline-btn4'>Activity Log</button>
     </div>
+    <ul>
+      {timeline.map((interaction, index) => (
+        <li className='timeline-oopo1' key={index} >
+          <div>
+            <div className='data-timeline'>
+              <p className='textdesign'>
+                <TextSnippetRoundedIcon style={{ height: '40px', width: '30px', fill: '#F9623EFF', marginLeft: '7px' }} />
+              </p>
+              <h1 className='contract'>Signed Contract</h1>
+            </div>
+            <div className='timeline_data1'>
+              {interaction.interaction_type}
+            </div>
+          </div>
+
+          <div className='dotted-line'></div>
+
+          <div className='time-box2'>
+            <div className='data-timeline'>
+              <p className='textdesign1'>
+                <CallRoundedIcon style={{ height: '40px', width: '30px', fill: '#6D31EDFF', marginLeft: '7px' }} />
+              </p>
+              <h1 className='contract'>Made Call</h1>
+            </div>
+            <div className='timeline_data1'>
+              {interaction.datetime}
+            </div>
+          </div>
+
+          <div className='dotted-line'></div>
+
+          <div className='time-box2'>
+            <div className='data-timeline'>
+              <p className='textdesign1'>
+                <FactCheckRoundedIcon style={{ height: '40px', width: '30px', fill: '#3D31EDFF', marginLeft: '7px' }} />
+              </p>
+              <h1 className='contract'>Sent Email</h1>
+            </div>
+            <div className='timeline_data1'>
+              {interaction.datetime}
+            </div>
+          </div>
+
+          <div className='dotted-line'></div>
+
+          <div className='time-box2'>
+            <div className='data-timeline'>
+              <p className='textdesign1'>
+                <MailOutlineRoundedIcon style={{ height: '40px', width: '30px', fill: '#FF56A5FF', marginLeft: '7px' }} />
+              </p>
+              <h1 className='contract'>Called</h1>
+            </div>
+            <div className='timeline_data1'>
+              {interaction.interaction_type}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+
+      </div>
+      </div>
   );
 };
 

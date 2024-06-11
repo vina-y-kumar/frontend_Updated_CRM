@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -17,6 +18,17 @@ export const AuthProvider = ({ children }) => {
     const storedTenantId = localStorage.getItem("tenant_id");
     return storedTenantId ? JSON.parse(storedTenantId) : null;
   });
+
+  const [userRole, setUserRole] = useState(() => {
+    const storedUserRole = localStorage.getItem("user_role");
+    try {
+      return storedUserRole ? JSON.parse(storedUserRole) : null;
+    } catch (error) {
+      console.error("Error parsing 'user_role' from localStorage:", error);
+      return null; // Provide a default value or handle the error as needed
+    }
+  });
+  
 
   useEffect(() => {
     try {
@@ -42,10 +54,19 @@ export const AuthProvider = ({ children }) => {
     }
   }, [tenantId]);
 
-  const login = (userId, tenantId) => {
+  useEffect(() => {
+    try {
+      localStorage.setItem("user_role", JSON.stringify(userRole));
+    } catch (error) {
+      console.error("Error saving 'user_role' to localStorage:", error);
+    }
+  }, [userRole]);
+
+  const login = (userId, tenantId, role) => { // Change userRole to role
     setAuthenticated(true);
     setUserId(userId);
     setTenantId(tenantId);
+    setUserRole(role); // default to "employee" if role is undefined
   };
 
   const logout = () => {
@@ -53,16 +74,18 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("authenticated");
       localStorage.removeItem("user_id");
       localStorage.removeItem("tenant_id");
+      localStorage.removeItem("user_role");
       setAuthenticated(false);
       setUserId(null);
       setTenantId(null);
+      setUserRole(null); // default to "employee"
     } catch (error) {
       console.error("Error clearing localStorage:", error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, userId, tenantId, login, logout, setAuthenticated }}>
+    <AuthContext.Provider value={{ authenticated, userId, tenantId, userRole, login, logout, setAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

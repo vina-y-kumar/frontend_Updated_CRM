@@ -14,7 +14,7 @@ import axios from 'axios';
 import './dnd.css';
 import e from 'cors';
 import { useMemo } from 'react';
-import { ContextMenu, MenuItem} from 'react-contextmenu';
+
 const lastNode = initialNodes[initialNodes.length - 1];
 import Sidebar from "./Sidebar";
 

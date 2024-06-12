@@ -110,7 +110,7 @@ const AccountsPage = () => {
     }
   };
   
-  const { id } = useParams(); 
+ // const { id } = useParams(); 
   const [account, setAccount] = useState(null);
   const [attachments, setAttachments] = useState([]);
 

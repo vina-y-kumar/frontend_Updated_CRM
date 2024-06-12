@@ -23,6 +23,10 @@ import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
 import BrowseGalleryRoundedIcon from '@mui/icons-material/BrowseGalleryRounded';
 import Chart from "chart.js/auto"; // Import Chart.js library
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded';
+import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 
 const ShowLead = () => {
   const [showLead, setShowLead] = useState({
@@ -53,6 +57,8 @@ const ShowLead = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({});
   const [editedLead, setEditedLead] = useState({});
+  const [timeline, setTimeline] = useState([]); // New state variable for timeline data
+  const [showTimeline, setShowTimeline] = useState(false); 
 
 
   useEffect(() => {
@@ -211,7 +217,21 @@ const ShowLead = () => {
   const handleCancel = () => {
     setIsEditing(false);
   };
-
+  const fetchTimeline = async () => {
+    try {
+      const response = await axiosInstance.get(`/interaction/5/${id}/`);
+      setTimeline(response.data.interactions); // Set the timeline with interactions array
+      console.log('Timeline data fetched successfully:', response.data);
+    } catch (error) {
+      console.error('Error fetching timeline data:', error);
+    }
+  };
+  const toggleTimeline = async () => {
+    setShowTimeline(prevShowTimeline => !prevShowTimeline);
+    if (!showTimeline && timeline.length === 0) { // Check if timeline is empty
+      await fetchTimeline();
+    }
+  };
   
 
   return (
@@ -228,6 +248,10 @@ const ShowLead = () => {
           <div>
             <h1 className="lead_info">Lead details</h1>
           </div>
+          <button className="timeline-button-lead" onClick={toggleTimeline}>
+            {showTimeline ? 'Hide Timeline' : 'Show Timeline'}
+          </button>
+         
         </div>
         <div>
           <div className="arrow_container">
@@ -294,8 +318,11 @@ const ShowLead = () => {
 
 
           </div>
+<div>
+{!showTimeline && (
 
-          <div className="lead_info_container">
+<div>
+        <div className="lead_info_container">
           <div className="lead_info_container-data">
           <div>
     <div><h1 className="lead_title-info">TITLE</h1></div>
@@ -621,6 +648,74 @@ const ShowLead = () => {
 
 </div>
           </div>
+        </div>
+)}
+        {showTimeline && timeline.length > 0 && (
+  <div className="timeline-lead">
+    <div className='timeline-btn-lead'>
+      <button className='timeline-btn1-lead'>Deals</button>
+      <button className='timeline-btn2-lead'>Messages</button>
+      <button className='timeline-btn3-lead'>Schedule</button>
+      <button className='timeline-btn4-lead'>Activity Log </button>
+    </div>
+    <ul>
+      {timeline.map((interaction, index) => (
+        <li className='timeline-oopo1-lead' key={index} >
+        <div>
+        <div className='data-timeline-lead'>
+            <p className='textdesign-lead'>  <TextSnippetRoundedIcon style={{height:'40px',width:'30px',fill:'#F9623EFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Signed Contract</h1>
+          </div>
+          <div className='dotted-line'></div>
+
+        
+          <div className='timeline_data1-lead'>
+          {interaction.interaction_type}
+
+          </div>
+        </div>
+
+         <div className='time-box2-lead'>
+         <div className='data-timeline-lead'>
+            <p className='textdesign1-lead'>  <CallRoundedIcon style={{height:'40px',width:'30px',fill:'#6D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Made Call</h1>
+          </div>
+          <div className='timeline_data1-lead'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+
+         <div className='time-box2-lead'>
+         <div className='data-timeline-lead'>
+            <p className='textdesign1-lead'>  <FactCheckRoundedIcon style={{height:'40px',width:'30px',fill:'#3D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Sent email</h1>
+          </div>
+          <div className='timeline_data1-lead'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+
+         <div className='time-box2-lead'>
+         <div className='data-timeline-lead'>
+            <p className='textdesign1-lead'>  <MailOutlineRoundedIcon style={{height:'40px',width:'30px',fill:'#FF56A5FF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Called</h1>
+          </div>
+          <div className='timeline_data1-lead'>
+          {interaction.interaction_type}
+
+          </div>
+         </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+</div>
+       
         </div>
       </div>
     </div>

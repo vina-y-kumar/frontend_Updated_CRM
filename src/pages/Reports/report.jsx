@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './report.css';
 import axiosInstance from "../../api.jsx";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx";
-import { NavLink, Link } from 'react-router-dom';
+
 import { Dropdown } from "react-bootstrap";
 import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Line, BarChart, Bar, LabelList, PieChart, Pie, Cell } from 'recharts';
+import { useAuth } from "../../authContext";
+
 
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');
@@ -15,6 +17,8 @@ const getTenantIdFromUrl = () => {
 };
 
 const Report = () => {
+    const { userRole } = useAuth(); // Destructure userRole from useAuth hook
+
     const tenantId = getTenantIdFromUrl();
     const modelName = "reports";
     const [reportData, setReportData] = useState([]);
@@ -69,6 +73,7 @@ const Report = () => {
     
         fetchReportData();
     }, [reportId]);
+
 
     
     const reportListItems = [
@@ -341,6 +346,14 @@ const Report = () => {
                     return null;
                 }
                 };
+
+                if (userRole !== 'admin') {
+                    return (
+                        <div>
+                            <p>You do not have permission to view this page.</p>
+                        </div>
+                    );
+                }
                 
                 const formatBarChartData = () => {
                 if (!Array.isArray(barChartData)) {

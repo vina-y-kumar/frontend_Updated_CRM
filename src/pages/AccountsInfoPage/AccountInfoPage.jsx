@@ -8,7 +8,11 @@ import { FaSearchPlus, FaSearchMinus, FaDownload } from 'react-icons/fa';
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
 import axiosInstance from "../../api";
-import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; 
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded';
+import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 
 
 
@@ -26,14 +30,21 @@ const AccountsPage = () => {
   const tenantId=getTenantIdFromUrl();
   const { id } = useParams(); 
     const [file, setFile] = useState(null);
+    
     const [isEditing, setIsEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({});
+  
   const [uploadStatus, setUploadStatus] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [showAllFiles, setShowAllFiles] = useState(false);
+<<<<<<< HEAD
+  const [timeline, setTimeline] = useState([]); // New state variable for timeline data
+  const [showTimeline, setShowTimeline] = useState(false); 
+=======
   const [profileImage, setProfileImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
 
   const handleMoreClick = () => {
     setShowAllFiles(!showAllFiles);
@@ -45,6 +56,11 @@ const AccountsPage = () => {
     setShowAllFiles(false);
   };
 
+<<<<<<< HEAD
+  
+ 
+  
+=======
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = selectedFile.file_url;
@@ -56,6 +72,7 @@ const AccountsPage = () => {
     setSelectedFile(null);
   };
 
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
   const companyInfo = {
     name: "Neuren AI",
     logo: "https://plus.unsplash.com/premium_photo-1675793715068-8cd9ce15f430?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bG9nb3xlbnwwfHwwfHx8MA%3D%",
@@ -102,7 +119,11 @@ const AccountsPage = () => {
     }
   };
   
+<<<<<<< HEAD
+  const { id } = useParams(); 
+=======
   // Get the account ID from the URL parameter
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
   const [account, setAccount] = useState(null);
   const [attachments, setAttachments] = useState([]);
 
@@ -140,12 +161,21 @@ const AccountsPage = () => {
       try {
         const response = await axiosInstance.get(`/accounts/${id}`);
         setAccount(response.data);
+<<<<<<< HEAD
+        // console.log(response.data[0].name);  // Adjusted to correctly access the name
+=======
         console.log(response.data[24].name); 
         
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
     };
+     
+
+
+
+
   
     fetchAccountData();
   }, [id]);
@@ -207,7 +237,21 @@ const AccountsPage = () => {
 
   
 
-  
+  const fetchTimeline = async () => {
+    try {
+      const response = await axiosInstance.get(`/interaction/5/${id}/`);
+      setTimeline(response.data.interactions); // Set the timeline with interactions array
+      console.log('Timeline data fetched successfully:', response.data);
+    } catch (error) {
+      console.error('Error fetching timeline data:', error);
+    }
+  };
+  const toggleTimeline = async () => {
+    setShowTimeline(prevShowTimeline => !prevShowTimeline);
+    if (!showTimeline && timeline.length === 0) { // Check if timeline is empty
+      await fetchTimeline();
+    }
+  };
 
   const contactPersons = [
     {
@@ -397,7 +441,9 @@ const AccountsPage = () => {
               >
                 Send Email
               </a>
-
+              <button className="timeline-button-account" onClick={toggleTimeline}>
+            {showTimeline ? 'Hide Timeline' : 'Show Timeline'}
+          </button>
               <div className="header-content">
                 <h1 className="header-content1">{account.company}</h1>
               </div>
@@ -414,6 +460,10 @@ const AccountsPage = () => {
                 Visit Website
               </a>
             </div>
+           <div>
+           {!showTimeline && (
+
+           <div>
             <div className="overview" id='Company Overview'>
       <h2 className="accountinfos">Company Overview</h2>
       <div className="accounts-button">
@@ -656,41 +706,7 @@ const AccountsPage = () => {
       </div>
     </div>
     </div>
-            {/* <div className="attachment-section">
-              <h2 className="attachments">Attachments</h2>
-              <input
-                className="filebtn"
-                type="file"
-                onChange={handleFileUpload}
-                multiple
-              />
-              <ul className="">
-                {attachments.map((file, index) => (
-                  <li key={index} className="files">
-                    {file.name}
-                    <button
-                      className="dltbtn"
-                      onClick={() => handleDeleteAttachment(index)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div> */}
-            {/* <div className="attachment-section">
-  <h2>Attachments</h2>
-  <ul className="attachment-list">
-    {attachments.map((file, index) => (
-      <li key={index}>
-        <span>{file.name}</span>
-        <button onClick={() => handleDeleteAttachment(index)}>Delete</button>
-      </li>
-    ))}
-  </ul>
-  <input type="file" onChange={handleFileUpload} multiple />
-  <button className="upload-button">Upload Files</button>
-</div> */}
+           
     <div className="attachment-section" id="Attachments">
       <div className="attachments">Attachments</div>
       <div className="attachment-upload">
@@ -727,6 +743,76 @@ const AccountsPage = () => {
         </div>
       )}
     </div>
+<<<<<<< HEAD
+            </div>
+            )}
+             {showTimeline && timeline.length > 0 && (
+  <div className="timeline-account">
+    <div className='timeline-btn-account'>
+      <button className='timeline-btn1-account'>Deals</button>
+      <button className='timeline-btn2-account'>Messages</button>
+      <button className='timeline-btn3-account'>Schedule</button>
+      <button className='timeline-btn4-account'>Activity Log </button>
+    </div>
+    <ul>
+      {timeline.map((interaction, index) => (
+        <li className='timeline-oopo1-account' key={index} >
+        <div>
+        <div className='data-timeline-account'>
+            <p className='textdesign-account'>  <TextSnippetRoundedIcon style={{height:'40px',width:'30px',fill:'#F9623EFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-account'>Signed Contract</h1>
+          </div>
+          <div className='dotted-line'></div>
+
+        
+          <div className='timeline_data1-account'>
+          {interaction.interaction_type}
+
+          </div>
+        </div>
+
+         <div className='time-box2-account'>
+         <div className='data-timeline-account'>
+            <p className='textdesign1-account'>  <CallRoundedIcon style={{height:'40px',width:'30px',fill:'#6D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-account'>Made Call</h1>
+          </div>
+          <div className='timeline_data1-account'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+
+         <div className='time-box2-account'>
+         <div className='data-timeline-account'>
+            <p className='textdesign1-account'>  <FactCheckRoundedIcon style={{height:'40px',width:'30px',fill:'#3D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-account'>Sent email</h1>
+          </div>
+          <div className='timeline_data1-account'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+
+         <div className='time-box2-account'>
+         <div className='data-timeline-account'>
+            <p className='textdesign1-account'>  <MailOutlineRoundedIcon style={{height:'40px',width:'30px',fill:'#FF56A5FF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-account'>Called</h1>
+          </div>
+          <div className='timeline_data1-account'>
+          {interaction.interaction_type}
+
+          </div>
+         </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+   
+           </div>
+=======
     {selectedFile && (
         <div className="file-popup">
           <div className="file-popup-content">
@@ -759,6 +845,7 @@ const AccountsPage = () => {
           </div>
         </div>
       )}
+>>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
           </div>
         </div>
       </div>

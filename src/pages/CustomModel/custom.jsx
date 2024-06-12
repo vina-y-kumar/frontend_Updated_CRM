@@ -3,9 +3,13 @@ import axiosInstance from '../../api';
 import { Sidebar } from '../../components/Sidebar';
 import TopNavbar from '../TopNavbar/TopNavbar.jsx'; 
 import './custom.css';
+import { useAuth } from "../../authContext";
+
 
 const Custom = () => {
     const [models, setModels] = useState([]);
+    const { userRole } = useAuth(); // Destructure userRole from useAuth hook
+
     const [loading, setLoading] = useState(true);
     const [fields, setFields] = useState([{ fieldName: '', fieldType: '' }]);
     const [modelName, setModelName] = useState('');
@@ -67,6 +71,13 @@ const Custom = () => {
             }
         }
     };
+    if (userRole !== 'admin') {
+        return (
+            <div>
+                <p>You do not have permission to view this page.</p>
+            </div>
+        );
+    }
 
     return (
         <div className='custom-page'>

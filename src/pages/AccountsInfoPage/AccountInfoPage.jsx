@@ -37,14 +37,11 @@ const AccountsPage = () => {
   const [uploadStatus, setUploadStatus] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [showAllFiles, setShowAllFiles] = useState(false);
-<<<<<<< HEAD
   const [timeline, setTimeline] = useState([]); // New state variable for timeline data
   const [showTimeline, setShowTimeline] = useState(false); 
-=======
   const [profileImage, setProfileImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
->>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
 
   const handleMoreClick = () => {
     setShowAllFiles(!showAllFiles);
@@ -56,11 +53,6 @@ const AccountsPage = () => {
     setShowAllFiles(false);
   };
 
-<<<<<<< HEAD
-  
- 
-  
-=======
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = selectedFile.file_url;
@@ -72,7 +64,6 @@ const AccountsPage = () => {
     setSelectedFile(null);
   };
 
->>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
   const companyInfo = {
     name: "Neuren AI",
     logo: "https://plus.unsplash.com/premium_photo-1675793715068-8cd9ce15f430?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bG9nb3xlbnwwfHwwfHx8MA%3D%",
@@ -119,11 +110,7 @@ const AccountsPage = () => {
     }
   };
   
-<<<<<<< HEAD
   const { id } = useParams(); 
-=======
-  // Get the account ID from the URL parameter
->>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
   const [account, setAccount] = useState(null);
   const [attachments, setAttachments] = useState([]);
 
@@ -161,12 +148,7 @@ const AccountsPage = () => {
       try {
         const response = await axiosInstance.get(`/accounts/${id}`);
         setAccount(response.data);
-<<<<<<< HEAD
         // console.log(response.data[0].name);  // Adjusted to correctly access the name
-=======
-        console.log(response.data[24].name); 
-        
->>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -743,7 +725,6 @@ const AccountsPage = () => {
         </div>
       )}
     </div>
-<<<<<<< HEAD
             </div>
             )}
              {showTimeline && timeline.length > 0 && (
@@ -812,7 +793,6 @@ const AccountsPage = () => {
 )}
    
            </div>
-=======
     {selectedFile && (
         <div className="file-popup">
           <div className="file-popup-content">
@@ -845,7 +825,6 @@ const AccountsPage = () => {
           </div>
         </div>
       )}
->>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566
           </div>
         </div>
       </div>

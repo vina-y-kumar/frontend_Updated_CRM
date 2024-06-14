@@ -72,9 +72,9 @@ export const Login = () => {
   };
 
   return (
-    <div className="login">
-      <Spline scene="https://prod.spline.design/ac1BIJRVXqUWMyDz/scene.splinecode" />
-      <div className="container">
+    <div className="login" style={{display:'flex',flexDirection:'row'}}>
+      
+      <div className="container" style={{width:'30%'}}>
         <div className="login_inner">
           <h2 className="login_paragraph">Login</h2>
           {error && <div className="error-message">{error}</div>}
@@ -109,6 +109,9 @@ export const Login = () => {
             </button>
           </form>
         </div>
+      </div>
+      <div style={{width:'70%'}}>
+      <Spline scene="https://prod.spline.design/OmqPiSVCUCyBiIZa/scene.splinecode" />
       </div>
     </div>
   );

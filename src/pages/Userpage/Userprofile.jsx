@@ -178,7 +178,7 @@ const UserProfile = () => {
         <Sidebar />
       </div>
       <div>
-      <div className="right_div">
+      <div className="right_div" style={{marginLeft:'-80px'}}>
           <TopNavbar profileImageUrl={profileImageUrl} />
         </div>
         <div>

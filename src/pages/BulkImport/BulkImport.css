@@ -143,7 +143,7 @@ button1 {
   font-weight: bold;
   margin-top: 20rem;
 }
-select {
+.select_import {
   width: 100%;
   padding: 10px;
   margin-top: 10px;

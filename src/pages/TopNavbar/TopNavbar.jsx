@@ -176,15 +176,17 @@ const TopNavbar = ({ openMeetingForm, openCallForm }) => {
           </div>
         )}
       </div>
+      <div>
       <Link to={`/${tenantId}/user_id`} className='topNavbar2'>
         {profileImageUrl ? (
-          <img src={profileImageUrl} style={{ width: '36px', height: '36px', borderRadius: '50%' }} />
+          <img src={profileImageUrl} style={{ width: '36px', height: '36px', borderRadius: '50%',maxWidth:"100rem" }} />
         ) : (
           <div className="AccountCircle">
             <AccountCircleRoundedIcon style={{ width: '36px', height: '36px', fill: '#D3C1FAFF' }} />
           </div>
         )}
       </Link>
+      </div>
       {showMeetingForm && (
         <div className="modal-overlay">
           <div className="modal-content_meet">

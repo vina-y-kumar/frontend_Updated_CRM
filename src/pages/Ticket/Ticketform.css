@@ -1,0 +1,147 @@
+.ticket-form-page{
+    height: 100vh;
+}
+.ticket-sidebar {
+    width: 180px;
+    background-color:white;
+    padding: 20px;
+  }
+
+  .form-ticket{
+    font-weight: bold;
+
+  }
+  .ticketform {
+    display: flex;
+    flex-direction: row;
+    
+  }
+ 
+  .form-ticket {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .ticket-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  }
+  
+  .newticket-button {
+   
+    background-color:#57B612FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .newticket-button:hover {
+    background-color: #4CA110FF;
+  }
+  .ticket-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-box h2 {
+    margin-bottom: 10px;
+    font-size: 3rem;
+    color: #333;
+    font-weight: bold;
+}
+.ticket-input-flex-container {
+    display: flex;
+    margin-top: 4rem;
+}
+
+.ticket-input-group {
+    flex: 1 1 calc(50% - 10px); /* Two inputs per row with some spacing */
+    margin-right: 20px; 
+    
+}
+
+.ticket-input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ticket-input-group input {
+    width: 60%;
+    height: 4rem;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.ticket-select{
+    width: 60%;
+    height: 4rem;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.ticket-upload-label{
+    margin-top: 4rem;
+}
+.ticket-input-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    
+}
+
+
+
+.ticket-upload-icon {
+    margin-right: 10px;
+}
+.ticket-addcomment label{
+    margin-top: 4rem;
+}
+.ticket-addcomment textarea {
+    width: 60%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.generate-ticket-container {
+    margin-top: 20px;
+    text-align: center; 
+    margin-bottom: 10rem;
+}
+
+.generate-ticket-button {
+    background-color: #6D31EDFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    text-decoration: none; 
+    margin-left: 30%;
+    margin-top: 8rem;
+}
+
+
+
+.generate-ticket-icon {
+    margin-right: 10px;
+}

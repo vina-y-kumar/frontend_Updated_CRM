@@ -143,15 +143,7 @@ button1 {
   font-weight: bold;
   margin-top: 20rem;
 }
-select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #6D31EDFF; /* Light blue background */
-  margin-bottom: 2rem;
-}
+
 .bulk-buttons-container {
   display: flex;
   justify-content: center;

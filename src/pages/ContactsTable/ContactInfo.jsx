@@ -5,6 +5,7 @@ import RelatedList from "./RelatedList.jsx";
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import uploadToBlob from "../../azureUpload.jsx";
 import axiosInstance from "../../api.jsx";
 import "./contactsTable.css";
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
@@ -79,11 +80,13 @@ const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
 const [photoColor, setPhotoColor] = useState("blue");
 const [timeline, setTimeline] = useState([]); // New state variable for timeline data
 const [showTimeline, setShowTimeline] = useState(false); 
-
+const [profileImage, setProfileImage] = useState(null);
+const { id } = useParams();
 
 
 const [file, setFile] = useState(null);
 const [selectedFile, setSelectedFile] = useState(null);
+
 
 
 
@@ -147,7 +150,7 @@ const [selectedFile, setSelectedFile] = useState(null);
   const [editedAccount, setEditedAccount] = useState(contactinfo.account);
 
 
-  const { id } = useParams(); // Get the account ID from the URL parameter
+  // Get the account ID from the URL parameter
   
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
@@ -172,6 +175,67 @@ const [selectedFile, setSelectedFile] = useState(null);
     fetchcontactData();
    
   }, [id]);
+
+  const handleProfileImageUpload = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      try {
+        const fileUrl = await uploadToBlob(selectedFile);
+        setProfileImage(fileUrl);
+        console.log(profileImage);
+        console.log(fileUrl);
+  
+        // Save the profile image URL to the backend
+        await axiosInstance.patch(`/contacts/${id}/`, { profile_image_url: fileUrl });
+  
+        // Optionally, fetch the updated account data to update the state
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+            name: selectedFile.name,
+            document_type: selectedFile.type,
+            description: 'Your file description',
+            file_url: fileUrl,
+            entity_type: 10,
+            entity_id: id,
+            tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+       
+      } catch (error) {
+        console.error('Error uploading profile image:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+        try {
+            console.log('Fetching profile image for account:', id);
+            console.log('Tenant ID:', tenantId);
+
+            const response = await axiosInstance.get(`/return-documents/10/${id}`);
+            console.log('GET request successful, response:', response.data);
+
+            const documents = response.data.documents;
+            console.log('Documents array:', documents);
+
+            if (documents && documents.length > 0) {
+                const profileImage = documents[0].file;
+                console.log('Found profile image:', profileImage);
+                setProfileImage(profileImage);
+            } else {
+                console.log('No profile image found.');
+                setProfileImage(null); // Set a default image URL or null if no image found
+            }
+        } catch (error) {
+            console.error('Error fetching profile image:', error);
+        }
+    };
+
+    if (id && tenantId) {
+        fetchProfileImage();
+    }
+}, [id, tenantId]);
  
   const fetchTimeline = async () => {
     try {
@@ -523,11 +587,25 @@ const [selectedFile, setSelectedFile] = useState(null);
             Contact Details
           </h1>
           <div>
-          <h2 className="owner1"> {contactinfo.first_name}</h2>
+          <h2 className="detail-owner1"> {contactinfo.first_name}</h2>
           <h2 className="owner3"> {contactinfo.address}</h2>
-          <div className="photo11" >
-        {generateSmiley2(photoColor)}
-      </div>
+          <div className="photo11">
+            
+          {profileImage ? (
+            <img src={profileImage} alt="Profile" className="contact-profile-image" />
+          ) : (
+            generateSmiley2(photoColor)
+          )}
+          <label htmlFor="profile-image-upload" className="profile-upload-button">
+            Upload Image
+            <input
+              type="file"
+              id="profile-image-upload"
+              onChange={handleProfileImageUpload}
+              style={{ display: 'none' }}
+            />
+          </label>
+        </div>
           <a
               className="visitLinkedin"
               href={contactinfo.website}

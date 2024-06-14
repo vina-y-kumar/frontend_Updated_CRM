@@ -68,6 +68,9 @@ import Loyalityform from "../pages/LoyaltyProgram/Loyalityform";
 import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
 import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
 import Custom from "../pages/CustomModel/custom";
+import Chatbot from "../pages/Chatbot/chatbot";
+import Ticketform from "../pages/Ticket/Ticketform";
+import TicketInfo from "../pages/Ticket/TicketInfo";
 // import CustomModelForm from "../pages/CustomModel/customform";
 
 
@@ -245,11 +248,13 @@ export const RouteWrapper = () => {
           
           <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
 
-
+          <Route path=":tenant_id/chatbot/" element={<Chatbot/>}/>
 
 
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
+          <Route path=":tenant_id/ticketform"  element= {<Ticketform/>}/>
+          <Route path=":tenant_id/ticketinfo"  element= {<TicketInfo/>}/>
         </>
       )}
 

@@ -6,6 +6,8 @@ import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { Link } from 'react-router-dom';
+import Chatbot from "../Chatbot/chatbot"; 
+
 
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
@@ -22,6 +24,7 @@ const TopNavbar = ({}) => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+
 
   const fetchProfileImageUrl = async () => {
     try {
@@ -73,8 +76,10 @@ const TopNavbar = ({}) => {
   return (
     <div className='topNavbar-head'>
       <CallRoundedIcon style={{ width: '24px', height: '24px' }} className='topNavbar1' />
+      <Link to={`/${tenantId}/chatbot`} >
       <InsertCommentRoundedIcon style={{ width: '24px', height: '24px' }} className='topNavbar2' />
 
+        </Link>
       <div className='notification-icon-container' onClick={handleNotificationClick}>
         <NotificationsNoneRoundedIcon style={{ width: '24px', height: '24px', fill: '#323743FF' }} className='topNavbar2' />
         {notificationCount > 0 && (

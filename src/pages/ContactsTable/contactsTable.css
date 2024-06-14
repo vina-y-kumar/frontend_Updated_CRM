@@ -3833,3 +3833,34 @@ margin-left: 10rem;
 .file-popup-header button {
   margin-left: 10px;
 }
+.profile-upload-button {
+  position: relative;
+  font-size: small;
+  margin-right: 80px;
+}
+
+.profile-upload-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+  .contact-profile-image,
+  .colored-circle2 {
+    width: 95px;
+    height: 95px;
+    border-radius: 7px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position:absolute;
+    position: relative;
+    top: -45px;
+    left: -570px;
+  }

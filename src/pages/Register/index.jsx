@@ -111,163 +111,142 @@ export const Register = () => {
 
   return (
     <div className="auth">
-      <Spline scene="https://prod.spline.design/ac1BIJRVXqUWMyDz/scene.splinecode" />
-      <div className="container">
-        <div className="auth_inner">
-          <h2 className="auth_paragraph">Register</h2>
-          <form className="auth_form" onSubmit={authRegister}>
-            <label htmlFor="username" className="auth_label">
-              <input
-                className="auth_input"
-                type="text"
-                placeholder="👤 Username"
-                id="username"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </label>
-            <label htmlFor="email" className="auth_label">
-              <input
-                className="auth_input"
-                type="email"
-                placeholder="✉️ Email"
-                id="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </label>
-            <label htmlFor="password" className="auth_label">
-              <input
-                className="auth_input"
-                type="password"
-                placeholder="🔑 Password"
-                id="pasword"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-            <label htmlFor="role" className="auth_label">
-              <select
-                className="auth_input"
-                id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <option value="Admin">Admin</option>
-                <option value="employee">Employee</option>
-                <option value="manager">Manager</option>
-              </select>
-            </label>
-            <label htmlFor="organisation" className="auth_label">
-              <select
-                className="auth_input"
-                id="organisation"
-                value={organisation}
-                onChange={(e) => {
-                  setOrganisation(e.target.value);
-                  if (e.target.value === "createNew") {
-                    setShowNewOrgForm(true);
-                  } else {
-                    setShowNewOrgForm(false);
-                  }
-                }}
-              >
-                <option value="">Select Organisation</option>
-                {organisations.map((org) => (
-                  <option key={org.id} value={org.name}>
-                    {org.name}
-                  </option>
-                ))}
-                <option value="createNew">Create New Organization</option>
-              </select>
-            </label>
-            
-
-
-            <NavLink className="auth_login" to="/login">
-              login?
-            </NavLink>
-
-            <button className="auth_btn" type="submit">
-              Register
-            </button>
-          </form>
+  <div className="auth_wrapper">
+    <div className="form_container">
+      <div className="auth_inner">
+        <h2 className="auth_paragraph">Register</h2>
+        <form className="auth_form" onSubmit={authRegister}>
+          <label htmlFor="username" className="auth_label">
+            <input
+              className="auth_input"
+              type="text"
+              placeholder="👤 Username"
+              id="username"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <label htmlFor="email" className="auth_label">
+            <input
+              className="auth_input"
+              type="email"
+              placeholder="✉️ Email"
+              id="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <label htmlFor="password" className="auth_label">
+            <input
+              className="auth_input"
+              type="password"
+              placeholder="🔑 Password"
+              id="pasword"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <label htmlFor="role" className="auth_label">
+            <select
+              className="auth_input"
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="Admin">Admin</option>
+              <option value="employee">Employee</option>
+              <option value="manager">Manager</option>
+            </select>
+          </label>
+          <label htmlFor="organisation" className="auth_label">
+            <select
+              className="auth_input"
+              id="organisation"
+              value={organisation}
+              onChange={(e) => {
+                setOrganisation(e.target.value);
+                if (e.target.value === "createNew") {
+                  setShowNewOrgForm(true);
+                } else {
+                  setShowNewOrgForm(false);
+                }
+              }}
+            >
+              <option value="">Select Organisation</option>
+              {organisations.map((org) => (
+                <option key={org.id} value={org.name}>
+                  {org.name}
+                </option>
+              ))}
+              <option value="createNew">Create New Organization</option>
+            </select>
+          </label>
           
-        </div>
+          <NavLink className="auth_login" to="/login">
+            login?
+          </NavLink>
+
+          <button className="auth_btn" type="submit">
+            Register
+          </button>
+        </form>
       </div>
-      {showNewOrgForm && (
-              <div className="new-org-form-overlay">
-                <div className="new-org-form">
-                  <button
-                    className="close-btn"
-                    onClick={() => setShowNewOrgForm(false)}
-                  >
-                    &#10006;
-                  </button>
-                  <label
-                    htmlFor="newOrganisationName"
-                    className="auth_label"
-                  >
-                    New Organisation Name:
-                    <input
-                      className="auth_input"
-                      type="text"
-                      placeholder="New Organisation Name"
-                      id="newOrganisationName"
-                      required
-                      value={newOrganisationName}
-                      onChange={(e) =>
-                        setNewOrganisationName(e.target.value)
-                      }
-                    />
-                  </label>
-                  <label
-                    htmlFor="newOrganisationTenantId"
-                    className="auth_label"
-                  >
-                    Tenant ID:
-                    <input
-                      className="auth_input"
-                      type="text"
-                      placeholder="Tenant ID"
-                      id="newOrganisationTenantId"
-                      required
-                      value={newOrganisationTenantId}
-                      onChange={(e) =>
-                        setNewOrganisationTenantId(e.target.value)
-                      }
-                    />
-                  </label>
-                  <label
-                    htmlFor="newOrganisationPassword"
-                    className="auth_label"
-                  >
-                    Password:
-                    <input
-                      className="auth_input"
-                      type="password"
-                      placeholder="Password"
-                      id="newOrganisationPassword"
-                      required
-                      value={newOrganisationPassword}
-                      onChange={(e) =>
-                        setNewOrganisationPassword(e.target.value)
-                      }
-                    />
-                  </label>
-                  <button
-                    className="auth_btn"
-                    type="button"
-                    onClick={handlePopupSubmit}
-                  >
-                    Create New Organisation
-                  </button>
-                </div>
-              </div>
-            )}
     </div>
+ 
+    <Spline scene="https://prod.spline.design/TwrvDXJ1l0mso3eA/scene.splinecode" className="spline_scene" />
+  </div>
+
+  {showNewOrgForm && (
+    <div className="new-org-form-overlay">
+      <div className="new-org-form">
+        <button className="close-btn" onClick={() => setShowNewOrgForm(false)}>
+          &#10006;
+        </button>
+        <label htmlFor="newOrganisationName" className="auth_label">
+          New Organisation Name:
+          <input
+            className="auth_input"
+            type="text"
+            placeholder="New Organisation Name"
+            id="newOrganisationName"
+            required
+            value={newOrganisationName}
+            onChange={(e) => setNewOrganisationName(e.target.value)}
+          />
+        </label>
+        <label htmlFor="newOrganisationTenantId" className="auth_label">
+          Tenant ID:
+          <input
+            className="auth_input"
+            type="text"
+            placeholder="Tenant ID"
+            id="newOrganisationTenantId"
+            required
+            value={newOrganisationTenantId}
+            onChange={(e) => setNewOrganisationTenantId(e.target.value)}
+          />
+        </label>
+        <label htmlFor="newOrganisationPassword" className="auth_label">
+          Password:
+          <input
+            className="auth_input"
+            type="password"
+            placeholder="Password"
+            id="newOrganisationPassword"
+            required
+            value={newOrganisationPassword}
+            onChange={(e) => setNewOrganisationPassword(e.target.value)}
+          />
+        </label>
+        <button className="auth_btn" type="button" onClick={handlePopupSubmit}>
+          Create New Organisation
+        </button>
+      </div>
+    </div>
+  )}
+</div>
   );
 };

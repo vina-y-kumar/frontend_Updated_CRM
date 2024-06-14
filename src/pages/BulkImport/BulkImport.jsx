@@ -190,7 +190,7 @@ const BulkImport = () => {
             {columns.map((column, index) => (
               <li key={index}>
                 {column}
-                <select value={selectedValues[column] || ''} onChange={(e) => handleEntityChange(e, column)}>
+                <select className='selectImport'value={selectedValues[column] || ''} onChange={(e) => handleEntityChange(e, column)}>
                   <option value=''> Select Entity</option>
                   <option value='Name'>First Name</option>
                   <option value='last_name'>Last Name</option>

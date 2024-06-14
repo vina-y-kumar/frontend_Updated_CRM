@@ -5,9 +5,14 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+
+import Chatbot from "../Chatbot/chatbot"; 
+
+
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
@@ -55,6 +60,7 @@ const TopNavbar = ({ openMeetingForm, openCallForm }) => {
       [e.target.name]: e.target.value,
     });
   };
+
 
   const fetchProfileImageUrl = async () => {
     try {
@@ -119,6 +125,7 @@ const TopNavbar = ({ openMeetingForm, openCallForm }) => {
 
   return (
     <div className='topNavbar-head'>
+
       <div className="callround" onClick={handleDirectCallClick}>
         <CallRoundedIcon style={{ width: '24px', height: '24px' }} className='topNavbar1' />
       </div>
@@ -176,15 +183,17 @@ const TopNavbar = ({ openMeetingForm, openCallForm }) => {
           </div>
         )}
       </div>
+      <div>
       <Link to={`/${tenantId}/user_id`} className='topNavbar2'>
         {profileImageUrl ? (
-          <img src={profileImageUrl} style={{ width: '36px', height: '36px', borderRadius: '50%' }} />
+          <img src={profileImageUrl} style={{ width: '36px', height: '36px', borderRadius: '50%',maxWidth:"100rem" }} />
         ) : (
           <div className="AccountCircle">
             <AccountCircleRoundedIcon style={{ width: '36px', height: '36px', fill: '#D3C1FAFF' }} />
           </div>
         )}
       </Link>
+      </div>
       {showMeetingForm && (
         <div className="modal-overlay">
           <div className="modal-content_meet">

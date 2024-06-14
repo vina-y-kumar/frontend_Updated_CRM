@@ -160,12 +160,7 @@ export const Sidebar = () => {
             )}
           </li>
         
-        
-         
-        
-        </ul>
-      </div>
-   
+        <li className="sidebar_item">
         <div className="dropdown_container" onClick={toggleMoreDropdown}>
         <button className="sidebar_link">
           <MoreHorizRoundedIcon style={{fontSize:'2rem'}}/>
@@ -245,6 +240,14 @@ export const Sidebar = () => {
           </div>
                 )}
         </div>
+          
+        </li>
+         
+        
+        </ul>
+      </div>
+   
+        
         <div className="logout_btn">
         <button className="logout_btn" onClick={handleLogout}>Logout</button>
       </div>

@@ -31,61 +31,36 @@ const Met = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
-  const {userId}=useAuth();
-  const tenantId = getTenantIdFromUrl();
-  const modelName = "Meetings";
-
   const [formData, setFormData] = useState({
-    title: "",
-    location: "",
-    from_time: "",
-    to_time: "",
-    related_to: "",
-    createdBy: "",
+    title: '',
+    location: '',
+    from_time: '',
+    to_time: '',
+    related_to: '',
+    createdBy: '',
   });
-  
-  
+
+  const tenantId = getTenantIdFromUrl(); // Ensure getTenantIdFromUrl is defined
+  const modelName = 'Meetings';
+  const { userId } = useAuth(); // Assuming useAuth is correctly implemented
  
-  /*useEffect(() => {
-    const socket = new WebSocket('ws://127.0.0.1:8000/ws/reminders/');
-  socket.onopen = function(event) {
-    console.log('WebSocket connection established.');
-};
 
-socket.onmessage = function(event) {
-    const reminderData = JSON.parse(event.data);
-    console.log('Received reminder:', reminderData);
-    // Handle the reminder data as needed
-};
-
-socket.onclose = function(event) {
-    console.log('WebSocket connection closed.');
-};
-
-socket.onerror = function(event) {
-    console.error('WebSocket error:', event);
-};
-
-    return () => {
-        socket.close();
+  useEffect(() => {
+    const fetchMeetings = async () => {
+      try {
+        const response = await axiosInstance.get('/meetings/', {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
+        });
+        setMeetings(response.data);
+      } catch (error) {
+        console.error('Error fetching meetings data:', error);
+      }
     };
-}, []);*/
-useEffect(() => {
-  const fetchMeetings = async () => {
-    try {
-      const response = await axiosInstance.get('/meetings/', {
-        headers: {
-          token: localStorage.getItem('token'),
-        },
-      });
-      setMeetings(response.data);
-    } catch (error) {
-      console.error("Error fetching meetings data:", error);
-    }
-  };
 
-  fetchMeetings();
-}, []);
+    fetchMeetings();
+  }, []);
 
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
@@ -98,58 +73,69 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-       // Get tenant ID from the URL
       const dataToSend = {
         ...formData,
-        createdBy: userId, // Pass userId as createdBy
+        createdBy: userId,
         tenant: tenantId,
-        participants:1,
+        participants: 1,
       };
-      const response = await axiosInstance.post('/meetings/',dataToSend);
+      const response = await axiosInstance.post('/meetings/', dataToSend);
       const meetingsId = response.data.id;
       const interactionData = {
-        entity_type: "meetings",
+        entity_type: 'meetings',
         entity_id: meetingsId,
-        interaction_type: "Event",
-        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        interaction_type: 'Event',
+        tenant_id: tenantId,
         notes: `Meeting created with id : ${meetingsId} created by user : ${userId}`,
         interaction_datetime: new Date().toISOString(),
       };
 
       try {
-          await axiosInstance.post('/interaction/', interactionData);
-          console.log('Interaction logged successfully');
-        } catch (error) {
-          console.error('Error logging interaction:', error);
-        }
-      
-      console.log("Meeting created successfully:", response.data);
+        await axiosInstance.post('/interaction/', interactionData);
+        console.log('Interaction logged successfully');
+      } catch (error) {
+        console.error('Error logging interaction:', error);
+      }
+
+      console.log('Meeting created successfully:', response.data);
       setMeetings([...meetings, response.data]);
       setModalOpen(false);
       setFormData({
-        title: "",
-        location: "",
-        from_time: "",
-        to_time: "",
-        related_to: "",
-        createdBy: "",
+        title: '',
+        location: '',
+        from_time: '',
+        to_time: '',
+        related_to: '',
+        createdBy: '',
       });
     } catch (error) {
-      console.error("Error creating meeting:", error);
+      console.error('Error creating meeting:', error);
     }
   };
 
+  
   const handleDownloadExcel = () => {
     const ws = XLSX.utils.json_to_sheet(meetings);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "meetings");
-    XLSX.writeFile(wb, "meetings.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, 'meetings');
+    XLSX.writeFile(wb, 'meetings.xlsx');
+  };
+
+  const openMeetingForm = () => {
+    setModalOpen(true); // Example function to open modal
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    // Clear form data or perform other actions on modal close if needed
   };
 
   return (
    <div>
      <div className="oppo_nav">
-    <TopNavbar/>
+     <TopNavbar openMeetingForm={openMeetingForm} />
+
+
   </div>
     <div className="calls">
       

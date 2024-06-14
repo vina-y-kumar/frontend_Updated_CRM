@@ -1,0 +1,95 @@
+.calendar-page {
+    display: flex;
+}
+
+.calendar-side {
+    width: 256px;
+    height: 100vh;
+    background: #FAFAFB;
+    box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+    padding: 20px;
+}
+
+.back-button {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #171a1f;
+}
+
+.calendar-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.calendar-nav {
+    margin-bottom: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-title h1 {
+    font-family: 'Lexend', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #171A1F;
+    margin: 0;
+}
+
+.create-calendar {
+    padding: 7px 11px;
+    border-radius: 4px;
+    background: #4CA110;
+    color: white;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    text-align: center;
+}
+
+.calendar-container {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(23, 26, 31, 0.1);
+}
+
+.rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.rbc-toolbar button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.rbc-toolbar button:hover {
+    background-color: #0056b3;
+}
+
+.rbc-event {
+    background-color: transparent !important;
+    border: none !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.rbc-month-view {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.rbc-btn-group button {
+    margin-right: 5px;
+}

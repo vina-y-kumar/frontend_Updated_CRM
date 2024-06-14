@@ -69,8 +69,13 @@ import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
 import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
 import Custom from "../pages/CustomModel/custom";
 import Chatbot from "../pages/Chatbot/chatbot";
+
 import Ticketform from "../pages/Ticket/Ticketform";
 import TicketInfo from "../pages/Ticket/TicketInfo";
+
+import Calendar from "../pages/Calendar/Calendar";
+import Calendarform from "../pages/Calendar/Calendarform";
+
 // import CustomModelForm from "../pages/CustomModel/customform";
 
 
@@ -212,6 +217,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
          <Route path="/:tenantId/report" element={<Report />} />
           <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
+          <Route path=":tenant_id/calendar"   element={<Calendar/>}/>  
+          <Route path=":tenant_id/calendarform"   element={<Calendarform/>}/>  
+
 
           <Route path=":tenant_id/opportunity" element={<Form3/>} />
           <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
@@ -247,6 +255,9 @@ export const RouteWrapper = () => {
 
           
           <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
+          <Route path=":tenant_id/chatbot"  element= {<Chatbot/>}/>
+
+
 
           <Route path=":tenant_id/chatbot/" element={<Chatbot/>}/>
 

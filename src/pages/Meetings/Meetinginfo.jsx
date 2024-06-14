@@ -16,6 +16,7 @@ const getTenantIdFromUrl = () => {
 const MeetingInfo = () => {
   const { id } = useParams();
   const tenantId = getTenantIdFromUrl();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [meetingInfo, setMeetingInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);

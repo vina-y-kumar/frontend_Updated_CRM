@@ -1,61 +1,266 @@
-.topNavbar-head{
-width: 1215px;
-height: 76px;
-background: #FFFFFFFF;
-border-radius: 0px;
-box-shadow: 0px 0px 1px #ddd, 0px 0px 2px #ccc;
-margin-left: 10rem;
-margin-top: 5rem;
-display: flex;
+.topNavbar-head {
+  width: 1270px;
+  height: 76px;
+  background: #FFFFFF;
+  border-radius: 0px;
+  box-shadow: 0px 0px 1px #ddd, 0px 0px 2px #ccc;
+  margin-left: 10rem;
+  margin-top: 5rem;
+  display: flex;
+}
 
+.topNavbar1 {
+  margin-left: 106rem;
+  margin-top: 20px;
 }
-.topNavbar1{
-margin-left: 106rem;
-margin-top: 20px;
-}
-.topNavbar2{
-    margin-top: 20px;
-    margin-left: 10px; /* Add 7px gap */
+
+.topNavbar2 {
+  margin-top: 20px;
+  margin-left: 10px; /* Add 7px gap */
 }
 
 .notification-icon-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 .notification-count {
-    position: absolute;
-    top: +10px;
-    left: +25px;
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 }
 
 .notification-dropdown {
-    position: absolute;
-    top: 36px; /* Adjust based on the height of your notification icon */
-    right: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 250px; /* Adjust based on your design */
-    z-index: 1000;
+  position: absolute;
+  top: 36px; /* Adjust based on the height of your notification icon */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 250px; /* Adjust based on your design */
+  z-index: 1000;
 }
 
 .notification-item {
-    padding: 10px;
-    border-bottom: 1px solid #f0f0f0;
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .notification-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
+}
+
+/* New styles for "+" dropdown */
+.add-icon-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.add-dropdown {
+  position: absolute;
+  top: 36px; /* Adjust based on the height of your "+" icon */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 150px; /* Adjust based on your design */
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.AccountCircle {
+  margin-top: 10px;
+}
+
+.callround {
+  margin-top: 10px;
+}
+
+.insertcommon {
+  margin-top: 10px;
+}
+
+/* TopNavbar.css */
+.blur {
+  filter: blur(5px);
+  transition: filter 0.3s;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
+}
+.modal-content_call {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1001; /* Ensure it's above the overlay */
+  width: 400px; /* Adjust width as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+
+.modal-content_meet
+ {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1001; /* Ensure it's above the overlay */
+}
+
+/* Ensure other elements are beneath the modal overlay */
+body.modal-open {
+  overflow: hidden;
+}
+
+.topNavlog {
+  display: flex;
+  flex-direction: row;
+  padding: 50px;
+  margin-top: 20px;
+}
+.form-label {
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1F;
+  margin-bottom: 8px;
+}
+
+.form-label-call_to,
+.form-label-call_type,
+.form-label-start_time,
+.form-label-to_time1,
+.form-label-related_to1,
+.form-label-outgoing_status {
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1F;
+}
+
+.form-input-call_to,
+.form-input-call_type,
+.form-input-start_time,
+.form-input-outgoing_status,
+.form-input-related_to1,
+.form-input-to_time {
+  width: 160px;
+  height: 26px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E6;
+  outline: none;
+  margin-left: 10px;
+}
+
+.form-input-call_to,
+.form-input-call_type,
+.form-label-call_type,
+.form-input-to_time,
+.form-label-start_time,
+.form-label-related_to1,
+.form-input-related_to1,
+.form-input-start_time,
+.form-input-outgoing_status,
+.form-label-outgoing_status {
+  margin-top: 20px;
+}
+.form-input {
+  width: 100%;
+  height: 36px;
+  padding: 8px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6;
+  border-radius: 4px;
+  border: 1px solid #DEE1E6;
+  outline: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+/* Button Styles */
+.form-button-container1 {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-button {
+  padding: 10px 20px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 700;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button1 {
+  background-color: #ff4d4d; /* Red color */
+  color: white;
+  margin-right: 10px; /* Add some spacing between buttons */
+
+}
+
+.cancel-button1:hover {
+  background-color: #ff3333; /* Darker red on hover */
+}
+
+.submit-button1 {
+  background-color: #4CAF50; /* Green color */
+  color: white;
+}
+
+.submit-button1:hover {
+  background-color: #45a049; /* Darker green on hover */
 }

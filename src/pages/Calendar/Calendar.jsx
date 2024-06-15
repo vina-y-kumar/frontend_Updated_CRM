@@ -24,6 +24,7 @@ const CalendarComponent = () => {
   const tenantId = getTenantIdFromUrl();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [events, setEvents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchEvents = async () => {
     const eventTypes = [
@@ -60,7 +61,6 @@ const CalendarComponent = () => {
     fetchEvents();
   }, []);
   
-
   const openModal = () => {
     setModalIsOpen(true);
   };
@@ -68,6 +68,27 @@ const CalendarComponent = () => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredEvents = events.filter(event => {
+    const query = searchQuery.toLowerCase();
+    const eventTitle = event.title.toLowerCase();
+    const eventDate = moment(event.start).format('YYYY-MM-DD');
+    const eventMonth = moment(event.start).format('MMMM').toLowerCase();
+    const eventYear = moment(event.start).format('YYYY');
+    const eventWeek = moment(event.start).week().toString();
+    
+    return (
+      eventTitle.includes(query) ||
+      eventDate.includes(query) ||
+      eventMonth.includes(query) ||
+      eventYear.includes(query) ||
+      eventWeek.includes(query)
+    );
+  });
 
   return (
     <div className={`calendar-page ${modalIsOpen ? 'blur' : ''}`}>
@@ -90,9 +111,18 @@ const CalendarComponent = () => {
           </div>
         </div>
         <div className='calendar-container'>
+          <div className="rbc-toolbar-search">
+            <SearchIcon className="search-icon" style={{ width: '24px', height: '24px' }} />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </div>
           <Calendar
             localizer={localizer}
-            events={events}
+            events={filteredEvents}
             startAccessor="start"
             endAccessor="end"
             style={{ height: '80vh', margin: '20px' }}
@@ -145,10 +175,6 @@ const CustomToolbar = (toolbar) => {
         <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('week')}>Week</button>
         <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('month')}>Month</button>
       </span>
-      <div className="rbc-toolbar-search">
-        <SearchIcon className="search-icon" style={{ width: '24px', height: '24px' }} />
-        <input type="text" placeholder="Search..." />
-      </div>
     </div>
   );
 };

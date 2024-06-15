@@ -136,6 +136,8 @@
     align-items: center;
     justify-content: flex-end; /* Align to the right */
     margin-right: 10px;
+    position: relative;
+    right: 60rem;
   }
   
 
@@ -158,6 +160,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-end; 
+    width: 22rem;
+    position: relative;
+    left: 100rem;
+    top: 80px;
   }
   .search-icon{
     position: relative;

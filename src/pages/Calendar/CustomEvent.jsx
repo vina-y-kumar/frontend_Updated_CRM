@@ -14,8 +14,9 @@ const CustomEvent = ({ event }) => {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     backgroundColor: event.color || '#FFD700', // Use event's color or default
-
   };
+
+  console.log('Rendering event:', event); // Debugging line
 
   return (
     <div style={eventStyle} title={event.title}>

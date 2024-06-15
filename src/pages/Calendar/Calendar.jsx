@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './Calendar.css'; // Assuming you have your CSS file imported here
+import './Calendar.css';
 import { Link } from 'react-router-dom';
 import TopNavbar from '../TopNavbar/TopNavbar.jsx';
 import Calendarform from './Calendarform.jsx';
@@ -25,45 +25,41 @@ const CalendarComponent = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [events, setEvents] = useState([]);
 
-  const fetchEvents = async (eventType) => {
+  const fetchEvents = async () => {
+    const eventTypes = [
+      { type: 'Calls', endpoint: '/calls/', titleKey: 'related_to', color: '#FFD700' },
+      { type: 'Meetings', endpoint: '/meetings/', titleKey: 'title', color: '#FFFF00' },
+      { type: 'Tasks', endpoint: '/tasks/', titleKey: 'subject', color: '#FF0000' }
+    ];
+  
     try {
-      let endpoint = '';
-      switch (eventType) {
-        case 'Calls':
-          endpoint = '/calls/';
-          break;
-        case 'Meetings':
-          endpoint = '/meetings/';
-          break;
-        case 'Tasks':
-          endpoint = '/tasks/';
-          break;
-        default:
-          console.error('Invalid event type:', eventType);
-          return;
+      const allEvents = [];
+  
+      for (const { type, endpoint, titleKey, color } of eventTypes) {
+        const response = await axiosInstance.get(endpoint);
+  
+        const formattedEvents = response.data.map(event => ({
+          id: event.id,
+          title: event[titleKey] || `Event ${event.id}`,
+          start: new Date(event.start_time || event.from_time || event.due_date),
+          end: new Date(event.to_time || event.due_date),
+          color: color
+        }));
+  
+        console.log(`Formatted ${type}:`, formattedEvents);
+        allEvents.push(...formattedEvents);
       }
   
-      const response = await axiosInstance.get(endpoint);
-  
-      const formattedEvents = response.data.map(event => ({
-        id: event.id,
-        title: eventType === 'Calls' ? (event.title || `Call ${event.id}`) : (eventType === 'Meetings' ? (event.subject || `Meeting ${event.id}`) : (event.subject || `Task ${event.id}`)),
-        start: new Date(event.start_time || event.due_date),
-        end: new Date(event.to_time || event.due_date),
-        color: event.color || '#FFD700',
-      }));
-  
-      setEvents(prevEvents => [...prevEvents, ...formattedEvents]);
+      setEvents(allEvents);
     } catch (error) {
-      console.error(`Error fetching ${eventType.toLowerCase()}:`, error);
+      console.error('Error fetching events:', error);
     }
   };
-
+  
   useEffect(() => {
-    fetchEvents('Calls');
-    fetchEvents('Meetings');
-    fetchEvents('Tasks'); // Fetch tasks when component mounts
+    fetchEvents();
   }, []);
+  
 
   const openModal = () => {
     setModalIsOpen(true);

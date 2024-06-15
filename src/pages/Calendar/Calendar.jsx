@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css'; // Custom styles
 import { NavLink, Link } from "react-router-dom";
-import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 import { Sidebar } from "../../components/Sidebar";
+import TopNavbar from '../TopNavbar/TopNavbar.jsx';
+import Calendarform from './Calendarform.jsx';
+import SearchIcon from '@mui/icons-material/Search';
+import axiosInstance from "../../api";
+import CustomEvent from './CustomEvent';
+
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
@@ -16,23 +21,98 @@ const getTenantIdFromUrl = () => {
 
 const localizer = momentLocalizer(moment);
 
-const myEventsList = [
-  { title: 'New Leads', start: new Date(2024, 2, 2, 8, 0), end: new Date(2024, 2, 2, 9, 0), color: '#ffcc99' },
-  { title: 'Call New Client', start: new Date(2024, 2, 2, 13, 0), end: new Date(2024, 2, 2, 14, 0), color: '#99ccff' },
-  { title: 'Schedule presentation', start: new Date(2024, 2, 9, 13, 0), end: new Date(2024, 2, 9, 14, 0), color: '#ffcc00' },
-  { title: 'Meeting with Alan', start: new Date(2024, 2, 11, 13, 0), end: new Date(2024, 2, 11, 14, 0), color: '#ff99cc' },
-  { title: 'Client Meeting', start: new Date(2024, 2, 17, 13, 0), end: new Date(2024, 2, 17, 14, 0), color: '#66ccff' },
-  { title: 'Weekly Meeting', start: new Date(2024, 2, 19, 16, 0), end: new Date(2024, 2, 19, 17, 0), color: '#cc99ff' },
-  { title: 'Creative Workshop', start: new Date(2024, 2, 20, 21, 0), end: new Date(2024, 2, 20, 22, 0), color: '#66ccff' },
-  { title: 'Create the report', start: new Date(2024, 2, 23, 21, 0), end: new Date(2024, 2, 23, 22, 0), color: '#ff9966' },
-  { title: 'Creative Workshop', start: new Date(2024, 2, 26, 21, 0), end: new Date(2024, 2, 26, 22, 0), color: '#66ccff' },
-];
+const CalendarComponent = () => {
+  const tenantId = getTenantIdFromUrl();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [events, setEvents] = useState([]);
 
-const CustomEvent = ({ event }) => (
-  <span style={{ backgroundColor: event.color, padding: '2px 5px', borderRadius: '3px', color: 'white' }}>
-    {event.title}
-  </span>
-);
+  const fetchEvents = async (eventType) => {
+    try {
+      let endpoint = '';
+      switch (eventType) {
+        case 'Calls':
+          endpoint = '/calls/';
+          break;
+        case 'Meetings':
+          endpoint = '/meetings/';
+          break;
+        case 'Tasks':
+          endpoint = '/tasks/';
+          break;
+        default:
+          console.error('Invalid event type:', eventType);
+          return;
+      }
+  
+      const response = await axiosInstance.get(endpoint);
+  
+      const formattedEvents = response.data.map(event => ({
+        id: event.id,
+        title: eventType === 'Calls' ? (event.title || `Call ${event.id}`) : (eventType === 'Meetings' ? (event.subject || `Meeting ${event.id}`) : (event.subject || `Task ${event.id}`)),
+        start: new Date(event.start_time || event.due_date),
+        end: new Date(event.to_time || event.due_date),
+        color: event.color || '#FFD700',
+      }));
+  
+      setEvents(prevEvents => [...prevEvents, ...formattedEvents]);
+    } catch (error) {
+      console.error(`Error fetching ${eventType.toLowerCase()}:`, error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents('Calls');
+    fetchEvents('Meetings');
+    fetchEvents('Tasks'); // Fetch tasks when component mounts
+  }, []);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  return (
+    <div className={`calendar-page ${modalIsOpen ? 'blur' : ''}`}>
+      <div className='calendar-side'>
+        <Link to={`/${tenantId}/callpage`} id='back-inter-task' className='back-button'>
+          Back
+        </Link>
+      </div>
+      <div className='calendar-content'>
+        <div className="calendar-nav">
+          <TopNavbar />
+        </div>
+        <div className='calendar-header'>
+          <div className='calendar-title'>
+            <h1>Calendar</h1>
+          </div>
+          <div className="create-calendar">
+            <button id="btn1" onClick={openModal}>+ Create New</button>
+            <Calendarform isOpen={modalIsOpen} onRequestClose={closeModal} fetchEvents={fetchEvents} />
+          </div>
+        </div>
+        <div className='calendar-container'>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: '80vh', margin: '20px' }}
+            components={{
+              event: CustomEvent,
+              toolbar: CustomToolbar
+            }}
+            views={[Views.MONTH, Views.WEEK, Views.DAY]}
+            defaultView={Views.MONTH}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
@@ -65,50 +145,14 @@ const CustomToolbar = (toolbar) => {
         <span className="rbc-toolbar-label">{label()}</span>
         <button type="button" onClick={goToNext}>Next</button>
       </span>
-      <span className="rbc-btn-group">
-        <button type="button" onClick={() => toolbar.onView('day')}>Day</button>
-        <button type="button" onClick={() => toolbar.onView('week')}>Week</button>
-        <button type="button" onClick={() => toolbar.onView('month')}>Month</button>
+      <span className="rbc-btn-group1">
+        <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('day')}>Day</button>
+        <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('week')}>Week</button>
+        <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('month')}>Month</button>
       </span>
-    </div>
-  );
-};
-
-const CalendarComponent = () => {
-  const tenantId = getTenantIdFromUrl();
-
-  return (
-    <div className='calendar-page'>
-      <div >
-      <Sidebar />
-      </div>
-      <div className='calendar-content'>
-        <div className="calendar-nav">
-          <TopNavbar />
-        </div>
-        <div className='calendar-header'>
-          <div className='calendar-title'>
-            <h1>Calendar</h1>
-          </div>
-          <div className="create-calendar">
-            <NavLink to={`/${tenantId}/calendarform`} id="btn1"> +Create New</NavLink>
-          </div>
-        </div>
-        <div className='calendar-container'>
-          <Calendar
-            localizer={localizer}
-            events={myEventsList}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: '80vh', margin: '20px' }}
-            components={{
-              event: CustomEvent,
-              toolbar: CustomToolbar
-            }}
-            views={[Views.MONTH, Views.WEEK, Views.DAY]}
-            defaultView={Views.MONTH}
-          />
-        </div>
+      <div className="rbc-toolbar-search">
+        <SearchIcon className="search-icon" style={{ width: '24px', height: '24px' }} />
+        <input type="text" placeholder="Search..." />
       </div>
     </div>
   );

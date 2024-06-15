@@ -218,7 +218,6 @@ export const RouteWrapper = () => {
          <Route path="/:tenantId/report" element={<Report />} />
           <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
           <Route path=":tenant_id/calendar"   element={<Calendar/>}/>  
-          <Route path=":tenant_id/calendarform"   element={<Calendarform/>}/>  
 
 
           <Route path=":tenant_id/opportunity" element={<Form3/>} />

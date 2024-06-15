@@ -137,7 +137,7 @@ export const Sidebar = () => {
                 </li>
               </ul>
             )}
-          </li>
+          </li> 
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/lead")}>
               <span style={{ display: 'flex', alignItems:'center' }}>

@@ -88,96 +88,109 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="form-modal"
-      overlayClassName="overlay"
-    >
-      <div className="modal-content">
-        <button onClick={onRequestClose} className="close-button">
-          &times;
-        </button>
-        <h2>Create new Schedule</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Enter the title
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter the task"
-            />
-          </label>
-          <label>
-            Type of Event
-            <select value={eventType} onChange={(e) => setEventType(e.target.value)}>
-              <option value="Calls">Calls</option>
-              <option value="Meetings">Meetings</option>
-              <option value="Tasks">Tasks</option>
-            </select>
-          </label>
-          <label>
-            Time
-            <input
-              type="time"
-              value={from_time}
-              onChange={(e) => setStartTime(e.target.value)}
-            />
-            To
-            <input
-              type="time"
-              value={to_time}
-              onChange={(e) => setEndTime(e.target.value)}
-            />
-          </label>
-          <label>
-            Date
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </label>
-          <label>
-            Event Color
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-            />
-          </label>
-          <label>
-            Add Description
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Input text"
-            />
-          </label>
-          <label>
-            Created By
-            <input
-              type="text"
-              value={createdBy}
-              onChange={(e) => setCreatedBy(e.target.value)}
-              placeholder="Enter creator's ID"
-            />
-          </label>
-          {eventType === 'Meetings' && (
-            <label>
-              Participant 1 ID
-              <input
-                type="text"
-                value={participant1}
-                onChange={(e) => setParticipant1(e.target.value)}
-                placeholder="Enter participant ID"
-              />
-            </label>
-          )}
-          <button type="submit">Save and Submit</button>
-        </form>
-      </div>
-    </Modal>
+  isOpen={isOpen}
+  onRequestClose={onRequestClose}
+  className="form-modal"
+  overlayClassName="overlay"
+>
+  <div className="modal-content">
+    <button onClick={onRequestClose} className="close-button">
+      &times;
+    </button>
+    <h2 className="calendar-form-title">Create new Schedule</h2>
+    <form className="calendar-form" onSubmit={handleSubmit}>
+      <label className="calendar-info">
+        Enter the title
+        <input
+          type="text"
+          className="calendar-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter the task"
+        />
+      </label>
+      <label className="calendar-info">
+        Type of Event
+        <select
+          className="calendar-select"
+          value={eventType}
+          onChange={(e) => setEventType(e.target.value)}
+        >
+          <option value="Calls">Calls</option>
+          <option value="Meetings">Meetings</option>
+          <option value="Tasks">Tasks</option>
+        </select>
+      </label>
+      <label className="calendar-info">
+        Time
+        <input
+          type="time"
+          className="calendar-time"
+          value={from_time}
+          onChange={(e) => setStartTime(e.target.value)}
+        />
+        To
+        <input
+          type="time"
+          className="calendar-time"
+          value={to_time}
+          onChange={(e) => setEndTime(e.target.value)}
+        />
+      </label>
+      <label className="calendar-info">
+        Date
+        <input
+          type="date"
+          className="calendar-date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+      </label>
+      <label className="calendar-info">
+        Event Color
+        <input
+          type="color"
+          className="calendar-color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+        />
+      </label>
+      <label className="calendar-info">
+        Add Description
+        <textarea
+          className="calendar-textarea"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Input text"
+        />
+      </label>
+      <label className="calendar-info">
+        Created By
+        <input
+          type="text"
+          className="calendar-input"
+          value={createdBy}
+          onChange={(e) => setCreatedBy(e.target.value)}
+          placeholder="Enter creator's ID"
+        />
+      </label>
+      {eventType === 'Meetings' && (
+        <label className="calendar-info">
+          Participant 1 ID
+          <input
+            type="text"
+            className="calendar-input"
+            value={participant1}
+            onChange={(e) => setParticipant1(e.target.value)}
+            placeholder="Enter participant ID"
+          />
+        </label>
+      )}
+      <button type="submit" className="submit-calendar">Save and Submit</button>
+    </form>
+  </div>
+</Modal>
+
   );
 };
 

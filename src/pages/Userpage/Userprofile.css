@@ -232,3 +232,61 @@ left: 102rem;
   bottom: 5rem;
   /*right: 11.7rem;*/
 }
+.user-tasks-container {
+  position:absolute;
+  top:115rem
+}
+
+.task-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.task-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  width: calc(20% - 1px);
+  
+  box-sizing: border-box;
+  margin-left: 40px;
+}
+
+.task-item h3 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.task-item p {
+  margin: 4px 0;
+  padding: 2px;
+  font-family: 'Manrope';
+  font-size: 16px;
+}
+
+.task-item .task-priority-high {
+  color: red;
+}
+
+.task-item .task-priority-medium {
+  color: orange;
+}
+
+.task-item .task-priority-low {
+  color: green;
+}
+
+.latest-page{
+
+  font-family: 'Manrope';
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 800;
+  color: #323743FF;
+}
+.task-detail {
+  margin-left: 10px; /* Adjust the value as needed for the desired gap */
+}

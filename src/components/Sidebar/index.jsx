@@ -17,6 +17,7 @@ import './sidebar.css';
 import { useAuth } from '../../authContext';
 import axiosInstance from '../../api';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
 export const Sidebar = () => {
   const { authenticated, setAuthenticated } = useAuth();
@@ -159,6 +160,14 @@ export const Sidebar = () => {
               </ul>
             )}
           </li>
+          <li className="sidebar_item">
+                  <NavLink className="sidebar_link" to={formatLink("/calendar")}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <CalendarMonthRoundedIcon style={{fontSize:'2rem'}}/>
+                      <p className="sidebar_link_text">Calendar</p>
+                    </span>
+                  </NavLink>
+                </li>
         
         <li className="sidebar_item">
         <div className="dropdown_container" onClick={toggleMoreDropdown}>
@@ -242,6 +251,7 @@ export const Sidebar = () => {
         </div>
           
         </li>
+     
          
         
         </ul>

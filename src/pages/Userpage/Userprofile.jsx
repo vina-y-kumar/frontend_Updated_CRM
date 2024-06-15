@@ -22,13 +22,17 @@ const getTenantIdFromUrl = () => {
 };
 
 const UserProfile = () => {
-  const { userId } = useAuth();
+  const { userId } = useAuth(); // Assuming userId is available from authentication context
+  const { id } = useParams(); // Assuming the user ID is obtained from URL parameters
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({});
   const [profileImageFile, setProfileImageFile] = useState(null); 
   const [profileImageUrl, setProfileImageUrl] = useState(null); 
+  const [tasks, setTasks] = useState([]); // New state for tasks
+  const [showTasks, setShowTasks] = useState(false); // Add state for showing tasks
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,20 +47,18 @@ const UserProfile = () => {
       }
     };
 
-    fetchUserData();
-  }, [userId]);
+    const fetchUserTasks = async () => {
+      try {
+        const response = await axiosInstance.get(`/user/7/tasks/`); // Endpoint to fetch user tasks
+        setTasks(response.data);
+      } catch (error) {
+        console.error("Error fetching user tasks:", error);
+      }
+    };
 
-  const fetchUserData = async () => {
-    try {
-      const response = await axiosInstance.get(`/get-user/ee`);
-      setUser(response.data);
-      setEditedUser(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setIsLoading(false);
-    }
-  };
+    fetchUserData();
+    fetchUserTasks(); // Fetch user tasks when component mounts
+  }, [id]);
 
   const handleSaveChanges = async () => {
     try {
@@ -75,7 +77,7 @@ const UserProfile = () => {
         updatedUser.profile_image = response.data.url; 
       }
       
-      await axiosInstance.put(`/get-user/ee/`, updatedUser);
+      await axiosInstance.put(`/get-user/ee/`, updatedUser); // Update user data endpoint
       
       setEditedUser(updatedUser);
       
@@ -102,83 +104,16 @@ const UserProfile = () => {
     setProfileImageUrl(imageUrl);
   };
 
-  useEffect(() => {
-    if (!isEditing) {
-      fetchUserData();
-    }
-  }, [isEditing]);
- 
-  const [file, setFile] = useState(null);
-  const [fileUrl, setFileUrl] = useState('')
-  const { id } = useParams();
-
-
- 
-   const handleFileChange = async (event) => {
-    const selectedFile = event.target.files[0];
-    console.log('Selected file:', selectedFile);
-    
-    if (selectedFile) {
-      setFile(selectedFile);
-      console.log('File state set:', selectedFile);
-  
-      try {
-        // Upload the file to Azure Blob Storage
-        console.log('Uploading file to Azure Blob Storage...');
-      const fileUrl = await uploadToBlob(selectedFile);
-        console.log('File uploaded to Azure, URL:', fileUrl);
-
-       
-  
-        // Send a POST request to your backend with the file URL
-        console.log('Sending POST request to backend...');
-        const response = await axiosInstance.post('/documents/', {
-          name: selectedFile.name,
-          document_type: selectedFile.type,
-          description: 'Your file description',
-          file_url: fileUrl,
-          entity_type: 7,
-          entity_id: id,
-          tenant : tenantId,
-        });
-        console.log('POST request successful, response:', response.data);
-  
-        console.log('File uploaded successfully:', response.data);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    } else {
-      console.log('No file selected');
-    }
-  };
- 
-
-  const fetchProfileImageUrl = async () => {
-    try {
-      const response = await axiosInstance.get(`/documents/`); // Adjust the endpoint as needed
-      console.log('GET request successful, response:', response.data[20]);
-      setProfileImageUrl(response.data[20].file_url); // Assuming response.data.file_url contains the URL
-    
-    } catch (error) {
-      console.error('Error fetching file URL:', error);
-    }
-  };
-
-  useEffect(() => {
-      fetchProfileImageUrl();
-    
-  }, [id]);
-
- 
-  
-
+  const toggleTasksVisibility = () => {
+    setShowTasks(prevShowTasks => !prevShowTasks);
+};
   return (
     <div className="user-profile-container">
-      <div className="home_left_box1" style={{"top":"0rem"}}>
+      <div className="home_left_box1" style={{ top: "0rem" }}>
         <Sidebar />
       </div>
       <div>
-      <div className="right_div" style={{marginLeft:'-80px'}}>
+        <div className="right_div" style={{ marginLeft: '-80px' }}>
           <TopNavbar profileImageUrl={profileImageUrl} />
         </div>
         <div>
@@ -196,7 +131,7 @@ const UserProfile = () => {
                   <div className='semi-half-circle3'></div>
                   <div className='semi-half-circle4'></div>
                 </div> 
-                <label htmlFor="profile-image" className="avatar" onChange={handleFileChange}  onClick={() => document.getElementById("profile-image").click()}>
+                <label htmlFor="profile-image" className="avatar" onClick={() => document.getElementById("profile-image").click()}>
                   {profileImageUrl && <img src={profileImageUrl} alt="Profile" />}
                   <span className=' profile-user'>Profile</span>
                 </label>
@@ -300,14 +235,37 @@ const UserProfile = () => {
           <div className="edit-profile-form">
             {isEditing ? (
               <>
-                <button className="btn_username-save" onClick={handleSaveChanges}>Save</button>
+ <button className="btn_username-save" onClick={handleSaveChanges}>Save</button>
                 <button className="btn_username-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
               </>
-            ) : (
-              <button className="btn_username" onClick={() => setIsEditing(true)}>Edit Profile</button>
-            )}
-          </div>
-        </div>
+               ) : (
+                <button className="btn_username" onClick={() => setIsEditing(true)}>Edit Profile</button>
+              )}
+               </div>
+               </div>
+                 {/* Displaying user tasks */}
+      {/* Displaying user tasks */}
+      <div className="user-tasks-container">
+                    <h2 onClick={toggleTasksVisibility} style={{ cursor: 'pointer' }} className='latest-page'>Latest Tasks</h2>
+                    {showTasks && (
+                        <div className="task-list">
+                            {tasks.length > 0 ? (
+                                tasks.map(task => (
+                                    <div key={task.id} className="task-item">
+                                        <h3>{task.subject}</h3>
+                                        <p><strong>Status:</strong> <span className="task-detail">{task.status}</span></p>
+                                        <p><strong>Priority:</strong> <span className={`task-priority-${task.priority.toLowerCase()} task-detail`}>{task.priority}</span></p>
+                                        <p><strong>Due Date:</strong> <span className="task-detail">{task.due_date}</span></p>
+                                        <p><strong>Description:</strong> <span className="task-detail">{task.description}</span></p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No tasks found for this user.</p>
+                            )}
+                        </div>
+                    )}
+                </div>
+
       </div>
     </div>
   );

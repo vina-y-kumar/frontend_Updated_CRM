@@ -64,7 +64,7 @@ export const InteractionTable = () => {
               <div>
               <h1>Interaction</h1>
               </div>
-             <div style={{display:'flex',flexDirection:'row'}}>
+             <div style={{display:'flex',flexDirection:'row',marginRight:'50px'}}>
             
            
         
@@ -87,7 +87,7 @@ export const InteractionTable = () => {
                           </Dropdown.Menu>
                         </Dropdown>
                           </div>
-                          <div className="add_int">
+                          <div className="add_int"  >
                       
                       <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
 

@@ -201,9 +201,11 @@ const handleCreateMeeting = async (e) => {
       <div className="home_left_box">
         <Sidebar />
       </div>
-      <h1 className="call_head"> Calls </h1>
+     
       <div className="contain1">
-        <div className="meet1">
+     
+        <div className="meet1" style={{display:'flex',flexDirection:'row'}}>
+        <h1 className="call_head"> Calls </h1>
         <div className="menu_call">
         <Dropdown >
           <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu_call">
@@ -242,7 +244,8 @@ const handleCreateMeeting = async (e) => {
               <option value="1">Log in</option>
               <option value="2">Log out</option>
             </select> */}
-            < div >
+            < div style ={{display:'flex',flexDirection:'column'}}>
+              <div>
             <select  className="create4" onChange={handleDropDownChange}>
               <option value="">Select Action</option>
               <option value="schedule">Schedule a Call</option>
@@ -413,26 +416,28 @@ const handleCreateMeeting = async (e) => {
         </div>
       </dialog>
             </div>
+            <div className="recordss" style={{ width: "100%" }}>
+       
+          <select
+              value={viewMode}
+              onChange={(e) => handleViewModeChange(e.target.value)}
+              className="view-mode-select"
+            >
+              <option value="">View!</option>
+              <option value="table">Table View</option>
+              <option value="tile">Tile View</option>
+              <option value="list">List View</option>
+            </select>
+        </div>
             {/* <select onChange={handleCreateMeeting}>
               <option value="">Action</option>
               <option value="1">Option 1</option>
               <option value="2">Option 2</option>
             </select> */}
+            </div>
           </div>
         </div>
-        <div className="recordss" style={{ width: "100%" }}>
-       
-          <select
-  value={viewMode}
-  onChange={(e) => handleViewModeChange(e.target.value)}
-  className="view-mode-select"
->
-  <option value="">View!</option>
-  <option value="table">Table View</option>
-  <option value="tile">Tile View</option>
-  <option value="list">List View</option>
-</select>
-        </div>
+        
 
         {/* table view */}
         {viewMode === "table" && (

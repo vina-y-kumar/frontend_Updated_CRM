@@ -35,7 +35,7 @@ export const Sidebar = () => {
   const [clientsDropdownOpen, setClientsDropdownOpen] = useState(false);
   const [taskDropdownOpen, setTaskDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false); 
-
+  const [socialDropdownOpen, setSocialDropdownOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -56,6 +56,7 @@ export const Sidebar = () => {
     setClientsDropdownOpen(!clientsDropdownOpen);
     setTaskDropdownOpen(false);
     setMoreDropdownOpen(false);
+    setSocialDropdownOpen(false);
   };
 
   const toggleTaskDropdown = () => {
@@ -63,14 +64,21 @@ export const Sidebar = () => {
     // Close other dropdowns if open
     setClientsDropdownOpen(false);
     setMoreDropdownOpen(false);
+    setSocialDropdownOpen(false);
   };
   const toggleMoreDropdown = () => {
     setMoreDropdownOpen(!moreDropdownOpen);
     // Close other dropdowns if open
     setClientsDropdownOpen(false);
     setTaskDropdownOpen(false);
+    setSocialDropdownOpen(false);
   };
-
+  const toggleSocialDropdown = () => {
+    setSocialDropdownOpen(!socialDropdownOpen);
+    setTaskDropdownOpen(false);
+    setMoreDropdownOpen(false);
+    setClientsDropdownOpen(false);
+  };
 
   const formatLink = (link) => {
     if (tenantId) {
@@ -130,7 +138,32 @@ export const Sidebar = () => {
                 </li>
               </ul>
             )}
+          </li> 
+          <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/lead")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Leads</p>
+              </span>
+            </NavLink>
           </li>
+           <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/opportunities")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <EmojiObjectsIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Opportunities</p>
+              </span>
+            </NavLink>
+          </li> 
+          <li className="dropdown_item">
+                <NavLink className="sidebar_link" to={formatLink("/tasks")}>
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    <AssignmentIcon style={{fontSize:'2rem'}}/>
+                    <p className="sidebar_link_text">Tasks</p>
+                  </span>
+                </NavLink>
+              </li>
+          
           <li className="sidebar_item">
             <div className="sidebar_link" onClick={toggleTaskDropdown}>
               <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -157,24 +190,75 @@ export const Sidebar = () => {
                     </span>
                   </NavLink>
                 </li>
+                
+                
               </ul>
             )}
           </li>
           <li className="sidebar_item">
-                  <NavLink className="sidebar_link" to={formatLink("/calendar")}>
+            <div className="sidebar_link" onClick={toggleSocialDropdown}>
+              <span style={{ display: 'flex', alignItems: 'center' }}>
+                <FormatListNumberedIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Social</p>
+                <i className={`bx ${socialDropdownOpen ? 'bx-chevron-up' : 'bx-chevron-down'}`} style={{ fontSize: '1.5rem', marginLeft: 'auto' }}></i>
+              </span>
+            </div>
+            {socialDropdownOpen && (
+              <ul className="dropdown_list">
+                <li className="sidebar_item">
+                  <NavLink className="sidebar_link" to={formatLink("/instagrampost")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <CalendarMonthRoundedIcon style={{fontSize:'2rem'}}/>
-                      <p className="sidebar_link_text">Calendar</p>
+                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <p className="sidebar_link_text">Instagram</p>
+                    </span>
+                  </NavLink>
+                  </li>
+                  <li className="sidebar_item">
+                  <NavLink className="sidebar_link" to={formatLink("/chatbot")}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <p className="sidebar_link_text">Chatbot</p>
+                    </span>
+                  </NavLink>
+                  </li>
+                  <li className="sidebar_item">
+                  <NavLink className="sidebar_link" to={formatLink("/email")}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <p className="sidebar_link_text">Email</p>
+                    </span>
+                  </NavLink>
+                  </li>
+                <li className="sidebar_item">
+                  <NavLink className="sidebar_link" to={formatLink("/linkedinauth")}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <CallIcon style={{fontSize:'2rem'}}/>
+                      <p className="sidebar_link_text">LinkedIn</p>
                     </span>
                   </NavLink>
                 </li>
+                
+              </ul>
+            )}
+          </li>
+          <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/calendar")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Calendar</p>
+              </span>
+            </NavLink>
+          </li>
+          
+        
+          
         
         <li className="sidebar_item">
         <div className="dropdown_container" onClick={toggleMoreDropdown}>
         <button className="sidebar_link">
           <MoreHorizRoundedIcon style={{fontSize:'2rem'}}/>
           <p className="sidebar_link_text">More</p>
-          <i className={`bx ${moreDropdownOpen ? 'bx-chevron-up' : 'bx-chevron-down'}`} style={{ fontSize: '1.5rem', marginLeft: 'auto' }}></i>
+          <i className={`bx ${moreDropdownOpen ? 'bx-chevron-left' : 'bx-chevron-right'}`} style={{ fontSize: '1.5rem', marginLeft: 'auto' }}></i>
         </button>
                       
         
@@ -184,22 +268,8 @@ export const Sidebar = () => {
             <ul className="dropdown_list">
               <div className="dropdown_list-data">
               <div>
-          <li className="sidebar_item">
-            <NavLink className="sidebar_link" to={formatLink("/lead")}>
-              <span style={{ display: 'flex', alignItems:'center' }}>
-                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
-                <p className="sidebar_link_text">Leads</p>
-              </span>
-            </NavLink>
-          </li>
-            <li className="sidebar_item">
-            <NavLink className="sidebar_link" to={formatLink("/opportunities")}>
-              <span style={{ display: 'flex', alignItems:'center' }}>
-                <EmojiObjectsIcon style={{fontSize:'2rem'}}/>
-                <p className="sidebar_link_text">Opportunities</p>
-              </span>
-            </NavLink>
-          </li>
+          
+           
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/vendors")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -216,16 +286,26 @@ export const Sidebar = () => {
                   </span>
                 </NavLink>
               </li>
+              <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/loyalty")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Loyalty Program</p>
+              </span>
+            </NavLink>
+          </li>
+          <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/report")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Reports</p>
+              </span>
+            </NavLink>
+          </li>
+             
           </div>
           <div>
-          <li className="dropdown_item">
-                <NavLink className="sidebar_link" to={formatLink("/tasks")}>
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <AssignmentIcon style={{fontSize:'2rem'}}/>
-                    <p className="sidebar_link_text">Tasks</p>
-                  </span>
-                </NavLink>
-              </li>
+         
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/interaction")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -242,6 +322,23 @@ export const Sidebar = () => {
                   </span>
                 </NavLink>
               </li>
+              <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/reminder")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Reminder</p>
+              </span>
+            </NavLink>
+          </li>
+          <li className="sidebar_item">
+            <NavLink className="sidebar_link" to={formatLink("/ticketinfo")}>
+              <span style={{ display: 'flex', alignItems:'center' }}>
+                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <p className="sidebar_link_text">Tickets</p>
+              </span>
+            </NavLink>
+          </li>
+       
           </div>
               </div>
          

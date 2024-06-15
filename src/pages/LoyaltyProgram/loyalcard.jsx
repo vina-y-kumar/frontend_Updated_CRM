@@ -4,7 +4,7 @@ import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 import './loyalty.css';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import StyleIcon from '@mui/icons-material/Style';
-
+import Image from '../../assets/Image.png';
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');
     if (pathArray.length >= 2) {
@@ -27,8 +27,10 @@ const Loyalcard = () => {
                 <div className='loyal_topbar'>
                     <TopNavbar />
                 </div>
-                <div>
+                <div style={{marginTop:'-50px',marginLeft:'20px'}}>
+              
                     <h1 className='loyal-head'>Loyalty Program</h1>
+                    <img src={Image} alt="Loyalty Image" style={{marginLeft:'200px',marginBottom:'10px'}}/>
                 </div>
                 <div className="infoboxloyal1">
                     <p className="info-detail-loyal">Choose any of the programs and customize the rewards and conditions</p>

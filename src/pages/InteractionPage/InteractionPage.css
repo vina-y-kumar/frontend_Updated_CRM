@@ -128,12 +128,13 @@
 }
 
 .add-interaction-button {
-  background-color: #28a745; /* Green */
+  background-color: #62CD14FF; /* Green */
   color: #fff; /* White */
   border: none;
  padding: 10px;
   font-size: 16px;
-  /*border-radius: 0.3125rem;*/
+  border-radius: 6px;
+
   cursor: pointer;
    /*position: absolute;
  top: 6.25rem;*/

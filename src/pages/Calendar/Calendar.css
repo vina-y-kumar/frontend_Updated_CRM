@@ -8,6 +8,7 @@
     background: #FAFAFB;
     box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
     padding: 20px;
+    z-index:999;
 }
 
 .back-button {
@@ -21,13 +22,16 @@
 .calendar-content {
     flex: 1;
     padding: 20px;
+    
 }
 
 .calendar-nav {
+    margin-bottom: 20px;
+    margin-left:-80px;
+    margin-top:-70px;
     position: relative;
-    bottom: 7rem;
-    right: 1rem;
 }
+
 
 .calendar-header {
     display: flex;

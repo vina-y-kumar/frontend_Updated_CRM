@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './Calendar.css';
-import { Link } from 'react-router-dom';
+import './Calendar.css'; // Custom styles
+import { NavLink, Link } from "react-router-dom";
+import { Sidebar } from "../../components/Sidebar";
 import TopNavbar from '../TopNavbar/TopNavbar.jsx';
 import Calendarform from './Calendarform.jsx';
 import SearchIcon from '@mui/icons-material/Search';

@@ -257,7 +257,7 @@ const renderTableRows = () => {
               <h1 style={{paddingBottom:'100px'}}>Account list</h1>
               </div>
               <div style={{display:'flex',flexDirection:'row',marginTop:'90px'}}>
-              <div  style={{marginRight:'80px'}}>
+              <div  style={{marginRight:'10px'}}>
                           <Dropdown>
                             <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu">
                               Excel File

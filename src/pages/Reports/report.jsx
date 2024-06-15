@@ -6,7 +6,7 @@ import TopNavbar from "../TopNavbar/TopNavbar.jsx";
 import { Dropdown } from "react-bootstrap";
 import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Line, BarChart, Bar, LabelList, PieChart, Pie, Cell } from 'recharts';
 import { useAuth } from "../../authContext";
-
+import { Link, NavLink } from 'react-router-dom';
 
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');

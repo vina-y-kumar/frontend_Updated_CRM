@@ -2,7 +2,7 @@
 
 
 .siadebar {
-  height: 100vh;
+  
   width: 280px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -53,6 +53,7 @@
   padding: 0;
   margin: 0;
   width: 100%;
+  margin-top:-10px;
 }
 
 .sidebar_item {
@@ -124,7 +125,7 @@
 
 .dropdown_menu {
   position: absolute;
- bottom: -10rem;
+ bottom: 2rem;
   left: 27rem;
   background-color: #fff;
   border: 1px solid #ccc;

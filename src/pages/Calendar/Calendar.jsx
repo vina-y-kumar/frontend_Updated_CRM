@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './Calendar.css'; // Assuming you have your CSS file imported here
+import './Calendar.css';
 import { Link } from 'react-router-dom';
 import TopNavbar from '../TopNavbar/TopNavbar.jsx';
 import Calendarform from './Calendarform.jsx';
@@ -24,47 +24,43 @@ const CalendarComponent = () => {
   const tenantId = getTenantIdFromUrl();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [events, setEvents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const fetchEvents = async (eventType) => {
+  const fetchEvents = async () => {
+    const eventTypes = [
+      { type: 'Calls', endpoint: '/calls/', titleKey: 'related_to', color: '#FFD700' },
+      { type: 'Meetings', endpoint: '/meetings/', titleKey: 'title', color: '#FFFF00' },
+      { type: 'Tasks', endpoint: '/tasks/', titleKey: 'subject', color: '#FF0000' }
+    ];
+  
     try {
-      let endpoint = '';
-      switch (eventType) {
-        case 'Calls':
-          endpoint = '/calls/';
-          break;
-        case 'Meetings':
-          endpoint = '/meetings/';
-          break;
-        case 'Tasks':
-          endpoint = '/tasks/';
-          break;
-        default:
-          console.error('Invalid event type:', eventType);
-          return;
+      const allEvents = [];
+  
+      for (const { type, endpoint, titleKey, color } of eventTypes) {
+        const response = await axiosInstance.get(endpoint);
+  
+        const formattedEvents = response.data.map(event => ({
+          id: event.id,
+          title: event[titleKey] || `Event ${event.id}`,
+          start: new Date(event.start_time || event.from_time || event.due_date),
+          end: new Date(event.to_time || event.due_date),
+          color: color
+        }));
+  
+        console.log(`Formatted ${type}:`, formattedEvents);
+        allEvents.push(...formattedEvents);
       }
   
-      const response = await axiosInstance.get(endpoint);
-  
-      const formattedEvents = response.data.map(event => ({
-        id: event.id,
-        title: eventType === 'Calls' ? (event.title || `Call ${event.id}`) : (eventType === 'Meetings' ? (event.subject || `Meeting ${event.id}`) : (event.subject || `Task ${event.id}`)),
-        start: new Date(event.start_time || event.due_date),
-        end: new Date(event.to_time || event.due_date),
-        color: event.color || '#FFD700',
-      }));
-  
-      setEvents(prevEvents => [...prevEvents, ...formattedEvents]);
+      setEvents(allEvents);
     } catch (error) {
-      console.error(`Error fetching ${eventType.toLowerCase()}:`, error);
+      console.error('Error fetching events:', error);
     }
   };
-
+  
   useEffect(() => {
-    fetchEvents('Calls');
-    fetchEvents('Meetings');
-    fetchEvents('Tasks'); // Fetch tasks when component mounts
+    fetchEvents();
   }, []);
-
+  
   const openModal = () => {
     setModalIsOpen(true);
   };
@@ -72,6 +68,27 @@ const CalendarComponent = () => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredEvents = events.filter(event => {
+    const query = searchQuery.toLowerCase();
+    const eventTitle = event.title.toLowerCase();
+    const eventDate = moment(event.start).format('YYYY-MM-DD');
+    const eventMonth = moment(event.start).format('MMMM').toLowerCase();
+    const eventYear = moment(event.start).format('YYYY');
+    const eventWeek = moment(event.start).week().toString();
+    
+    return (
+      eventTitle.includes(query) ||
+      eventDate.includes(query) ||
+      eventMonth.includes(query) ||
+      eventYear.includes(query) ||
+      eventWeek.includes(query)
+    );
+  });
 
   return (
     <div className={`calendar-page ${modalIsOpen ? 'blur' : ''}`}>
@@ -94,9 +111,18 @@ const CalendarComponent = () => {
           </div>
         </div>
         <div className='calendar-container'>
+          <div className="rbc-toolbar-search">
+            <SearchIcon className="search-icon" style={{ width: '24px', height: '24px' }} />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </div>
           <Calendar
             localizer={localizer}
-            events={events}
+            events={filteredEvents}
             startAccessor="start"
             endAccessor="end"
             style={{ height: '80vh', margin: '20px' }}
@@ -149,10 +175,6 @@ const CustomToolbar = (toolbar) => {
         <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('week')}>Week</button>
         <button className="rbc-btn-group2" type="button" onClick={() => toolbar.onView('month')}>Month</button>
       </span>
-      <div className="rbc-toolbar-search">
-        <SearchIcon className="search-icon" style={{ width: '24px', height: '24px' }} />
-        <input type="text" placeholder="Search..." />
-      </div>
     </div>
   );
 };

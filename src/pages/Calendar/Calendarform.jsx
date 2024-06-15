@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axiosInstance from "../../api.jsx";
 
-Modal.setAppElement('#root'); // Set the root element for accessibility
+Modal.setAppElement('#root');
 
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
@@ -13,9 +13,8 @@ const getTenantIdFromUrl = () => {
 };
 
 const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
-  // State variables for form inputs
   const [title, setTitle] = useState('');
-  const [eventType, setEventType] = useState('Calls'); // Default to Calls
+  const [eventType, setEventType] = useState('Calls');
   const [from_time, setStartTime] = useState('19:27');
   const [to_time, setEndTime] = useState('21:30');
   const [date, setDate] = useState('2024-05-09');
@@ -26,13 +25,10 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('Submitting form');
-
+  
     try {
       let endpoint = '';
       let data = {
-        title,
         from_time: `${date}T${from_time}:00Z`,
         to_time: `${date}T${to_time}:00Z`,
         description,
@@ -40,14 +36,15 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
         tenant: parseInt(getTenantIdFromUrl()),
         color,
       };
-
+  
       switch (eventType) {
         case 'Calls':
           endpoint = '/calls/';
+          data.related_to = title; // Use the title for 'related_to'
           break;
         case 'Meetings':
           endpoint = '/meetings/';
-          data.related_to = 'A meeting';
+          data.title = title;
           if (participant1) data.participants = parseInt(participant1);
           break;
         case 'Tasks':
@@ -59,17 +56,15 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
           console.error('Invalid event type:', eventType);
           return;
       }
-
-      console.log('Data being sent:', data);
-
-      const response = await axiosInstance.post(endpoint, data);
-
-      console.log('Event created:', response.data);
-      fetchEvents(eventType);
-
+  
+      console.log('Submitting:', data); // Debugging line
+  
+      await axiosInstance.post(endpoint, data);
+  
+      fetchEvents(); // Fetch all events after adding a new one
       onRequestClose();
-
-      // Clear form fields if needed
+  
+      // Reset form fields
       setTitle('');
       setStartTime('19:27');
       setEndTime('21:30');
@@ -78,12 +73,10 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
       setDescription('');
       setCreatedBy('');
       setParticipant1('');
-
+  
     } catch (error) {
       if (error.response) {
         console.error('Server Error:', error.response.data);
-        console.error('Status Code:', error.response.status);
-        console.error('Headers:', error.response.headers);
       } else if (error.request) {
         console.error('No response received:', error.request);
       } else {
@@ -91,6 +84,7 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
       }
     }
   };
+  
 
   return (
     <Modal
@@ -160,7 +154,6 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
               placeholder="Input text"
             />
           </label>
-          {/* Add createdBy input field */}
           <label>
             Created By
             <input
@@ -170,7 +163,6 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
               placeholder="Enter creator's ID"
             />
           </label>
-          {/* Participant IDs for Meetings */}
           {eventType === 'Meetings' && (
             <label>
               Participant 1 ID

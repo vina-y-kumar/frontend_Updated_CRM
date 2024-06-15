@@ -21,11 +21,15 @@
 .calendar-content {
     flex: 1;
     padding: 20px;
+    
 }
 
 .calendar-nav {
     margin-bottom: 20px;
+    margin-left:-80px;
+    margin-top:-70px;
 }
+
 
 .calendar-header {
     display: flex;

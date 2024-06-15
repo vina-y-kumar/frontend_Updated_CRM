@@ -1,6 +1,6 @@
 .report-sidebar1{
     width: 256px;
-height: 1188px;
+/*height: 1188px;*/
 background: #FAFAFBFF;
 border-radius: 0px;
 border-width: 1px;
@@ -8,6 +8,7 @@ border-color: #FFFFFFFF;
 border-style: solid;
 box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
 padding: 20px;
+z-index: 5  ;
 
 }
 .report-page{
@@ -19,7 +20,7 @@ padding: 20px;
 .report_nav{
    position: relative;
    bottom: 5rem;
-   right: 5rem;
+ 
 }
 .excel-dropdown-menu6-report {
     /* Your custom styles here */

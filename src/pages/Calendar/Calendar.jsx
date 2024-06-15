@@ -5,7 +5,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css'; // Custom styles
 import { NavLink, Link } from "react-router-dom";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
-
+import { Sidebar } from "../../components/Sidebar";
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
@@ -79,10 +79,8 @@ const CalendarComponent = () => {
 
   return (
     <div className='calendar-page'>
-      <div className='calendar-side'>
-        <Link to={`/${tenantId}/callpage`} id='back-inter-task' className='back-button'>
-          Back
-        </Link>
+      <div >
+      <Sidebar />
       </div>
       <div className='calendar-content'>
         <div className="calendar-nav">

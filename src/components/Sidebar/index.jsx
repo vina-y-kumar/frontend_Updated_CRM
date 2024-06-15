@@ -17,6 +17,7 @@ import './sidebar.css';
 import { useAuth } from '../../authContext';
 import axiosInstance from '../../api';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
 export const Sidebar = () => {
   const { authenticated, setAuthenticated } = useAuth();
@@ -347,6 +348,7 @@ export const Sidebar = () => {
         </div>
           
         </li>
+     
          
         
         </ul>

@@ -74,7 +74,10 @@ import Ticketform from "../pages/Ticket/Ticketform";
 import TicketInfo from "../pages/Ticket/TicketInfo";
 
 import Calendar from "../pages/Calendar/Calendar";
+
 import Calendarform from "../pages/Calendar/Calendarform";
+import Ticket from "../pages/Ticket/TicketPage";
+
 
 // import CustomModelForm from "../pages/CustomModel/customform";
 
@@ -265,6 +268,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/ticketform"  element= {<Ticketform/>}/>
           <Route path=":tenant_id/ticketinfo"  element= {<TicketInfo/>}/>
+          <Route path=":tenant_id/ticket"  element= {<Ticket/>}/>
         </>
       )}
 

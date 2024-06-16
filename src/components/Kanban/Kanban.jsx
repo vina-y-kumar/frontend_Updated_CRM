@@ -5,6 +5,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { sendEmail } from './email.jsx'; // Import the sendEmail function
 import axiosInstance from "../../api.jsx";
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -13,62 +14,51 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
-function Kanban() {
+
+const leadStages = {
+  'assigned': { label: 'Assigned', color: '#FF0000' },
+  'in process': { label: 'In Process', color: '#00FF00' },
+  'converted': { label: 'Converted', color: '#0000FF' },
+  'recycled': { label: 'Recycled', color: '#43A5BE' },
+  'dead': { label: 'Dead', color: '#5c62d6' }
+};
+
+function Kanban({ leadCountsData }) {
   const tenantId = getTenantIdFromUrl();
-  const [columns, setColumns] = useState({
-    new: { title: "New", cards: [], bg: "#15ABFFFF" },
-    proposals: { title: "Proposals", cards: [], bg: "#15ABFFFF" },
-    negotiations: { title: "Negotiations", cards: [], bg: "#FF56A5FF" },
-    contractsSent: { title: "Contracts Sent", cards: [], bg: "#FFD317FF" },
-  });
+  const [columns, setColumns] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get('/leads/');
+        // Fetch leads data
+        const response = await axiosInstance.get(`/leads/`);
         const leads = response.data;
-        
 
-        // Categorize leads into different columns based on their status
-        const categorizedLeads = {
-          new: [],
-          proposals: [],
-          negotiations: [],
-          contractsSent: []
-        };
+        // Calculate the sum of leads for each stage
+        const leadCountsResponse = await axiosInstance.get('/leads_sum/');
+        const leadCountsData = leadCountsResponse.data;
+
+        const categorizedLeads = {};
+        for (const stage in leadStages) {
+          categorizedLeads[stage] = [];
+        }
 
         leads.forEach(lead => {
-          switch (lead.status) {
-            case 'assigned':
-              categorizedLeads.new.push(lead);
-              break;
-            case 'in process':
-              categorizedLeads.proposals.push(lead);
-              break;
-            case 'converted':
-              categorizedLeads.negotiations.push(lead);
-              break;
-            case 'recycled':
-              categorizedLeads.contractsSent.push(lead);
-              break;
-            default:
-              categorizedLeads.new.push(lead); // Default to 'New' column
-          }
+          const stage = lead.status;
+          categorizedLeads[stage].push(lead);
         });
 
         // Map leads to cards for each column
-        const newCards = mapLeadsToCards(categorizedLeads.new);
-        const proposalsCards = mapLeadsToCards(categorizedLeads.proposals);
-        const negotiationsCards = mapLeadsToCards(categorizedLeads.negotiations);
-        const contractsSentCards = mapLeadsToCards(categorizedLeads.contractsSent);
+        const columnsData = {};
+        for (const stage in leadStages) {
+          const label = leadStages[stage].label;
+          const count = leadCountsData[stage] || 0;
+          const cards = mapLeadsToCards(categorizedLeads[stage]);
+          columnsData[stage] = { title: `${label}`, count, cards, bg: leadStages[stage].color };
+        }
 
-        // Set the columns state with the mapped cards
-        setColumns({
-          new: { title: "New", cards: newCards, bg: "#15ABFFFF" },
-          proposals: { title: "Proposals", bg: "#15ABFFFF", cards: proposalsCards },
-          negotiations: { title: "Negotiations", bg: "#FF56A5FF", cards: negotiationsCards },
-          contractsSent: { title: "Contracts Sent", bg: "#FFD317FF", cards: contractsSentCards }
-        });
+        // Set the columns state with the mapped cards and lead count
+        setColumns(columnsData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -89,7 +79,7 @@ function Kanban() {
       last_name: lead.last_name,
       assigned_to: lead.assigned_to,
       createdBy: lead.createdBy,
-      enquery_type:lead.enquery_type
+      enquery_type: lead.enquery_type
     }));
   };
 
@@ -121,7 +111,7 @@ function Kanban() {
       });
 
       try {
-        await sendEmail(movedCard.email, endColumn.title, localStorage.getItem("token"));
+       
 
         const leadData = {
           ...movedCard, // Include existing lead data
@@ -131,9 +121,10 @@ function Kanban() {
           email: movedCard.email,
           assigned_to: movedCard.assigned_to,
           createdBy: movedCard.createdBy,
+          tenant:tenantId,
         };
         // Make a PUT request to update the lead status in the backend
-        await axiosInstance.put(`/leads/${movedCard.id}/`, leadData);
+        await axiosInstance.put(`leads/${movedCard.id}/`, leadData);
       } catch (error) {
         console.error('Error sending email or updating lead status:', error);
       }
@@ -146,21 +137,23 @@ function Kanban() {
       setColumns(newColumns);
     } 
   };
-
   const mapStatusToBackend = (frontendStatus) => {
     switch (frontendStatus) {
-      case 'New':
+      case 'Assigned':
         return 'assigned';
-      case 'Proposals':
+      case 'In Process':
         return 'in process';
-      case 'Negotiations':
+      case 'Converted':
         return 'converted';
-      case 'Contracts Sent':
+      case 'Recycled':
         return 'recycled';
+      case 'Dead':
+        return 'dead';
       default:
         return 'assigned';
     }
   };
+
 
   return (
     <>
@@ -176,7 +169,7 @@ function Kanban() {
                     className="title htext1"
                     style={{ backgroundColor: column.bg }}
                   >
-                    {column.title}
+                    {column.title} ({column.count})
                   </div>
                   <Droppable droppableId={columnId}>
                     {(provided) => (
@@ -203,31 +196,34 @@ function Kanban() {
                                   <div className="status">{card.status}</div>
                                 </div>
                                 <div className="content_">
+                                  {/* Content of the card */}
                                   {columnId === 'new' && (
-                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  )}
-                                  {columnId !== '0' ? (
-                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  ) : (
-                                    <NavLink to={`/${tenantId}/lead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  )}
-                                  <div className="c2">
-                                    {card.address}
-                                    <div className="r1">$1,000</div>
-                                  </div>
-                                  <div className="c2">
-                                    {card.email}
-                                    <div className="r1">-</div>
-                                  </div>
-                                  <div className="c2">{card.website}</div>
+                        <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      )}
+                      {columnId !== '0' ? (
+                        <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      ) : (
+                        <NavLink to={`/${tenantId}/lead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      )}
+                      <div className="c2">
+                        {card.address}
+                      
+                      </div>
+                      <div className="c2">
+                        {card.email}
+                      
+                      </div>
+                      <div className="c2">{card.website}</div>
+                    </div>
+
                                 </div>
-                              </div>
+                        
                             )}
                           </Draggable>
                         ))}

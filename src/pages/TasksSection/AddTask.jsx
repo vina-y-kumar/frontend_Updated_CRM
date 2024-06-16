@@ -10,6 +10,8 @@ import "./task.css";
 import axiosInstance from "../../api.jsx";
 import "./TaskTable.jsx";
 import { useAuth } from "../../authContext.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -110,6 +112,22 @@ const AddTaskForm = () => {
       };
 
       const response = await axiosInstance.post('/tasks/', dataToSend);
+      const tasksId = response.data.id;
+          const interactionData = {
+            entity_type: "tasks",
+            entity_id:tasksId,
+            interaction_type: "Event",
+            tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+            notes: `Task created with id : ${tasksId} created by user : ${userId}`,
+            interaction_datetime: new Date().toISOString(),
+          };
+
+          try {
+              await axiosInstance.post('/interaction/', interactionData);
+              console.log('Interaction logged successfully');
+            } catch (error) {
+              console.error('Error logging interaction:', error);
+            }
       console.log("Form submitted successfully:", response.data);
       setTaskData({
         subject: "",
@@ -126,20 +144,51 @@ const AddTaskForm = () => {
     }
   };
 
+  const handleCancel = () => {
+    
+    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+    
+  
+    if (isConfirmed) {
+      console.log("Cancel button clicked");
+     
+      window.location.href = `../${tenantId}/tasks`;
+    }
+  };
+  
+  
+  const handleSaveAsDraft = () => {
+    // Implement save as draft logic here
+    console.log("Save as Draft button clicked");
+  
+  };
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    // Call your submit logic here
+    handleSubmit(event);
+  };
+  
   return (
-    <div className="task_form">
+    <div>
+      <div className="Add-task-topnav">
+        <TopNavbar/>
+      </div>
+      <div className="task_form">
       <div className="relatedTask_back">
         <Link className='task_back' to={`/${tenantId}/tasks`}>Back</Link>
       </div>
+     
       <div>
+     
+      
         <div className="task_head_line">
           <div className="task_form_header">
             <h1>Create Task</h1>
           </div>
           <div className='btnsss_task'>
-            <button type="button" className="btn-submit_cancel_task">Cancel</button>
-            <button type="button" className="btn-submit_save_task">Save as Draft</button>
-            <button type="submit" className="btn-submit_submit_task" onClick={handleSubmit}>Submit</button>
+            <button type="button" onClick={handleCancel} className="btn-submit_cancel_task">Cancel</button>
+            <button type="button"   onClick={handleSaveAsDraft}  className="btn-submit_save_task">Save as Draft</button>
+            <button type="submit"  onClick={handleSubmitForm} className="btn-submit_submit_task">Submit</button>
           </div>
         </div>
         <div className="form_task_form">
@@ -170,28 +219,41 @@ const AddTaskForm = () => {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="status" className="form_row_head">Status</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <label htmlFor="status" className="form_row_head">
+                  Status
+                </label>
+                <select
                   id="status"
                   name="status"
                   value={taskData.status}
                   onChange={handleChange}
-                  placeholder="Enter status"
-                />
+                  className="form-control"
+                  required
+                >
+                  <option value="not_started">Not Started</option>
+                  <option value="deferred">Deferred</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                  <option value="waiting_for_input">Waiting for Input</option>
+                </select>
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="priority" className="form_row_head">Priority</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <label htmlFor="priority" className="form_row_head">
+                  Priority
+                </label>
+                <select
                   id="priority"
                   name="priority"
                   value={taskData.priority}
                   onChange={handleChange}
-                  placeholder="Enter priority"
-                />
+                  className="form-control"
+                  required
+                >
+                  <option value="">Select Priority</option>
+                  <option value="high">High</option>
+                  <option value="normal">Normal</option>
+                  <option value="low">Low</option>
+                </select>
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="createdBy" className="form_row_head">Created By</label>
@@ -269,6 +331,7 @@ const AddTaskForm = () => {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 };

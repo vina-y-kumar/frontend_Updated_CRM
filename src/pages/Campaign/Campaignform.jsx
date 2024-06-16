@@ -8,8 +8,19 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-
+import axiosInstance from "../../api";
+import { useAuth } from "../../authContext";
+const getTenantIdFromUrl = () => {
+  // Example: Extract tenant_id from "/3/home"
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; // Return null if tenant ID is not found or not in the expected place
+};
 const Campaignform = () => {
+  const tenantId = getTenantIdFromUrl();
+  const {userId}=useAuth();
   const [campaignData, setCampaignData] = useState({
     
     campaign_name: "",
@@ -37,7 +48,23 @@ const Campaignform = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://backendcrmnurenai.azurewebsites.net/campaign/', campaignData);
+      const response = await axiosInstance.post('/campaign/', campaignData);
+      const campaignId = response.data.id;
+          const interactionData = {
+            entity_type: "campaign",
+            entity_id: campaignId,
+            interaction_type: "Event",
+            tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+            notes: `Campaign created with id : ${campaignId} created by user : ${userId}`,
+            interaction_datetime: new Date().toISOString(),
+          };
+
+          try {
+              await axiosInstance.post('/interaction/', interactionData);
+              console.log('Interaction logged successfully');
+            } catch (error) {
+              console.error('Error logging interaction:', error);
+            }
       console.log('Form submitted successfully:', response.data);
       setCampaignData({
         
@@ -70,6 +97,30 @@ const Campaignform = () => {
       window.location.href = "/whatsappflow"
     }
   };
+
+  const handleCancel = () => {
+    
+    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+    
+  
+    if (isConfirmed) {
+      console.log("Cancel button clicked");
+     
+      window.location.href = `../${tenantId}/campaign`;
+    }
+  };
+  
+  
+  const handleSaveAsDraft = () => {
+    // Implement save as draft logic here
+    console.log("Save as Draft button clicked");
+  
+  };
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    // Call your submit logic here
+    handleSubmit(event);
+  };
   return (
     <div>
       <div className='campaign_form_head'>
@@ -82,12 +133,12 @@ const Campaignform = () => {
 
     </div>
     <div className='btnsss10'>
-   <button type="cancel" className="btn-submit50">Cancel</button>
+   <button type="cancel"  onClick={handleCancel} className="btn-submit50">Cancel</button>
 
-   <button type="save" className="btn-submit40">Save as Draft</button>
+   <button type="save"  onClick={handleSaveAsDraft} className="btn-submit40">Save as Draft</button>
 
 
-   <button type="submit" className="btn-submit60" onClick={handleSubmit}>Submit</button>
+   <button type="submit"  onClick={handleSubmitForm} className="btn-submit60" >Submit</button>
 
    </div>
    <div className='capaign_form_container'>

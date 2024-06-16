@@ -6,6 +6,8 @@ import { BarChart1 } from "../../components/BarChart.js/index.jsx";
 import { useState, useEffect } from "react";
 import { Data } from "../../Data";
 import React from "react";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 // Import useState from React
 
@@ -36,7 +38,10 @@ export const Home = () => {
  
   return (
     <div className="home">
-      <div className="container">
+       <div className="call_nav">
+    <TopNavbar/>
+  </div>
+      <div>
         <div className="home_inner">
           <div className="home_left_box">
             <Sidebar />
@@ -45,19 +50,27 @@ export const Home = () => {
             <Header name="Report" />
             <div className="home_right_box_inner">
               <Card />
-              <BarChart1 />
-              <LineChart1 />
-              <br />
-              <br />
+           
+            
+              <div className="chart-container" style={{marginTop:'50px'}}>
+              <div className="chart">
+                  <Donut />
+                </div>
+              
+              <div className="chart">
+              <LineChart1 /> 
+              </div>
+              </div>
               <div className="chart-container">
                 <div className="chart">
                   <Funnel />
                 </div>
                 <div className="chart">
-                  <Donut />
+              <BarChart1 />
+              </div>
                 </div>
               </div>
-            </div>
+          
           </div>
         </div>
       </div>

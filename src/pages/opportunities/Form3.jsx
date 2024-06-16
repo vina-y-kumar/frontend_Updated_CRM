@@ -10,6 +10,8 @@ import "./opportunities.css";
 import "./index.jsx";
 import axiosInstance from "../../api.jsx";
 import { useAuth } from "../../authContext.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -69,6 +71,20 @@ const Form3 = () => {
         { id: 9, value: "OTHER", label: "OTHER" },
     ];
 
+    const STAGES = [
+      {id: 1,value:'QUALIFICATION', label:'QUALIFICATION'},
+      {id: 2,value:'NEEDS ANALYSIS', label:'NEEDS ANALYSIS'},
+      {id: 3,value:'VALUE PROPOSITION', label:'VALUE PROPOSITION'},
+      {id: 4,value:'ID.DECISION MAKERS', label:'ID.DECISION MAKERS'},
+      {id: 5,value:'PERCEPTION ANALYSIS', label:'PERCEPTION ANALYSIS'},
+      {id: 6,value:'PROPOSAL/PRICE QUOTE', label: 'PROPOSAL/PRICE QUOTE'},
+      {id: 7,value:'NEGOTIATION/REVIEW',label: 'NEGOTIATION/REVIEW'},
+      {id: 8,value:'CLOSED WON', label:'CLOSED WON'},
+      {id: 9,value:'CLOSED LOST', label:'CLOSED LOST'},
+    ];
+
+    
+
     const [accountOptions, setAccountOptions] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState([]);
     
@@ -115,6 +131,22 @@ const Form3 = () => {
             tenant: tenantId,
           };
           const response = await axiosInstance.post('/opportunities/',dataToSend);
+          const opportunityId = response.data.id;
+          const interactionData = {
+            entity_type: "opportunity",
+            entity_id: opportunityId,
+            interaction_type: "Event",
+            tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+            notes: `Opportunity created with id : ${opportunityId} created by user : ${userId}`,
+            interaction_datetime: new Date().toISOString(),
+          };
+
+          try {
+              await axiosInstance.post('/interaction/', interactionData);
+              console.log('Interaction logged successfully');
+            } catch (error) {
+              console.error('Error logging interaction:', error);
+            }
            
             console.log("Form submitted successfully:", response.data);
             setOppourtunityData({
@@ -153,10 +185,39 @@ const Form3 = () => {
         }));
     }
 };
+const handleCancel = () => {
+    
+  const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+  
+
+  if (isConfirmed) {
+    console.log("Cancel button clicked");
+   
+    window.location.href = `../${tenantId}/opportunities`;
+  }
+};
+
+
+const handleSaveAsDraft = () => {
+  // Implement save as draft logic here
+  console.log("Save as Draft button clicked");
+
+};
+const handleSubmitForm = (event) => {
+  event.preventDefault(); // Prevent default form submission behavior
+  // Call your submit logic here
+  handleSubmit(event);
+};
+
 
     return (
+    <div>
+        <div className="oops_navform">
+      <TopNavbar/>
+    </div>
       <div className="opportunityfill_forms">
       {showCreateNewAccountForm && <CreateNewAccountForm />}
+     
 
       <div className="relatedOppo_back">
         {/* <Link className='oppo_back' to="/opportunities"> Back</Link> */}
@@ -170,9 +231,9 @@ const Form3 = () => {
             <h1 className="oppo_form">Create Opportunity</h1>
           </div>
           <div className='btnsss_oopo'>
-            <button type="cancel" className="btn-submit_cancel">Cancel</button>
-            <button type="save" className="btn-submit_save">Save as Draft</button>
-            <button type="submit" className="btn-submit_submit">Submit</button>
+            <button type="cancel" onClick={handleCancel} className="btn-submit_cancel">Cancel</button>
+            <button type="save" onClick={handleSaveAsDraft}   className="btn-submit_save">Save as Draft</button>
+            <button type="submit" onClick={handleSubmitForm}  className="btn-submit_submit">Submit</button>
           </div>
         </div>
         <div className='oppo_form_contain'>
@@ -269,17 +330,23 @@ const Form3 = () => {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="stage" className="oppo_form_stage">Stage</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="stage"
-                  name="stage"
-                  value={oppourtunityData.stage}
-                  onChange={handleInputChange}
-                  placeholder="Enter stage "
-                />
-              </div>
+  <label htmlFor="stage" className="oppo_form_stage">Stage</label>
+  <select
+    className="form-control"
+    id="stage"
+    name="stage"
+    value={oppourtunityData.stage}
+    onChange={handleInputChange}
+  >
+    <option value="">Select Lead Source</option>
+                  {STAGES.map((option) => (
+                    <option key={option.id} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+  </select>
+</div>
+
 
               <div className="form-group col-md-6">
                 <label htmlFor="account" className="oppo_form_account">Account</label>
@@ -413,6 +480,7 @@ const Form3 = () => {
           </form>
         </div>
       </div>
+    </div>
     </div>
         );
       };

@@ -16,12 +16,16 @@ const getTenantIdFromUrl = () => {
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { authenticated, login } = useAuth(); // Using login from useAuth
   const tenantId=getTenantIdFromUrl();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+      if (isSubmitting) return; // Prevent multiple submissions
+
+    setIsSubmitting(true); 
     // Construct the request data
     const data = {
         username: username,
@@ -55,6 +59,7 @@ export const Login = () => {
         // Handle login failure
         console.error('Login error:', error);
         alert('Login failed');
+        setIsSubmitting(false);
     });
   };
 

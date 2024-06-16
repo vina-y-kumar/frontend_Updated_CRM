@@ -5,12 +5,13 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import CreateNewAccountForm from "./CreateNewAccountForm";
 import Select from "react-select"; 
-import {Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
-import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
+import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
 import axiosInstance from "../../api";
 import { useAuth } from "../../authContext";
 import "./contactsTable.css";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -20,6 +21,7 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
+
 function Form2() {
   const tenantId = getTenantIdFromUrl();
   const style = {
@@ -40,7 +42,6 @@ function Form2() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [contacts, setContacts] = useState([]);
-
   const [contactData, setContactData] = useState({
     ContactOwner: "",
     first_name: "",
@@ -73,10 +74,18 @@ function Form2() {
 
   const [accountOptions, setAccountOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
-  const {userId}=useAuth();
+  const { userId } = useAuth();
+
+  const [photoColor, setPhotoColor] = useState(""); // Declare photoColor state variable
 
   useEffect(() => {
     fetchAccountOptions();
+  }, []);
+
+  useEffect(() => {
+    // Generate a random color when the component mounts
+    const randomColor = generateRandomColor();
+    setPhotoColor(randomColor);
   }, []);
 
   const fetchAccountOptions = async () => {
@@ -88,34 +97,33 @@ function Form2() {
       console.error("Error fetching account options:", error);
     }
   };
-  const [showCreateNewAccountForm, setShowCreateNewAccountForm] =
-    useState(false);
 
-    const handleChange = (event) => {
-      if (event && event.target) {
-        const { name, value } = event.target;
-        setContactData({
-          ...contactData,
-          [name]: value,
-        });
-        if (name === "name") {
-          const filtered = accountOptions.filter((option) =>
-            option.Name.toUpperCase().startsWith(value.toUpperCase())
-          );
-          setFilteredOptions(filtered);
-        }
-      } else {
-        // Handle changes from Select component
-        setContactData({
-          ...contactData,
-          account: event.value,
-        });
-        if (event.value === "create-new-account") {
-          handleOpen();
-        }
+  const [showCreateNewAccountForm, setShowCreateNewAccountForm] = useState(false);
+
+  const handleChange = (event) => {
+    if (event && event.target) {
+      const { name, value } = event.target;
+      setContactData({
+        ...contactData,
+        [name]: value,
+      });
+      if (name === "name") {
+        const filtered = accountOptions.filter((option) =>
+          option.Name.toUpperCase().startsWith(value.toUpperCase())
+        );
+        setFilteredOptions(filtered);
       }
-    };
-    
+    } else {
+      // Handle changes from Select component
+      setContactData({
+        ...contactData,
+        account: event.value,
+      });
+      if (event.value === "create-new-account") {
+        handleOpen();
+      }
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -127,6 +135,22 @@ function Form2() {
         tenant: tenantId,
       };
       const response = await axiosInstance.post('/contacts/',dataToSend);
+      const contactId = response.data.id;
+      const interactionData = {
+        entity_type: "Contact",
+        entity_id: contactId,
+        interaction_type: "Note",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Contact created with id : ${contactId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       console.log("Form submitted successfully:", response.data);
       setContactData({
         ContactOwner: "",
@@ -160,6 +184,7 @@ function Form2() {
       console.error("Error submitting form:", error);
     }
   };
+
   const generateRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "#";
@@ -170,45 +195,55 @@ function Form2() {
   };
 
   const generateSmiley4 = (color) => (
-    <div className="colored-circle4" style={{ backgroundColor: color, color:"white" }}>
-        <SentimentSatisfiedRoundedIcon style={{ fontSize: "50px" }} />
-
+    <div className="colored-circle4" style={{ backgroundColor: color, color: "white" }}>
+      <SentimentSatisfiedRoundedIcon style={{ fontSize: "50px" }} />
     </div>
   );
- 
 
+  const handleCancel = () => {
+    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+    if (isConfirmed) {
+      console.log("Cancel button clicked");
+      window.location.href = `../${tenantId}/contacts`;
+    }
+  };
+
+  const handleSaveAsDraft = () => {
+    console.log("Save as Draft button clicked");
+    // Implement save as draft logic here
+  };
+
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    handleSubmit(event);
+  };
 
   return (
+   <div>
+     <div className="contact_nav">
+    <TopNavbar/>
+  </div>
     <div className="contactfill_forms">
       {showCreateNewAccountForm && <CreateNewAccountForm />}
-      <div className="back_container1">
-      <div className="relatedList-Contacts3">
-              <Link to={`../${tenantId}/contacts`}> Back</Link>
-            </div>
-      
+      <div className="back_container111">
+        <div className="relatedList-Contacts3">
+          <Link to={`../${tenantId}/contacts`}> Back</Link>
+        </div>
       </div>
-   
       <div>
-      <Header   name="Create Contact" />
-      <div className='btnsss1'>
-   <button type="cancel" className="btn-submit5">Cancel</button>
-
-   <button type="save" className="btn-submit4">Save as Draft</button>
-
-
-   <button type="submit" className="btn-submit6">Submit</button>
-
-   </div>
-   <div className="photo">
-            {generateSmiley4(generateRandomColor())}
-
-            </div>
-            <FileUploadRoundedIcon className="upload_icon1" />
-
-            <button className="upload_button1">Upload Image</button>
-            <h1 className="cont_infoo">Contact Information</h1>
-           
-      <form onSubmit={handleSubmit}>
+        <Header name="Create Contact" />
+        <div className='btnsss1'>
+          <button type="button" onClick={handleCancel} className="btn-submit5">Cancel</button>
+          <button type="save" onClick={handleSaveAsDraft} className="btn-submit4">Save as Draft</button>
+          <button type="submit" onClick={handleSubmitForm} className="btn-submit6">Submit</button>
+        </div>
+        <div className="photo">
+          {generateSmiley4(photoColor)}
+        </div>
+        <FileUploadRoundedIcon className="upload_icon1_contact" />
+        <button className="upload_button1-image">Upload Image</button>
+        <h1 className="cont_infoo">Contact Information</h1>
+        <form onSubmit={handleSubmit}>
         <div className="contact_form_fill">
         <div className="form-row">
           <div className="form-group col-md-6">
@@ -261,44 +296,44 @@ function Form2() {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="account" className="contact_account">Account:</label>
-            <div className="form-control_account3">
-            <Select 
-              options={[
-                ...filteredOptions.map((option) => ({
-                  value: option.Name,
-                  label: option.Name,
-                })),
-              
-                { value: "create-new-account", label: "Create New Account" },
-              ]}
-              onChange={handleChange}
-              styles={{
-                option: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: state.data && state.data.value === "create-new-account" ? "lightblue" : "white",
-                  color: state.data && state.data.value === "create-new-account" ? "black" : "black",
-                }),
-              }}
-            />
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style}>
-                <CreateNewAccountForm />
-              </Box>
-            </Modal>
-            </div>
-           
-          </div>
+  <label htmlFor="account" className="contact_account" style={{ backgroundColor: "#F3F4F6FF" }}>Account:</label>
+  <div className="form-control_account3">
+    <Select 
+      options={[
+        ...filteredOptions.map((option) => ({
+          value: option.Name,
+          label: option.Name,
+        })),
+        { value: "create-new-account", label: "Create New Account" },
+      ]}
+      onChange={handleChange}
+      styles={{
+        option: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isSelected ? "#F3F4F6FF" : "white",
+          color: "black",
+        }),
+      }}
+    />
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <CreateNewAccountForm />
+      </Box>
+    </Modal>
+  </div>
+</div>
+
+
           <div className="form-group col-md-6">
             <label htmlFor="phone" className="contact_phone">Phone:</label>
             <input
               type="text"
-              className="form-control_phone"
+              className="form-control_contact-owner"
               id="phone"
               name="phone"
               value={contactData.phone}
@@ -534,8 +569,8 @@ function Form2() {
         </div>
       </form>
       </div>
-      
     </div>
+   </div>
   );
 }
 

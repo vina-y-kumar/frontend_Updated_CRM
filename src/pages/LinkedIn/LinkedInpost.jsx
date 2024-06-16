@@ -6,6 +6,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import './LinkedInpost.css';
+/*import { initializeApp } from 'firebase/app';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBPsLD_NgSwchMrpG2U81UsH_USQGSiNZU",
+  authDomain: "nurenai.firebaseapp.com",
+  databaseURL: "https://nurenai-default-rtdb.firebaseio.com",
+  projectId: "nurenai",
+  storageBucket: "nurenai.appspot.com",
+  messagingSenderId: "667498046930",
+  appId: "1:667498046930:web:cb281b053ddc016e18940b"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);*/
 
 const LinkedInPost = () => {
   const [text, setText] = useState('');
@@ -26,6 +41,9 @@ const LinkedInPost = () => {
   const [selectedTime, setSelectedTime] = useState('12:00');
   const [isPreviewVisible, setIsPreviewVisible] = useState(true);
   const [showComment, setShowComment] = useState(false);
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [profileInfo, setProfileInfo] = useState({ name: '', profilePicture: '' });
+  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -44,9 +62,54 @@ const LinkedInPost = () => {
     addFiles(newFiles);
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const newFiles = Array.from(e.target.files);
     addFiles(newFiles);
+
+    // Iterate over each file to read it as binary data and upload to Firebase
+    newFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const binaryData = reader.result; // Binary data of the uploaded image
+        console.log('Binary data:', binaryData);
+
+        // Convert binary string to a suitable format if needed
+        const binaryBuffer = new Uint8Array(binaryData.split("").map(char => char.charCodeAt(0)));
+        const binaryNumber = Array.from(binaryBuffer).map(byte => byte.toString(2).padStart(8, '0')).join('');
+
+        // Prepare the payload
+        const payload = {
+          imageBinary: binaryNumber,
+          imageURL:" imageURL",
+          textBody: 'This is a sample text body.',
+          title: 'Sample Title',
+          subtitle: 'Sample Subtitle'
+        };
+
+        // Make the POST request
+        const result = await postData('https://df28-139-5-197-163.ngrok-free.app/postImage', payload);
+        console.log(result);
+      };
+      reader.readAsBinaryString(file);
+    });
+  };
+
+ /* const uploadImageToFirebase = async (file) => {
+    const storageRef = ref(storage, `images/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  };*/
+
+  const postData = async (url = '', data = {}) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
   };
 
   const addFiles = (newFiles) => {
@@ -210,6 +273,52 @@ const LinkedInPost = () => {
     console.log('Scheduled Date:', selectedDate);
     console.log('Scheduled Time:', selectedTime);
   };
+
+ 
+
+  useEffect(() => {
+    // Function to handle getting access token after redirect
+    const handleAccessToken = async () => {
+      // Get authorization code from URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const state = urlParams.get('state');
+      console.log('Authorization code:', code);
+      console.log('Authorization state:', state);
+
+      if (!code) {
+        console.error('Authorization code not found in URL');
+        return;
+      }
+
+      try {
+        // Send code to get access token
+        const response = await fetch('https://969f71281649d6d298116a3e3ed6e6c4.serveo.net/getAccessToken', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code , state }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Access token response:', data);
+          setAuthenticatedUser(data.access_token);
+        } else {
+          console.error('Failed to get access token', response.status, response.statusText);
+          const errorData = await response.json();
+          console.error('Error details:', errorData);
+        }
+      } catch (error) {
+        console.error('Error fetching access token:', error);
+      }
+    };
+
+    handleAccessToken();
+  }, []);
+
+
   
   return (
     <div className="LinkedIn_post">
@@ -361,6 +470,8 @@ const LinkedInPost = () => {
       <div className="Post-preview">
         <h1>Network Preview</h1>
         <p>Preview approximates how your content will display when published. Tests and updates by social networks may affect the final appearance. Report a difference you notice.</p>
+        {caption || files.length > 0 ? (
+        <div className="preview-area-content">
         <div className="preview-option-box">
         <div className="Preview-heading">
           LinkedIn
@@ -374,11 +485,13 @@ const LinkedInPost = () => {
             <div className="user-info">
         <h2 className="user-name">User Name</h2>
       </div>
-      <div className="media-grid">
+      <div className="caption-preview">
+          <p>{caption}</p>
+        </div>
+      <div className="post-media-grid">
         {files.map((file, index) => (
-          <div key={index} className="media-item">
+          <div key={index} className="post-media-item">
             <img src={URL.createObjectURL(file)} alt={`file preview ${index + 1}`} />
-            <button onClick={() => removeFile(index)}>Remove</button>
           </div>
         ))}
       </div>
@@ -392,13 +505,12 @@ const LinkedInPost = () => {
           <p>{comment}</p>
       </div>
       )}
-        <div className="caption-preview">
-          <p>{caption}</p>
-        </div>
           </div>
         )}
         </div>
+        </div>
       </div>
+       ) : null}
       </div>
         </div>
   );

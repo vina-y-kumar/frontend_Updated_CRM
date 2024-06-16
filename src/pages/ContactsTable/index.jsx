@@ -3,6 +3,8 @@ import { NavLink, Link } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 import * as XLSX from "xlsx"; // Importing xlsx library
 
@@ -12,29 +14,39 @@ const getTenantIdFromUrl = () => {
   if (pathArray.length >= 2) {
     return pathArray[1]; // Assumes tenant_id is the first part of the path
   }
-  return null; // Return null if tenant ID is not found or not in the expected place
+  return null;
 };
 export const ContactsTable = () => {
   const [contacts, setContacts] = useState([]);
   const [viewMode, setViewMode] = useState("table");
   const tenantId=getTenantIdFromUrl();
+  const [activeContacts, setActiveContacts] = useState([]);
+
+  const [inactiveContacts, setInactiveContacts] = useState([]);
+
   const [newContact, setNewContact] = useState({
     first_name: "",
     account: "",
     email: "",
     phone: "",
     createdBy: "",
+   
   });
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchAccountTerm, setSearchAccountTerm] = useState(""); // New state for account dropdown search
   const modelName = "contacts";
+  const [activeButton, setActiveButton] = useState("All Contacts");
+
+  const handleButtonClick = (status) => {
+    console.log("Clicked:", status);
+
+    setActiveButton(status);
+  };
 
  
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
+ 
 
   const fetchContacts = async () => {
     try {
@@ -46,6 +58,43 @@ export const ContactsTable = () => {
       console.error("Error fetching contacts:", error);
     }
   };
+
+
+  const fetchActiveContacts = async () => {
+    try {
+      const response = await axiosInstance.get('/active_contacts/');
+      const data = response.data.most_active_contacts;
+  
+      if (Array.isArray(data)) {
+        
+        
+        const inactive = data.filter(contact => !contact.isActive);
+        const active = [...inactive].reverse();
+        console.log("@@@@@",inactive);
+
+      
+
+        setActiveContacts(active);
+
+        setInactiveContacts(inactive);
+      } else {
+        console.error("Data received from server is not an array:", data);
+
+      }
+    } catch (error) {
+      console.error("Error fetching active contacts:", error);
+    }
+  };
+  
+  
+  
+
+
+  useEffect(() => {
+    fetchContacts();
+    fetchActiveContacts();
+
+  }, []);
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewContact((prevState) => ({
@@ -152,54 +201,153 @@ export const ContactsTable = () => {
       <i className="far fa-smile fa-lg"  style={{ fontSize: "38px" }}></i> 
     </div>
   );
-  
+ 
+
+  const fetchRecentData = async () => {
+    try {
+      const response = await axiosInstance.get('/recent_request/contacts/');
+      setContacts(response.data);
+      console.log("*##########",response);
+
+    } catch (error) {
+      console.error("Error fetching recent contacts:", error);
+    }
+  };
+  const handleRecentButtonClick = () => {
+    fetchRecentData();
+  }; 
+
+
+  const renderTableRows = () => {
+    switch (activeButton) {
+      case "All Accounts":
+        return contacts.map((contact, index) => (
+          <tr className="contacttablerow" key={contact.id}>
+                  <td>
+                    {generateSmiley(generateRandomColor())}
+                    <div className="cont-first_name">
+                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                        {contact.first_name}
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="contlast_name">{contact.last_name}</td>
+                  <td className="cont_email">
+                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                  </td>
+                  <td className="cont_phone">{contact.phone}</td>
+                  <td className="cont_phone">{contact.address}</td>
+                </tr>
+        ));
+      case "Active":
+        return activeContacts.map((contact, index) => (
+          <tr className="contacttablerow" key={contact.id}>
+          <td>
+            {generateSmiley(generateRandomColor())}
+            <div className="cont-first_name">
+              <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                {contact.first_name}
+              </Link>
+            </div>
+          </td>
+          <td className="contlast_name">{contact.last_name}</td>
+          <td className="cont_email">
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </td>
+          <td className="cont_phone">{contact.phone}</td>
+          <td className="cont_phone">{contact.address}</td>
+        </tr>
+        ));
+      case "Inactive":
+        return inactiveContacts.map((contact, index) => (
+          <tr className="contacttablerow" key={contact.id}>
+          <td>
+            {generateSmiley(generateRandomColor())}
+            <div className="cont-first_name">
+              <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                {contact.first_name}
+              </Link>
+            </div>
+          </td>
+          <td className="contlast_name">{contact.last_name}</td>
+          <td className="cont_email">
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </td>
+          <td className="cont_phone">{contact.phone}</td>
+          <td className="cont_phone">{contact.address}</td>
+        </tr>
+        ));
+      case "Recent":
+        return contacts.map((contact, index) => (
+          <tr className="contacttablerow" key={contact.id}>
+          <td>
+            {generateSmiley(generateRandomColor())}
+            <div className="cont-first_name">
+              <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                {contact.first_name}
+              </Link>
+            </div>
+          </td>
+          <td className="contlast_name">{contact.last_name}</td>
+          <td className="cont_email">
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </td>
+          <td className="cont_phone">{contact.id}</td>
+          <td className="cont_phone">{contact.created_on}</td>
+        </tr>
+          
+        ));
+      
+      default:
+        return null;
+    }
+  };
+
   
   return (
-    <div className="calls1">
-       <div className="home_left_box1">
-        <Sidebar />
-      </div>
+ <div>
+     <div className="contact_nav">
+    <TopNavbar/>
+  </div>
+  <div className="Contacts_main_page">
+    <div className="home_left_box1">
+      <Sidebar />
+    </div>
 
-      <div >
+   
 
-      </div>
-      <div className="contain1">
-
-      <div className="contain1" style={{width:"100%"}}>
-      <div className="contactlist">
-          <h1 >Contact list</h1>
-          </div>
-        <div className="meet1">
-        
-       
-
-          
-         
-        <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
-            Excel File
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>
-              <Link
-                to={`/bulk-import?model=${modelName}`}
-                className="import-excel-btn5"
-              >
-                Import Excel
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <button
-                onClick={handleDownloadExcel}
-                className="excel-download-btn1"
-              >
-                Excel
-              </button>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        </div>
+    <div className="contain1" style={{width:"100%"}}>
+              <div className="contactlist">
+                <h1 >Contact list</h1>
+                </div>
+              <div className="meet1">
+            
+  
+            <div>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
+                Excel File
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link
+                    to={`/bulk-import?model=${modelName}`}
+                    className="import-excel-btn5"
+                  >
+                    Import Excel
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <button
+                    onClick={handleDownloadExcel}
+                    className="excel-download-btn1"
+                  >
+                    Excel
+                  </button>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            </div>
           <div className="handle4">
           <NavLink to={`/${tenantId}/addcontact`} id="btn10">
                 +CreateContact
@@ -223,177 +371,209 @@ export const ContactsTable = () => {
 
         <div className="contact-boxes">
         <div className="contact-bigboxes">
-  <h1 className="newcontact">New contacts this Week</h1>
-  <Link to={`/${tenantId}/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
-                <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1>
+              <h1 className="newcontact">New contacts this Week</h1>
+              <Link to={`/${tenantId}/contactinfo/${contacts[0]?.id}`} className="firstcontact-box">
+               <h1 className="heading1">{contacts.length > 0 && contacts[0].first_name}</h1>
                 <p className="paragraph1">{contacts.length > 0 && contacts[0].description}</p>
                 {/* Smiley */}
                 <div className="smiley1">
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/${tenantId}/contactinfo/${contacts[2]?.id}`} className="secondcontact-box">
-                <h1 className="heading2">{contacts.length > 2 && contacts[2].first_name}</h1>
-                <p className="paragraph2">{contacts.length > 2 && contacts[2].description}</p>
+              <Link to={`/${tenantId}/contactinfo/${contacts[1]?.id}`} className="secondcontact-box">
+                <h1 className="heading2">{contacts.length > 1 && contacts[1].first_name}</h1>
+                <p className="paragraph2">{contacts.length > 1 && contacts[1].description}</p>
                 {/* Smiley */}
                 <div className="smiley2">
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-              <Link to={`/${tenantId}/contactinfo/${contacts[3]?.id}`} className="thirdcontact-box">
-                <h1 className="heading3">{contacts.length > 3 && contacts[3].first_name}</h1>
-                <p className="paragraph3">{contacts.length > 3 && contacts[3].description}</p>
+              <Link to={`/${tenantId}/contactinfo/${contacts[2]?.id}`} className="thirdcontact-box">
+                <h1 className="heading3">{contacts.length > 2 && contacts[2].first_name}</h1>
+                <p className="paragraph3">{contacts.length > 2 && contacts[2].description}</p>
                 {/* Smiley */}
                 <div className="smiley3">
                   {generateSmiley1(generateRandomColor())}
                 </div>
               </Link>
-</div>
+          </div>
 
-</div>
-<div  className="activeInactivebtn">
-  <div className="activeInactivebtn1">
-  <button className="activeinactive">All Contacts</button>
-  </div>
-  <div className="activeInactivebtn2">
-  <button>Active</button>
+        </div>
+  <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+    <div className="activeInactivebtn">
+              <div className="activeInactivebtn1">
+                <button
+                  className={`${activeButton === "All Contacts" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("All Contacts")}
+                >
+                  All Contacts
+                </button>
+              </div>
+              <div className="activeInactivebtn2">
+                <button
+                  className={`${activeButton === "Active" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("Active")}
+                >
+                  Active
+                </button>
+              </div>
+            
+              <div className="activeInactivebtn3">
+                <button
+                  className={`${activeButton === "Inactive" ? "activeinactive " : ""}`}
+                  onClick={() => handleButtonClick("Inactive")}
+                >
+                  Inactive
+                </button>
+              </div>
+              <div className="activeInactivebtn4">
+          <button
+            className={`${activeButton === "Recent" ? "activeinactive " : ""}`}
+            onClick={() => {
+              handleButtonClick("Recent");
+              handleRecentButtonClick();
+            }}
+          >
+            Recent
+          </button>
+        </div>
+            
+                
+      </div>
 
-  </div>
-  <div className="activeInactivebtn3">
-  <button>Inactive</button>
-  </div>
-  
- 
+   
+      <div style={{marginRight:'110px'}}>
+                   <select
+                      value={viewMode}
+                      onChange={(e) => handleViewModeChange(e.target.value)}
+                      className="view-mode-select7"
+                    >
+                      <option value="">View!</option>
+                      <option value="table">Table View</option>
+                      <option value="tile">Tile View</option>
+                      <option value="list">List View</option>
+                    </select>
+      </div>
+    </div>
 
-</div>
-
- <div className="bigcontactbox">
- <div className="records10">
- <select
-  value={viewMode}
-  onChange={(e) => handleViewModeChange(e.target.value)}
-  className="view-mode-select7"
->
-  <option value="">View!</option>
-  <option value="table">Table View</option>
-  <option value="tile">Tile View</option>
-  <option value="list">List View</option>
-</select>
-          
-          
-          <select className="view-mode-select3" onChange={handleRecords1}>
-            <option value="">10 Records per page</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
-  
       
-          {viewMode !== 'tile' && (
-  <h1 className="allcontacts">All contacts</h1>
+          <div className="records10">
+                           
+                    
+                    <select className="view-mode-select3" onChange={handleRecords1}>
+                      <option value="">10 Records per page</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                    </select>
+            
+                
+              
+
+  
+
+          </div>
+        <div className="bugs10">
+
+        {viewMode === "table" && (
+  <div>
+    <div className="table4">
+      <table className="contacttable">
+        <thead>
+          <tr>
+            <th className="user1">USER</th>
+            <th className="username1">USER NAME</th>
+            <th className="useremail1">EMAIL</th>
+            <th className="useraccount1">ROLE</th>
+            <th className="usercontact1">Contact Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activeButton === "All Accounts"
+            ? contacts.map((contact, index) => (
+                <tr className="contacttablerow" key={contact.id}>
+                  <td>
+                    {generateSmiley(generateRandomColor())}
+                    <div className="cont-first_name">
+                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                        {contact.first_name}
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="contlast_name">{contact.last_name}</td>
+                  <td className="cont_email">
+                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                  </td>
+                  <td className="cont_phone">{contact.phone}</td>
+                  <td className="cont_phone">{contact.address}</td>
+                </tr>
+              ))
+            : activeButton === "Active"
+            ? activeContacts.map((contact, index) => (
+                <tr className="contacttablerow" key={contact.id}>
+                  <td>
+                    {generateSmiley(generateRandomColor())}
+                    <div className="cont-first_name">
+                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                        {contact.first_name}
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="contlast_name">{contact.last_name}</td>
+                  <td className="cont_email">
+                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                  </td>
+                  <td className="cont_phone">{contact.phone}</td>
+                  <td className="cont_phone">{contact.address}</td>
+                </tr>
+              ))
+//   : inactiveContacts.map((contact, index) => (
+//       <tr className="contacttablerow" key={contact.id}>
+//     <td>
+//     {generateSmiley(generateRandomColor())}
+//     <div className="cont-first_name">
+//       <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+//         {contact.first_name}
+//       </Link>
+//     </div>
+//   </td>
+//   <td className="contlast_name">{contact.last_name}</td>
+//   <td className="cont_email">
+//     <a href={`mailto:${contact.email}`}>{contact.email}</a>
+//   </td>
+//   <td className="cont_phone">{contact.phone}</td>
+//   <td className="cont_phone">{contact.address}</td>
+// </tr>
+//        ))
+
+
+            : contacts.map((contact, index) => (
+                <tr className="contacttablerow" key={contact.id}>
+                  <td>
+                    {generateSmiley(generateRandomColor())}
+                    <div className="cont-first_name">
+                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                        {contact.first_name}
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="contlast_name">{contact.last_name}</td>
+                  <td className="cont_email">
+                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                  </td>
+                  <td className="cont_phone">{contact.id}</td>
+                  <td className="cont_phone">{contact.created_on}</td>
+                </tr>
+              ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
 )}
 
-  
-
-        </div>
-        <div className="bugs10">
-          {/* <div className="filter-container">
-            <h2>Filter Contacts by</h2>
-            <div className="search-bar">
-            <input type="text" placeholder="Search..." value={searchTerm} onChange={handleSearch} />
-
-            </div>
-            <div className="dropdown-container">
-              <button className="dropdown-button">
-                System Defined Filters
-              </button>
-              <div className="dropdown-content">
-                <a href="#"> Contacts</a>
-                <a href="#">Deals</a>
-                <a href="#">Deal Amount</a>
-                <a href="#">Deal Stage</a>
-                <a href="#">Deal Owner</a>
-                <a href="#">Deal Closing Date</a>
-                <a href="#">Locked</a>
-                <a href="#">Notes</a>
-                <a href="#">Activities</a>
-                <a href="#">Campaigns</a>
-              </div>
-              <button className="dropdown-button">Filter By Fields</button>
-              <div className="dropdown-content">
-              <a href="#" onClick={() => handleFilterChange("first_name")}>
-                  Contact Name
-                </a>
-                <a href="#" onClick={() => handleFilterChange("createdBy")}>
-                  Created By 
-                </a>
-              </div>
-            </div>
-          </div> */}
-  
+          
 
 
-{/* Table View */}
-
-{viewMode === "table" && (
-          <div className="table4">
-            <table className="contacttable">
-              <thead>
-                <tr>
-                  <th className="user1">USER</th>
-                  <th className="username1">USER NAME</th>
-                  <th className="useremail1">EMAIL</th>
-                  <th className="useraccount1">ROLE</th>
-                  <th className="usercontact1">Contact Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredContacts?.map &&
-                  filteredContacts.map((contact) => (
-                    <tr className="contacttablerow" key={contact.id}>
-                      <td>
-                        {generateSmiley(generateRandomColor())}
-                        <div className="cont-first_name">
-                        <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
-
-                          {contact.first_name}
-                          </Link></div>
-                      </td>
-                      <td className="contlast_name">{contact.last_name}</td>
-                      <td className="cont_email">
-                        <a href={`mailto:${contact.email}`}>{contact.email}</a>
-                      </td>
-                      <td className="cont_phone">{contact.phone}</td>
-                      <td className="cont_phone">{contact.address}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-          {/* Tile View */}
-          {/* {viewMode==='tile' &&(
-            
-            <div>
-          <h2>Tiles View</h2>
-          <div className="contacts-tiles-container2">
-            {contacts.map((contact, index) => (
-              <Card key={contact.id} className="contact-tile">
-                <Card.Body className="card-body">
-                  <Card.Title className="card-title">
-                    <Link to={`/contactinfo/${contact.id}`}>
-                      {contact.first_name+" "+contact.last_name}
-                    </Link>
-                  </Card.Title>
-                  <Card.Text className="card-phonenumber">Phone Number: {contact.phone}</Card.Text>
-                  <Card.Text className="card-address">Address: {contact.address}</Card.Text>
-                  <Card.Text className="card-desc">Description: {contact.description}</Card.Text>
-                  <Card.Text className="card-email">Email: {contact.email}</Card.Text>
-                </Card.Body>
-              </Card>
-            ))}
-          </div>
-        </div>
-          )} */}
+     
           {viewMode === "tile" && (
           <div className="contact-tile-view">
             {/* Implement your Kanban view here */}
@@ -458,12 +638,11 @@ export const ContactsTable = () => {
           </div>
           )}
         </div>
-  </div>       
+       </div>       
         
         
       </div>
-    </div>
-  
-      </div>
+ </div>
+
      );
     }

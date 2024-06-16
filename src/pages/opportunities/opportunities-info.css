@@ -1,0 +1,94 @@
+.Opportunities-info-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.opportunities-Sidebar {
+  align-self: flex-start;
+  margin-bottom: 20px;
+}
+
+.opportunities-Sidebar a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.opportunities-info {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.opportunities-info h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+.content {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-box,
+.info-box-custom {
+  background-color: #F3F4F6FF;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+}
+
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.info-pair {
+  min-width: 45%;
+  margin-bottom: 2rem;
+}
+
+.info-pair label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block; /* Ensures label takes full width */
+  float: left; /* Float label to the left */
+  width: calc(50% - 0.5rem); /* Adjust width for label */
+  margin-bottom: 2rem;
+}
+
+.info-pair input,
+.info-pair textarea {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1em;
+  width: calc(50% - 0.5rem); /* Adjust width for textarea */
+  float: right; /* Float textarea to the right */
+  background-color: #F3F4F6FF;
+}
+
+/* Special case for textarea to place label on the left */
+.textarea-pair {
+  clear: both; /* Clear the float */
+}
+
+.textarea-pair label {
+  margin-bottom: 2rem /* Override the default margin-bottom */
+}
+
+.textarea-pair textarea {
+  width: calc(100% - 1rem); /* Adjust width for textarea */
+}

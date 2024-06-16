@@ -8,7 +8,10 @@ margin-top: 30px;
 
 }
 
-
+.Contacts_main_page{
+  display:flex;
+  flex-direction: row;
+}
 
 .firstcontact-box
 {
@@ -112,11 +115,7 @@ color: #565D6DFF;
 justify-content: flex-end;
 gap: 20px;
 }
-.upload_icon1{
-  position: relative;
-  left: 140px;
-   top: -100px;
-}
+
 .view-mode-select5{
   float: right;
   padding: 5px;
@@ -227,8 +226,8 @@ line-height: 22px;
 font-weight: 400;
 color: #171A1FFF;
 position: relative;
-top: 56px;
-left: 120px;
+top: 70px;
+/*left: 120px;*/
 }
 .contactaddress{
   font-family: 'Manrope';
@@ -237,8 +236,8 @@ line-height: 20px;
 font-weight: 400;
 color: #6F7787FF;
 position: relative;
-top: -40px;
-left: 120px;
+top: -30px;
+/*left: 120px;*/
 }
 .contactemail{
   font-family: 'Manrope';
@@ -247,8 +246,8 @@ line-height: 22px;
 font-weight: 400;
 color: #323743FF;
 position: relative;
-top: -40px;
-left: 120px;
+top: -30px;
+/*left: 120px;*/
 }
 .contfirst-name{
   font-family: 'Manrope';
@@ -274,8 +273,7 @@ left: 150px;
   height: 36px;
   position: absolute; /* Change position to absolute */
   /* Adjust positioning based on your layout */
-  top: -90px;
-  left: 1050px;
+  margin-top: 80px;
 }
 
 .bugs10{
@@ -368,9 +366,7 @@ top: 4px;
   left: 140px;
 }
 .cadence{
-  position: relative;
-  top: 10px;
-  left: -55px;
+ margin-left: 20px;
   font-family: 'Manrope';
 font-size: 18px;
 line-height: 28px;
@@ -397,9 +393,9 @@ color: #171A1FFF;
   border-color: #6D31EDFF;
   border-style: solid;
   gap: 4px;
-  position: relative;
-  left: 60px;
-  top: 30px;
+  margin-left: 20px;
+  margin-top: 20px;
+  padding-bottom: 12px;
   
 }
 .notes{
@@ -446,11 +442,6 @@ color: #171A1F7D;
   left: -20px;
 }
 
-.owner {
-  margin-top: -23px;
-  position: relative;
-  left: -24px;
-}
 
 
 .para {
@@ -528,12 +519,15 @@ color: #171A1F7D;
 .button-group {
   margin-top: 5rem;
   border-radius: 9px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin-top: 10px;
 
 }
 
 .button-timeline,
 .button-overview {
-  margin-right: 1rem;
   padding: 0.5rem 1rem;
   /* border-radius: 9px; */
   background-color: #f5f5f5;
@@ -561,6 +555,7 @@ cursor: pointer;
   width: 124.84px;
 height: 36px;
 display: flex;
+
 flex: 1 1 0;
 align-items: center;
 justify-content: center;
@@ -573,9 +568,7 @@ background: #F3F4F6FF;
 opacity: 1;
 border-radius: 0px 18px 18px 0px;
 cursor: pointer;
-position: relative;
-top: -36px;
-left: 110px;
+
 }
 
 .button-overview:hover {
@@ -768,9 +761,9 @@ font-family: 'Manrope';
 .relatedList-Contacts{
     
   font-family: 'Manrope';
-  position: relative;
-  top: -45px;
-  left: -100px;
+ position: relative;
+ right: 16rem;
+ bottom: 4rem;
 font-size: 14px;
 font-weight: 400;
 width: 70px;
@@ -780,6 +773,7 @@ border-radius: 4px;
 border-width: 1px;
 border-color: #9095A1FF;
 outline: none;
+
  }
  /* .selector {
   font-family: 'Material Icons';
@@ -1078,63 +1072,45 @@ font-weight: 800;
 color: #171A1FFF;
 }
 
-.activeInactivebtn{
-display: flex;
-flex-direction: row;
-margin: 60px;
-gap: 50px;
+.activeInactivebtn {
+  display: flex;
+  flex-direction: row;
+  margin: 60px;
+  gap: 50px;
 }
-.activeInactivebtn1{
-  /* align-items: center;
-justify-content: center;
-font-family: 'Manrope';
-font-size: 14px;
-line-height: 22px;
-font-weight: 400;
-color: #6D31EDFF;
-background: #00000000;
-opacity: 1;
-border-radius: 18px 18px 18px 18px;
-cursor: pointer;
 
-*/
-width: 140px;
-height: 45px;
-align-items: center;
-justify-content: center;
-font-family: 'Manrope';
-font-size: 14px;
-line-height: 22px;
-font-weight: 400;
-color: #FFFFFFFF;
-background: #6D31EDFF;
-opacity: 1;
-border-radius: 35px 35px 35px 35px ;
-cursor: pointer;
-
-}
-.activeInactivebtn1 :hover{
-  color: #6D31EDFF;
-background: #E4D9FCFF;
-}
-.activeinactive{
-  position: relative;
-  top: 10px;
-  left: 26px;
-}
-.activeInactivebtn2{
+.activeInactivebtn button {
   font-family: 'Manrope';
-font-size: 16px;
-line-height: 22px;
-font-weight: 400;
-color: #6D31EDFF;
-background: #00000000;
-opacity: 1;
-border-radius: 18px 18px 18px 18px;
-cursor: pointer;
-position: relative;
-top: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6D31EDFF;
+  background: #00000000;
+  opacity: 1;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  top: 12px;
+  padding: 10px 20px;
+  border-radius: 18px;
+  transition: background-color 0.3s, color 0.3s;
 }
+
+.activeInactivebtn button:hover {
+  color: #6D31EDFF;
+  background-color: #E4D9FCFF;
+}
+
+.activeInactivebtn .activeinactive {
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  border-radius: 35px;
+  padding: 10px 20px;
+}
+
+.activeInactivebtn .activeinactive:hover {
+  background-color: #E4D9FCFF;
+}
+
 .records10{
   margin:0px;
   padding:0px;
@@ -1149,19 +1125,6 @@ border-color: #F3F4F6FF;
 
   border-radius: 3px;
 }
-.activeInactivebtn3{
-  font-family: 'Manrope';
-font-size: 16px;
-line-height: 22px;
-font-weight: 400;
-color: #6D31EDFF;
-background: #00000000;
-opacity: 1;
-border-radius: 18px 18px 18px 18px;
-cursor: pointer;
-position: relative;
-top: 12px;
-}
 .allcontacts{
 position: relative;
 left: -600px;
@@ -1172,6 +1135,13 @@ font-family: 'Manrope';
 top: -16px;
 
 
+}
+.table10--{
+  height: 313px;
+  width: 960px;
+    opacity: 1;
+    border-radius: 8px;
+    box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
 }
 .contacttablerow{
   border: 1px solid #ddd;
@@ -1199,9 +1169,261 @@ font-size: 20px;
 line-height: 30px;
 font-weight: 700;
 color: #171A1FFF;
+margin-left: 14rem;
 position: relative;
-top: 29px;
-left: -400px;
+top: 9rem;
+}
+.note-head-contact{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 800;
+}
+
+.button-edit{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+margin-left: 90%;
+position: relative;
+bottom: 24rem;
+}
+.button-edit1{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+/* margin-left: 30rem; */
+position: relative;
+bottom: 14rem;
+left: 100rem;
+}
+.button-edit2--{
+  font-family: 'Manrope';
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+margin-left: 42rem;
+position: relative;
+bottom: 12rem;
+}
+.button-saves{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 10rem;
+  left: 85rem;}
+
+  .button-cancels{
+    font-family: 'Lexend';
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    background: red;
+    opacity: 1;
+    color: #FFFFFFFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+    position: relative;
+    bottom: 10rem;
+    left: 85rem;
+  }
+
+  .button-saves1{
+    font-family: 'Lexend';
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    background: #62CD14FF;
+    opacity: 1;
+    color: #FFFFFFFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+    position: relative;
+    bottom: 15rem;
+    left: 85rem;}
+  
+    .button-cancels1{
+      font-family: 'Lexend';
+      font-size: 20px;
+      line-height: 22px;
+      font-weight: 500;
+      background: red;
+      opacity: 1;
+      color: #FFFFFFFF;
+      width: 100px;
+      height: 30px;
+      border-radius: 6px;
+      position: relative;
+      position: relative;
+      bottom: 15rem;
+      left: 85rem;
+    }
+.edit-box1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 20rem;
+  left: 90rem;
+}
+.button-editmail{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 12rem;
+  left: 40rem;
+}
+.button-editmail1{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 12rem;
+  left: 95rem; 
+}
+.edit-box2{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #6D31EDFF;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 12rem;
+  left: 40rem;
+}
+.button-save1box{
+font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 20rem;
+  left: 85rem;
+}
+.button-save2{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: #62CD14FF;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 13rem;
+  left: 85rem;
+}
+.button-cancel2{
+  font-family: 'Lexend';
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 500;
+  background: red;
+  opacity: 1;
+  color: #FFFFFFFF;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  position: relative;
+  position: relative;
+  bottom: 13rem;
+  left: 85rem;
+}
+
+.button-cancel1box{
+  font-family: 'Lexend';
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    background: red;
+    opacity: 1;
+    color: #FFFFFFFF;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+    position: relative;
+    bottom: 20rem;
+    left: 85rem;
+  }
+
+.button-cancel{
+  font-family: 'Manrope';
+  color: red;
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600; 
+position: relative;
+bottom: 13rem;
+left: 90rem;
+}
+.button-save1{
+  font-family: 'Manrope';
+  color: green;
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600;
+position: relative;
+bottom: 20rem;
+left: 90rem;
+}
+.button-cancel1{
+  font-family: 'Manrope';
+  color: red;
+  font-size: 18px;
+line-height: 22px;
+font-weight: 600; 
+position: relative;
+bottom: 20rem;
+left: 90rem;
 }
 .owner3{
   font-family: 'Manrope';
@@ -1209,9 +1431,9 @@ font-size: 14px;
 line-height: 22px;
 font-weight: 400;
 color: #9095A1FF;
+margin-left: 14rem;
 position: relative;
-left: -400px;
-top: 20px;
+top: 9rem;
 }
 .visitLinkedin{
   width: 203px;
@@ -1228,7 +1450,15 @@ top: 20px;
   position: relative;
   left: 3%;
 }
-
+.photo11{
+  
+  margin-top:8rem;
+}
+.upload_icon1_contact{
+position: relative;
+left: 15rem;
+bottom: 10rem;
+}
 .info-contactOwner{
   margin-top: -30px;
   
@@ -1300,7 +1530,8 @@ color: #171A1FFF;
   font-weight: 700;
   color: #171A1FFF;
   position: relative;
-  top: 30px;
+  top: 5px;
+  margin-left: 20px;
 }
 .para1 p {
   margin-bottom: 23px; /* Add margin bottom to create space between each column */
@@ -1309,8 +1540,9 @@ color: #171A1FFF;
 /* Adjust positioning of account details */
 .para1 {
   position: relative;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-left: 38px;
+  padding: 9px;
 }
 
 .para1 .contactinfo_email,
@@ -1433,7 +1665,6 @@ color: #171A1FFF;
 .show-hideDetails {
   position: relative;
   margin-top: 30px;
-  margin-left: 70px;
 }
 
 .show-hideDetails .contactinfo_ContactName,
@@ -1837,10 +2068,11 @@ border: 1px solid #ddd;
   background-color: #F3F4F6FF;
   border: 1px solid #DEE1E645;
   cursor: pointer;
-  position: absolute;
-  top: 347%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+position: absolute;
+margin-left: 33%;
+margin-top: 50px;
+
+  /* transform: translate(-50%, -50%); */
 }
 
 .attachment-upload1 input[type="file"] {
@@ -1903,9 +2135,8 @@ border-color: #DEE1E645;
   margin-top: 40px;
 }
 .info_deals2{
-  position: relative;
-  top: 13px;
-  left: -60px;
+ margin-left: 42%;
+ margin-top: 10px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -1969,9 +2200,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .closed_activity{
-  position: relative;
-  top: 13px;
-  left: -70px;
+margin-left: 20px;
+margin-top: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -1990,9 +2220,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .invite_meet{
-  position: relative;
-  top: 10px;
-  left: -70px;
+margin-left: 20px;
+margin-top: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -2012,9 +2241,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .info-pro{
-  position: relative;
-  top: 10px;
-  left: -70px;
+margin-top: 20px;
+margin-left: 40%;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -2057,9 +2285,8 @@ border-color: #DEE1E645;
   margin-top: 45px;
 }
 .cases,.info-quto,.purchase,.invoice,.infi-campi{
-  position: relative;
-  top: 10px;
-  left: -70px;
+ margin-left: 20px;
+ margin-top: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -2096,9 +2323,8 @@ border-color: #DEE1E645;
   margin-top: 45px; 
 }
 .info-sale{
-  position: relative;
-  top: 10px;
-  left: -70px;
+  margin-top: 20px;
+  margin-left: 20px;
   font-family: 'Manrope';
   font-size: 18px;
   line-height: 28px;
@@ -2217,6 +2443,8 @@ padding-top: 4px;
  }
  .contactfill_forms{
 display: flex;
+position: relative;
+bottom: 5rem;
  }
  .btnsss1{
   display: flex;
@@ -2310,7 +2538,7 @@ display: flex;
     top: -40px;
     left: -550px;
   }
-  .upload_button1{
+  .upload_button1-image{
     position: relative;
     top: -100px;
     left: 90px;
@@ -2756,7 +2984,7 @@ margin-bottom: 40px;
     margin: auto;
   }
 
-  .upload_button1 {
+  .upload_button1-image {
     left: 0;
     top: 0;
     margin: auto;
@@ -2789,7 +3017,7 @@ margin-bottom: 40px;
     left: -400px; /* Adjust as needed */
   }
 
-  .upload_button1 {
+  .upload_button1-image {
     left: 120px; /* Adjust as needed */
   }
 
@@ -2827,7 +3055,7 @@ margin-bottom: 40px;
     left: -550px;
   }
 
-  .upload_button1 {
+  .upload_button1-image {
     left: 90px;
   }
 
@@ -2869,7 +3097,7 @@ margin-bottom: 40px;
 }
 
 /* Contact form styles */
-.back_container1 {
+.back_container111 {
   width: 250px;
   height: 700px;
   margin-top: 2px;
@@ -2878,7 +3106,7 @@ margin-bottom: 40px;
   padding-top: 20px;
   border-radius: 0px;
   position: relative;
-  top: 1px;
+bottom: 13rem;
 }
 
 .relatedList-Contacts3 {
@@ -2964,7 +3192,7 @@ margin-bottom: 40px;
 }
 
 /* Upload button styles */
-.upload_button1 {
+.upload_button1-image {
   position: relative;
   top: -100px;
   left: 90px;
@@ -2974,6 +3202,10 @@ margin-bottom: 40px;
   line-height: 22px;
   font-weight: 400;
   color: #6D31EDFF;
+}
+.cont__info{
+  position: relative;
+  bottom: 19rem;
 }
 
 /* Contact info styles */
@@ -3302,4 +3534,28 @@ margin-bottom: 40px;
   }
 }
 
-
+.contact_account{
+  margin-left: 1px;
+}
+.form-control_account3{
+  margin-left: 20px;
+}
+.contact_nav{
+  margin-left: 20rem;
+  position: relative;
+  bottom: 6rem;
+}
+.contain1{
+  position: relative;
+  bottom: 7rem;
+}
+.contactinfo_accountName1,.contactinfo_email1,.contactinfo_leadSource1,.contactinfo.vendorName1{
+  background-color: #00000000;
+  font-size: 16px;
+  margin-left: 20px;
+}
+.contactinfo.ContactName2{
+  background-color: #00000000;
+  font-size: 16px;
+  margin-left: 20px;
+}

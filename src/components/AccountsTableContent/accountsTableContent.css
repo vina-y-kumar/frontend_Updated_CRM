@@ -1,32 +1,18 @@
 
-/* .excel-download-btn1{
-  position: relative;
-  left: 58%;
-  top:-57px;
-  background-color: lightblue;
-  border-radius: 4px;
-  width: 60px;
-  height: 30px;
+.account_right_page_data{
+  margin-left: 20px;
+  display:flex;
+  flex-direction: column;
 }
-.import-excel-btn4{
-  position: relative;
-  left: 57%;
-  top:-57px;
-  background-color: lightblue;
-  border-radius: 4px;
-  width: 150px;
-  height: 40px;
-} */
+.account_page_top_header{
+  display: flex;
+  justify-content: space-between;
+}
 
 .excel-dropdown-menu{
   position: relative;
-   left: 78%;
-  top: -343px; 
+
   
-
-/* font-size: 14px; */
-
-/* font-weight: 400; */ 
 }
 
 .table tbody tr:nth-child(even) {
@@ -99,7 +85,8 @@
 }
 
 .accounts-tiles-wrapper {
-  margin-bottom: 10px; /* Apply the same margin as the gap between tiles */
+  margin-bottom: 10px;
+  width:1150px; /* Apply the same margin as the gap between tiles */
 }
 
 .account-tile {
@@ -293,11 +280,8 @@ font-weight: 400;
   background-color: aliceblue; */
   text-align: center;
   margin-left: 10px;
-position: relative;
-top: 3px; 
-left: 1100px;
-
-  
+  position: relative;
+  top: 3px; 
 }
 .view-mode-select2 {
   float: right;
@@ -315,8 +299,8 @@ left: 1100px;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
-  width: 1300px;
-  height: 2000px; /* adjust the width as needed */
+  width: 100%;
+  height: 100%; /* adjust the width as needed */
   margin: 20px auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -326,7 +310,7 @@ left: 1100px;
   border-spacing: 0;
   border: none; /* Remove default border */
   position: relative; /* Position relative for pseudo-elements */
-  width: 1300px;
+  width: 1150px;
   left: -20px;
 }
 
@@ -379,7 +363,7 @@ left: 1100px;
 }
 
 .accounts-table {
-  width: 700px; /* Set a fixed width for the table */
+  width: 100%; /* Set a fixed width for the table */
   border: none; /* Remove all borders from the table */
   margin-bottom: 20px;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
@@ -455,14 +439,12 @@ left: 1100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 11px 9px 12px;
+  /*padding: 7px 11px 9px 12px;*/
   position: relative;
-top: -362px;
-
 }
 
 .account-boxes{
-  width: 1300px;
+width: 100%;
 height: 286px;
 background: #F5F1FEFF;
 border-radius: 4px;
@@ -476,7 +458,7 @@ position: relative;
 {
   position: absolute;
   top: 130px;
-  left: 350px;
+  left: 0px;
   width: 347px;
 height: 168px;
 background: #FFFFFFFF;
@@ -490,21 +472,21 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
 {
   position: absolute;
   top: 130px;
-  left: 750px;
+  left: 400px;
   width: 347px;
-height: 168px;
-background: #FFFFFFFF;
-border-radius: 8px;
-border-width: 1px;
-border-color: #F3F4F6FF;
-border-style: solid;
-box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+  height: 168px;
+  background: #FFFFFFFF;
+  border-radius: 8px;
+  border-width: 1px;
+  border-color: #F3F4F6FF;
+  border-style: solid;
+  box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
 }
 .thirdaccount-box
 {
   position: absolute;
   top: 130px;
-  left: 1150px;
+  left: 800px;
   width: 347px;
 height: 168px;
 background: #FFFFFFFF;
@@ -518,7 +500,8 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
 .account-bigboxes{
   position: relative;
   top: -60px;
-  left: -320px;
+  width: 100%;
+  /*left: -320px;*/
   
 }
 .firstaccount-box,
@@ -543,8 +526,8 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
 @media only screen and (max-width: 1200px) {
   .excel-dropdown-menu {
     /* Adjust position for smaller screens */
-    left: 65%;
-    top: -343px;
+   /* left: 65%;*/
+    /*top: -343px;*/
   }
 
   .accounts-table-wrapper table,
@@ -563,7 +546,7 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
   /* Adjust styles for screen width up to 1000px */
   .excel-dropdown-menu {
     left: 60%;
-    top: -343px;
+   /* top: -343px;*/
   }
 
   .accounts-table-wrapper table,
@@ -616,7 +599,7 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
   /* Adjust styles for screen width up to 700px */
   .excel-dropdown-menu {
     left: 55%;
-    top: -343px;
+    /*top: -343px;*/
   }
 
   .accounts-table-wrapper table,
@@ -633,7 +616,7 @@ box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
   /* Adjust styles for screen width up to 500px */
   .excel-dropdown-menu {
     left: 50%;
-    top: -383px;
+    /*top: -383px;*/
   }
 
   .accounts-table-wrapper table,

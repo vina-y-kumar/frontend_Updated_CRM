@@ -36,6 +36,11 @@ export const InteractionTable = () => {
       console.error("Error fetching interactions:", error);
     }
   };
+  const entityTypeNames = {
+    5: "Account",
+    10: "Contact",
+    // Add more mappings as needed
+  };
 
   const handleInteractionClick = (interaction) => {
     console.log(interaction);
@@ -54,35 +59,42 @@ export const InteractionTable = () => {
         <Sidebar />
       </div>
       <div className="interection_head">
-      <div className="int_heading">
-        <h1>Interection</h1>
-      </div>
-      <div className="excel_int_drop">
-        <div>
-    <Dropdown>
-              <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-int">
-                Excel File
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
-                    Import Excel
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <button onClick={handleDownloadExcel} className="excel-download-btn1">
-                    Excel
-                  </button>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-    </div>
-    <div className="add_int">
-      <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
+            <div className="int_heading">
+              <div>
+              <h1>Interaction</h1>
+              </div>
+             <div style={{display:'flex',flexDirection:'row'}}>
+            
+           
+        
+                  <div className="excel_int_drop">
+                          <Dropdown>
+                          <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-int">
+                            Excel File
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item>
+                              <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
+                                Import Excel
+                              </Link>
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                              <button onClick={handleDownloadExcel} className="excel-download-btn1">
+                                Excel
+                              </button>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                          </div>
+                          <div className="add_int">
+                      
+                      <NavLink to={`/${tenantId}/addinteraction`} className="add-interaction-button">Add Interaction</NavLink>           
 
-      </div>
-    </div>
-      </div>
+                    </div>
+                          
+                        </div>
+                  
+                </div>
      
       
 
@@ -92,9 +104,8 @@ export const InteractionTable = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Entity ID</th>
-                  <th>Entity Type</th>
+                  <th>Type</th>
                   <th>Interaction Type</th>
                   <th>Interaction Datetime</th>
                   <th>Notes</th>
@@ -103,9 +114,8 @@ export const InteractionTable = () => {
               <tbody>
                 {filteredInteractions.map((interaction) => (
                   <tr key={interaction.id}>
-                    <td><Link to={`/${tenantId}/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.id}</Link></td>
-                    <td>{interaction.entity_id}</td>
-                    <td>{interaction.entity_type}</td>
+                    <td><Link to={`/${tenantId}/interaction/${interaction.id}`} onClick={() => handleInteractionClick(interaction)}>{interaction.entity_id}</Link></td>
+                    <td>{entityTypeNames[interaction.entity_type] || interaction.entity_type}</td>
                     <td>{interaction.interaction_type}</td>
                     <td>{interaction.interaction_datetime}</td>
                     <td>{interaction.notes}</td>
@@ -117,6 +127,7 @@ export const InteractionTable = () => {
         )}
       </div>
       {selectedInteraction && <InteractionDetailsPage />}
+    </div>
     </div>
   );
 };

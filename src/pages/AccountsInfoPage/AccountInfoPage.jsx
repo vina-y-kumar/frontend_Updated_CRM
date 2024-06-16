@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // Import Link
 import "./page.css";
+import uploadFileToAzure from "../../azureUpload.jsx";
 
 import axios from "axios";
 import RelatedList from "../ContactsTable/RelatedList";
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
+
+
+//import uploadFileToAzure from "../../azureUpload.jsx";  
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -14,8 +19,12 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
+
 const AccountsPage = () => {
   const tenantId=getTenantIdFromUrl();
+    const [file, setFile] = useState(null);
+    
+
   const companyInfo = {
     name: "Neuren AI",
     logo: "https://plus.unsplash.com/premium_photo-1675793715068-8cd9ce15f430?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bG9nb3xlbnwwfHwwfHx8MA%3D%",
@@ -27,17 +36,51 @@ const AccountsPage = () => {
     revenue: "$10 million",
     contactNumber: "+1 123-456-7890",
   };
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+  
+      try {
+        // Upload the file to Azure Blob Storage
+        console.log('Uploading file to Azure Blob Storage...');
+      const fileUrl = await uploadFileToAzure(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+  
+        // Send a POST request to your backend with the file URL
+        console.log('Sending POST request to backend...');
+        const response = await axios.post('http://127.0.0.1:8000/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 'your_entity_type',
+          entity_id: 'your_entity_id',
+          tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+  
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+  
   const { id } = useParams(); // Get the account ID from the URL parameter
   const [account, setAccount] = useState(null);
   const [attachments, setAttachments] = useState([]);
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/accounts/${id}`
-        );
+        const response = await axiosInstance.get(`/accounts/${id}`);
         setAccount(response.data);
-        console.log(response.data[0].Name);  // Adjusted to correctly access the name
+        console.log(response.data[0].name);  // Adjusted to correctly access the name
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -49,6 +92,7 @@ const AccountsPage = () => {
   if (!account) {
     return <div className="loader"></div>; // Show a loading message while fetching data
   }
+  
 
   const contactPersons = [
     {
@@ -124,8 +168,13 @@ const AccountsPage = () => {
     const index = letter.charCodeAt(0) % colors.length;
     return colors[index];
   };
+
+  
   return (
     <>
+     <div className="account_nav">
+    <TopNavbar/>
+  </div>
       <div className="classs">
         <div className="buttonss">
           <div className="pages1">
@@ -316,16 +365,15 @@ const AccountsPage = () => {
   <input type="file" onChange={handleFileUpload} multiple />
   <button className="upload-button">Upload Files</button>
 </div> */}
-
-            <div className="attachment-section" id='Attachments'>
-              <div className="attachments">Attachments</div>
-              <div class="attachment-upload">
-                <input type="file" id="attachment-input" />
-                <label for="attachment-input">
-                  <div className="clicktoupload">clicktoupload</div>
-                </label>
-              </div>
-            </div>
+   <div className="attachment-section" id='Attachments'>
+      <div className="attachments">Attachments</div>
+      <div className="attachment-upload">
+        <input type="file" id="attachment-input" onChange={handleFileChange} style={{ display: 'none' }} />
+        <label htmlFor="attachment-input">
+          <div className="clicktoupload">clicktoupload</div>
+        </label>
+      </div>
+    </div>
           </div>
         </div>
       </div>

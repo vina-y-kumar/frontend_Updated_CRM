@@ -3,6 +3,7 @@ import AddLead from '../../../components/AddLead/AddLead'
 import { Sidebar } from '../../../components/Sidebar'
 import { Header } from '../../../components/Header'
 
+
 import "./lead.css"
 function Lead() {
   return (

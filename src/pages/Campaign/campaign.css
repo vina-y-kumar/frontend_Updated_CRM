@@ -4,14 +4,20 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 800;
 color: #171A1FFF;
-position: relative;
-left:70px;
-top: 30px;
+margin-left: 20px;
+margin-top: 50px;
+/* padding-top: 40px; */
+position: absolute;
+}
+.cap_head{
+  position: relative;
+  bottom:5rem;
 }
 
 .campaign_page{
     display: flex;
-    justify-content: flex-start;
+    flex-direction: row;
+    
 }
 #btn11{
     padding: 7px 11px 9px 12px;
@@ -48,14 +54,20 @@ top: 30px;
    
     
   }
+  .campaign_filter_btn{
+  
+  position:absolute;
+  bottom: 43%;
+  margin-left: 40px;
+  }
   .campaign_excelbtn{
 display: flex;
-margin-top: 50px;
+margin-top: 10px;
 gap: 20px;
 justify-content: flex-end;
 margin-left: 20px;
-position: relative;
-left: 750px;
+margin-top: 70px;
+
   }
   .campaign_firstbox{
     width: 237px;
@@ -92,19 +104,20 @@ height: 300px;
 color: aqua;
   }
   .campaign-boxes{
-    width: 1200px;
+  width: 1200px;
   height: 400px;
   background: #ffffff;
   border-radius: 4px;
   position: relative;
   position: relative;
-  top: 200px;
-  left: -410px;
+  bottom: 5rem;
+  left: 20px;
   
   }
   .campaign-bigboxes{
 display: inline-flex;
 gap: 30px;
+padding: 20px;
   }
   .campaign_btn_social{
   
@@ -113,13 +126,12 @@ gap: 30px;
     flex-direction: row;
   }
   .social_btn{
-
+    width:250px;  
     position: relative;
     display: flex;
     flex-direction: row;
     gap: 40px;
-    left: -1450px;
-    top: 400px;
+   
 font-family: 'Manrope';
 font-size: 14px;
 line-height: 22px;
@@ -226,9 +238,9 @@ height: 893px;
 opacity: 1;
 border-radius: 8px;
 box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
-position: relative;
-top: 500px;
-right: 1720px;
+position: absolute;
+margin-left: 40px;
+top: 65%;
   }
   .Campaign_table_name,.Campaign_table_owner,.Campaign_table_channel,.Campaign_table_created,.Campaign_table_status,.Campaign_table_est{
            
@@ -256,9 +268,9 @@ right: 1720px;
     border-radius: 4px;
     border-width: 0px;
     outline: none;
-    position: relative;
-    top: 350px;
-    left: -600px;
+    position: absolute;
+    margin-left: 83rem;
+    top: 2px;
   }
   /*  form css */
   .campaign_form_head{
@@ -286,6 +298,12 @@ top: 60px;
 
   
    }
+   .campaign_nav{
+    margin-left: 20rem;
+    position: relative;
+    bottom: 6rem;
+  }
+   
    .btn-submit40{
     width: 140px;
     height: 36px;
@@ -416,8 +434,10 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+/* padding-left: 30px; */
+position: absolute;
+top: 8rem;
+margin-left: 35px;
   }
   .total_sended1{
     font-family: 'Lexend';
@@ -425,8 +445,11 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+margin-left: 22px;
+position: absolute;
+top: 8rem;
+
+
   }
   .total_clicks1{
     font-family: 'Lexend';
@@ -434,8 +457,9 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+margin-left: 22px;
+position: absolute;
+top: 8rem;
   }
   .total_revenue1{
     font-family: 'Lexend';
@@ -443,8 +467,9 @@ font-size: 32px;
 line-height: 48px;
 font-weight: 600;
 color: #323743FF;
-position: relative;
-left: 30px;
+margin-left: 22px;
+position: absolute;
+top: 8rem;
   }
 
   .campaign_forms{

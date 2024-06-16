@@ -4,19 +4,24 @@ import Modal from "react-modal";
 import { Link, useParams } from "react-router-dom";
 import "./TaskTable.jsx";
 import axiosInstance from "../../api.jsx";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
-    return pathArray[1]; // Assumes tenant_id is the first part of the path
+    return pathArray[1]; 
   }
-  return null; // Return null if tenant ID is not found or not in the expected place
+  return null;
 };
 export const Taskinfo=()=>{
   const tenantId = getTenantIdFromUrl();
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTask, setEditedTask] = useState({});
+  
 
   const [addtasktable, setAddTaskTable] = useState({
     subject: "",
@@ -54,11 +59,39 @@ export const Taskinfo=()=>{
                 fetchTaskData();
               }, [id]);
              
-              const handleChange = (event) => {
-                setAddTaskTable({
-                  ...addtasktable,
-                  [event.target.name]: event.target.value,
-                });
+              const handleChange = (e) => {
+                const { name, value } = e.target;
+                setEditedTask((prev) => ({ ...prev, [name]: value }));
+              };
+            
+            
+              const handleSubmit = async () => {
+                try {
+                  const response = await axiosInstance.put(`/tasks/${id}/`, editedTask);
+                  setAddTaskTable(response.data);
+                  setIsEditing(false);
+                  console.log("Task information updated successfully:", response.data);
+              
+                  const interactionData = {
+                    entity_type: "tasks",
+                    entity_id: id,
+                    interaction_type: "Task Update",
+                    tenant_id: tenantId,
+                    notes: `Task updated. New details - Priority: ${editedTask.priority}, Due Date: ${editedTask.due_date}, Status: ${editedTask.status}, Related To: ${editedTask.related_to}, Task Owner: ${editedTask.account}, Description: ${editedTask.description}, Tenant: ${editedTask.tenant}`,
+                    interaction_datetime: new Date().toISOString(),
+                  };
+              
+                  await axiosInstance.post('/interaction/', interactionData);
+                  console.log('Interaction logged successfully');
+                } catch (error) {
+                  console.error("Error updating task information:", error);
+                }
+              };
+              
+              
+              const handleCancel = () => {
+                setIsEditing(false);
+                setEditedTask(addtasktable); // Revert back to original task information
               };
               const handleAddNote = (event) => {
                 event.preventDefault();
@@ -73,6 +106,26 @@ export const Taskinfo=()=>{
                   });
                 };
             
+                const handleEdit = () => {
+                  setIsEditing(true);
+                  // Initialize editedTask with the current task details
+                  setEditedTask({
+                    priority: addtasktable.priority,
+                    due_date: addtasktable.due_date,
+                    status: addtasktable.status,
+                    related_to: addtasktable.related_to,
+                    account: addtasktable.account,
+                    createdBy: addtasktable.createdBy,
+                    contact: addtasktable.contact,
+                    subject: addtasktable.subject,
+                    Reminder: addtasktable.Reminder,
+                    repeat: addtasktable.repeat,
+                    closedTime: addtasktable.closedTime,
+                    Notes: addtasktable.Notes,
+                    modifiedBy: addtasktable.modifiedBy,
+                  });
+                };
+                
                   const handleAttach = () => {
                     console.log("Attach happened");
                   };
@@ -99,7 +152,7 @@ export const Taskinfo=()=>{
                       CreatedDate: "",
                       createdBy: "",
                     });
-                    setModalOpen1(false);
+                    setIsModalOpen(false);
                   };
                   const handleCloseTask = () => {
                     setIsModalOpen(true);
@@ -112,33 +165,66 @@ export const Taskinfo=()=>{
                     setIsCompleted(true); // Mark the task as completed
                     setIsModalOpen(false);
                   };
+                  const handleEditNotes = () => {
+                    setIsEditing(true); // Set isEditing state to true to enable editing mode for notes
+                  };
+                  
 
   return (
     <div>
+       <div className="right_div-taskinfo">
+      <TopNavbar/>
+     </div>
       <div className="alltogether">
         <div className="subjectlist">
-          <div className="info5">
-            <ul>
-              {tasks.map((task, index) => (
-                <li key={task.id}>
-                  <Link to={`/${tenantId}/tasks/${task.id}`}>{task.subject}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        
+          <Link to={`../${tenantId}/tasks`}  id='back-inter-task' >
+            Back
+          </Link>
+        
         </div>
 
         <div className="addtasks">
+          <div className="task-head">
+            <h1>Tasks Info</h1>
+          </div>
           <div className="combine">
-            <div className="info">
-              <h1>head section</h1>
-              <div className="para1">
-                <p className="para">Priority - {addtasktable.priority} </p>
-                <p className="para">Due Date -{addtasktable.due_date}</p>
-                <p className="para">Status - {addtasktable.status}</p>
-                <p className="para">Related To - {addtasktable.related_to}</p>
-                <p className="para">Task Owner - {addtasktable.account}</p>
-              </div>
+          
+            
+ {!isEditing && (
+  <div className="para1">
+    <ul>
+      <li className='task-info-data'>Priority - <span className='task-prior'>{addtasktable.priority}</span></li>
+      <li className='task-info-data'>Due Date - <span className='task-prior'>{addtasktable.due_date}</span></li>
+      <li className='task-info-data'>Status - <span className='task-prior'>{addtasktable.status}</span></li>
+      <li className='task-info-data'>Related To - <span className='task-prior'>{addtasktable.related_to}</span></li>
+      <li className='task-info-data'>Task Owner - <span className='task-prior'>{addtasktable.account}</span></li>
+      <li className='task-info-data'>Description - <span className='task-prior'>{addtasktable.description}</span></li>
+      <li className='task-info-data'>Tenant - <span className='task-prior'>{addtasktable.tenant}</span></li>
+    </ul>
+    <button onClick={handleEdit} className='task-edit'> Edit</button>
+  </div>
+)}
+
+{isEditing && (
+  <div className="para1">
+    <ul>
+      <li className='task-info-data'>Priority - <input type="text" name="priority" className='edit-task-data' value={editedTask.priority} onChange={handleChange} /></li>
+      <li className='task-info-data'>Due Date - <input type="text" name="due_date" className='edit-task-data' value={editedTask.due_date} onChange={handleChange} /></li>
+      <li className='task-info-data'>Status - <input type="text" name="status" className='edit-task-data' value={editedTask.status} onChange={handleChange} /></li>
+      <li className='task-info-data'>Related To - <input type="text" name="related_to"  className='edit-task-data' value={editedTask.related_to} onChange={handleChange} /></li>
+      <li className='task-info-data'>Task Owner - <input type="text" name="account" className='edit-task-data' value={editedTask.account} onChange={handleChange} /></li>
+      <li className='task-info-data'>Description - <input type="text" name="description" className='edit-task-data' value={editedTask.description} onChange={handleChange} /></li>
+      <li className='task-info-data'>Tenant - <input type="text" name="tenant" className='edit-task-data' value={editedTask.tenant} onChange={handleChange} /></li>
+    </ul>
+    <div>
+      <button onClick={handleSubmit} className='task-edit-save'>Save</button>
+      <button onClick={handleCancel} className='task-edit-cancel'>Cancel</button>
+    </div>
+  </div>
+)}
+
+
               <div className="closetask">
                 <button
                   className="close-task-button"
@@ -162,11 +248,11 @@ export const Taskinfo=()=>{
                     </div>
                   </div>
                 </Modal>
-              </div>
+             
             </div>
           </div>
 
-          <div className="info">
+          <div className="info-task-show">
             <div className="hidedetail">
               <button onClick={toggleAdditionalDetails}>
                 {addtasktable ? "Hide Details" : "Show Details"}
@@ -177,94 +263,130 @@ export const Taskinfo=()=>{
             <div className="showdetails"></div>
             {addtasktable && (
               <div className="detail">
-                <h1>Task Information</h1>
-                <div className="add">
-                  <div>
-                    <p>Task Owner {addtasktable.contact}</p>
-                    <p>Subject - {addtasktable.subject}</p>
-                    <p>Due Date - {addtasktable.due_date}</p>
-                    <p>Related To - {addtasktable.related_to}</p>
-                    <p>Status - {addtasktable.status}</p>
-                    <p>Priority - {addtasktable.priority}</p>
-                    <p>Created By - {addtasktable.createdBy}</p>
-                    <p>Modified By- {addtasktable.modifiedBy} </p>
-                    <p>Reminder - {addtasktable.Reminder}</p>
-                    <p>Repeat - {addtasktable.repeat}</p>
-                    <p>Closed Time - {addtasktable.closedTime}</p>
-                    <h2> Description Information </h2>
-                    <p className="add1">
-                      {" "}
-                      Description - {addtasktable.description}
-                    </p>
-                  </div>
+                <h1 className='task-info-head'>Task Information :</h1>
+                <div className="para1">
+                {!isEditing && (
+  <div className="hide-task-info">
+    <ul>
+      <li className='task-info-data1'>Task Owner - <span className='task-prior'>{addtasktable.contact}</span></li>
+      <li className='task-info-data1'>Subject - <span className='task-prior'>{addtasktable.subject}</span></li>
+      <li className='task-info-data1'>Due Date - <span className='task-prior'>{addtasktable.due_date}</span></li>
+      <li className='task-info-data1'>Related To - <span className='task-prior'>{addtasktable.related_to}</span></li>
+      <li className='task-info-data1'>Status - <span className='task-prior'>{addtasktable.status}</span></li>
+      <li className='task-info-data1'>Priority - <span className='task-prior'>{addtasktable.priority}</span></li>
+      <li className='task-info-data1'>Created By - <span className='task-prior'>{addtasktable.createdBy}</span></li>
+    </ul>
+    <button onClick={handleEdit} className='task-edit1'>Edit</button>
+  </div>
+)}
+
+{isEditing && (
+  <div className="hide-task-info">
+    <ul>
+      <li className='task-info-data1'>Task Owner - <input type="text"  className='edit-task-data' name="contact" value={editedTask.contact} onChange={handleChange} /></li>
+      <li className='task-info-data1'>Subject - <input type="text" name="subject" className='edit-task-data' value={editedTask.subject} onChange={handleChange} /></li>
+      <li className='task-info-data1'>Due Date - <input type="text" name="due_date"  className='edit-task-data' value={editedTask.due_date} onChange={handleChange} /></li>
+      <li className='task-info-data1'>Related To - <input type="text" name="related_to" className='edit-task-data'  value={editedTask.related_to} onChange={handleChange} /></li>
+      <li className='task-info-data1'>Status - <input type="text" name="status" className='edit-task-data' value={editedTask.status} onChange={handleChange} /></li>
+      <li className='task-info-data1'>Priority - <input type="text" name="priority" className='edit-task-data' value={editedTask.priority} onChange={handleChange} /></li>
+      <li className='task-info-data1'>Created By - <input type="text" name="createdBy"className='edit-task-data' value={editedTask.createdBy} onChange={handleChange} /></li>
+    </ul>
+    <div>
+      <button onClick={handleSubmit} className='task-edit1-save1'>Save</button>
+      <button onClick={handleCancel} className='task-edit1-cancel1'>Cancel</button>
+    </div>
+  </div>
+)}
+
                 </div>
               </div>
             )}
           </div>
-          <div className="info">
-            <div className="notes-container">
-              <div className="recent">
-                <div className="notes">
-                  <h1>Notes</h1>
-                </div>
+          <div className="info-noteee">
+  <div className="notes-container">
+    <div className="recent">
+      <div >
+        <h1 className="notes">Notes</h1>
+      </div>
 
-                <div>
-                  <button className="recent-notes-button">Recent Notes</button>
+      <div>
+        <button className="recent-notes-button">Recent Notes</button>
 
-                  <ul className="recent-notes-list">
-                    {/* {contactinfo.RecentNotes.map(note => (
-                      <li key={note.id}>{note.text}</li>
-                    ))} */}
-                  </ul>
-                </div>
-              </div>
+        <ul className="recent-notes-list">
+          {/* Display recent notes here */}
+        </ul>
+      </div>
+    </div>
 
-              <form onSubmit={handleAddNote}>
-                <textarea
-                  name="Notes"
-                  value={addtasktable.Notes}
-                  onChange={handleChange}
-                  className="notes-textarea"
-                  placeholder="add a note........"
-                ></textarea>
-                <button type="submit" className="add-note-button">
-                  Add Note
-                </button>
-              </form>
-            </div>
-          </div>
-          <div className="info">
-            <div className="info1">
+    {!isEditing && (
+      <div>
+        <textarea
+          name="Notes"
+          value={editedTask.Notes}
+          onChange={handleChange}
+          className="notes-textarea"
+          placeholder="add a note........"
+        ></textarea>
+        <div>
+          <button onClick={handleEditNotes} className='task-edit1'>Edit</button>
+         
+        </div>
+      </div>
+    )}
+
+    {isEditing && (
+      <form className='form_taskk' onSubmit={handleSubmit}>
+        <textarea
+          name="Notes"
+          value={editedTask.Notes}
+          onChange={handleChange}
+          className="notes-textarea"
+          placeholder="add a note........"
+        ></textarea>
+        <div>
+          <button type="submit"  className='task-edit1-save1'>Save</button>
+          <button onClick={handleCancel} className='task-edit1-cancel1'>Cancel</button>
+        </div>
+      </form>
+    )}
+  </div>
+</div>
+
+
+  
+
+          <div className="info-attach">
+            <div >
               <div className="heads">
                 <h2>Attachments</h2>
               </div>
-              <div className="attach">
-                <select onChange={handleAttach}>
-                  <option value="">Attach</option>
+              <div className="attachment-upload2">
+  <label htmlFor="attachment-input1" className="clicktoupload2">Upload</label>
+  <input type="file" id="attachment-input1" style={{ display: 'none' }} />
+</div>
 
-                  <option value="1">Upload File</option>
-                  <option value="2">Documents </option>
-                  <option value="3">Zoho Workdrive</option>
-                  <option value="4">Other Cloud Drives</option>
-                  <option value="3">Link(URL)</option>
-                </select>
-              </div>
             </div>
           </div>
-          <div className="info">
+          
+          <div className="info-link">
             <div className="info1">
               <div className="heads">
                 <h2>Links</h2>
+
               </div>
-              <div className="addmanage">
-                <button>Add</button>
-                <button>Manage</button>
-              </div>
+              <div className="linksbtn">
+              <button>+Add Manage</button>
+            </div>
+              
             </div>
           </div>
-          <div className="info">
-            <div className="info1">
+          <div className="info-action">
+            <div className="heads">
               <h2>Upcoming Actions</h2>
+
+            </div>
+            <div className="linksbtn">
+              <button>+Add Data</button>
             </div>
           </div>
         </div>

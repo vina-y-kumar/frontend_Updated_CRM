@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import './Addlead.css';
 import Swal from 'sweetalert2';
@@ -31,6 +31,8 @@ function Form() {
     website: '',
     status: '', // Adding status to the formData state
   });
+  const [accountOptions, setAccountOptions] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -48,6 +50,23 @@ function Form() {
       });
     }
   };
+
+  const fetchAccountOptions = async () => {
+    try {
+      const response = await axiosInstance.get('/accounts/');
+  
+        console.log("Account options response:", response.data);
+        setAccountOptions(response.data);
+        setFilteredOptions(response.data);
+        
+    } catch (error) {
+        console.error("Error fetching account options:", error);
+    }
+};
+
+useEffect(() => {
+  fetchAccountOptions();
+}, []);
   
 
   const handleSubmit = async (event) => {
@@ -60,7 +79,23 @@ function Form() {
         tenant: tenantId,
       };
       const response = await axiosInstance.post(`/leads/`, dataToSend);
+      const leadId = response.data.id;
 
+      const interactionData = {
+        entity_type: "Lead",
+        entity_id: leadId,
+        interaction_type: "Note",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Lead with id : ${leadId}created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       Swal.fire({
         title: 'Good job!',
         text: 'Lead Created Successfully!',
@@ -150,15 +185,27 @@ function Form() {
         </div>
         <div className="form-group col-md-6">
           <label htmlFor="account_name" className='lead_title'>Organization</label>
-          <input
-            type="text"
-            className="form-control"
-            id="account_name"
-            name="account_name"
-            value={formData.account_name}
-            onChange={handleChange}
-            placeholder="Enter organization"
-          />
+          <select
+  className="form-control"
+  id="account_name"
+  name="account_name"
+  value={formData.account}
+  onChange={handleChange}
+  placeholder="Enter organization"
+>
+  {filteredOptions.length === 0 ? (
+    <option value="">Loading organizations...</option>
+  ) : (
+    <>
+      <option value="">Select Organization</option>
+      {filteredOptions.map((option) => (
+        <option key={option.id} value={option.value}>
+          {option.Name}
+        </option>
+      ))}
+    </>
+  )}
+</select>
         </div>
       </div>
       <div className="form-row">
@@ -243,6 +290,7 @@ function Form() {
             placeholder="Enter created by"
           />
         </div>
+        
       </div>
       <div className="form-row">
         <div className="form-group col-md-6">
@@ -256,8 +304,24 @@ function Form() {
   onChange={handleChange}
   placeholder="Enter Assigned To"
 />
-
+</div>
+<div className="form-row">
+        <div className="form-group col-md-6">
+          <label htmlFor="paymentMethod" className='lead_title'>Opportunity Amount</label>
+          <input
+            type="text"
+            className="form-control"
+            id="amount"
+            name="amount"
+            value={formData.opportunityamount}
+            onChange={handleChange}
+            placeholder="Enter Opportunity Amount"
+          />
         </div>
+        </div>
+      
+
+        
       </div>
       <button  type="submit" className="btn_lead">
         Create Lead

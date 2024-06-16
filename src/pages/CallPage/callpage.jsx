@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
 import axiosInstance from "../../api";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
+
+import { useAuth } from "../../authContext";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -22,6 +26,7 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
   const [calls, setCalls] = useState([]);
   const [viewMode, setViewMode] = useState("table");
   const [meet, setMeet] = useState([]);
+  const {userId}=useAuth();
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
   
@@ -142,8 +147,26 @@ const handleCreateMeeting = async (e) => {
       ...formData,
       createdBy: userId, // Pass userId as createdBy
       tenant: tenantId,
+      start_time: "2024-05-27T14:34:00Z", 
+      to_time: "2024-05-27T15:15:00Z",
     };
     const response = await axiosInstance.post('/calls/',dataToSend);
+    const callId = response.data.id;
+      const interactionData = {
+        entity_type: "calls",
+        entity_id: callId,
+        interaction_type: "Event",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Call created with id : ${callId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
     console.log("Call logged successfully:", response.data);
     closeModal();
     fetchCalls();
@@ -170,6 +193,10 @@ const handleCreateMeeting = async (e) => {
   };
 
   return (
+    <div>
+       <div className="call_nav">
+    <TopNavbar/>
+  </div>
     <div className="calls">
       <div className="home_left_box">
         <Sidebar />
@@ -177,9 +204,9 @@ const handleCreateMeeting = async (e) => {
       <h1 className="call_head"> Calls </h1>
       <div className="contain1">
         <div className="meet1">
-        <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="payments-dropdown6" className="excel-dropdown-menu6">
+        <div className="menu_call">
+        <Dropdown >
+          <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu_call">
             Excel File
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -394,11 +421,7 @@ const handleCreateMeeting = async (e) => {
           </div>
         </div>
         <div className="recordss" style={{ width: "100%" }}>
-          <select className="view-mode-select" onChange={handleRecords}>
-            <option value="">10 Records per page</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
+       
           <select
   value={viewMode}
   onChange={(e) => handleViewModeChange(e.target.value)}
@@ -427,17 +450,22 @@ const handleCreateMeeting = async (e) => {
                 </tr>
               </thead>
               <tbody>
-                {calls.map((call) => (
-                  <tr key={call.id}>
-                    <td className="call_to">{call.call_to}</td>
-                    <td className="call_type">{call.call_type}</td>
-                    <td className="call_start">{call.start_time}</td>
-                    <td className="call_duration">{call.call_duration}</td>
-                    <td className="call_related">{call.related_to}</td>
-                    <td className="call_location">{call.location}</td>
-                    <td className="call_record">{call.voice_recording}</td>
-                  </tr>
-                ))}
+              {calls.map((call) => (
+    <tr key={call.id}>
+        <td className="call_to">{call.call_to}</td>
+        <td className='call_to'>
+            <Link to={`/${tenantId}/callpage/${call.id}`}>
+                {call.call_type}
+            </Link>
+        </td>
+        <td className="call_start">{call.start_time}</td>
+        <td className="call_duration">{call.call_duration}</td>
+        <td className="call_related">{call.related_to}</td>
+        <td className="call_location">{call.location}</td>
+        <td className="call_record">{call.voice_recording}</td>
+    </tr>
+))}
+
               </tbody>
             </table>
           </div>
@@ -497,6 +525,8 @@ const handleCreateMeeting = async (e) => {
       )}*/ } 
       </div>
     </div>
+    </div>
+   
   );
 };
 

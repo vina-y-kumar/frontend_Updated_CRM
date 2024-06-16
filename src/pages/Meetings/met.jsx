@@ -9,6 +9,8 @@ import axiosInstance from "../../api";
 import * as XLSX from "xlsx"; 
 import io from 'socket.io-client';
 import { useAuth } from "../../authContext";
+import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
 
 const ReminderPopup = ({ subject }) => {
   return (
@@ -104,6 +106,22 @@ useEffect(() => {
         participants:1,
       };
       const response = await axiosInstance.post('/meetings/',dataToSend);
+      const meetingsId = response.data.id;
+      const interactionData = {
+        entity_type: "meetings",
+        entity_id: meetingsId,
+        interaction_type: "Event",
+        tenant_id: tenantId, // Make sure you have tenant_id in movedCard
+        notes: `Meeting created with id : ${meetingsId} created by user : ${userId}`,
+        interaction_datetime: new Date().toISOString(),
+      };
+
+      try {
+          await axiosInstance.post('/interaction/', interactionData);
+          console.log('Interaction logged successfully');
+        } catch (error) {
+          console.error('Error logging interaction:', error);
+        }
       
       console.log("Meeting created successfully:", response.data);
       setMeetings([...meetings, response.data]);
@@ -129,7 +147,12 @@ useEffect(() => {
   };
 
   return (
+   <div>
+     <div className="oppo_nav">
+    <TopNavbar/>
+  </div>
     <div className="calls">
+      
       <div className="home_left_box">
         <Sidebar />
       </div>
@@ -263,11 +286,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="record5">
-          <select className="page">
-            <option value="">10 Records per page</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
+          
           <select
             value={viewMode}
             onChange={(e) => handleViewModeChange(e.target.value)}
@@ -294,9 +313,14 @@ useEffect(() => {
         </tr>
       </thead>
       <tbody>
+    
         {meetings.map((meeting) => (
           <tr key={meeting.id}>
-            <td className='title_row_data'>{meeting.title}</td>
+           
+            <td className='title_row_data'>
+            <Link to={`/${tenantId}/meetings/${meeting.id}`}>
+            {meeting.title}
+                    </Link></td>
             <td className="from_row_data">{meeting.from_time}</td>
             <td className="to_row_data">{meeting.to_time}</td>
             <td className="related_row_data">{meeting.related_to}</td>
@@ -354,6 +378,7 @@ useEffect(() => {
         
       </div>
     </div>
+   </div>
   );
 };
 

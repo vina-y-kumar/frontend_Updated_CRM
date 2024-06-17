@@ -71,13 +71,13 @@ const Custom = () => {
             }
         }
     };
-    /*if (userRole !== 'admin') {
+    if (userRole !== 'Admin') {
         return (
             <div>
                 <p>You do not have permission to view this page.</p>
             </div>
         );
-    }*/
+    }
 
     return (
         <div className='custom-page'>

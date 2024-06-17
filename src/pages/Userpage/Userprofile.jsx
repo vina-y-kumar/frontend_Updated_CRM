@@ -37,7 +37,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosInstance.get(`/get-user/ee`);
+        const response = await axiosInstance.get(`/get-user/ll`);
         setUser(response.data);
         setEditedUser(response.data);
         setIsLoading(false);

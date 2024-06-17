@@ -41,7 +41,7 @@ export const Login = () => {
 
     console.log('Request data:', data);
 
-    fetch('https://webappbaackend.azurewebsites.net/login/', {
+    fetch('http://127.0.0.1:8000/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

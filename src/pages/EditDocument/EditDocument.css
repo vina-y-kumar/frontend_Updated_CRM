@@ -1,0 +1,28 @@
+.edit-docspage{
+display: flex;
+flex-direction: row;
+}
+
+.side-editdocs {
+    width: 256px;
+    height: 100vh;
+    background: #FAFAFB;
+    box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+    padding: 20px;
+    z-index:999;
+}
+
+.back-button-edit {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #171a1f;
+}
+.editdocs-nav {
+   
+   
+    position: relative;
+    bottom: 5rem;
+    left: 2px;
+}

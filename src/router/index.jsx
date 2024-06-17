@@ -77,6 +77,7 @@ import Calendar from "../pages/Calendar/Calendar";
 
 import Calendarform from "../pages/Calendar/Calendarform";
 import Ticket from "../pages/Ticket/TicketPage";
+import EditDocument from "../pages/EditDocument/EditDocument";
 
 
 // import CustomModelForm from "../pages/CustomModel/customform";
@@ -235,6 +236,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/interaction" element={<Interaction/>}/>
           <Route path=":tenant_id/addtask" element={<AddTaskForm/>}/>
           <Route path=":tenant_id/loyaltyform" element ={<Loyalityform/>}/>
+          <Route path=":tenant_id/editdocs" element ={<EditDocument/>}/>
+
+
           
 
           <Route path=":tenant_id/compose" element={<EmailComponent/>}/>

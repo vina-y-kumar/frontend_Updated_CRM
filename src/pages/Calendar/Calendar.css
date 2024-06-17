@@ -161,13 +161,11 @@
     color: #91A3B0;
   }
   .rbc-toolbar-search {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; 
+    
     width: 22rem;
-    position: relative;
-    left: 110rem;
-    top: 70px;
+    position: absolute;
+    left: 140rem;
+    top: 190px;
   }
   .search-icon{
     position: relative;
@@ -192,22 +190,10 @@
 /* form css */
 
 /* CreateNewScheduleForm.css */
-/* Modal CSS */
 
 /* Modal CSS */
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  z-index: 999; /* Ensure it covers everything except the modal */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .modal-content {
   background-color: white;
@@ -219,7 +205,7 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  bottom: 90rem;
+  bottom: 85rem;
 }
 
 .close-button {
@@ -288,7 +274,7 @@
   background-color: #3e7e00;
 }
 
-.overlay {
+.cal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }

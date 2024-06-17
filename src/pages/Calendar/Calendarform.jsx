@@ -91,7 +91,7 @@ const Calendarform = ({ isOpen, onRequestClose, fetchEvents }) => {
   isOpen={isOpen}
   onRequestClose={onRequestClose}
   className="form-modal"
-  overlayClassName="overlay"
+  overlayClassName="cal-overlay"
 >
   <div className="modal-content">
     <button onClick={onRequestClose} className="close-button">

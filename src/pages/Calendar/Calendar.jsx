@@ -3,8 +3,7 @@ import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css'; // Custom styles
-import { NavLink, Link } from "react-router-dom";
-import { Sidebar } from "../../components/Sidebar";
+import { Link } from "react-router-dom";
 import TopNavbar from '../TopNavbar/TopNavbar.jsx';
 import Calendarform from './Calendarform.jsx';
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,10 +12,7 @@ import CustomEvent from './CustomEvent';
 
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
-  if (pathArray.length >= 2) {
-    return pathArray[1];
-  }
-  return null;
+  return pathArray.length >= 2 ? pathArray[1] : null;
 };
 
 const localizer = momentLocalizer(moment);
@@ -33,13 +29,11 @@ const CalendarComponent = () => {
       { type: 'Meetings', endpoint: '/meetings/', titleKey: 'title', color: '#FFFF00' },
       { type: 'Tasks', endpoint: '/tasks/', titleKey: 'subject', color: '#FF0000' }
     ];
-  
+
     try {
       const allEvents = [];
-  
       for (const { type, endpoint, titleKey, color } of eventTypes) {
         const response = await axiosInstance.get(endpoint);
-  
         const formattedEvents = response.data.map(event => ({
           id: event.id,
           title: event[titleKey] || `Event ${event.id}`,
@@ -47,32 +41,21 @@ const CalendarComponent = () => {
           end: new Date(event.to_time || event.due_date),
           color: color
         }));
-  
-        console.log(`Formatted ${type}:`, formattedEvents);
         allEvents.push(...formattedEvents);
       }
-  
       setEvents(allEvents);
     } catch (error) {
       console.error('Error fetching events:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchEvents();
   }, []);
-  
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  const handleSearchChange = (e) => setSearchQuery(e.target.value.toLowerCase());
 
   const filteredEvents = events.filter(event => {
     const query = searchQuery.toLowerCase();
@@ -81,7 +64,7 @@ const CalendarComponent = () => {
     const eventMonth = moment(event.start).format('MMMM').toLowerCase();
     const eventYear = moment(event.start).format('YYYY');
     const eventWeek = moment(event.start).week().toString();
-    
+
     return (
       eventTitle.includes(query) ||
       eventDate.includes(query) ||

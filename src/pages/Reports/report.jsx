@@ -35,7 +35,7 @@ const Report = () => {
             if (reportId) {
                 setIsLoading(true);
                 try {
-                    const response = await axiosInstance.get(`/r/${reportId}/`);
+                    const response = await axiosInstance.get(`/report/${reportId}/`);
                     console.log('Response:', response);
                     setReportData(response.data);
     

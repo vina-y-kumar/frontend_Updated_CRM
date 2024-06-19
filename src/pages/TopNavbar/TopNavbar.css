@@ -8,8 +8,24 @@
   margin-top: 5rem;
   display: flex;
   flex-direction: row;
+
 }
 
+.search-icon {
+  position: absolute;
+  right: 5px; /* Position the icon inside the input field */
+  
+  width: 20px; /* Adjust as needed */
+  height:30px;/* Adjust as needed */
+  fill: #323743FF; /* Adjust as needed */
+}
+.search-bar{
+  margin-left: -700px;
+  margin-top: 10px;
+  width:500px;
+  height:30px;
+  border-radius: 5px;
+}
 .topNavbar1 {
   margin-left: 112rem;
   margin-top: 20px;

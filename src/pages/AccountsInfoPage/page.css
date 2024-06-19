@@ -1204,7 +1204,6 @@ button:disabled {
   overflow: auto;
 }
 
-<<<<<<< HEAD
 .show-more-button:hover {
   background-color: purple; /* Purple background on hover */
   color: #fff; /* White text color on hover */
@@ -1330,7 +1329,6 @@ margin-left: 10rem;
     font-size: 15px;
 
   }
-=======
 .file-popup-overlay {
   position: fixed;
   top: 0;
@@ -1379,4 +1377,3 @@ margin-left: 10rem;
   border-radius: 5px;
   cursor: pointer;
 }
->>>>>>> c7d4d72167fc35370098936213f2c9442ce1a566

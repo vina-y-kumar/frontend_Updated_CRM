@@ -2,7 +2,7 @@
   "routes": [
     { "src": "/", "dest": "/" },
     { "src": "/login", "dest": "/" },
-    { "src": "/:tenant_id/home", "dest": "/" },
+    { "src": "/ll/home", "dest": "/" },
     { "src": "/:tenant_id/accounts", "dest": "/" },
     { "src": "/:tenant_id/contacts", "dest": "/" },
     { "src": "/:tenant_id/lead", "dest": "/" },

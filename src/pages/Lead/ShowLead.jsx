@@ -219,7 +219,7 @@ const ShowLead = () => {
   };
   const fetchTimeline = async () => {
     try {
-      const response = await axiosInstance.get(`/interaction/5/${id}/`);
+      const response = await axiosInstance.get(`/return-interaction/9/${id}/`);
       setTimeline(response.data.interactions); // Set the timeline with interactions array
       console.log('Timeline data fetched successfully:', response.data);
     } catch (error) {

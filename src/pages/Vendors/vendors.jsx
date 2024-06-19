@@ -48,12 +48,13 @@ const Vendors = () => {
     <div >
 
       <div className="vendor_page">
-      <div className="home_left_box4">
+     
+      <div className="home_left_box1" style={{"top":"0rem"}}>
         <Sidebar />
       </div>
     
       <div>
-      <div className="right_div">
+      <div className="right_div" style={{marginLeft:'-80px'}}>
         <TopNavbar/>
         </div>
       <div className="vendor-merge">

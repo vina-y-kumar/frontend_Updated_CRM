@@ -57,14 +57,13 @@ const AccountsTable1 = () => {
     try {
       const response = await axiosInstance.get('/active_accounts/');
       const data = response.data.most_active_accounts;
-  
-      if (Array.isArray(data)) {
-        const active = data.filter(account => account.isActive);
-        console.log("^^^^^^^",active);
-        const inactive = [...active].reverse(); // Reverse the active accounts data
-        console.log("ppppppp",inactive);
 
-        
+      if (Array.isArray(data)) {
+        const active = data.filter(account => !account.isActive); 
+        console.log("%%%%%%%", active);
+        const inactive = [...active].reverse(); // Inverted the filter condition
+        console.log("22222", inactive);
+
         setActiveAccounts(active);
         setInactiveAccounts(inactive);
       } else {
@@ -74,7 +73,11 @@ const AccountsTable1 = () => {
       console.error("Error fetching active contacts:", error);
     }
   };
-  
+
+  useEffect(() => {
+    fetchAccounts();
+    fetchActiveAccounts();
+  }, []);
   
 
 
@@ -254,7 +257,7 @@ const renderTableRows = () => {
               <h1 style={{paddingBottom:'100px'}}>Account list</h1>
               </div>
               <div style={{display:'flex',flexDirection:'row',marginTop:'90px'}}>
-              <div  style={{marginRight:'80px'}}>
+              <div  style={{marginRight:'10px'}}>
                           <Dropdown>
                             <Dropdown.Toggle variant="primary" id="payments-dropdown" className="excel-dropdown-menu">
                               Excel File

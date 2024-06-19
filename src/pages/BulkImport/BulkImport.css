@@ -1,3 +1,12 @@
+.bulk-importing {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-container {
+  display: flex;
+}
+
 .bulk-import-container {
   max-width: 600px;
   margin: 0 auto;
@@ -69,4 +78,94 @@ button1 {
 
 .Entities{
   align-content: space-between;
+}
+
+.sidebar {
+  flex: 0 0 auto; /* Prevent sidebar from shrinking */
+}
+
+.content {
+  flex: 1; 
+  margin-left: 20px; 
+}
+
+.bulk-import-heading {
+  margin-bottom: 20px; 
+  font-weight: bold;
+}
+.bulk-boxes-container {
+  display: flex;
+  gap: 65px;
+}
+
+.bulk-box {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  height: 600px;
+  background-color: #f9f9f9;
+  
+}
+
+.bulk-box h2 {
+  display: flex;
+  background-color: #CDCED0FF;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.bulk-upload-container {
+  
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.bulk-upload-container p {
+  
+  margin-bottom: 6rem;
+}
+
+.bulk-upload-container button {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-bottom: 5rem;
+  border-radius: 8px;
+  background-color: #6D31EDFF;
+  color: #FFFFFFFF;
+  width:20rem;
+}
+.or-divider {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20rem;
+}
+.bulk-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.bulk-cancel-button {
+  padding: 10px 20px;
+  background-color: #ff4d4d; /* Red */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bulk-save-button {
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 2rem;
 }

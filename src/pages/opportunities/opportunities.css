@@ -75,7 +75,7 @@ gap: 6px;
 }
 .opportunities-table {
   width: 1251.35px;
-height: 893px;
+/*height: 893px;*/
 opacity: 1;
 border-radius: 8px;
 box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
@@ -104,7 +104,7 @@ margin-top: 20px;
   border-radius: 4px;
   border-width: 0px;
   outline: none;
-  margin-right: 15px; /* Add margin to the right for the gap */
+  margin-right: 0px; /* Add margin to the right for the gap */
 }
 
 

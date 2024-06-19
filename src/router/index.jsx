@@ -40,7 +40,7 @@ import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
 import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
 import CampaignInfo from "../pages/Campaign/campaigninfo";
-import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
+//import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 import Userprofile from "../pages/Userpage/Userprofile";
 
@@ -62,14 +62,34 @@ import Remind from "../pages/Reminders/Reminder";
 import Reminderform from "../pages/Reminders/createreminder";
 import Vendors from "../pages/Vendors/vendors";
 import Vendorsform from "../pages/Vendors/createVendors";
-import VendorInfo from "../pages/Vendors/vendorInfo";
+import VendorInfo from "../pages/Vendors/VendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
+import Report from "../pages/Reports/report";
+import Reportform from "../pages/Reports/reportform";
+import Loyalityform from "../pages/LoyaltyProgram/Loyalityform";
+import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
+import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
+import Custom from "../pages/CustomModel/custom";
+import Chatbot from "../pages/Chatbot/chatbot";
+
+import Ticketform from "../pages/Ticket/Ticketform";
+import TicketInfo from "../pages/Ticket/TicketInfo";
+
+import Calendar from "../pages/Calendar/Calendar";
+
+import Calendarform from "../pages/Calendar/Calendarform";
+// import Ticket from "../pages/Ticket/TicketPage";
+
+
+// import CustomModelForm from "../pages/CustomModel/customform";
+
 
 export const RouteWrapper = () => {
   const gettingToken = localStorage.getItem("token");
   const [reminders, setReminders] = useState([]);
   const [reminderMessage, setReminderMessage] = useState("");
-  const { authenticated } = useAuth();
+  const { authenticated,userRole } = useAuth();
+  
   
   const showReminder = (message) => {
     setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
@@ -191,7 +211,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/addlead" element={<Lead/>} />
         
           <Route path=":tenant_id/flow2" element={<FlowGraph2/>}/>
-          <Route path=":tenant_id/instagramflow" element={<InstagramFlow/>}/>
+          {/* <Route path=":tenant_id/instagramflow" element={<InstagramFlow/>}/>*/}
           <Route path=":tenant_id/whatsappflow" element={<WhatsappFlow/>}/>
           <Route path=":tenant_id/contactinfo/:id" element={<ContactInfo/>}/>
           <Route path=":tenant_id/ShowLead/:id" element={<ShowLead/>}/>
@@ -200,6 +220,10 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/addcontact" element={<Form2/>}/>
           <Route path=":tenant_id/meetings" element={<Met/>}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
+         <Route path="/:tenantId/report" element={<Report />} />
+          <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
+          <Route path=":tenant_id/calendar"   element={<Calendar/>}/>  
+
 
           <Route path=":tenant_id/opportunity" element={<Form3/>} />
           <Route path=":tenant_id/callpage" element={<CallPage handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />} />
@@ -212,6 +236,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/tasks" element={<TaskTable/>} />
           <Route path=":tenant_id/interaction" element={<Interaction/>}/>
           <Route path=":tenant_id/addtask" element={<AddTaskForm/>}/>
+          <Route path=":tenant_id/loyaltyform" element ={<Loyalityform/>}/>
+          
+
           <Route path=":tenant_id/compose" element={<EmailComponent/>}/>
           <Route path=":tenant_id/bulk-import" element={<BulkImport/>}/>
           <Route path=":tenant_id/flow" element={<FlowGraph/>}/>
@@ -226,6 +253,19 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
           <Route path=":tenant_id/product"  element= {<Product/>}/>
+          <Route path=":tenant_id/loyalty"  element= {<Loyalcard/>}/>
+          <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
+          {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
+
+          
+          <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
+          <Route path=":tenant_id/chatbot"  element= {<Chatbot/>}/>
+
+
+
+          <Route path=":tenant_id/chatbot/" element={<Chatbot/>}/>
+
+
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>

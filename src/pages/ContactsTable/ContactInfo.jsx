@@ -5,9 +5,15 @@ import RelatedList from "./RelatedList.jsx";
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import uploadToBlob from "../../azureUpload.jsx";
 import axiosInstance from "../../api.jsx";
 import "./contactsTable.css";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded';
+import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 
 import "./index.jsx";
 const getTenantIdFromUrl = () => {
@@ -72,6 +78,15 @@ const tenantId=getTenantIdFromUrl();
 const [isEditingInfo, setIsEditingInfo] = useState(false);
 const [isEditingInfoNote, setIsEditingInfoNote] = useState(false);
 const [photoColor, setPhotoColor] = useState("blue");
+const [timeline, setTimeline] = useState([]); // New state variable for timeline data
+const [showTimeline, setShowTimeline] = useState(false); 
+const [profileImage, setProfileImage] = useState(null);
+const { id } = useParams();
+
+
+const [file, setFile] = useState(null);
+const [selectedFile, setSelectedFile] = useState(null);
+
 
 
 
@@ -79,6 +94,8 @@ const [photoColor, setPhotoColor] = useState("blue");
   const[editedAccountName,setEditedAccountName] =useState('');
   const [editedPhone, setEditedPhone] = useState('');
   const [editedOtherPhone, setEditedOtherPhone] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
 
   const[editedLeadSource, setEditedLeadSource]= useState('');
   const[editedvendorName, seteditedVendorName]=useState('');
@@ -107,11 +124,25 @@ const [photoColor, setPhotoColor] = useState("blue");
 
 
 
+  const handleMoreClick = () => {
+    setShowAllFiles(!showAllFiles);
+  };
+  const handleFileClick = (file) => {
+    setSelectedFile(file);
+    console.log(selectedFile)
+    setShowAllFiles(false);
+  };
 
 
-
-
-
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = selectedFile.file_url;
+    link.download = selectedFile.name;
+    link.click();
+  };
+  const closePopup = () => {
+    setSelectedFile(null);
+  };
 
   
 
@@ -119,7 +150,7 @@ const [photoColor, setPhotoColor] = useState("blue");
   const [editedAccount, setEditedAccount] = useState(contactinfo.account);
 
 
-  const { id } = useParams(); // Get the account ID from the URL parameter
+  // Get the account ID from the URL parameter
   
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
@@ -139,15 +170,113 @@ const [photoColor, setPhotoColor] = useState("blue");
         console.error("Error fetching account data:", error);
       }
     };
+   
 
     fetchcontactData();
+   
   }, [id]);
+
+  const handleProfileImageUpload = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      try {
+        const fileUrl = await uploadToBlob(selectedFile);
+        setProfileImage(fileUrl);
+        console.log(profileImage);
+        console.log(fileUrl);
+  
+        // Save the profile image URL to the backend
+        await axiosInstance.patch(`/contacts/${id}/`, { profile_image_url: fileUrl });
+  
+        // Optionally, fetch the updated account data to update the state
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+            name: selectedFile.name,
+            document_type: selectedFile.type,
+            description: 'Your file description',
+            file_url: fileUrl,
+            entity_type: 10,
+            entity_id: id,
+            tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+       
+      } catch (error) {
+        console.error('Error uploading profile image:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+        try {
+            console.log('Fetching profile image for account:', id);
+            console.log('Tenant ID:', tenantId);
+
+            const response = await axiosInstance.get(`/return-documents/10/${id}`);
+            console.log('GET request successful, response:', response.data);
+
+            const documents = response.data.documents;
+            console.log('Documents array:', documents);
+
+            if (documents && documents.length > 0) {
+                const profileImage = documents[0].file;
+                console.log('Found profile image:', profileImage);
+                setProfileImage(profileImage);
+            } else {
+                console.log('No profile image found.');
+                setProfileImage(null); // Set a default image URL or null if no image found
+            }
+        } catch (error) {
+            console.error('Error fetching profile image:', error);
+        }
+    };
+
+    if (id && tenantId) {
+        fetchProfileImage();
+    }
+}, [id, tenantId]);
+ 
+  const fetchTimeline = async () => {
+    try {
+      const response = await axiosInstance.get(`/interaction/5/${id}/`);
+      setTimeline(response.data.interactions); // Set the timeline with interactions array
+      console.log('Timeline data fetched successfully:', response.data);
+    } catch (error) {
+      console.error('Error fetching timeline data:', error);
+    }
+  };
+  const toggleTimeline = async () => {
+    setShowTimeline(prevShowTimeline => !prevShowTimeline);
+    if (!showTimeline && timeline.length === 0) { // Check if timeline is empty
+      await fetchTimeline();
+    }
+  };
+  
+ 
+
+
+ 
+  
   const handleScrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      try {
+        const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${id}`);
+        setUploadedFiles(response.data);
+        
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
+    };
+    fetchUploadedFiles();
+  }, [id, tenantId, ]);
 
   const relatedListItems = [
     "Notes",
@@ -165,7 +294,42 @@ const [photoColor, setPhotoColor] = useState("blue");
     "Emails",
     "Invoices",
   ];
- 
+  
+  const handleUploadedFile = async (event) => {
+    const selectedFile = event.target.files[0];
+    console.log('Selected file:', selectedFile);
+    
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log('File state set:', selectedFile);
+
+      try {
+        console.log('Uploading file to Azure Blob Storage...');
+        const fileUrl = await uploadToBlob(selectedFile);
+        console.log('File uploaded to Azure, URL:', fileUrl);
+
+        console.log('Sending POST request to backend...');
+        const response = await axiosInstance.post('/documents/', {
+          name: selectedFile.name,
+          document_type: selectedFile.type,
+          description: 'Your file description',
+          file_url: fileUrl,
+          entity_type: 1,
+          entity_id: id,
+          tenant: tenantId,
+        });
+        console.log('POST request successful, response:', response.data);
+
+        setUploadedFiles(prevFiles => [...prevFiles, { name: selectedFile.name, url: fileUrl }]);
+        console.log('File uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } else {
+      console.log('No file selected');
+    }
+  };
+  
   
 
   const handleChange = (e, field) => {
@@ -371,17 +535,18 @@ const [photoColor, setPhotoColor] = useState("blue");
     setSkypeID(contactinfo.SkypeId);
     setSecondaryEmail(contactinfo.secondaryEmail);
     seteditTwitter(contactinfo.Twitter);
-
-
-
-
-
-
-
-
-
-
   };
+
+
+  const renderFiles = (files) => {
+    return files.map((file, index) => (
+      <li key={index} className="account-file-item">
+        <span className="file-icon">📄</span>
+        <a href={file.url} target="_blank" rel="noopener noreferrer"  onClick={() => handleFileClick(file)}>{file.name}</a>
+      </li>
+    ));
+  };
+
 
  
   return (
@@ -422,11 +587,25 @@ const [photoColor, setPhotoColor] = useState("blue");
             Contact Details
           </h1>
           <div>
-          <h2 className="owner1"> {contactinfo.first_name}</h2>
+          <h2 className="detail-owner1"> {contactinfo.first_name}</h2>
           <h2 className="owner3"> {contactinfo.address}</h2>
-          <div className="photo11" >
-        {generateSmiley2(photoColor)}
-      </div>
+          <div className="photo11">
+            
+          {profileImage ? (
+            <img src={profileImage} alt="Profile" className="contact-profile-image" />
+          ) : (
+            generateSmiley2(photoColor)
+          )}
+          <label htmlFor="profile-image-upload" className="profile-upload-button">
+            Upload Image
+            <input
+              type="file"
+              id="profile-image-upload"
+              onChange={handleProfileImageUpload}
+              style={{ display: 'none' }}
+            />
+          </label>
+        </div>
           <a
               className="visitLinkedin"
               href={contactinfo.website}
@@ -518,344 +697,351 @@ const [photoColor, setPhotoColor] = useState("blue");
 
         </div>
 
-          <div className="button-group" >
-            <div>
-            <button className="button-overview">Overview</button>
-            </div>
-       <div>
-       <button className="button-timeline">Timeline</button>
-       </div>
-       
-        </div> 
-        
-        <div className="info-hideandshowDetail">
-  <div className="hidedetail">
-  <button onClick={toggleAdditionalDetails}>
-                {contactinfo ? "Hide Details" : "Show Details"}
-              </button>
+        <div className="button-group">
+  <div>
+    <button className="button-overview">Overview</button>
   </div>
-  <div className="showdetails">
-    <div className="showdetailsdata">
-    {isEditing ? (
-        <>
-        <p>
-            <strong className="contactdetails-para2">Account Name:</strong>
-            <input
-              type="text"
-              value={contactinfo.accountName}
-              onChange={(e) => handleChange(e, 'accountName')}
-              className="contactinfo_accountName1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para1">Email:</strong>
-            <input
-              type="text"
-              value={contactinfo.email}
-              onChange={(e) => handleChange(e, 'email')}
-              className="contactinfo_email1"
-            />
-          </p>
-          
-          <p>
-            <strong className="contactdetails-para3">Lead Source:</strong>
-            <input
-              type="text"
-              value={contactinfo.leadSource}
-              onChange={(e) => handleChange(e, 'leadSource')}
-              className="contactinfo_leadSource1"
-            />
+  <div>
+    <button className="button-timeline" onClick={toggleTimeline}>
+            {showTimeline ? 'Hide Timeline' : 'Show Timeline'}
+          </button>
+  </div>
+</div>
 
-          </p>
-        
-        
-          <button onClick={handleSubmit} className="button-saves">
-            Save
-          </button>
-          <button onClick={handleCancel} className="button-cancels">
-            Cancel
-          </button>
-        </>
-      ) : (
-      <>
-      <p>
-        <strong className="contactdetails-para1">Account Name: </strong>
-        <div className="contactinfo_accountName">{contactinfo.accountName}</div>
-      </p>
-      <p>
-        <strong className="contactdetails-para2">Email: </strong>
-        <div className="contactinfo_Email">{contactinfo.email}</div>
-      </p>
-      <p>
-        <strong className="contactdetails-para3">Lead Source: </strong>
-        <div className="contactinfo_leadSource">{contactinfo.leadSource}</div>
-      </p>
+ <div>
+ {!showTimeline && (
+    <div>
+
+      
+    <div className="info-hideandshowDetail">
+
+<div className="hidedetail">
+<button onClick={toggleAdditionalDetails}>
+             {contactinfo ? "Hide Details" : "Show Details"}
+           </button>
+</div>
+<div className="showdetails">
+ <div className="showdetailsdata">
+ {isEditing ? (
+     <>
+     <p>
+         <strong className="contactdetails-para2">Account Name:</strong>
+         <input
+           type="text"
+           value={contactinfo.accountName}
+           onChange={(e) => handleChange(e, 'accountName')}
+           className="contactinfo_accountName1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para1">Email:</strong>
+         <input
+           type="text"
+           value={contactinfo.email}
+           onChange={(e) => handleChange(e, 'email')}
+           className="contactinfo_email1"
+         />
+       </p>
+       
+       <p>
+         <strong className="contactdetails-para3">Lead Source:</strong>
+         <input
+           type="text"
+           value={contactinfo.leadSource}
+           onChange={(e) => handleChange(e, 'leadSource')}
+           className="contactinfo_leadSource1"
+         />
+
+       </p>
+     
+     
+       <button onClick={handleSubmit} className="button-saves">
+         Save
+       </button>
+       <button onClick={handleCancel} className="button-cancels">
+         Cancel
+       </button>
+     </>
+   ) : (
+   <>
+   <p>
+     <strong className="contactdetails-para1">Account Name: </strong>
+     <div className="contactinfo_accountName">{contactinfo.accountName}</div>
+   </p>
+   <p>
+     <strong className="contactdetails-para2">Email: </strong>
+     <div className="contactinfo_Email">{contactinfo.email}</div>
+   </p>
+   <p>
+     <strong className="contactdetails-para3">Lead Source: </strong>
+     <div className="contactinfo_leadSource">{contactinfo.leadSource}</div>
+   </p>
+ 
+   </>
+     )}
+ </div>
+ <div className="show-hideDetails">
+ {isEditing ? (
+     <>
+     <p>
+         <strong className="contactdetails-para4">Contact Name:</strong>
+         <input
+           type="text"
+           value={contactinfo.ContactName}
+           onChange={(e) => handleChange(e, 'ContactName')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para5">Vendor Name:</strong>
+         <input
+           type="text"
+           value={contactinfo.vendorName}
+           onChange={(e) => handleChange(e, 'vendorName')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       
+       <p>
+         <strong className="contactdetails-para6">Other Phone:</strong>
+         <input
+           type="text"
+           value={contactinfo.OtherPhone}
+           onChange={(e) => handleChange(e, 'OtherPhone')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para7">Address:</strong>
+         <input
+           type="text"
+           value={contactinfo.address}
+           onChange={(e) => handleChange(e, 'address')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+     
+       
+     </>
+   ) : (
+
+   <>
+   <p>
+     <strong className="contactdetails-para4">Contact Name:</strong>
+     <div className="contactinfo_ContactName">{contactinfo.ContactName}</div>
+   </p>
+   <p>
+     <strong className="contactdetails-para5">Vendor Name:</strong>
+     <div className="contactinfo_vendorName">{contactinfo.vendorName}</div>
+   </p>
+   <p>
+     <strong className="contactdetails-para6">Other Phone: </strong>
+     <div className="contactinfo_OtherPhone">{contactinfo.OtherPhone}</div>
+   </p>
+   <p>
+     <strong className="contactdetails-para7">Address: </strong>
+     <div className="contactinfo_Address">{contactinfo.address}</div>
+   </p>
+   <button onClick={handleEdit} className="edit-box2">
+         Edit
+       </button>
+   </>
+
+   )}
+ </div>
+</div>
+{contactinfo && (
+ <div className="detail">
+   <h3 className="additional">Additional Details:</h3>
+   <div className="add">
+     <div className="adddetail_1">
+     {isEditing ? (
+     <>
+     <p>
+         <strong className="contactdetails-para8">Assistant:</strong>
+         <input
+           type="text"
+           value={contactinfo.assistant}
+           onChange={(e) => handleChange(e, 'assistant')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para9">Created By:</strong>
+         <input
+           type="text"
+           value={contactinfo.createdBy}
+           onChange={(e) => handleChange(e, 'createdBy')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       
+       <p>
+         <strong className="contactdetails-para10">Modified By:</strong>
+         <input
+           type="text"
+           value={contactinfo.ModifiedBy}
+           onChange={(e) => handleChange(e, 'ModifiedBy')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para11"> Currency :</strong>
+         <input
+           type="text"
+           value={contactinfo.Currency1}
+           onChange={(e) => handleChange(e, 'Currency1')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para12">Account:</strong>
+         <input
+           type="text"
+           value={contactinfo.account}
+           onChange={(e) => handleChange(e, 'account')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para13"> Fax :</strong>
+         <input
+           type="text"
+           value={contactinfo.Fax}
+           onChange={(e) => handleChange(e, 'Fax')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+     
+     
+     </>
+   ) : (
+
+       <>
+       <p>
+         <strong className="contactdetails-para8">Assistant: </strong>
+         <div className="contactinfo_assistant">{contactinfo.assistant}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para9">Created By: </strong>
+         <div className="contactinfo_createdBy">{contactinfo.createdBy}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para10">Modified By: </strong>
+         <div className="contactinfo_modifiedBy">{contactinfo.ModifiedBy}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para11">Currency: </strong>
+         <div className="contactinfo_Currency1">{contactinfo.Currency1}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para12">Account: </strong>
+         <div className="contactinfo_Account">{contactinfo.account}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para13">Fax: </strong>
+         <div className="contactinfo_Fax">{contactinfo.Fax}</div>
+       </p>
     
-      </>
-        )}
-    </div>
-    <div className="show-hideDetails">
-    {isEditing ? (
-        <>
-        <p>
-            <strong className="contactdetails-para4">Contact Name:</strong>
-            <input
-              type="text"
-              value={contactinfo.ContactName}
-              onChange={(e) => handleChange(e, 'ContactName')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para5">Vendor Name:</strong>
-            <input
-              type="text"
-              value={contactinfo.vendorName}
-              onChange={(e) => handleChange(e, 'vendorName')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          
-          <p>
-            <strong className="contactdetails-para6">Other Phone:</strong>
-            <input
-              type="text"
-              value={contactinfo.OtherPhone}
-              onChange={(e) => handleChange(e, 'OtherPhone')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para7">Address:</strong>
-            <input
-              type="text"
-              value={contactinfo.address}
-              onChange={(e) => handleChange(e, 'address')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-        
-          
-        </>
-      ) : (
 
-      <>
-      <p>
-        <strong className="contactdetails-para4">Contact Name:</strong>
-        <div className="contactinfo_ContactName">{contactinfo.ContactName}</div>
-      </p>
-      <p>
-        <strong className="contactdetails-para5">Vendor Name:</strong>
-        <div className="contactinfo_vendorName">{contactinfo.vendorName}</div>
-      </p>
-      <p>
-        <strong className="contactdetails-para6">Other Phone: </strong>
-        <div className="contactinfo_OtherPhone">{contactinfo.OtherPhone}</div>
-      </p>
-      <p>
-        <strong className="contactdetails-para7">Address: </strong>
-        <div className="contactinfo_Address">{contactinfo.address}</div>
-      </p>
-      <button onClick={handleEdit} className="edit-box2">
-            Edit
-          </button>
-      </>
-   
-      )}
-    </div>
-  </div>
-  {contactinfo && (
-    <div className="detail">
-      <h3 className="additional">Additional Details:</h3>
-      <div className="add">
-        <div className="adddetail_1">
-        {isEditing ? (
-        <>
-        <p>
-            <strong className="contactdetails-para8">Assistant:</strong>
-            <input
-              type="text"
-              value={contactinfo.assistant}
-              onChange={(e) => handleChange(e, 'assistant')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para9">Created By:</strong>
-            <input
-              type="text"
-              value={contactinfo.createdBy}
-              onChange={(e) => handleChange(e, 'createdBy')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          
-          <p>
-            <strong className="contactdetails-para10">Modified By:</strong>
-            <input
-              type="text"
-              value={contactinfo.ModifiedBy}
-              onChange={(e) => handleChange(e, 'ModifiedBy')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para11"> Currency :</strong>
-            <input
-              type="text"
-              value={contactinfo.Currency1}
-              onChange={(e) => handleChange(e, 'Currency1')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para12">Account:</strong>
-            <input
-              type="text"
-              value={contactinfo.account}
-              onChange={(e) => handleChange(e, 'account')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para13"> Fax :</strong>
-            <input
-              type="text"
-              value={contactinfo.Fax}
-              onChange={(e) => handleChange(e, 'Fax')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-        
-        
-        </>
-      ) : (
-
-          <>
-          <p>
-            <strong className="contactdetails-para8">Assistant: </strong>
-            <div className="contactinfo_assistant">{contactinfo.assistant}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para9">Created By: </strong>
-            <div className="contactinfo_createdBy">{contactinfo.createdBy}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para10">Modified By: </strong>
-            <div className="contactinfo_modifiedBy">{contactinfo.ModifiedBy}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para11">Currency: </strong>
-            <div className="contactinfo_Currency1">{contactinfo.Currency1}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para12">Account: </strong>
-            <div className="contactinfo_Account">{contactinfo.account}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para13">Fax: </strong>
-            <div className="contactinfo_Fax">{contactinfo.Fax}</div>
-          </p>
+       </>
+   )}
+    
+     </div>
+     <div className="hide_show">
+     {isEditing ? (
+     <>
+     <p>
+         <strong className="contactdetails-para14">Date of Birth:</strong>
+         <input
+           type="text"
+           value={contactinfo.DateOfBirth}
+           onChange={(e) => handleChange(e, 'DateOfBirth')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para15">Asst Phone:</strong>
+         <input
+           type="text"
+           value={contactinfo.AsstPhone}
+           onChange={(e) => handleChange(e, 'AsstPhone')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
        
-
-          </>
-      )}
-       
-        </div>
-        <div className="hide_show">
-        {isEditing ? (
-        <>
-        <p>
-            <strong className="contactdetails-para14">Date of Birth:</strong>
-            <input
-              type="text"
-              value={contactinfo.DateOfBirth}
-              onChange={(e) => handleChange(e, 'DateOfBirth')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para15">Asst Phone:</strong>
-            <input
-              type="text"
-              value={contactinfo.AsstPhone}
-              onChange={(e) => handleChange(e, 'AsstPhone')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          
-          <p>
-            <strong className="contactdetails-para16">Email Opt Out:</strong>
-            <input
-              type="text"
-              value={contactinfo.emailOptOut}
-              onChange={(e) => handleChange(e, 'emailOptOut')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para17"> Skype ID :</strong>
-            <input
-              type="text"
-              value={contactinfo.SkypeId}
-              onChange={(e) => handleChange(e, 'SkypeID')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para18">Secondary Email:</strong>
-            <input
-              type="text"
-              value={contactinfo.secondaryEmail}
-              onChange={(e) => handleChange(e, 'SecondaryEmail')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-          <p>
-            <strong className="contactdetails-para19"> Twitter :</strong>
-            <input
-              type="text"
-              value={contactinfo.Twitter}
-              onChange={(e) => handleChange(e, 'Twitter')}
-              className="contactinfo_leadSource1"
-            />
-          </p>
-        
-         
-        </>
-      ) : (
-          <>
-          <p>
-            <strong className="contactdetails-para14">Date of Birth: </strong>
-            <div className="contactinfo_DOB">{contactinfo.DateOfBirth}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para15">Asst Phone: </strong>
-            <div className="contactinfo_Asst">{contactinfo.AsstPhone}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para16"> Email Opt Out: </strong>
-            <div className="contactinfo_emailopt">{contactinfo.emailOptOut ? "Yes" : "No"}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para17">Skype ID: </strong>
-            <div className="contactinfo_SkypeID">{contactinfo.SkypeId}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para18">Secondary Email:</strong>
-            <div className="contactinfo_Secondaryemail">{contactinfo.secondaryEmail}</div>
-          </p>
-          <p>
-            <strong className="contactdetails-para19">Twitter: </strong>
-            <div className="contactinfo_Twitter">{contactinfo.Twitter}</div>
-          </p>
-          </>
-      )}
-         
-        </div>
-      </div>
-    </div>
-  )}
+       <p>
+         <strong className="contactdetails-para16">Email Opt Out:</strong>
+         <input
+           type="text"
+           value={contactinfo.emailOptOut}
+           onChange={(e) => handleChange(e, 'emailOptOut')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para17"> Skype ID :</strong>
+         <input
+           type="text"
+           value={contactinfo.SkypeId}
+           onChange={(e) => handleChange(e, 'SkypeID')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para18">Secondary Email:</strong>
+         <input
+           type="text"
+           value={contactinfo.secondaryEmail}
+           onChange={(e) => handleChange(e, 'SecondaryEmail')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+       <p>
+         <strong className="contactdetails-para19"> Twitter :</strong>
+         <input
+           type="text"
+           value={contactinfo.Twitter}
+           onChange={(e) => handleChange(e, 'Twitter')}
+           className="contactinfo_leadSource1"
+         />
+       </p>
+     
+      
+     </>
+   ) : (
+       <>
+       <p>
+         <strong className="contactdetails-para14">Date of Birth: </strong>
+         <div className="contactinfo_DOB">{contactinfo.DateOfBirth}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para15">Asst Phone: </strong>
+         <div className="contactinfo_Asst">{contactinfo.AsstPhone}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para16"> Email Opt Out: </strong>
+         <div className="contactinfo_emailopt">{contactinfo.emailOptOut ? "Yes" : "No"}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para17">Skype ID: </strong>
+         <div className="contactinfo_SkypeID">{contactinfo.SkypeId}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para18">Secondary Email:</strong>
+         <div className="contactinfo_Secondaryemail">{contactinfo.secondaryEmail}</div>
+       </p>
+       <p>
+         <strong className="contactdetails-para19">Twitter: </strong>
+         <div className="contactinfo_Twitter">{contactinfo.Twitter}</div>
+       </p>
+       </>
+   )}
+      
+     </div>
+   </div>
+ </div>
+)}
 </div>
 
 
@@ -1118,21 +1304,66 @@ const [photoColor, setPhotoColor] = useState("blue");
           </div>
         </div>
 
-        <div className="info_Attach" id='Attachments'>
-          <div className="info1">
-            <div >
-              <h2 className="heads_Attach">Attachments</h2>
+        <div className="info_Attach" id="Attachments">
+      <div className="info1">
+        <div>
+          <h2 className="heads_Attach">Attachments</h2>
+        </div>
+        <div className="attachment-upload1">
+          <input
+            type="file"
+            id="attachment-input"
+            onChange={handleUploadedFile}
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="attachment-input">
+            <div className="clicktoupload1">click to upload</div>
+          </label>
+        </div>
+        <div className="uploaded-files">
+          <ul>
+            {renderFiles(uploadedFiles.slice(0, 3))}
+          </ul>
+          {uploadedFiles.length > 3 && (
+            <a href="#" className="show-more-button" onClick={handleMoreClick}>
+              Show More
+              {showAllFiles ? ' Show Less' : ''}
+            </a>
+          )}
+        </div>
+        {showAllFiles && (
+          <div className="popup">
+            <div className="popup-content">
+              <h2>Uploaded Files</h2>
+              <button className="close-button" onClick={handleMoreClick}>Close</button>
+              <ul>
+                {renderFiles(uploadedFiles)}
+              </ul>
             </div>
-            <div class="attachment-upload1">
-              <input type="file" id="attachment-input" />
-              <label for="attachment-input">
-                <div className="clicktoupload1">clicktoupload</div>
-              </label>
+          </div>
+        )}
+      </div>
+      {selectedFile && (
+        <div className="file-popup">
+          <div className="file-popup-content">
+            <div className="file-popup-header">
+              <h2>{selectedFile.name}</h2>
+              <button onClick={handleDownload}>Download</button>
+              <button onClick={closePopup}>Close</button>
             </div>
-            
+            <TransformWrapper>
+              <TransformComponent>
+                <iframe
+                  src={selectedFile.file_url}
+                  style={{ width: '100%', height: '500px' }}
+                  title={selectedFile.name}
+                />
+              </TransformComponent>
+            </TransformWrapper>
           </div>
         </div>
-
+      )}
+    </div>
         <div className="info_deals" id='Deals'>
           <h2 className="info_deals2">Deals</h2>
           <div className="deal">
@@ -1256,35 +1487,133 @@ const [photoColor, setPhotoColor] = useState("blue");
           </div>
         </div>
       
-        <div className="info_cop">
-          <h2 className="infi-campi">campaigns</h2>
-          <div className="productsbtn">
-            {" "}
-            <button>Add Compaigns</button>
-          </div>
-        </div>
-        <div className="info_social">
+
+
+     <div className="info_purchase" id='Purchase Orders'>
+       <h2 className="purchase">Purchase Order</h2>
+       <div className="Assignnew">
+         <div className="assign1">
+           {" "}
+           <button>Assign</button>
+         </div>
+         <div className="assign2">
+           {" "}
+           <button>New</button>
+         </div>
+       </div>
+     </div>
+     <div className="info_invoice" id='Invoices'>
+       <h2 className="invoice">Invoices</h2>
+       <div className="Assignnew">
+         <div className="assign1">
+           {" "}
+           <button>Assign</button>
+         </div>
+         <div className="assign2">
+           {" "}
+           <button>New</button>
+         </div>
+       </div>
+     </div>
+   
+     <div className="info_cop">
+       <h2 className="infi-campi">campaigns</h2>
+       <div className="productsbtn">
+         {" "}
+         <button>Add Compaigns</button>
+       </div>
+     </div>
+     <div className="info_social">
 <h2 className="infi-campi">Social</h2>
 <div className="facebook" style={{ color: "#9095A1FF" }}>
-  <FacebookRoundedIcon className="facebook-icon" style={{ fontSize: 30  }} />
+<FacebookRoundedIcon className="facebook-icon" style={{ fontSize: 30  }} />
 </div>
 <div className="twitter" style={{ color: "#9095A1FF" }}>
-  <TwitterIcon className="twitter-icon" style={{ fontSize: 30 }} />
+<TwitterIcon className="twitter-icon" style={{ fontSize: 30 }} />
 </div>
 <div className="whatsapp" style={{ color: "#9095A1FF" }}>
-  <WhatsAppIcon className="whatsapp-icon" style={{ fontSize: 30 }} />
+<WhatsAppIcon className="whatsapp-icon" style={{ fontSize: 30 }} />
 </div>
 </div>
 
-        <div className="infi_conts">
-          <h2 className="infi-campi">Reporting Contacts</h2>
-          <div className="Assignnew">
-            <div className="productsbtn1">
-              {" "}
-              <button>New</button>
-            </div>
+     <div className="infi_conts">
+       <h2 className="infi-campi">Reporting Contacts</h2>
+       <div className="Assignnew">
+         <div className="productsbtn1">
+           {" "}
+           <button>New</button>
+         </div>
+       </div>
+     </div>
+    </div>
+ )}
+    {showTimeline && timeline.length > 0 && (
+  <div className="timeline-contact">
+    <div className='timeline-btn-contact'>
+      <button className='timeline-btn1-contact'>Deals</button>
+      <button className='timeline-btn2-contact'>Messages</button>
+      <button className='timeline-btn3-contact'>Schedule</button>
+      <button className='timeline-btn4-contact'>Activity Log </button>
+    </div>
+    <ul>
+      {timeline.map((interaction, index) => (
+        <li className='timeline-oopo1' key={index} >
+        <div>
+        <div className='data-timeline-contact'>
+            <p className='textdesign-contact'>  <TextSnippetRoundedIcon style={{height:'40px',width:'30px',fill:'#F9623EFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-contact'>Signed Contract</h1>
+          </div>
+
+        
+          <div className='timeline_data1-contact'>
+          {interaction.interaction_type}
+
           </div>
         </div>
+        <div className='dotted-line'></div>
+
+         <div className='time-box2-contact'>
+         <div className='data-timeline-contact'>
+            <p className='textdesign1-contact'>  <CallRoundedIcon style={{height:'40px',width:'30px',fill:'#6D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-contact'>Made Call</h1>
+          </div>
+          <div className='timeline_data1-contact'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+         <div className='time-box2-contact'>
+         <div className='data-timeline-contact'>
+            <p className='textdesign1-contact'>  <FactCheckRoundedIcon style={{height:'40px',width:'30px',fill:'#3D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-contact'>Sent email</h1>
+          </div>
+          <div className='timeline_data1-contact'>
+          {interaction.datetime}
+
+          </div>
+
+         </div>
+         <div className='dotted-line'></div>
+         <div className='time-box2-contact'>
+         <div className='data-timeline-contact'>
+            <p className='textdesign1-contact'>  <MailOutlineRoundedIcon style={{height:'40px',width:'30px',fill:'#FF56A5FF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-contact'>Called</h1>
+          </div>
+          <div className='timeline_data1-contact'>
+          {interaction.interaction_type}
+
+          </div>
+         </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+ </div>
+        
+    
       </div>
     </div>
   </div>

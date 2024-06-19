@@ -23,6 +23,10 @@ import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
 import BrowseGalleryRoundedIcon from '@mui/icons-material/BrowseGalleryRounded';
 import Chart from "chart.js/auto"; // Import Chart.js library
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded';
+import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 
 const ShowLead = () => {
   const [showLead, setShowLead] = useState({
@@ -50,7 +54,13 @@ const ShowLead = () => {
 
   const { id } = useParams();
   const [met, setMet] = useState([]);
-  
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedValues, setEditedValues] = useState({});
+  const [editedLead, setEditedLead] = useState({});
+  const [timeline, setTimeline] = useState([]); // New state variable for timeline data
+  const [showTimeline, setShowTimeline] = useState(false); 
+
+
   useEffect(() => {
     const fetchformData = async () => {
       try {
@@ -114,6 +124,10 @@ const ShowLead = () => {
       ...showLead,
       [event.target.name]: event.target.value,
     });
+    setEditedValues({
+      ...editedValues,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleAddNote = (event) => {
@@ -165,6 +179,19 @@ const ShowLead = () => {
     }
   };
 
+  const handleSave = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axiosInstance.patch(`/leads/${id}`, editedLead); // Use editedLead instead of editedValues
+      console.log("ShowLead Information submitted :", response.data);
+      setShowLead(response.data);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error In ShowLead Information:", error);
+    }
+    setIsEditing(false);
+  };
+
   const handleAttach = () => {
     console.log("Attach happened");
   };
@@ -182,6 +209,31 @@ const ShowLead = () => {
     console.log("Lead converted");
   };
 
+  const handleEdit = () => {
+    setEditedLead({ ...showLead });
+    setIsEditing(true);
+  };
+  
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+  const fetchTimeline = async () => {
+    try {
+      const response = await axiosInstance.get(`/interaction/5/${id}/`);
+      setTimeline(response.data.interactions); // Set the timeline with interactions array
+      console.log('Timeline data fetched successfully:', response.data);
+    } catch (error) {
+      console.error('Error fetching timeline data:', error);
+    }
+  };
+  const toggleTimeline = async () => {
+    setShowTimeline(prevShowTimeline => !prevShowTimeline);
+    if (!showTimeline && timeline.length === 0) { // Check if timeline is empty
+      await fetchTimeline();
+    }
+  };
+  
+
   return (
     <div className="container1">
       <div className="side_lead">
@@ -196,6 +248,10 @@ const ShowLead = () => {
           <div>
             <h1 className="lead_info">Lead details</h1>
           </div>
+          <button className="timeline-button-lead" onClick={toggleTimeline}>
+            {showTimeline ? 'Hide Timeline' : 'Show Timeline'}
+          </button>
+         
         </div>
         <div>
           <div className="arrow_container">
@@ -262,8 +318,11 @@ const ShowLead = () => {
 
 
           </div>
+<div>
+{!showTimeline && (
 
-          <div className="lead_info_container">
+<div>
+        <div className="lead_info_container">
           <div className="lead_info_container-data">
           <div>
     <div><h1 className="lead_title-info">TITLE</h1></div>
@@ -307,126 +366,221 @@ const ShowLead = () => {
 </div>
 
 <div className="big-lead-container">
-  <div  className="general-lead-container">
-    <div>
-      <h1 className="lead_general_head">General info</h1>
-      </div>
-      <div>
-      <div className="Lead_general_box">
-       <div>
-       
-     <h1 className="head_Lead_">
-     <NewspaperRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Lead Code</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.first_name}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <LocalOfferRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Product Sample Business</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.first_name}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <Groups2RoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Client</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.LeadName}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <StoreRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Company</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.company}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <LocalPhoneRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Phone Number</h1>  
-       </div>
-       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
-        {showLead.phone}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <AlternateEmailRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Email</h1>  
-       </div>
-       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
-     
-        {showLead.email}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     < CreditCardRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Payment Method
-
-     </h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.account_name}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <PaymentsRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Currency</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.website}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div >
-     <h1 className="head_Lead_">
-     <LocalPrintshopRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Fax</h1>  
-       </div>
-       <div className="lead_head_data">
-        {showLead.fax}
-       </div>
-      </div>
-      <div className="Lead_general_box">
-       <div>
-     <h1 className="head_Lead_">
-     <ViewArrayRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
-
-      Website</h1>  
-       </div>
-       <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
-        {showLead.website}
-       </div>
-      </div>
-      </div>
+      <div className="general-lead-container">
+        <div>
+          <h1 className="lead_general_head">General info</h1>
+          <div className="lead-button">
+            <button className="lead-button" onClick={handleEdit} disabled={isEditing}>Edit</button>
+            {isEditing && (
+              <>
+                <button className="lead-save-button" onClick={handleSave}>Save</button>
+                <button className="lead-cancel-button" onClick={handleCancel}>Cancel</button>
+              </>
+            )}
+          </div>
+        </div>
+        <div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <NewspaperRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Lead Code
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="first_name"
+                  value={editedLead.first_name}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.first_name
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <LocalOfferRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Product Sample Business
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="productSampleBusiness"
+                  value={editedLead.productSampleBusiness}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.productSampleBusiness
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <Groups2RoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Client
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="client"
+                  value={editedLead.client}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.client
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <StoreRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Company
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="company"
+                  value={editedLead.company}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.company
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <LocalPhoneRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Phone Number
+              </h1>
+            </div>
+            <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="phone"
+                  value={editedLead.phone}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.phone
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <AlternateEmailRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Email
+              </h1>
+            </div>
+            <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="email"
+                  value={editedLead.email}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.email
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <CreditCardRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Payment Method
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="paymentMethod"
+                  value={editedLead.paymentMethod}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.paymentMethod
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <PaymentsRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Currency
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="currency"
+                  value={editedLead.currency}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.currency
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <LocalPrintshopRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Fax
+              </h1>
+            </div>
+            <div className="lead_head_data">
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="fax"
+                  value={editedLead.fax}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.fax
+              )}
+            </div>
+          </div>
+          <div className="Lead_general_box">
+            <div>
+              <h1 className="head_Lead_">
+                <ViewArrayRoundedIcon style={{ width: '24px', height: '24px', marginRight: '20px', fill: '#6D31EDFF' }} />
+                Website
+              </h1>
+            </div>
+            <div className="lead_head_data" style={{ color: '#379AE6FF' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="website"
+                  value={editedLead.website}
+                  onChange={handleChange}
+                />
+              ) : (
+                showLead.website
+              )}
+            </div>
+          </div>
+          </div>
      
 
   </div>
@@ -494,6 +648,74 @@ const ShowLead = () => {
 
 </div>
           </div>
+        </div>
+)}
+        {showTimeline && timeline.length > 0 && (
+  <div className="timeline-lead">
+    <div className='timeline-btn-lead'>
+      <button className='timeline-btn1-lead'>Deals</button>
+      <button className='timeline-btn2-lead'>Messages</button>
+      <button className='timeline-btn3-lead'>Schedule</button>
+      <button className='timeline-btn4-lead'>Activity Log </button>
+    </div>
+    <ul>
+      {timeline.map((interaction, index) => (
+        <li className='timeline-oopo1-lead' key={index} >
+        <div>
+        <div className='data-timeline-lead'>
+            <p className='textdesign-lead'>  <TextSnippetRoundedIcon style={{height:'40px',width:'30px',fill:'#F9623EFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Signed Contract</h1>
+          </div>
+          <div className='dotted-line'></div>
+
+        
+          <div className='timeline_data1-lead'>
+          {interaction.interaction_type}
+
+          </div>
+        </div>
+
+         <div className='time-box2-lead'>
+         <div className='data-timeline-lead'>
+            <p className='textdesign1-lead'>  <CallRoundedIcon style={{height:'40px',width:'30px',fill:'#6D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Made Call</h1>
+          </div>
+          <div className='timeline_data1-lead'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+
+         <div className='time-box2-lead'>
+         <div className='data-timeline-lead'>
+            <p className='textdesign1-lead'>  <FactCheckRoundedIcon style={{height:'40px',width:'30px',fill:'#3D31EDFF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Sent email</h1>
+          </div>
+          <div className='timeline_data1-lead'>
+          {interaction.datetime}
+
+          </div>
+         </div>
+         <div className='dotted-line'></div>
+
+         <div className='time-box2-lead'>
+         <div className='data-timeline-lead'>
+            <p className='textdesign1-lead'>  <MailOutlineRoundedIcon style={{height:'40px',width:'30px',fill:'#FF56A5FF',marginLeft:'7px'  }}/>   </p>
+            <h1 className='contract-lead'>Called</h1>
+          </div>
+          <div className='timeline_data1-lead'>
+          {interaction.interaction_type}
+
+          </div>
+         </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+</div>
+       
         </div>
       </div>
     </div>

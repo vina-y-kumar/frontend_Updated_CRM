@@ -1,0 +1,477 @@
+.loyal_page {
+  display: flex;
+  flex-direction: row;
+}
+.loyal_topbar {
+  position: relative;
+  bottom: 4.5rem;
+  right: 10rem;
+}
+.loyal-head {
+  font-family: "Lexend";
+  font-size: 34px;
+  line-height: 48px;
+  font-weight: 700;
+  color: #171a1fff;
+  padding: auto;
+  align-items: center;
+  margin-left: 40rem;
+}
+.loyalprogram {
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171a1fff;
+  margin-left: 3rem;
+}
+.loyalprogram1 {
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171a1fff;
+}
+.loyalprogram2 {
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #171a1fff;
+  margin-left: 10rem;
+}
+
+.loyal-box {
+  width: 1245px;
+  height: 282px;
+  background: #fffefeff;
+  border-radius: 4px;
+  box-shadow: 0px 17px 35px #171a1f, 0px 0px 2px #171a1f;
+  margin-left: 20px;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+}
+.loyal_list {
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171a1fff;
+}
+.btn-rule {
+  width: 157px;
+  height: 41px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #6d31edff;
+  background: #ffffffff;
+  opacity: 1;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #6d31edff;
+  border-style: solid;
+}
+.btn-rule1 {
+  width: 157px;
+  height: 41px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #9095a1ff;
+  background: #f9f9f9ff;
+  opacity: 1;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #9095a1ff;
+  border-style: solid;
+}
+.btn-rulebtn {
+  display: flex;
+  flex-direction: row;
+  margin-top: 7rem;
+  margin-left: 20px;
+  gap: 20px;
+}
+.loyal-rule {
+  font-family: "Lexend";
+  font-size: 19px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #171a1fff;
+}
+.add-loyal {
+  width: 74px;
+  height: 23px;
+  padding: 0 8px;
+
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #ffffffff;
+  background: #62cd14ff;
+  opacity: 1;
+  border: none;
+  border-radius: 3px;
+}
+
+.edit-loyal {
+  width: 74px;
+  height: 23px;
+  padding: 0 8px;
+
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #ffffffff;
+  background: #6d31edff;
+  opacity: 1;
+  border: none;
+  border-radius: 3px;
+}
+.btnloyal {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 30px;
+}
+.btnn-loyall {
+  display: flex;
+  flex-direction: row;
+  gap: 25rem;
+  margin-top: 20px;
+}
+.btnloyal-box {
+  width: 602px;
+  height: 99px;
+  background: #ff56a538;
+  border-radius: 8px;
+  box-shadow: 0px 0px 1px #171a1f, 0px 0px 2px #171a1f;
+  display: flex;
+  flex-direction: row;
+  gap: 10rem;
+  margin-left: 20px;
+  padding: 20px;
+}
+.loyal__btnn {
+  display: flex;
+  flex-direction: row;
+  gap: 10rem;
+  margin-bottom: 10rem;
+}
+.btnloyal-box1 {
+  width: 602px;
+  height: 99px;
+  background: #6d31ed38;
+  border-radius: 8px;
+  box-shadow: 0px 0px 1px #171a1f, 0px 0px 2px #171a1f;
+  padding: 20px;
+}
+.total-loyal {
+  width: 145px;
+  height: 48px;
+  background: #62cd14ff;
+  border-radius: 4px;
+  box-shadow: 0px 4px 9px #171a1f, 0px 0px 2px #171a1f;
+  color: white;
+  font-size: 15px;
+  margin-left: 80%;
+  padding: 2px;
+  align-content: flex-end;
+}
+.total-loyal1 {
+  margin-left: 20px;
+}
+
+/* css for form */
+.loyal_page-form {
+  display: flex;
+  flex-direction: row;
+}
+.btnsss-form-loyal {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.btn-submit-loyaldraft {
+  width: 120px;
+  height: 30px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #ffffffff;
+  background: #62cd14ff;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+}
+.btn-submit-loyalcancel {
+  width: 120px;
+  height: 30px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #ffffffff;
+  background: #de3b40ff;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+}
+.btn-submit-loyalsave {
+  width: 120px;
+  height: 30px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Manrope";
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #ffffffff;
+  background: #6d31edff;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+}
+.form-head-loyal {
+  display: flex;
+  flex-direction: row;
+  gap: 19rem;
+}
+.form_condition {
+  font-family: "Lexend";
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #171a1fff;
+  margin-left: 30px;
+}
+.form-loyal-box {
+  width: 1062px;
+  height: 400px;
+  background: #ffffffff;
+  border-radius: 4px;
+  box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+  margin-left: 6rem;
+ 
+}
+
+.form-loyal-box--{
+    display: flex;
+    flex-direction: row;
+    gap: 40rem;
+    margin-left: 30px;
+    padding: 10px;
+}
+.form-loyal-box1 {
+  width: 1062px;
+  height: 548px;
+  background: #ffffffff;
+  border-radius: 4px;
+  box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+  margin-left: 6rem;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 35rem;
+  padding: 35px;
+}
+.info-loyal-page {
+  display: flex;
+  flex-direction: row;
+}
+.infoboxloyal1 {
+  width: 1081px;
+  height: 450px;
+  background: #fefffeff;
+  border-radius: 8px;
+  box-shadow: 0px 8px 17px #171a1f, 0px 0px 2px #171a1f;
+  margin-left: 8rem;
+  /*margin-top: 40%;*/
+  margin-bottom: 100px;
+}
+
+.info-detail-loyal {
+  width: 742px;
+  height: 66px;
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #323743ff;
+  margin-left: 25rem;
+  padding: 35px;
+}
+
+.box-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 70px;
+  gap: 20px;
+}
+
+.box-container1 {
+  width: 217px;
+  height: 153px;
+  background: #62cd1421;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 7rem;
+}
+
+.box-container2 {
+  width: 217px;
+  height: 153px;
+  background: #ff320021;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+.box-container3 {
+  width: 217px;
+  height: 153px;
+  background: #15abff21;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+.loyal-program-details{
+    display: flex;
+    flex-direction: row;
+    gap: 45rem;
+    margin-left: 35px;
+    padding: 2rem;
+}
+.box-container4 {
+  width: 217px;
+  height: 153px;
+  background: #ffd31721;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+.box-container5 {
+  width: 217px;
+  height: 153px;
+  background: #6d31ed21;
+  border-radius: 4px;
+  margin-left: 10rem;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+
+.box-container6 {
+  width: 217px;
+  height: 153px;
+  background: #ff56a521;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+.box-container7 {
+  width: 217px;
+  height: 153px;
+  background: #171a1f21;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+.promo-code {
+  font-family: "Manrope";
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #171a1fff;
+}
+.loyal-bx-data {
+  margin-top: 30px;
+}
+.btnloyal-boxdata{
+    font-weight: 600;
+}
+.loyal_list-data{
+    font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 400;
+color: #9095A1FF;
+margin-left: 4rem;
+}
+.loyal-table-data{
+    font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 700;
+color: #171A1FFF;
+}
+
+.loyal-table-d{
+    font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.loyal-table-d1{
+    font-family: 'Manrope';
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #171A1FFF;   
+}
+.loyal-table-d2{
+    font-family: 'Lexend';
+font-size: 18px;
+line-height: 28px;
+font-weight: 700;
+color: #9095A1FF;
+}
+.form-data-loyal{
+    margin-left: 20px;
+    
+}
+.form-loyal-box--data{
+  padding-top: 1px;
+
+}

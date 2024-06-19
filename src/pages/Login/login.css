@@ -1,119 +1,84 @@
 .login {
-  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Make sure the container takes full viewport height */
+}
+.login_navigate {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+  align-self: flex-start;
   position: relative;
+  top: 10px; /* Adjust this value to position the link */
 }
 
-.login_paragraph {
-  font-size: 50px;
-  color: #343ef9;
+.container {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login_inner {
-  top: 25%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  left: 35%;
+  width: 80%; /* Adjust this value to control the width of the form inside the container */
+  text-align: center; /* Center the content inside the form */
+}
+
+.login_paragraph {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
 }
 
 .login_form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
 }
 
 .login_label {
-  font-size: 16px;
-  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 .login_input {
-  padding: 12px 24px;
-  width: 30vw;
+  width: 100%;
+  padding: 10px;
   font-size: 16px;
-  border-radius: 8px;
-  color: #343ef9;
-  border: 1px solid #343ef9;
-}
-
-.login_input::placeholder {
-  color: #343ef9;
-}
-
-.login_btn {
-  margin-top: 50px;
-  font-size: 16px;
-  padding: 12px 24px;
-  font-weight: 700;
-  border-radius: 8px;
-  color: #343ef9;
-  border: 1px solid #343ef9;
-}
-
-.login_btn:hover {
-  color: rgb(240, 240, 240);
-  border: 1px solid rgb(240, 240, 240);
-  background-color: #343ef9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .login_navigate {
-  position: absolute;
-  right: 0;
-  bottom: 20%;
-  color: #343ef9;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+  align-self: flex-start;
 }
 
-@media (max-width: 1000px) {
-  .login {
-    height: 100vh;
-    position: relative;
-  }
-  
-  .login_paragraph {
-    font-size: 40px;
-  }
-  
-  .login_inner {
-    top: 25%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    left: 25%;
-  }
-  
-  .login_form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-  
-  .login_label {
-    font-size: 16px;
-    margin-top: 30px;
-  }
-  
-  .login_input {
-    padding: 12px 24px;
-    width: 50vw;
-    font-size: 16px;
-  }
-  
-  .login_btn {
-    margin-top: 50px;
-    font-size: 16px;
-    padding: 12px 24px;
-    font-weight: 700;
-  }
-  
-  .login_navigate {
-    position: absolute;
-    right: 0;
-    bottom: 20%;
-  }
+.login_btn {
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login_btn:disabled {
+  background-color: #5a9bff;
+}
+
+.spline-container {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 700px) {

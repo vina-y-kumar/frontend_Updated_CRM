@@ -353,7 +353,7 @@ top: 4px;
 .info1{
   display: flex;
   flex-direction: row;
-  gap: 800px;
+  
   margin-top: 24px;
 }
 .attach{
@@ -1451,7 +1451,7 @@ top: 9rem;
   left: 3%;
 }
 .photo11{
-  
+  margin-left: 12rem;
   margin-top:8rem;
 }
 .upload_icon1_contact{
@@ -2049,7 +2049,7 @@ border: 1px solid #ddd;
 }
 .info_Attach{
   width: 1188px;
-  height: 200px;
+  height: 250px;
   background: #F8F9FAFF;
   border-radius: 8px;
   border-width: 1px;
@@ -3547,7 +3547,7 @@ bottom: 13rem;
 }
 .contain1{
   position: relative;
-  bottom: 7rem;
+ /* bottom: 7rem;*/
 }
 .contactinfo_accountName1,.contactinfo_email1,.contactinfo_leadSource1,.contactinfo.vendorName1{
   background-color: #00000000;
@@ -3559,3 +3559,308 @@ bottom: 13rem;
   font-size: 16px;
   margin-left: 20px;
 }
+
+.timeline-contact{
+  width: 660px;
+height: auto;
+background: #FFFFFFFF;
+border-radius: 18px;
+border-width: 1px;
+border-color: #F3F4F6FF;
+border-style: solid;
+margin-left: 30rem;
+margin-top: 10rem;
+
+}
+.timeline-btn-contact{
+  width: 657px;
+height: 56px;
+display: flex;
+align-items: center;
+font-family: 'Manrope';
+font-size: 16px;
+line-height: 26px;
+font-weight: 400;
+opacity: 1;
+gap: 4rem;
+margin-left: 1px;
+border: 1px solid  #eee;
+
+
+}
+.timeline-btn1-contact,.timeline-btn2-contact,.timeline-btn3-contact,.timeline-btn4-contact{
+  margin-left: 40px;
+  justify-content: center;
+color: #565D6DFF;
+border-radius: 0px;
+cursor: pointer;
+white-space: nowrap;
+font-weight: 800;
+font-size: 18px;
+color: #6D31EDFF;
+}
+.timeline-oopo-contact{
+
+
+ 
+  width: 460px;
+  height: 128px;
+  border-radius: 8px;
+  }
+  .timeline-data-contact,.timeline-data2-contact{
+    font-family: 'Manrope';
+font-size: 14px;
+line-height: 22px;
+font-weight: 800;
+color: #171A1FFF;
+  }
+
+ 
+  .contract-contact{
+    font-family: 'Manrope';
+font-size: 18px;
+line-height: 22px;
+font-weight: 800;
+color: #171A1FFF;
+
+  }
+  .textdesign-contact{
+    width: 44px;
+height: 44px;
+background: pink;
+border-radius: 22px;
+margin-top: 20px;
+margin-left: 20px;
+  }
+  .textdesign1-contact{
+    width: 44px;
+height: 44px;
+background: #F5F1FEFF;
+border-radius: 22px;
+margin-top: 20px;
+margin-left: 20px;
+  }
+  .textdesign2-contact{
+    width: 44px;
+height: 44px;
+background: #4F56A5FF;
+border-radius: 22px;
+margin-top: 20px;
+margin-left: 20px;
+  }
+  .data-timeline-contact{
+    display: flex;
+    gap: 20px;
+
+  }
+  .timeline_data1-contact{
+    width: 460px;
+height: 128px;
+background: #FAFAFBFF;
+border-radius: 8px;
+font-size: 16px;
+font-family: "lexend";
+padding: 20px;
+margin-left: 10rem;
+
+  }
+  .time-box2{
+    margin-top: 30px;
+  }
+  .timeline-button-contact{
+    background-color: #b976f3;
+    width: 120px;
+    height: 40px;
+    border-radius: 30px;
+    margin-top: 20px;
+    position: relative;
+    left: 45rem;
+    bottom: 30px;
+    color: #fff;
+    font-size: 15px;
+
+  }
+.info_Attach {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.info1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.heads_Attach {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.attachment-upload1 {
+  margin-bottom: 20px;
+}
+
+
+
+.uploaded-files  {
+  max-height: 200px;
+  overflow: hidden;
+  text-align: right;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-height: 80%; /* Limit the height of the content */
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-button {
+  background: #f00;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  align-self: flex-end;
+}
+
+.popup-files {
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: calc(100% - 50px); /* Adjust based on the height of other content */
+  flex-grow: 1;
+  margin-top: 10px;
+}
+
+.attachment-upload label {
+  cursor: pointer;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto; /* Enable scrolling for the entire popup */
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-height: 80vh; /* Limit the height of the popup content */
+  width: 30%;
+  overflow-y: auto; /* Enable scrolling for the popup content */
+}
+.popup-content h2{
+  font-weight: bold;
+}
+
+.popup-files {
+  margin-top: 10px;
+}
+
+.uploaded-files ul {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.attachment-upload label {
+  cursor: pointer;
+}
+.file-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-width: 100%;
+  max-height: 90%;
+  overflow: auto;
+}
+
+.file-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 999;
+}
+
+.file-popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-popup-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.file-popup-header h2 {
+  margin: 0;
+}
+
+.file-popup-header button {
+  margin-left: 10px;
+}
+.profile-upload-button {
+  position: relative;
+  font-size: small;
+  margin-right: 80px;
+}
+
+.profile-upload-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+  .contact-profile-image,
+  .colored-circle2 {
+    width: 95px;
+    height: 95px;
+    border-radius: 7px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position:absolute;
+    position: relative;
+    top: -45px;
+    left: -570px;
+  }

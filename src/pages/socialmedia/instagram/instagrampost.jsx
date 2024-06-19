@@ -333,7 +333,7 @@ const InstagramPost = () => {
               onCompleted={handleFacebookLogin}
               onError={(error) => console.error('Error:', error)}
             >
-              Login via Facebook
+              <a href="https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://841090187a6e037104c8b376eb8a2bfe.serveo.net/&scope=pages_show_list,instagram_basic&response_type=token "> Login via Facebook</a>
             </LoginButton>
           </FacebookProvider>
         </div>

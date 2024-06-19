@@ -25,7 +25,7 @@
       { "src": "/:tenant_id/addcontact", "dest": "/" },
       { "src": "/:tenant_id/meetings", "dest": "/" },
       { "src": "/:tenant_id/meetings/:id", "dest": "/" },
-      { "src": "/:tenantId/report", "dest": "/" },
+      { "src": "/:tenant_id/report", "dest": "/" },
       { "src": "/:tenant_id/reportform", "dest": "/" },
       { "src": "/:tenant_id/calendar", "dest": "/" },
       { "src": "/:tenant_id/opportunity", "dest": "/" },
@@ -64,6 +64,7 @@
       { "src": "/:tenant_id/ticketform", "dest": "/" },
       { "src": "/:tenant_id/ticketinfo", "dest": "/" },
       { "src": "/:tenant_id/ticket", "dest": "/" },
-     
+      { "src": "*", "dest": "/" }
     ]
-  }
+}
+  

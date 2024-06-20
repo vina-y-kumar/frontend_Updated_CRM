@@ -7,6 +7,8 @@ import { NavLink,Link ,useParams} from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { Dropdown } from "react-bootstrap";
 import axiosInstance from "../../api.jsx";
 import Kanban2 from "../../components/Kanban/Kanban2"; // Adjust the path as needed
@@ -53,6 +55,21 @@ export const Opportunities = () => {
     XLSX.writeFile(wb, "opportunity.xlsx");
   };
 
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [["ID", "Name", "Amount", "Status", "Close Date"]],
+      body: opportunities.map((opportunity) => [
+        opportunity.id,
+        opportunity.name,
+        opportunity.amount,
+        opportunity.status,
+        opportunity.close_date,
+      ]),
+    });
+    doc.save("opportunities.pdf");
+  };
+
   const handleRecords = (event) => {
     console.log("Records per page: ", event.target.value);
   };
@@ -92,6 +109,11 @@ export const Opportunities = () => {
                   <Dropdown.Item>
                     <button onClick={handleDownloadExcel}>Download Excel</button>
                   </Dropdown.Item>
+                  <Dropdown.Item>
+                  <button onClick={handleDownloadPdf} className="pdf-download-btn">
+                  Download PDF
+                </button>
+                </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>

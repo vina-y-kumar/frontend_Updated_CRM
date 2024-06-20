@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./LeadPage.css";
 import './ShowLead.css';
 import { useParams, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RelatedList1 from "./RelatedList1.jsx";
 import ConvertLead from "./ConvertLead.jsx";
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
@@ -28,6 +29,16 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded';
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 
+
+const getTenantIdFromUrl = () => {
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; 
+};
+
+
 const ShowLead = () => {
   const [showLead, setShowLead] = useState({
     first_name: "",
@@ -51,7 +62,7 @@ const ShowLead = () => {
     ZipCode: "",
     description: "",
   });
-
+  const tenantId=getTenantIdFromUrl();
   const { id } = useParams();
   const [met, setMet] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -251,7 +262,9 @@ const ShowLead = () => {
           <button className="timeline-button-lead" onClick={toggleTimeline}>
             {showTimeline ? 'Hide Timeline' : 'Show Timeline'}
           </button>
-         
+          <Link to={`/${tenantId}/convert/${id}`} className="convert-lead-button">
+      Convert Lead
+    </Link>
         </div>
         <div>
           <div className="arrow_container">

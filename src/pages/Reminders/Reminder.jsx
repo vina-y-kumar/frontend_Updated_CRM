@@ -4,6 +4,8 @@ import { Sidebar } from "../../components/Sidebar";
 import { Dropdown, Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
 import * as XLSX from "xlsx";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import './Reminder.css';
 import './createreminder.jsx';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
@@ -44,6 +46,49 @@ const Remind = () => {
     XLSX.writeFile(wb, "reminders.xlsx");
   };
 
+  const handleDownloadPDF = () => {
+    const unit = "pt";
+    const size = "A4"; // Use A4 size for simplicity
+    const orientation = "landscape"; // Landscape orientation for table format
+  
+    const doc = new jsPDF(orientation, unit, size);
+  
+    const title = "Reminders Report";
+    const headers = [
+      [
+        "Subject",
+        "Trigger Type",
+        "Event Date",
+        "Created At",
+        "Event Time",
+        "Status",
+        "Created By"
+      ]
+    ];
+  
+    const data = reminders.map(reminder => [
+      reminder.subject,
+      reminder.trigger_type,
+      reminder.event_date_time,
+      reminder.created_at,
+      reminder.time_trigger,
+      reminder.is_triggered,
+      reminder.createdBy
+    ]);
+  
+    doc.setFontSize(15);
+    doc.text(title, 40, 30);
+  
+    doc.autoTable({
+      startY: 40,
+      head: headers,
+      body: data,
+    });
+  
+    doc.save("reminders_report.pdf");
+  };
+  
+
   return (
     <div >
  <div className="Add-reminder-topnav">
@@ -69,6 +114,10 @@ const Remind = () => {
               <Dropdown.Item>
                 <button onClick={handleDownloadExcel}>Download Excel</button>
               </Dropdown.Item>
+              <Dropdown.Item>
+              <button onClick={handleDownloadPDF}>Download PDF</button>
+            </Dropdown.Item>
+
             </Dropdown.Menu>
           </Dropdown>
         </div>

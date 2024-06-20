@@ -331,7 +331,7 @@ export const Sidebar = () => {
             </NavLink>
           </li>
           <li className="sidebar_item">
-            <NavLink className="sidebar_link" to={formatLink("/ticketinfo")}>
+            <NavLink className="sidebar_link" to={formatLink("/ticket")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
                 <RocketLaunchIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Tickets</p>

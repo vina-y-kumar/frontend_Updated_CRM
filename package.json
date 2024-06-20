@@ -26,6 +26,8 @@
     "emoji-picker-react": "^4.9.3",
     "googleapis": "^134.0.0",
     "i": "^0.3.7",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "moment": "^2.30.1",
     "openai": "^4.50.0",
     "prop-types": "^15.8.1",

@@ -13,6 +13,8 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import axiosInstance from '../../api';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -67,6 +69,47 @@ const Campaign = () => {
     XLSX.writeFile(wb, "campaigns.xlsx");
   };
 
+  const handleDownloadPDF = () => {
+    const unit = "pt";
+    const size = "A4"; // Use A4 size for simplicity
+    const orientation = "landscape"; // Landscape orientation for table format
+  
+    const doc = new jsPDF(orientation, unit, size);
+  
+    const title = "Campaigns Report";
+    const headers = [
+      [
+        "Campaign Name",
+        "Campaign Owner",
+        "Channel",
+        "Created On",
+        "Status",
+        "Est. Revenue"
+      ]
+    ];
+  
+    const data = filteredCampaigns.map(campaign => [
+      campaign.campaign_name,
+      campaign.campaign_owner,
+      campaign.type,
+      campaign.start_date,
+      campaign.status,
+      campaign.expected_revenue
+    ]);
+  
+    doc.setFontSize(15);
+    doc.text(title, 40, 30);
+  
+    doc.autoTable({
+      startY: 40,
+      head: headers,
+      body: data,
+    });
+  
+    doc.save("campaigns_report.pdf");
+  };
+  
+
 
   return (
    <div>
@@ -105,6 +148,10 @@ const Campaign = () => {
                             Excel
                           </button>
                         </Dropdown.Item>
+                        <Dropdown.Item>
+                    <button onClick={handleDownloadPDF}>Download PDF</button>
+                  </Dropdown.Item>
+
                       </Dropdown.Menu>
                     </Dropdown>
               </div>

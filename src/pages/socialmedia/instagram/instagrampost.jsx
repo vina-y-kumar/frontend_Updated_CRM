@@ -7,6 +7,8 @@ import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import { FacebookProvider, LoginButton } from 'react-facebook';
 import './instagrampost.css';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from './firebase'; // Import the storage from your firebase.js file
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MapsUgcOutlinedIcon from '@mui/icons-material/MapsUgcOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
@@ -28,6 +30,84 @@ const InstagramPost = () => {
   const [isPromoteVisible, setIsPromoteVisible] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState('12:00');
+  const [imageUrl, setImageUrl] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('access_token');
+    setAccessToken(token);
+  }, []);
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const postData = {
+  //     image_url: imageUrl,
+  //     access_token: accessToken,
+  //     caption: caption
+  //   };
+
+  //   fetch('https://db88-2401-4900-1f3a-6a4b-2da2-bf02-bab1-5803.ngrok-free.app/postImage', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(postData)
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log('Success:', data);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error:', error);
+  //   });
+  // };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Step 1: Upload files to Firebase
+    const uploadPromises = files.map(file => uploadFileToFirebase(file));
+    try {
+      const fileURLs = await Promise.all(uploadPromises);
+      console.log('Uploaded file URLs:', fileURLs);
+      setImageUrl(fileURLs[0]); // Assuming you are using the URL of the first uploaded file
+    } catch (error) {
+      console.error('Error uploading files:', error);
+      alert('Error uploading files');
+      return; // Exit early if there's an error
+    }
+
+    // Step 2: Post data to backend
+    const postData = {
+      image_url: imageUrl,
+      access_token: accessToken,
+      caption: caption
+    };
+
+    try {
+      const response = await fetch('https://your-backend-url/postImage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Error posting image');
+      }
+
+      const data = await response.json();
+      console.log('Success:', data);
+      alert('Image posted successfully!');
+      // Optionally, you can reset form fields or perform other actions after successful post
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error posting image');
+    }
+  };
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -98,81 +178,6 @@ const InstagramPost = () => {
     setShowPicker(false); // Close the picker after selecting an emoji
   };
 
-  const handleUploadOptionClick = async (option) => {
-    setShowUploadOptions(false);
-    switch (option) {
-      case 'Upload Image(s)':
-        await handleUploadImage();
-        break;
-      case 'Upload Video':
-        await handleUploadVideo();
-        break;
-      case 'Bynder':
-        await handleBynderUpload();
-        break;
-      case 'Design on Canva':
-        await handleDesignOnCanva();
-        break;
-      case 'Dropbox':
-        await handleDropboxUpload();
-        break;
-      case 'Google Drive':
-        await handleGoogleDriveUpload();
-        break;
-      case 'Shared Media':
-        await handleSharedMediaUpload();
-        break;
-      case 'Asset Library':
-        await handleAssetLibraryUpload();
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleUploadImage = async () => {
-    alert('Image upload functionality');
-  };
-
-  const handleUploadVideo = async () => {
-    alert('Video upload functionality');
-  };
-
-  const handleBynderUpload = async () => {
-    alert('Bynder upload functionality');
-  };
-
-  const handleDesignOnCanva = async () => {
-    alert('Design on Canva functionality');
-  };
-
-  const handleDropboxUpload = async () => {
-    alert('Dropbox upload functionality');
-  };
-
-  const handleGoogleDriveUpload = async () => {
-    alert('Google Drive upload functionality');
-  };
-
-  const handleSharedMediaUpload = async () => {
-    alert('Shared media upload functionality');
-  };
-
-  const handleAssetLibraryUpload = async () => {
-    alert('Asset library upload functionality');
-  };
-
-  const handleFileUpload = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      alert('File upload successful: ' + file.name);
-    };
-    input.click();
-  };
-
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
@@ -198,37 +203,12 @@ const InstagramPost = () => {
     console.log('Scheduled Time:', selectedTime);
   };
 
-  const handleFacebookLogin = async (response) => {
-    const accessToken = response.authResponse.accessToken;
-    const postData = {
-      accessToken: accessToken,
-      content: {
-        text: text,
-        caption: caption,
-        files: files,
-        comment: comment,
-        scheduledDate: selectedDate,
-        scheduledTime: selectedTime
-      }
-    };
-    try {
-      const res = await fetch('/api/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(postData)
-      });
-
-      if (res.ok) {
-        console.log('Post created successfully');
-      } else {
-        console.error('Error creating post:', res.statusText);
-      }
-    } catch (error) {
-      console.error('Error creating post:', error);
-    }
-  };
+  const uploadFileToFirebase = async (file) => {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        return downloadURL;
+      };
 
   return (
     <div className="instagram-post-page">
@@ -288,6 +268,7 @@ const InstagramPost = () => {
                 </div>
               )}
             </div>
+            {/* <button onClick={handleFirebaseUpload}>Upload to Firebase</button> */}
             <div className="caption-box">
               <textarea
                 value={caption}
@@ -327,15 +308,30 @@ const InstagramPost = () => {
             <TimePicker value={selectedTime} onChange={handleTimeChange} />
             <button onClick={handleSchedulePost}>Schedule Post</button>
           </div>
-          <FacebookProvider appId="your-app-id">
-            <LoginButton
-              scope="email"
-              onCompleted={handleFacebookLogin}
-              onError={(error) => console.error('Error:', error)}
-            >
-              <a href="https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://841090187a6e037104c8b376eb8a2bfe.serveo.net/&scope=pages_show_list,instagram_basic&response_type=token "> Login via Facebook</a>
-            </LoginButton>
-          </FacebookProvider>
+              {/* <a href="https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://crm.nuren.ai/ll/instagrampost/&scope=pages_show_list,instagram_basic&response_type=token "> Login via Facebook</a> */}
+              <button
+  style={{
+    marginLeft: '3rem',
+    marginTop: '2rem',
+    padding: '1rem',
+    border: '2px solid blue',
+    backgroundColor: 'blue',
+    color: 'white',
+    fontWeight: '600',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s, color 0.3s',
+  }}
+  onClick={handleSubmit}
+  onMouseOver={(e) => {
+    e.target.style.backgroundColor = 'darkblue';
+  }}
+  onMouseOut={(e) => {
+    e.target.style.backgroundColor = 'blue';
+  }}
+>
+  Post
+</button>
         </div>
         <div className="instagram-post-preview">
           {/* <h2 className='preview-head'>Preview</h2> */}

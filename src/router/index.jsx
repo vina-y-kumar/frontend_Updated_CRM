@@ -38,6 +38,8 @@ import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsP
 import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
+
+import InstaAuth from "../pages/socialmedia/instagram/InstaAuth";
 import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
 import CampaignInfo from "../pages/Campaign/campaigninfo";
 //import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
@@ -248,7 +250,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
-          <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path=":tenant_id/instagramauth"  element= {<InstaAuth/>}/>
+          <Route path="/instagrampost"  element= {<InstagramPost/>}/>
           <Route path=":tenant_id/user_id" element={<Userprofile />} />
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
@@ -276,7 +279,6 @@ export const RouteWrapper = () => {
     {/*<Route path="*" element={<Login/>} />*/}
     <Route path="*" element={<NotFound />} />
     
-
       
     </Routes>
     </>

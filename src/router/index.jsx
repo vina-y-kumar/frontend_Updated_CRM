@@ -38,6 +38,8 @@ import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsP
 import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
+
+import InstaAuth from "../pages/socialmedia/instagram/InstaAuth";
 import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
 import CampaignInfo from "../pages/Campaign/campaigninfo";
 //import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
@@ -55,6 +57,8 @@ import Meetinginfo from "../pages/Meetings/Meetinginfo";
 
 import ProductForm from "../pages/Products/productform";
 import { ProductInfo } from "../pages/Products/productinfo";
+
+import AssignLeads from "../pages/adminpages/assignLeads/assignLeads";
 
 import Remind from "../pages/Reminders/Reminder";
 import Reminderform from "../pages/Reminders/createreminder";
@@ -76,7 +80,7 @@ import TicketInfo from "../pages/Ticket/TicketInfo";
 import Calendar from "../pages/Calendar/Calendar";
 
 import Calendarform from "../pages/Calendar/Calendarform";
-import Ticket from "../pages/Ticket/TicketPage";
+// import Ticket from "../pages/Ticket/TicketPage";
 
 
 // import CustomModelForm from "../pages/CustomModel/customform";
@@ -246,7 +250,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
-          <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path=":tenant_id/instagramauth"  element= {<InstaAuth/>}/>
+          <Route path="/instagrampost"  element= {<InstagramPost/>}/>
           <Route path=":tenant_id/user_id" element={<Userprofile />} />
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>
@@ -266,9 +271,7 @@ export const RouteWrapper = () => {
 
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
-          <Route path=":tenant_id/ticketform"  element= {<Ticketform/>}/>
-          <Route path=":tenant_id/ticketinfo"  element= {<TicketInfo/>}/>
-          <Route path=":tenant_id/ticket"  element= {<Ticket/>}/>
+          <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>
         </>
       )}
 
@@ -276,7 +279,6 @@ export const RouteWrapper = () => {
     {/*<Route path="*" element={<Login/>} />*/}
     <Route path="*" element={<NotFound />} />
     
-
       
     </Routes>
     </>

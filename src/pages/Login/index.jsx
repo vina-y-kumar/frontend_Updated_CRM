@@ -41,7 +41,11 @@ export const Login = () => {
 
     console.log('Request data:', data);
 
+<<<<<<< HEAD
     fetch(' https://webappbaackend.azurewebsites.net/login/', {
+=======
+    fetch('https://webappbaackend.azurewebsites.net/login/', {
+>>>>>>> c6b8ba0fb129e21256ed35bd6635da997cb6f66e
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

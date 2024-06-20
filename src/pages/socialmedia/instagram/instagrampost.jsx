@@ -71,26 +71,35 @@ const InstagramPost = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     // Step 1: Upload files to Firebase
     const uploadPromises = files.map(file => uploadFileToFirebase(file));
     try {
       const fileURLs = await Promise.all(uploadPromises);
       console.log('Uploaded file URLs:', fileURLs);
+  
+      // Step 2: Set the image URL in the state and wait for it to complete
       setImageUrl(fileURLs[0]); // Assuming you are using the URL of the first uploaded file
+  
+      // Use a callback or async function to ensure state is updated before proceeding
+      await new Promise(resolve => {
+        setImageUrl(fileURLs[0], () => {
+          resolve();
+        });
+      });
     } catch (error) {
       console.error('Error uploading files:', error);
       alert('Error uploading files');
       return; // Exit early if there's an error
     }
-
-    // Step 2: Post data to backend
+  
+    // Step 3: Post data to backend
     const postData = {
-      image_url: imageUrl,
+      image_url: imageUrl, // Ensure this has the updated URL
       access_token: accessToken,
       caption: caption
     };
-
+  
     try {
       const response = await fetch('https://nuren-insta.vercel.app/postImage', {
         method: 'POST',
@@ -99,11 +108,11 @@ const InstagramPost = () => {
         },
         body: JSON.stringify(postData)
       });
-
+  
       if (!response.ok) {
         throw new Error('Error posting image');
       }
-
+  
       const data = await response.json();
       console.log('Success:', data);
       alert('Image posted successfully!');
@@ -113,7 +122,7 @@ const InstagramPost = () => {
       alert('Error posting image');
     }
   };
-
+  
   const handleDragOver = (event) => {
     event.preventDefault();
     setDragging(true);

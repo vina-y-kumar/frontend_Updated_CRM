@@ -87,7 +87,7 @@ const InstagramPost = () => {
     };
 
     try {
-      const response = await fetch('https://3e2c49bba395446ea6c9894b10c52892.serveo.net/postImage', {
+      const response = await fetch('https://nuren-insta.vercel.app/postImage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

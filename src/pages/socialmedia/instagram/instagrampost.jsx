@@ -34,10 +34,15 @@ const InstagramPost = () => {
   const [accessToken, setAccessToken] = useState('');
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('access_token');
+    // Get the fragment identifier (everything after the #)
+    const hash = window.location.hash;
+    // Remove the # at the beginning of the fragment identifier
+    const hashParams = new URLSearchParams(hash.slice(1));
+    // Get the access token
+    const token = hashParams.get('access_token');
     setAccessToken(token);
   }, []);
+
 
   // const handleSubmit = (event) => {
   //   event.preventDefault();

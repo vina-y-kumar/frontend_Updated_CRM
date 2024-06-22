@@ -8,11 +8,21 @@ import { useNavigate } from "react-router-dom";
 // Extract tenant_id from the URL dynamically within handleSubmit
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
-  console.log('Path array:', pathArray); // Debugging log
   if (pathArray.length >= 2) {
     return pathArray[1]; // Assumes tenant_id is the first part of the path
   }
   return null; // Return null if tenant ID is not found or not in the expected place
+};
+
+const PopupCard = ({ message, onClose }) => {
+  return (
+    <div className="popup-card-overlay">
+      <div className="popup-card">
+        <h2>{message}</h2>
+        <button onClick={onClose}>OK</button>
+      </div>
+    </div>
+  );
 };
 
 export const Login = () => {
@@ -22,6 +32,9 @@ export const Login = () => {
   const { authenticated, login } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
+  const [role, setRole] = useState(""); // State to store the role of the user
+  const [tenantId, setTenantId] = useState(""); // State to store the tenant ID
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,16 +43,10 @@ export const Login = () => {
     setIsSubmitting(true);
     setError(""); // Clear previous errors
 
-    console.log('Form submitted');
-    console.log('Username:', username);
-    console.log('Password:', password);
-
     const data = {
       username: username,
       password: password,
     };
-
-    console.log('Request data:', data);
 
     fetch('https://webappbaackend.azurewebsites.net/login/', {
       method: 'POST',
@@ -49,31 +56,30 @@ export const Login = () => {
       body: JSON.stringify(data),
     })
     .then(response => {
-      console.log('Response received:', response);
       if (!response.ok) {
         throw new Error('Login failed');
       }
       return response.json();
     })
     .then(data => {
-      console.log('Login successful:', data); 
-      alert(`Login successful as ${data.role}`);
+      setRole(data.role); // Set the role
+      setTenantId(data.tenant_id); // Set the tenant ID
+      setShowPopup(true); // Show the popup card
       login(data.user_id, data.tenant_id, data.role); 
-
-      const tenantId = data.tenant_id;
-      console.log('Navigating to:', `/${tenantId}/home`);
-      navigate(`/${tenantId}/home`);
     })
     .catch(error => {
-      console.error('Login error:', error);
       setError('Login failed. Please check your credentials and try again.');
       setIsSubmitting(false);
     });
   };
 
+  const handlePopupClose = () => {
+    setShowPopup(false);
+    navigate(`/${tenantId}/home`);
+  };
+
   return (
     <div className="login" style={{display:'flex',flexDirection:'row'}}>
-      
       <div className="container" style={{width:'30%'}}>
         <div className="login_inner">
           <h2 className="login_paragraph">Login</h2>
@@ -111,8 +117,9 @@ export const Login = () => {
         </div>
       </div>
       <div style={{width:'70%'}}>
-      <Spline scene="https://prod.spline.design/OmqPiSVCUCyBiIZa/scene.splinecode" />
+        <Spline scene="https://prod.spline.design/OmqPiSVCUCyBiIZa/scene.splinecode" />
       </div>
+      {showPopup && <PopupCard message={`Login successful as ${role}`} onClose={handlePopupClose} />}
     </div>
   );
 };

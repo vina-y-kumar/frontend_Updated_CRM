@@ -267,7 +267,7 @@ export const RouteWrapper = () => {
 
 
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
-          <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
+          <Route path=":tenant_id/productinfo/:id"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/ticketform"  element= {<Ticketform/>}/>
           <Route path=":tenant_id/ticketinfo/:id"  element= {<TicketInfo/>}/>
           <Route path=":tenant_id/ticket"  element= {<Ticket/>}/>

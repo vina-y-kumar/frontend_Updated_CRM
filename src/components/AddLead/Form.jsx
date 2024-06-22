@@ -5,6 +5,31 @@ import Swal from 'sweetalert2';
 import axiosInstance from '../../api';
 import { useAuth } from '../../authContext';
 
+const Popup = ({ errors, onClose }) => (
+  <div className="product-popup">
+    <div className="product-popup-content">
+      <div className="product-popup-top">
+      <h2>Error</h2>
+      <button className="product-popup-close" onClick={onClose}>Ok</button>
+      </div>
+      <ul>
+        {Object.values(errors).map((error, index) => (
+          <li key={index}>{error}</li>
+        ))}
+      </ul>
+    </div>
+    
+  </div>
+);
+const SuccessPopup = ({ message, onClose }) => (
+  <div className="product-popup2">
+    <div className="product-popup-content2">
+      <h2>Product Created Sucessfully</h2>
+      <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -33,6 +58,10 @@ function Form() {
   });
   const [accountOptions, setAccountOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
+  const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -49,6 +78,17 @@ function Form() {
         [name]: value,
       });
     }
+  };
+
+  const validateForm = () => {
+    let errors = {};
+    Object.keys(formData).forEach(key => {
+      if (formData[key] === '' ) { // Checking for non-empty fields, excluding productActive checkbox
+        errors[key] = `${key.replace(/_/g, ' ')} is required.`; // You can customize the error message here
+      }
+    });
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0; // Return true if no errors
   };
 
   const fetchAccountOptions = async () => {
@@ -71,6 +111,12 @@ useEffect(() => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      // Show popup with errors
+      setShowPopup(true);
+      return;
+    }
 
     try {
       const dataToSend = {
@@ -127,6 +173,16 @@ useEffect(() => {
     } catch (error) {
       console.error('Error submitting form:', error);
     }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    navigate(`/${tenantId}/product`);
+
   };
 
   return (
@@ -327,6 +383,10 @@ useEffect(() => {
         Create Lead
       </button>
     </form>
+
+    {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+
+{showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
     </div>
     
   );

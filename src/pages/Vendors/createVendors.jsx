@@ -12,6 +12,8 @@ import { useAuth } from "../../authContext.jsx";
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded'; // Importing the icon
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 import { Navbar } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 
 const getTenantIdFromUrl = () => {
@@ -23,9 +25,35 @@ const getTenantIdFromUrl = () => {
     return null; // Return null if tenant ID is not found or not in the expected place
   };
 
+
+  const Popup = ({ errors, onClose }) => (
+    <div className="product-popup">
+      <div className="product-popup-content">
+        <h2>Error</h2>
+        <button className="product-popup-close" onClick={onClose}>Ok</button>
+        <ul>
+          {Object.entries(errors).map(([field, errorList]) => (
+            <li key={field}>
+              {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+  const SuccessPopup = ({ message, onClose }) => (
+    <div className="product-popup2">
+      <div className="product-popup-content2">
+        <h2>Vendors Created Sucessfully</h2>
+        <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+      </div>
+    </div>
+  );
+
+  
 const Vendorsform = () => {
 
-
+  const navigate = useNavigate();
     const tenantId=getTenantIdFromUrl();
     const {userId}=useAuth();
     const style = {
@@ -43,6 +71,11 @@ const Vendorsform = () => {
     };
 
     const [photoColor, setPhotoColor] = useState('');
+    const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorFields, setErrorFields] = useState({});
 
     useEffect(() => {
       setPhotoColor(generateRandomColor());
@@ -66,20 +99,35 @@ const Vendorsform = () => {
         street:"",
         zipcode:"",
         category:"",
+        tenant:tenantId,
       });
 
+     
       const handleSubmit = async (e) => {
+
+      
         e.preventDefault();
         try {
           const response = await axiosInstance.post('/vendors', vendorData);
           console.log("Form submitted:", response.data);
         } catch (error) {
           console.error("Error submitting form:", error);
+          if (error.response) {
+            // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+            setFormErrors(error.response.data || error.message);
+          } else {
+            // Network or other generic error
+            setFormErrors({ networkError: 'Network Error. Please try again later.' });
+          }
+          setShowPopup(true);
           // Optionally, handle errors or display error message to the user
         }
       };
       const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const updatedErrorFields = { ...errorFields };
+        delete updatedErrorFields[name];
+        setErrorFields(updatedErrorFields);
         setVendorData({ ... vendorData, [name]: value });
       };
       const handleCancel = () => {
@@ -101,6 +149,14 @@ const Vendorsform = () => {
         }
         return color;
       };
+      useEffect(() => {
+        // Set initial error fields based on formErrors
+        const initialErrorFields = {};
+        Object.keys(formErrors).forEach(field => {
+          initialErrorFields[field] = true;
+        });
+        setErrorFields(initialErrorFields);
+      }, [formErrors]);
     
       const generateSmiley31 = () => (
         <div className="colored-circle31" style={{ backgroundColor: photoColor, color:"white" }}>
@@ -117,6 +173,16 @@ const Vendorsform = () => {
       const handleSubmitForm = (event) => {
         event.preventDefault(); // Prevent default form submission behavior
         handleSubmit(event);
+      };
+
+      const closePopup = () => {
+        setShowPopup(false);
+      };
+    
+      const closeSuccessPopup = () => {
+        setShowSuccessPopup(false);
+        navigate(`/${tenantId}/vendors`);
+    
       };
 
   return (
@@ -183,6 +249,7 @@ const Vendorsform = () => {
                  value={vendorData.vendor_owner} 
                  onChange={handleInputChange} 
                  placeholder="Enter vendor Owner"
+                 style={{ borderColor: errorFields.vendor_owner ? 'red' : '' }}
      
                />
                <label className='vendor_sub' htmlFor="phone">Phone :</label>
@@ -195,6 +262,7 @@ const Vendorsform = () => {
                  value={vendorData.phone} 
                  onChange={handleInputChange} 
                  placeholder="Enter phone number"
+                 style={{ borderColor: errorFields.phone ? 'red' : '' }}
      
                />
                <label className='vendor_sub' htmlFor="website">Website :</label>
@@ -207,6 +275,7 @@ const Vendorsform = () => {
                  value={vendorData.website} 
                  onChange={handleInputChange} 
                  placeholder="Enter website"
+                 style={{ borderColor: errorFields.website ? 'red' : '' }}
      
                />
                <label className='vendor_sub' htmlFor="category">GL Account :</label>
@@ -219,6 +288,7 @@ const Vendorsform = () => {
                  value={vendorData.category} 
                  onChange={handleInputChange} 
                  placeholder="Enter account"
+                 style={{ borderColor: errorFields.category ? 'red' : '' }}
      
                />
         
@@ -234,6 +304,7 @@ const Vendorsform = () => {
                  value={vendorData.vendor_name} 
                  onChange={handleInputChange} 
                  placeholder="Enter vendor_name"
+                 style={{ borderColor: errorFields.vendor_name ? 'red' : '' }}
      
                />
                <label htmlFor="email" className='vendor_sub'>Email :</label>
@@ -245,6 +316,7 @@ const Vendorsform = () => {
                  value={vendorData.email} 
                  onChange={handleInputChange} 
                  placeholder="Enter email"
+                 style={{ borderColor: errorFields.email ? 'red' : '' }}
      
                />
                <label htmlFor="category" className='vendor_sub'>Catagory :</label>
@@ -256,6 +328,7 @@ const Vendorsform = () => {
                  value={vendorData.category} 
                  onChange={handleInputChange} 
                  placeholder="Enter category"
+                 style={{ borderColor: errorFields.category ? 'red' : '' }}
      
                />
                  <label htmlFor="email" className='vendor_sub'>Email Opt Out :</label>
@@ -267,6 +340,7 @@ const Vendorsform = () => {
                  value={vendorData.email} 
                  onChange={handleInputChange} 
                  placeholder="Enter email opt "
+                 style={{ borderColor: errorFields.email ? 'red' : '' }}
      
                />
              </div>
@@ -287,6 +361,7 @@ const Vendorsform = () => {
                  value={vendorData.street} 
                  onChange={handleInputChange} 
                  placeholder="Enter street"
+                 style={{ borderColor: errorFields.street ? 'red' : '' }}
      
                />
                <label className='vendor_sub' htmlFor="state">State :</label>
@@ -299,7 +374,7 @@ const Vendorsform = () => {
                  value={vendorData.state} 
                  onChange={handleInputChange} 
                  placeholder="Enter state"
-     
+                 style={{ borderColor: errorFields.state ? 'red' : '' }}
                />
              
         
@@ -315,6 +390,7 @@ const Vendorsform = () => {
                  value={vendorData.city} 
                  onChange={handleInputChange} 
                  placeholder="Enter city"
+                 style={{ borderColor: errorFields.city ? 'red' : '' }}
      
                />
                <label htmlFor="zipcode" className='vendor_sub'>Zip code :</label>
@@ -326,7 +402,7 @@ const Vendorsform = () => {
                  value={vendorData.zipcode} 
                  onChange={handleInputChange} 
                  placeholder="Enter zipcode"
-     
+                 style={{ borderColor: errorFields.zipcode ? 'red' : '' }}
                />
                <label htmlFor="country" className='vendor_sub'>Country :</label>
                <input 
@@ -337,7 +413,7 @@ const Vendorsform = () => {
                  value={vendorData.country} 
                  onChange={handleInputChange} 
                  placeholder="Enter country"
-     
+                 style={{ borderColor: errorFields.country ? 'red' : '' }}
                />
               
              </div>
@@ -356,7 +432,7 @@ const Vendorsform = () => {
                  value={vendorData.description} 
                  onChange={handleInputChange} 
                  placeholder="Enter description"
-     
+                 style={{ borderColor: errorFields.description ? 'red' : '' }}
                />
               </div>
               <div className="tanent-vendor">
@@ -383,6 +459,9 @@ const Vendorsform = () => {
          
          
        </div>
+       {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+
+{showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
   </div>
   )
 }

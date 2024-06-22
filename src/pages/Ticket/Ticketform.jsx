@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance from "../../api.jsx";
 import './Ticketform.css';
 import TopNavbar from "../TopNavbar/TopNavbar.jsx";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useNavigate } from "react-router-dom";
 
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');
@@ -12,6 +13,30 @@ const getTenantIdFromUrl = () => {
     }
     return null; 
   };
+
+  const Popup = ({ errors, onClose }) => (
+    <div className="product-popup">
+      <div className="product-popup-content">
+        <h2>Error</h2>
+        <button className="product-popup-close" onClick={onClose}>Ok</button>
+        <ul>
+          {Object.entries(errors).map(([field, errorList]) => (
+            <li key={field}>
+              {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+  const SuccessPopup = ({ message, onClose }) => (
+    <div className="product-popup2">
+      <div className="product-popup-content2">
+        <h2>Product Created Sucessfully</h2>
+        <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+      </div>
+    </div>
+  );
 
 const CASE_STATUS_CHOICES = [
     { value: 'open', label: 'Open' },
@@ -45,6 +70,7 @@ const SUBJECT_CHOICES = [
 ];
 
 const Ticketform = () => {
+    const navigate = useNavigate();
     const tenantId = getTenantIdFromUrl();
     console.log('Extracted tenant ID:', tenantId);
     const [formData, setFormData] = useState({
@@ -65,9 +91,18 @@ const Ticketform = () => {
         type: '',
         case_origin: ''
     });
+    const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorFields, setErrorFields] = useState({});
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const updatedErrorFields = { ...errorFields };
+    delete updatedErrorFields[name];
+    setErrorFields(updatedErrorFields);
         setFormData({
             ...formData,
             [name]: value,
@@ -94,6 +129,15 @@ const Ticketform = () => {
             subject: value,
         });
     };
+
+    useEffect(() => {
+        // Set initial error fields based on formErrors
+        const initialErrorFields = {};
+        Object.keys(formErrors).forEach(field => {
+          initialErrorFields[field] = true;
+        });
+        setErrorFields(initialErrorFields);
+      }, [formErrors]);
     
 
     const handleSubmit = async (e) => {
@@ -112,6 +156,8 @@ const Ticketform = () => {
                 },
             });
             console.log('Ticket created:', response.data);
+            setSuccessMessage(response.data.message);
+      setShowSuccessPopup(true);
 
            
             setFormData({
@@ -138,9 +184,27 @@ const Ticketform = () => {
 
         } catch (error) {
             console.error('Error creating ticket:', error);
-            // Handle error (e.g., show an error message)
-        }
+            if (error.response) {
+                // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+                setFormErrors(error.response.data || error.message);
+              } else {
+                // Network or other generic error
+                setFormErrors({ networkError: 'Network Error. Please try again later.' });
+              }
+              setShowPopup(true);
+                    }
     };
+
+    const closePopup = () => {
+        setShowPopup(false);
+      };
+    
+      const closeSuccessPopup = () => {
+        setShowSuccessPopup(false);
+        navigate(`/${tenantId}/product`);
+    
+      };
+      
 
     return (
         <div className="ticket-form-page">
@@ -168,6 +232,7 @@ const Ticketform = () => {
                                     placeholder="Enter the contact name"
                                     value={formData.contactName}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.contactName ? 'red' : '' }}
                                 />
                             </div>
                             <div className="ticket-input-group">
@@ -179,6 +244,7 @@ const Ticketform = () => {
                                     placeholder="Enter the account name"
                                     value={formData.owner}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.owner ? 'red' : '' }}
                                 />
                             </div>
                         </div>
@@ -192,6 +258,7 @@ const Ticketform = () => {
                                     placeholder="Enter the contact email"
                                     value={formData.webemail}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.webemail ? 'red' : '' }}
                                 />
                             </div>
                             <div className="ticket-input-group">
@@ -202,6 +269,7 @@ const Ticketform = () => {
                                     name="case_reason"
                                     value={formData.case_reason}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.case_reason ? 'red' : '' }}
                                 >
                                     <option value="">Select a reason...</option>
                                     <option value="Technical Issue">Technical Issue</option>
@@ -219,6 +287,7 @@ const Ticketform = () => {
                                     name="status"
                                     value={formData.status}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.status ? 'red' : '' }}
                                 >
                                     <option value="">Select a status...</option>
                                     {CASE_STATUS_CHOICES.map(status => (
@@ -233,6 +302,7 @@ const Ticketform = () => {
                                     name="priority"
                                     value={formData.priority}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.priority ? 'red' : '' }}
                                 >
                                     <option value="">Select a priority...</option>
                                     {PRIORITY_CHOICES.map(priority => (
@@ -249,6 +319,7 @@ const Ticketform = () => {
                                     name="type"
                                     value={formData.type}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.type ? 'red' : '' }}
                                 >
                                     <option value="">Select a type...</option>
                                     {TYPE_CHOICES.map(type => (
@@ -263,6 +334,7 @@ const Ticketform = () => {
                                     name="case_origin"
                                     value={formData.case_origin}
                                     onChange={handleInputChange}
+                                    style={{ borderColor: errorFields.case_origin ? 'red' : '' }}
                                 >
                                     <option value="">Select a case origin...</option>
                                     {CASE_ORIGIN_CHOICES.map(origin => (
@@ -280,6 +352,7 @@ const Ticketform = () => {
                                     name="date"
                                     value={formData.date}
                                     onChange={handleDateChange}
+                                    style={{ borderColor: errorFields.date ? 'red' : '' }}
                                 />
                             </div>
                             <div className="ticket-input-group">
@@ -289,6 +362,7 @@ const Ticketform = () => {
                                     name="subject"
                                     value={formData.subject}
                                     onChange={handleSubjectChange}
+                                    style={{ borderColor: errorFields.subject ? 'red' : '' }}
                                 >
                                     <option value="">Select a subject...</option>
                                     {SUBJECT_CHOICES.map(subject => (
@@ -326,6 +400,7 @@ const Ticketform = () => {
                                         cols="50"
                                         value={formData.description}
                                         onChange={handleInputChange}
+                                        style={{ borderColor: errorFields.description ? 'red' : '' }}
                                     ></textarea>
                                 </div>
                             </div>
@@ -338,6 +413,8 @@ const Ticketform = () => {
                     </div>
                 </div>
             </div>
+            {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+      {showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
         </div>
     );
 }

@@ -46,9 +46,7 @@ bottom: 8rem;
   position:absolute;
  margin-left: 30%;
 }
-.recent{
- /* padding-bottom: 10px; */
-}
+
 .form_taskk{
   width: 945px;
   height: 61px;
@@ -464,9 +462,7 @@ color: #565D6DFF;
 /* Task form css */
 .task_form {
   display: flex;
-  flex-direction: row;
-  gap: 80px;
-  flex-wrap: wrap;
+ justify-content: space-around;
 }
 
 .relatedTask_back {
@@ -952,4 +948,61 @@ border-color: #DEE1E645;
   position: absolute;
   top: 10px;
   right: 10px;
+}
+/* General adjustments for mobile view */
+@media (max-width: 768px) {
+  .tasks_main_component {
+    padding: 10px;
+  }
+
+  .task_header {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .meet1 {
+    align-items: center;
+  }
+
+  .excel_header_task {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .create1 {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .view-mode-select_task {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .table_head {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .tasks-tiles-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .task-tile {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0;
+  }
+
+  .table_Subject, .table_status, .table_due, .table_priority, .table_description, .table_contact {
+    width: 100%;
+  }
+
+  .task_status, .task_due_date, .task_priority, .task_description, .task_contact {
+    font-size: 12px;
+  }
 }

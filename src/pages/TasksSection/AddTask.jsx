@@ -10,7 +10,33 @@ import "./task.css";
 import axiosInstance from "../../api.jsx";
 import "./TaskTable.jsx";
 import { useAuth } from "../../authContext.jsx";
+import { useNavigate } from "react-router-dom";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+
+
+const Popup = ({ errors, onClose }) => (
+  <div className="product-popup">
+    <div className="product-popup-content">
+      <h2>Error</h2>
+      <button className="product-popup-close" onClick={onClose}>Ok</button>
+      <ul>
+        {Object.entries(errors).map(([field, errorList]) => (
+          <li key={field}>
+            {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+const SuccessPopup = ({ message, onClose }) => (
+  <div className="product-popup2">
+    <div className="product-popup-content2">
+      <h2>Product Created Sucessfully</h2>
+      <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -21,6 +47,7 @@ const getTenantIdFromUrl = () => {
   return null; // Return null if tenant ID is not found or not in the expected place
 };
 const AddTaskForm = () => {
+  const navigate = useNavigate();
   const tenantId=getTenantIdFromUrl();
   const {userId}=useAuth();
   const style = {
@@ -51,6 +78,11 @@ const AddTaskForm = () => {
     account: "",
     createdBy: "",
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorFields, setErrorFields] = useState({});
 
   const [accountOptions, setAccountOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -66,6 +98,9 @@ const AddTaskForm = () => {
     { value: 'normal', label: 'Normal' },
     { value: 'low', label: 'Low' },
   ];
+
+  
+
 
   const fetchAccountOptions = async () => {
     try {
@@ -84,11 +119,23 @@ const AddTaskForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    const updatedErrorFields = { ...errorFields };
+    delete updatedErrorFields[name];
+    setErrorFields(updatedErrorFields);
     setTaskData({
       ...taskData,
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    // Set initial error fields based on formErrors
+    const initialErrorFields = {};
+    Object.keys(formErrors).forEach(field => {
+      initialErrorFields[field] = true;
+    });
+    setErrorFields(initialErrorFields);
+  }, [formErrors]);
 
   const handleSelectChange = (selectedOption) => {
     if (selectedOption.value === "create-new-account") {
@@ -103,6 +150,8 @@ const AddTaskForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+   
     try {
 
       const dataToSend = {
@@ -141,7 +190,25 @@ const AddTaskForm = () => {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
+      if (error.response) {
+        // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+        setFormErrors(error.response.data || error.message);
+      } else {
+        // Network or other generic error
+        setFormErrors({ networkError: 'Network Error. Please try again later.' });
+      }
+      setShowPopup(true);
     }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    navigate(`/${tenantId}/tasks`);
+
   };
 
   const handleCancel = () => {
@@ -204,6 +271,7 @@ const AddTaskForm = () => {
                   value={taskData.subject}
                   onChange={handleChange}
                   placeholder="Enter subject"
+                  style={{ borderColor: errorFields.subject ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -216,6 +284,7 @@ const AddTaskForm = () => {
                   value={taskData.due_date}
                   onChange={handleChange}
                   placeholder="Enter due date"
+                  style={{ borderColor: errorFields.due_date ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -227,6 +296,7 @@ const AddTaskForm = () => {
                   name="status"
                   value={taskData.status}
                   onChange={handleChange}
+                  style={{ borderColor: errorFields.status ? 'red' : '' }}
                   className="form-control"
                   required
                 >
@@ -246,6 +316,7 @@ const AddTaskForm = () => {
                   name="priority"
                   value={taskData.priority}
                   onChange={handleChange}
+                  style={{ borderColor: errorFields.priority ? 'red' : '' }}
                   className="form-control"
                   required
                 >
@@ -265,6 +336,7 @@ const AddTaskForm = () => {
                   value={taskData.createdBy}
                   onChange={handleChange}
                   placeholder="Enter created By"
+                  style={{ borderColor: errorFields.createdBy ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -277,6 +349,7 @@ const AddTaskForm = () => {
                   value={taskData.contact}
                   onChange={handleChange}
                   placeholder="Enter contact"
+                  style={{ borderColor: errorFields.contact? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -289,6 +362,7 @@ const AddTaskForm = () => {
                   value={taskData.description}
                   onChange={handleChange}
                   placeholder="Enter description"
+                  style={{ borderColor: errorFields.description ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -332,6 +406,9 @@ const AddTaskForm = () => {
         </div>
       </div>
     </div>
+    {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+
+{showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
     </div>
   );
 };

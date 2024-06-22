@@ -5,12 +5,25 @@ import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import PeopleIcon from '@mui/icons-material/People';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import BusinessIcon from '@mui/icons-material/Business';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import EmailIcon from '@mui/icons-material/Email';
+import AlarmIcon from '@mui/icons-material/Alarm';
 import LayersIcon from '@mui/icons-material/Layers';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import CallIcon from '@mui/icons-material/Call';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import ContactPhoneRoundedIcon from '@mui/icons-material/ContactPhoneRounded';
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import './sidebar.css';
@@ -105,7 +118,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/home")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <DashboardIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Dashboard</p>
               </span>
             </NavLink>
@@ -167,7 +180,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <div className="sidebar_link" onClick={toggleTaskDropdown}>
               <span style={{ display: 'flex', alignItems: 'center' }}>
-                <FormatListNumberedIcon style={{fontSize:'2rem'}}/>
+                <ListAltIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Task Management</p>
                 <i className={`bx ${taskDropdownOpen ? 'bx-chevron-up' : 'bx-chevron-down'}`} style={{ fontSize: '1.5rem', marginLeft: 'auto' }}></i>
               </span>
@@ -208,7 +221,7 @@ export const Sidebar = () => {
                 <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/instagrampost")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <InstagramIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Instagram</p>
                     </span>
                   </NavLink>
@@ -216,7 +229,7 @@ export const Sidebar = () => {
                   <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/chatbot")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <WhatsAppIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Chatbot</p>
                     </span>
                   </NavLink>
@@ -224,7 +237,7 @@ export const Sidebar = () => {
                   <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/email")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <EmailIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Email</p>
                     </span>
                   </NavLink>
@@ -232,7 +245,7 @@ export const Sidebar = () => {
                 <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/linkedinauth")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <CallIcon style={{fontSize:'2rem'}}/>
+                      <LinkedInIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">LinkedIn</p>
                     </span>
                   </NavLink>
@@ -244,7 +257,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/calendar")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <CalendarMonthRoundedIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Calendar</p>
               </span>
             </NavLink>
@@ -273,7 +286,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/vendors")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                    <BusinessIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Vendors</p>
                   </span>
                 </NavLink>
@@ -281,7 +294,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/product")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                    <ShoppingBagIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Products</p>
                   </span>
                 </NavLink>
@@ -289,7 +302,7 @@ export const Sidebar = () => {
               <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/loyalty")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <LoyaltyIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Loyalty Program</p>
               </span>
             </NavLink>
@@ -297,7 +310,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/report")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <BarChartIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Reports</p>
               </span>
             </NavLink>
@@ -309,7 +322,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/interaction")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <LayersIcon style={{fontSize:'2rem'}}/>
+                    <HandshakeIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Interaction</p>
                   </span>
                 </NavLink>
@@ -325,7 +338,7 @@ export const Sidebar = () => {
               <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/reminder")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <AlarmIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Reminder</p>
               </span>
             </NavLink>
@@ -333,7 +346,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/ticket")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <CardMembershipIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Tickets</p>
               </span>
             </NavLink>

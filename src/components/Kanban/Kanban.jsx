@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./style.css";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { sendEmail } from './email.jsx'; // Import the sendEmail function
 import axiosInstance from "../../api.jsx";
 
 const getTenantIdFromUrl = () => {
@@ -14,16 +15,17 @@ const getTenantIdFromUrl = () => {
   return null; // Return null if tenant ID is not found or not in the expected place
 };
 
+const leadStages = {
+  'assigned': { label: 'Assigned', color: '#FF0000' },
+  'in process': { label: 'In Process', color: '#00FF00' },
+  'converted': { label: 'Converted', color: '#0000FF' },
+  'recycled': { label: 'Recycled', color: '#43A5BE' },
+  'dead': { label: 'Dead', color: '#5c62d6' }
+};
+
 function Kanban({ leadCountsData }) {
   const tenantId = getTenantIdFromUrl();
   const [columns, setColumns] = useState({});
-  const [leadStages, setLeadStages] = useState({
-    'assigned': { label: 'Assigned', color: '#FF0000' },
-    'in process': { label: 'In Process', color: '#00FF00' },
-    'converted': { label: 'Converted', color: '#0000FF' },
-    'recycled': { label: 'Recycled', color: '#43A5BE' },
-    'dead': { label: 'Dead', color: '#5c62d6' }
-  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +65,7 @@ function Kanban({ leadCountsData }) {
     };
 
     fetchData();
-  }, [leadStages]);
+  }, []);
 
   const mapLeadsToCards = (leads) => {
     return leads.map((lead) => ({
@@ -109,6 +111,8 @@ function Kanban({ leadCountsData }) {
       });
 
       try {
+       
+
         const leadData = {
           ...movedCard, // Include existing lead data
           status: mapStatusToBackend(endColumn.title), // Update the status
@@ -117,12 +121,12 @@ function Kanban({ leadCountsData }) {
           email: movedCard.email,
           assigned_to: movedCard.assigned_to,
           createdBy: movedCard.createdBy,
-          tenant: tenantId,
+          tenant:tenantId,
         };
         // Make a PUT request to update the lead status in the backend
         await axiosInstance.put(`leads/${movedCard.id}/`, leadData);
       } catch (error) {
-        console.error('Error updating lead status:', error);
+        console.error('Error sending email or updating lead status:', error);
       }
 
       const newColumns = {
@@ -131,42 +135,30 @@ function Kanban({ leadCountsData }) {
         [destination.droppableId]: { ...endColumn, cards: endCards },
       };
       setColumns(newColumns);
-    }
+    } 
   };
-
   const mapStatusToBackend = (frontendStatus) => {
-    return Object.keys(leadStages).find(key => leadStages[key].label === frontendStatus) || 'assigned';
-  };
-
-  const handleAddStage = () => {
-    const newStageKey = prompt("Enter the key for the new stage:");
-    const newStageLabel = prompt("Enter the label for the new stage:");
-    const newStageColor = prompt("Enter the color for the new stage:");
-
-    if (newStageKey && newStageLabel && newStageColor) {
-      setLeadStages(prevStages => ({
-        ...prevStages,
-        [newStageKey]: { label: newStageLabel, color: newStageColor }
-      }));
+    switch (frontendStatus) {
+      case 'Assigned':
+        return 'assigned';
+      case 'In Process':
+        return 'in process';
+      case 'Converted':
+        return 'converted';
+      case 'Recycled':
+        return 'recycled';
+      case 'Dead':
+        return 'dead';
+      default:
+        return 'assigned';
     }
   };
 
-  const handleRemoveStage = (stageKey) => {
-    const updatedStages = { ...leadStages };
-    delete updatedStages[stageKey];
-    setLeadStages(updatedStages);
-  };
 
   return (
     <>
       <br />
       <div className="Kanban">
-        <button onClick={handleAddStage}>Add Stage</button>
-        {Object.keys(leadStages).map((stageKey) => (
-          <div key={stageKey}>
-            {leadStages[stageKey].label} <button onClick={() => handleRemoveStage(stageKey)}>Remove</button>
-          </div>
-        ))}
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="kanban-board">
             {Object.keys(columns).map((columnId) => {
@@ -200,33 +192,38 @@ function Kanban({ leadCountsData }) {
                                 className="card_"
                               >
                                 <div className="license">
-                                  {card.amount} licenses
+                                  {card.amount}licenses
                                   <div className="status">{card.status}</div>
                                 </div>
                                 <div className="content_">
+                                  {/* Content of the card */}
                                   {columnId === 'new' && (
-                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  )}
-                                  {columnId !== '0' ? (
-                                    <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  ) : (
-                                    <NavLink to={`/${tenantId}/lead/${card.id}`}>
-                                      <div className="c1">{card.name}</div>
-                                    </NavLink>
-                                  )}
-                                  <div className="c2">
-                                    {card.address}
-                                  </div>
-                                  <div className="c2">
-                                    {card.email}
-                                  </div>
-                                  <div className="c2">{card.website}</div>
+                        <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      )}
+                      {columnId !== '0' ? (
+                        <NavLink to={`/${tenantId}/ShowLead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      ) : (
+                        <NavLink to={`/${tenantId}/lead/${card.id}`}>
+                          <div className="c1">{card.name}</div>
+                        </NavLink>
+                      )}
+                      <div className="c2">
+                        {card.address}
+                      
+                      </div>
+                      <div className="c2">
+                        {card.email}
+                      
+                      </div>
+                      <div className="c2">{card.website}</div>
+                    </div>
+
                                 </div>
-                              </div>
+                        
                             )}
                           </Draggable>
                         ))}

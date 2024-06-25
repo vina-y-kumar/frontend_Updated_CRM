@@ -84,6 +84,11 @@ import PdfEditor from "../pages/documenteditpage/merge_code";
 import { DashboardCustomizeSharp } from "@mui/icons-material";
 // import Ticket from "../pages/Ticket/TicketPage";
 
+import Ticket from "../pages/Ticket/TicketPage";
+import { Explore } from "@mui/icons-material";
+import ExplorePage from "../pages/ExplorePage/Explore";
+import ExploreDetails from "../pages/ExplorePage/readExplore";
+
 
 // import CustomModelForm from "../pages/CustomModel/customform";
 
@@ -274,6 +279,14 @@ export const RouteWrapper = () => {
 
 
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
+
+          <Route path=":tenant_id/productinfo/:id"  element= {<ProductInfo/>}/>
+          <Route path=":tenant_id/ticketform"  element= {<Ticketform/>}/>
+          <Route path=":tenant_id/ticketinfo/:id"  element= {<TicketInfo/>}/>
+          <Route path=":tenant_id/ticket"  element= {<Ticket/>}/>
+          <Route path=":tenant_id/explore"  element= {<ExplorePage/>}/>
+          <Route path=":tenant_id/exploredetails"  element= {<ExploreDetails/>}/>
+
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>
           <Route path=":tenant_id/editdocument"  element= {<PdfEditor/>}/>

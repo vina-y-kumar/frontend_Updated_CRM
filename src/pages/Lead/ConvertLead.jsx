@@ -1,190 +1,94 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import axiosInstance from "../../api.jsx";
 import { useParams } from 'react-router-dom';
-import "./LeadPage.css"
+import "./LeadPage.css";
 
-function ConvertLead(props) {
-//Declarations
+const getTenantIdFromUrl = () => {
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; 
+};
+
+function ConvertLead() {
+  const tenantId=getTenantIdFromUrl();
   const { id } = useParams();
   const [leadData, setLeadData] = useState();
-  const [showConversionForm, setShowConversionForm] = useState(false);
-
-  const [accountFormData, setAccountFormData] = useState({
-      Name: "",
-      phone: "",
-      email: "",
-      createdBy:1
-  });
-
-  const [contactFormData, setContactFormData] = useState({
-      first_name: "",
-      last_name:"",
-      phone: "",
-      email: "",
-      createdBy:1
-  });
-
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
-  const [accountExists, setAccountExists] = useState(false);
-  const [contactExists, setContactExists] = useState(false);
 
-//Functions
-                    const handleAccountFormSubmit = async (event) => {
-                      event.preventDefault();
-                      try {
-                        await axios.post("https://backendcrmnurenai.azurewebsites.net/accounts/", accountFormData);
-                        setAccountExists(true);
-                        console.log(response);
-                      } catch (error) {
-                        setError(error.message);
-                      }
-                    };
+  useEffect(() => {
+    fetchLeadData();
+  }, []);
 
-                  const handleContactFormSubmit = async (event) => {
-                    event.preventDefault();
-                    try {
-                      await axios.post("https://backendcrmnurenai.azurewebsites.net/contacts/", contactFormData);
-                      setContactExists(true);
-                    } catch (error) {
-                      setError(error.message);
-                    }
-                  };
+  const fetchLeadData = async () => {
+    try {
+      const response = await axiosInstance.get(`/leads/${id}`);
+      setLeadData(response.data);
+    } catch (error) {
+      setError("Error fetching lead data");
+      console.log(leadData);
+      console.log('this is error', error)
+    }
+  };
 
-                  useEffect(() => {
-                    fetchLeadData();
-                  }, []);
+  const convertLead = async () => {
+    setLoading(true);
+    setError(null);
 
-                  const fetchLeadData = async () => {
-                    try {
-                      const response = await axios.get(
-                        `https://backendcrmnurenai.azurewebsites.net/leads/${id}`
-                      );
-                      setLeadData(response.data);
-                      setAccountFormData({
-                        Name: response.data.name,
-                        phone: response.data.phone,
-                        email: response.data.email,
-                        createdBy:1
-                      });
-                      setContactFormData({
-                        first_name: response.data.name,
-                        last_name: "text",
-                        phone: response.data.phone,
-                        email: response.data.email,
-                        createdBy:1
-                      });
-                    } catch (error) {
-                      setError(error.message)
-                      console.error("Error fetching contacts:", error);
-                    }
-                  };
+    const accountFormData = {
+      Name: leadData.first_name,
+      phone: leadData.phone,
+      email: leadData.email,
+      tenant: tenantId,
+      createdBy: 1
+    };
 
-                  console.log(leadData);
+    const opportunityFormData = {
+      name: `${leadData.first_name}'s Opportunity`,
+      description: 'Converted from lead',
+      tenant: tenantId,
+      createdBy: 1,
+      stage:'NEEDS ANALYSIS'
+    };
+
+    
+
+    try {
+      await axiosInstance.post('/accounts/', accountFormData);
+      await axiosInstance.post('/opportunities/', opportunityFormData);
+      await axiosInstance.delete(`/leads/${id}`);
+      setLoading(false);
+      setSuccess(true);
+    } catch (error) {
+      setLoading(false);
+      setError("Error converting lead");
+    }
+  };
+
   return (
-    <div>
-      <h1>Convert Lead Page </h1>
-
-      {leadData? (
-        <div>
+    <div className="convert-lead-container">
+      <h1>Convert Lead</h1>
+      {leadData ? (
+        <div className="lead-info">
           <h3>Lead Information</h3>
-          <p>Name: {leadData.name}</p>
+          <p>Name: {leadData.first_name}</p>
           <p>Email: {leadData.email}</p>
+          <p>Phone: {leadData.phone}</p>
+          <button onClick={convertLead} className="convert-button">Convert to Account and Contact</button>
         </div>
       ) : (
-        <div>
+        <div className="no-lead">
           <h3>No Lead Found</h3>
         </div>
       )}
 
-      {accountExists && <p>Account already exists for this lead.</p>}
-      {contactExists && <p>Contact already exists for this lead.</p>}
-
-      {!accountExists &&!contactExists && (
-        <div>
-          <h2>Create Account </h2>
-          <div>
-          <form onSubmit={handleAccountFormSubmit}>
-  
-  <label htmlFor="Name">Name:</label>
-  <input
-    type="text"
-    id="Name"
-    name="Name"
-    value={accountFormData.Name}
-    onChange={(e) => setAccountFormData({...accountFormData, Name: e.target.value })}
-    required
-  />
-  <br />
-  <label htmlFor="account-phone">Phone:</label>
-  <input
-    type="text"
-    id="account-phone"
-    name="phone"
-    value={accountFormData.phone}
-    onChange={(e) => setAccountFormData({...accountFormData, phone: e.target.value })}
-    required
-  />
-  <br />
-  <label htmlFor="account-email">Email:</label>
-  <input
-    type="email"
-    id="account-email"
-    name="email"
-    value={accountFormData.email}
-    onChange={(e) => setAccountFormData({...accountFormData, email: e.target.value })}
-    required
-  />
-  <br />
-  <button type="submit">Save Account</button>
-</form>      
-          </div>
-         <h2>
-         Create Contact
-         </h2>
-         <div>
-         <form onSubmit={handleContactFormSubmit}>
-            <label htmlFor="contact-name">Name:</label>
-            <input
-              type="text"
-              id="contact-name"
-              name="name"
-              value={contactFormData.first_name}
-              onChange={(e) => setContactFormData({...contactFormData, first_name: e.target.value })}
-              required
-            />
-            <br />
-            <label htmlFor="contact-phone">Phone:</label>
-            <input
-              type="text"
-              id="contact-phone"
-              name="phone"
-              value={contactFormData.phone}
-              onChange={(e) => setContactFormData({...contactFormData, phone: e.target.value })}
-              required
-            />
-            <br />
-            <label htmlFor="contact-email">Email:</label>
-            <input
-              type="email"
-              id="contact-email"
-              name="email"
-              value={contactFormData.email}
-              onChange={(e) => setContactFormData({...contactFormData, email: e.target.value })}
-              required
-            />
-            <br />
-            <button type="submit">Save Contact</button>
-          </form>
-         </div>
-          
-        </div>
-      )}
-
-      {showConversionForm && (
-        <div>
-          <p>Account and Contact created successfully. Proceed with conversion.</p>
-        </div>
-      )}
+      {error && <div className="error">{error}</div>}
+      {loading && <div className="loading">Processing...</div>}
+      {success && <div className="success">Lead converted successfully!</div>}
     </div>
   );
 }

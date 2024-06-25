@@ -7,6 +7,8 @@ import Kanban from "../../components/Kanban/Kanban";
 import { NavLink ,Link} from "react-router-dom";
 import { useState,useEffect } from "react";
 import * as XLSX from "xlsx"; 
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import LeadTable from "../../components/Kanban/LeadTable/LeadTable";
 import { useAuth } from "../../authContext";
 import axiosInstance from "../../api";
@@ -61,7 +63,23 @@ export const LeadPage = () =>
                       const toggleViewMode = () => {
                         setViewMode(viewMode === "kanban" ? "table" : "kanban");
                       };
+            
+                      const handleDownloadPdf = () => {
+                        const doc = new jsPDF();
+                        doc.autoTable({
+                          head: [['Lead Name', 'Phone Number', 'Email', 'Status']],
+                          body: leadData.map(lead => [
+                            lead.name,
+                            lead.phone,
+                            lead.email,
+                            lead.status
+                          ]),
+                        });
+                        doc.save('leads.pdf');
+                      };        
 
+
+                
   return (
    <div>
      <div className="lead_nav">
@@ -101,6 +119,9 @@ export const LeadPage = () =>
               </Dropdown.Item>
               <Dropdown.Item>
                 <button onClick={handleDownloadExcel} className="excel-download-btn3">Excel</button>
+              </Dropdown.Item>
+              <Dropdown.Item>
+              <button onClick={handleDownloadPdf} className="pdf-download-btn">PDF</button>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

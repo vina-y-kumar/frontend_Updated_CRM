@@ -7,6 +7,7 @@ import { useAuth } from '../../authContext';
 import { Header } from '../../components/Header';
 import axiosInstance from '../../api';
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import { useNavigate } from "react-router-dom";
 
 
 const getTenantIdFromUrl = () => {
@@ -18,7 +19,35 @@ const getTenantIdFromUrl = () => {
   return null; // Return null if tenant ID is not found or not in the expected place
 };
 
+const Popup = ({ errors, onClose }) => (
+  <div className="account-popup">
+    <div className="account-popup-content">
+      <div className="account-popup-top">
+      <h2>Error</h2>
+      <button className="account-popup-close" onClick={onClose}>Ok</button>
+      </div>
+      <ul>
+      {Object.entries(errors).map(([field, errorList]) => (
+          <li key={field}>
+            {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+          </li>
+        ))}
+      </ul>
+    </div>
+    
+  </div>
+);
+const SuccessPopup = ({  onClose }) => (
+  <div className="account-popup2">
+    <div className="account-popup-content2">
+      <h2>Account Created Sucessfully</h2>
+      <button className="account-popup-ok-button2" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
+
 function AccountForm() {
+  const navigate = useNavigate();
   const { userId } = useAuth();
   const tenantId=getTenantIdFromUrl();
   const [accountData, setAccountData] = useState({
@@ -53,20 +82,41 @@ function AccountForm() {
   });
 
   const [photoColor, setPhotoColor] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorFields, setErrorFields] = useState({});
 
   useEffect(() => {
     setPhotoColor(generateRandomColor());
   }, []); // Empty dependency array ensures that this effect runs only once, when the component mounts
 
   const handleChange = (event) => {
+    const updatedErrorFields = { ...errorFields };
+    delete updatedErrorFields[name];
+    setErrorFields(updatedErrorFields);
+
     setAccountData({
       ...accountData,
       [event.target.name]: event.target.value,
     });
   };
 
+  useEffect(() => {
+    // Set initial error fields based on formErrors
+    const initialErrorFields = {};
+    Object.keys(formErrors).forEach(field => {
+      initialErrorFields[field] = true;
+    });
+    setErrorFields(initialErrorFields);
+  }, [formErrors]);
+
+ 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
 
     try {
       const tenantId = getTenantIdFromUrl(); // Get tenant ID from the URL
@@ -88,6 +138,7 @@ function AccountForm() {
       };
 
       try {
+        
           await axiosInstance.post('/interaction/', interactionData);
           console.log('Interaction logged successfully');
         } catch (error) {
@@ -99,8 +150,19 @@ function AccountForm() {
         email: '',
         phone: '',
       });
+      setSuccessMessage(response.data.message);
+      setShowSuccessPopup(true);
+      
     } catch (error) {
       console.error('Error submitting form:', error);
+      if (error.response) {
+        // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+        setFormErrors(error.response.data || error.message);
+      } else {
+        // Network or other generic error
+        setFormErrors({ networkError: 'Network Error. Please try again later.' });
+      }
+      setShowPopup(true);
     }
   };
 
@@ -137,6 +199,17 @@ function AccountForm() {
     event.preventDefault(); // Prevent default form submission behavior
     handleSubmit(event);
   };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    navigate(`/${tenantId}/acounts`);
+
+  };
+  
 
   return (
     <div>
@@ -187,6 +260,7 @@ function AccountForm() {
                                   value={accountData.Name}
                                   onChange={handleChange}
                                   placeholder="Enter Account Owner"
+                                  style={{ borderColor: errorFields.Name ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -199,6 +273,7 @@ function AccountForm() {
                                   value={accountData.email}
                                   onChange={handleChange}
                                   placeholder="Enter email"
+                                  style={{ borderColor: errorFields.email ? 'red' : '' }}
                                 />
                               </div>
                       <div className="form-group col-md-6">
@@ -211,6 +286,7 @@ function AccountForm() {
                                   value={accountData.AccountName}
                                   onChange={handleChange}
                                   placeholder="Enter AccountName"
+                                  style={{ borderColor: errorFields.AccountName ? 'red' : '' }}
                                 />
                               </div>
                       <div className="form-group col-md-6">
@@ -223,6 +299,7 @@ function AccountForm() {
                                   value={accountData.AccountSite}
                                   onChange={handleChange}
                                   placeholder="Enter site name"
+                                  style={{ borderColor: errorFields.AccountSite? 'red' : '' }}
                                 />
                               </div>
                         <div className="form-group col-md-6">
@@ -235,6 +312,7 @@ function AccountForm() {
                                   value={accountData.ParentAccount}
                                   onChange={handleChange}
                                   placeholder="Enter Parent account"
+                                  style={{ borderColor: errorFields.ParentAccount ? 'red' : '' }}
                                 />
                               </div>
                       <div className="form-group col-md-6">
@@ -247,6 +325,7 @@ function AccountForm() {
                                   value={accountData.AccountNumber}
                                   onChange={handleChange}
                                   placeholder="Enter account number"
+                                  style={{ borderColor: errorFields.AccountNumber ? 'red' : '' }}
                                 />
                               </div>
                       <div className="form-group col-md-6">
@@ -259,6 +338,7 @@ function AccountForm() {
                                   value={accountData.AccountType}
                                   onChange={handleChange}
                                   placeholder="Enter account type"
+                                  style={{ borderColor: errorFields.AccountType ? 'red' : '' }}
                                 />
                                 </div>
                       <div className="form-group col-md-6">
@@ -271,6 +351,7 @@ function AccountForm() {
                                   value={accountData.Industry}
                                   onChange={handleChange}
                                   placeholder="Enter industry"
+                                  style={{ borderColor: errorFields.Industry ? 'red' : '' }}
                                 />
                               </div>
                       <div className="form-group col-md-6">
@@ -283,6 +364,7 @@ function AccountForm() {
                                   value={accountData.AnnualRevenue}
                                   onChange={handleChange}
                                   placeholder="Enter revenue"
+                                  style={{ borderColor: errorFields.AnnualRevenue ? 'red' : '' }}
                                 />
                               </div>
                         </div>
@@ -301,6 +383,7 @@ function AccountForm() {
                                   value={accountData.Rating}
                                   onChange={handleChange}
                                   placeholder="Enter rating"
+                                  style={{ borderColor: errorFields.Rating ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -313,6 +396,7 @@ function AccountForm() {
                                   value={accountData.phone}
                                   onChange={handleChange}
                                   placeholder="Enter Phone"
+                                  style={{ borderColor: errorFields.phone ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -325,6 +409,7 @@ function AccountForm() {
                                   value={accountData.Fax}
                                   onChange={handleChange}
                                   placeholder="Enter Fax"
+                                  style={{ borderColor: errorFields.Fax ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -337,6 +422,7 @@ function AccountForm() {
                                   value={accountData.Website}
                                   onChange={handleChange}
                                   placeholder="Enter Website"
+                                  style={{ borderColor: errorFields.Website ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -349,6 +435,7 @@ function AccountForm() {
                                   value={accountData.TickerSymbol}
                                   onChange={handleChange}
                                   placeholder="Enter Ticker"
+                                  style={{ borderColor: errorFields.TickerSymbol ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -361,6 +448,7 @@ function AccountForm() {
                                   value={accountData.Ownership}
                                   onChange={handleChange}
                                   placeholder="Enter Ownership"
+                                  style={{ borderColor: errorFields.Ownership ? 'red' : '' }}
                                 />
                               </div>
                               <div className="form-group col-md-6">
@@ -373,6 +461,7 @@ function AccountForm() {
                                   value={accountData.Employees}
                                   onChange={handleChange}
                                   placeholder="Enter Employees"
+                                  style={{ borderColor: errorFields.Employees ? 'red' : '' }}
                                 />
                               </div>
                     </div>
@@ -396,6 +485,7 @@ function AccountForm() {
                                 value={accountData.BillingStreet}
                                 onChange={handleChange}
                                 placeholder="Enter billing street"
+                                style={{ borderColor: errorFields.BillingStreet ? 'red' : '' }}
                               />
                             </div>
                     <div className="form-group col-md-6">
@@ -408,6 +498,7 @@ function AccountForm() {
                                 value={accountData.BillingCity}
                                 onChange={handleChange}
                                 placeholder="Enter billing city"
+                                style={{ borderColor: errorFields.BillingCity ? 'red' : '' }}
                               />
                             </div>
                       <div className="form-group col-md-6">
@@ -432,6 +523,7 @@ function AccountForm() {
                                 value={accountData.BillingCode}
                                 onChange={handleChange}
                                 placeholder="Enter billing code"
+                                style={{ borderColor: errorFields.BillingCode ? 'red' : '' }}
                               />
                             </div>
                     <div className="form-group col-md-6">
@@ -444,6 +536,7 @@ function AccountForm() {
                                 value={accountData.BillingCountry}
                                 onChange={handleChange}
                                 placeholder="Enter Billing country"
+                                style={{ borderColor: errorFields.BillingCountry ? 'red' : '' }}
                               />
                             </div>
                     </div>
@@ -459,6 +552,7 @@ function AccountForm() {
                                 value={accountData.ShippingStreet}
                                 onChange={handleChange}
                                 placeholder="Enter shipping street"
+                                style={{ borderColor: errorFields.ShippingStreet ? 'red' : '' }}
                               />
                             </div>
                     <div className="form-group col-md-6">
@@ -471,6 +565,7 @@ function AccountForm() {
                                 value={accountData.ShippingCity}
                                 onChange={handleChange}
                                 placeholder="Enter shipping city"
+                                style={{ borderColor: errorFields.ShippingCity ? 'red' : '' }}
                               />
                             </div>
                     <div className="form-group col-md-6">
@@ -483,6 +578,7 @@ function AccountForm() {
                                 value={accountData.ShippingState}
                                 onChange={handleChange}
                                 placeholder="Enter shipping state"
+                                style={{ borderColor: errorFields.ShippingState ? 'red' : '' }}
                               />
                             </div>
                     <div className="form-group col-md-6">
@@ -495,6 +591,7 @@ function AccountForm() {
                                 value={accountData.ShippingCode}
                                 onChange={handleChange}
                                 placeholder="Enter shipping Code"
+                                style={{ borderColor: errorFields.ShippingCode ? 'red' : '' }}
                               />
                             </div>
                     <div className="form-group col-md-6">
@@ -507,6 +604,7 @@ function AccountForm() {
                                 value={accountData.ShippingCountry}
                                 onChange={handleChange}
                                 placeholder="Enter shipping country"
+                                style={{ borderColor: errorFields.ShippingCountry ? 'red' : '' }}
                               />
                             </div>
                     </div>
@@ -536,6 +634,9 @@ function AccountForm() {
                 </form> 
       </div>
     </div>
+    {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+
+{showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
     </div>
   );
 }

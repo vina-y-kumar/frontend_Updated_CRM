@@ -6,6 +6,8 @@ import axiosInstance from "../../api";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 import * as XLSX from "xlsx"; // Importing xlsx library
+import jsPDF from "jspdf"; // Importing jsPDF library
+import "jspdf-autotable";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -117,6 +119,23 @@ export const ContactsTable = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Contacts");
     XLSX.writeFile(wb, "contacts.xlsx");
+  };
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ["First Name", "Last Name", "Email", "Phone", "Address"],
+      ],
+      body: filteredContacts.map((contact) => [
+        contact.first_name,
+        contact.last_name,
+        contact.email,
+        contact.phone,
+        contact.address,
+      ]),
+    });
+    doc.save("contacts.pdf");
   };
 
   const handleAllCalls1 = (event) => {
@@ -345,6 +364,9 @@ export const ContactsTable = () => {
                     Excel
                   </button>
                 </Dropdown.Item>
+                <Dropdown.Item onClick={handleDownloadPDF}>
+                        PDF
+                      </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             </div>

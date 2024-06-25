@@ -10,6 +10,8 @@ import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 import axios from "axios";
 import "./task.css";
 import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import axiosInstance from "../../api.jsx";
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -65,6 +67,24 @@ export const TaskTable = () => {
     XLSX.writeFile(wb, "tasks.xlsx");
   };
 
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ['Subject', 'Status', 'Due Date', 'Priority', 'Description', 'Contact']
+      ],
+      body: tasks.map(task => [
+        task.subject,
+        task.status,
+        task.due_date,
+        task.priority,
+        task.description,
+        task.contact
+      ]),
+    });
+    doc.save('tasks.pdf');
+  };
+
 
 
 
@@ -103,6 +123,9 @@ export const TaskTable = () => {
                     <button onClick={handleDownloadExcel} className="excel-download-btn1">
                       Excel
                     </button>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                  <button onClick={handleDownloadPdf} className="pdf-download-btn">PDF</button>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

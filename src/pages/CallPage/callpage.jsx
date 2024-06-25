@@ -5,6 +5,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import axiosInstance from "../../api";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
@@ -58,6 +60,33 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
     XLSX.utils.book_append_sheet(wb, ws, "calls");
     XLSX.writeFile(wb, "callls.xlsx");
   };
+
+  const handleDownloadPDF = () => {
+    const unit = "pt";
+    const size = "A4"; // Use A4 size for simplicity
+    const orientation = "landscape"; // Landscape orientation for table format
+
+    const doc = new jsPDF(orientation, unit, size);
+
+    const title = "Calls Report";
+    const headers = [
+      ["Contact Name", "Call Type", "Call Start Time", "Call Duration", "Related To", "Location", "Recording"]
+    ];
+
+    const data = calls.map(call => [call.call_to, call.call_type, call.start_time, call.call_duration, call.related_to, call.location, call.voice_recording]);
+
+    doc.setFontSize(15);
+    doc.text(title, 40, 30);
+
+    doc.autoTable({
+      startY: 40,
+      head: headers,
+      body: data,
+    });
+
+    doc.save("calls_report.pdf");
+  };
+
 
   
   const handleDropDownChange = (e) => {
@@ -228,6 +257,11 @@ const handleCreateMeeting = async (e) => {
                 Excel
               </button>
             </Dropdown.Item>
+            <Dropdown.Item>
+            <button onClick={handleDownloadPDF} className="pdf-download-btn">
+              Download PDF
+            </button>
+          </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         </div>

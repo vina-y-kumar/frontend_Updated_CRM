@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import axiosInstance from "../../api";
 import * as XLSX from "xlsx"; 
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import io from 'socket.io-client';
 import { useAuth } from "../../authContext";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
@@ -121,6 +123,22 @@ const Met = () => {
     XLSX.writeFile(wb, 'meetings.xlsx');
   };
 
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [['Title', 'From', 'To', 'Related To', 'Contact Name', 'Host']],
+      body: meetings.map(meeting => [
+        meeting.title,
+        meeting.from_time,
+        meeting.to_time,
+        meeting.related_to,
+        meeting.contact_name,
+        meeting.host
+      ]),
+    });
+    doc.save('meetings.pdf');
+  };
+
   const openMeetingForm = () => {
     setModalOpen(true); // Example function to open modal
   };
@@ -161,6 +179,11 @@ const Met = () => {
                     Excel
                   </button>
                 </Dropdown.Item>
+                <Dropdown.Item>
+                    <button onClick={handleDownloadPdf} className="pdf-download-btn1">
+                     Pdf
+                    </button>
+                    </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
     </div>

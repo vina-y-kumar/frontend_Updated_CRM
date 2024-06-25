@@ -1,5 +1,5 @@
 .topNavbar-head {
-  /*width: 1270px;*/
+  width: 100vw;
   height: 76px;
   background: #FFFFFF;
   border-radius: 0px;
@@ -27,7 +27,7 @@
   border-radius: 5px;
 }
 .topNavbar1 {
-  margin-left: 112rem;
+  margin-left: 125rem;
   margin-top: 20px;
 }
 

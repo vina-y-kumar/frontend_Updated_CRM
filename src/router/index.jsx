@@ -80,6 +80,8 @@ import TicketInfo from "../pages/Ticket/TicketInfo";
 import Calendar from "../pages/Calendar/Calendar";
 
 import Calendarform from "../pages/Calendar/Calendarform";
+import PdfEditor from "../pages/documenteditpage/merge_code";
+import { DashboardCustomizeSharp } from "@mui/icons-material";
 // import Ticket from "../pages/Ticket/TicketPage";
 
 
@@ -205,6 +207,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/createVendors" element={<Vendorsform/>}/>
           <Route path=":tenant_id/Vendorsinfo/:id" element={<VendorInfo/>}/>
           <Route path=":tenant_id/topNavbar" element={<TopNavbar/>}/>
+          <Route path=":tenant_id/custom" element={<Custom/>}/>
+
 
 
 
@@ -272,6 +276,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>
+          <Route path=":tenant_id/editdocument"  element= {<PdfEditor/>}/>
+    
         </>
       )}
 

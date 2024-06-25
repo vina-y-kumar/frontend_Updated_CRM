@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run generate-html && vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-html": "mkdir -p dist && cp index.html dist/"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.23.0",
@@ -24,6 +25,7 @@
     "cors": "^2.8.5",
     "emoji-mart": "^5.6.0",
     "emoji-picker-react": "^4.9.3",
+    "firebase": "^10.12.2",
     "googleapis": "^134.0.0",
     "i": "^0.3.7",
     "jspdf": "^2.5.1",
@@ -39,6 +41,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
+    "react-facebook": "^9.0.12",
     "react-flow-renderer": "^10.3.17",
     "react-funnel-pipeline": "^0.2.0",
     "react-google-charts": "^4.0.1",

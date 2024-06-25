@@ -1431,9 +1431,9 @@ font-size: 14px;
 line-height: 22px;
 font-weight: 400;
 color: #9095A1FF;
-margin-left: 14rem;
+
 position: relative;
-top: 9rem;
+top: 16rem;
 }
 .visitLinkedin{
   width: 203px;
@@ -1444,7 +1444,7 @@ top: 9rem;
   color: #6D31EDFF;
   position: relative;
   top: -101px;
-  left: 170px;
+  left: 90px;
 }
 .photo{
   position: relative;

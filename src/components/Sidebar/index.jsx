@@ -219,7 +219,7 @@ export const Sidebar = () => {
             {socialDropdownOpen && (
               <ul className="dropdown_list">
                 <li className="sidebar_item">
-                  <NavLink className="sidebar_link" to={formatLink("/instagrampost")}>
+                  <NavLink className="sidebar_link" to={formatLink("/instagramauth")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <InstagramIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Instagram</p>

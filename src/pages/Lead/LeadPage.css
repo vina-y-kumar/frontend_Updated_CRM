@@ -36,7 +36,8 @@
 
 }
 .btn-container {
-  display: flex; /* Use flexbox */
+  display: flex;
+  margin-left: 71%;
   gap: 20px; /* Add space between buttons */
 }
 
@@ -120,10 +121,8 @@
   align-items: center;
   justify-content: center;
   padding: 7px 11px 9px 12px;
-  margin-left: 900px;
+  margin-left: 6px;
   margin-top: -35px;
-
-
 }
 .convert-lead-container {
   padding: 20px;

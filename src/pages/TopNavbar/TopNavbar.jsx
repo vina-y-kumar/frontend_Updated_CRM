@@ -5,13 +5,14 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-
+import SearchIcon from '@mui/icons-material/Search'; 
 import Chatbot from "../Chatbot/chatbot"; 
 
 
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import zIndex from "@mui/material/styles/zIndex.js";
 
 
 const getTenantIdFromUrl = () => {
@@ -113,6 +114,12 @@ const TopNavbar = ({ openMeetingForm, openCallForm }) => {
     openCallForm(callFormData); // Assuming this function is passed from parent component
     setShowCallForm(false); // Close the modal after form submission
   };
+  const handleSearchChange=()=>{
+    return("dkfvmkfmv")
+  }
+  const handleSearchClick=()=>{
+    return("goto search")
+  }
   useEffect(() => {
     fetchProfileImageUrl();
     fetchNotificationCount();
@@ -123,11 +130,18 @@ const TopNavbar = ({ openMeetingForm, openCallForm }) => {
     openCallForm: PropTypes.func.isRequired,
   };
 
-  return (
+  return (  
     <div className='topNavbar-head'>
-
+      <div className="topNavbar1">   <input
+      type="text"
+      className="search-bar"
+      placeholder="Search..."
+      onChange={handleSearchChange}
+    />
+     <SearchIcon className="search-icon" style={{marginLeft:"-200px",marginBottom:'-4px',cursor: 'pointer',zIndex:'10000',backgroundColor:'', height:'30px',width:'30px'}} onclick={handleSearchClick}/>
+    </div>
       <div className="callround" onClick={handleDirectCallClick}>
-        <CallRoundedIcon style={{ width: '24px', height: '24px' }} className='topNavbar1' />
+        <CallRoundedIcon style={{ width: '24px', height: '24px' }} className='topNavbar2' />
       </div>
       <div className="insertcommon">
         <Link to={`/${tenantId}/chatbot`}>

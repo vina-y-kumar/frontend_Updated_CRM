@@ -44,7 +44,7 @@ padding-top: 20px;
 }
 .account_forms2{
   width: 1096px;
-  height: 150rem;
+ height: fit-content;
   position: relative;
   margin-top: 10px;
   margin-left: 25px;

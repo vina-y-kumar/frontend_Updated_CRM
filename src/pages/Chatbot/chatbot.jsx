@@ -11,6 +11,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import uploadToBlob from "../../azureUpload.jsx";
 import Picker from 'emoji-picker-react';
+import {getdata} from './chatfirebase';
+import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore';
+
+
+
 
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
@@ -28,9 +33,12 @@ const Chatbot = () => {
   const [messageTemplates, setMessageTemplates] = useState({});
   const [messages, setMessages] = useState({});
   const [showSmileys, setShowSmileys] = useState(false);
+  const [firebaseContacts, setFirebaseContacts] = useState([]);
   const [profileImage, setProfileImage] = useState(null); 
+  const [searchQuery, setSearchQuery] = useState('');
   const [file, setFile] = useState(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [conversation, setConversation] = useState(['']);
 
  
 
@@ -48,6 +56,28 @@ const Chatbot = () => {
       console.error("Error fetching contacts data:", error);
     }
   };
+  const fetchFirebaseContacts = async () => {
+    try {
+      const dataMap = new Map();
+      await getdata(dataMap);
+      // Convert Map to array of objects for easier manipulation
+      const extractedContacts = Array.from(dataMap).map(([id, [user_replies, bot_replies, name, phoneNumber]]) => ({
+        id,
+        user_replies,
+        bot_replies,
+        name,
+        phoneNumber
+      }));
+      setFirebaseContacts(extractedContacts); 
+      console.log(firebaseContacts);
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFirebaseContacts();
+  }, []);
 
   useEffect(() => {
     fetchContacts();
@@ -156,8 +186,27 @@ const Chatbot = () => {
       console.log('No file selected');
     }
   };
+  const fetchConversation = async (contactId) => {
+    try {
+      const contact = contacts.find(contact => contact.id === contactId) || firebaseContacts.find(contact => contact.id === contactId);
+      if (contact) {
+        const newConversation = [];
+        for (let i = 0; i < contact.user_replies.length; i++) {
+          if (contact.user_replies[i] !== '.') {
+            newConversation.push({ text: contact.user_replies[i], sender: 'user' });
+          }
+          if (contact.bot_replies[i] !== '.') {
+            newConversation.push({ text: contact.bot_replies[i], sender: 'bot' });
+          }
+        }
+        setConversation(newConversation);
+      }
+    } catch (error) {
+      console.error('Error fetching conversation:', error);
+    }
+  };
 
-  useEffect(() => {
+ /* useEffect(() => {
     const fetchUploadedFiles = async (contactId) => {
       try {
         const response = await axiosInstance.get(`/documents/?entity_type=10&entity_id=${contactId}`);
@@ -169,27 +218,48 @@ const Chatbot = () => {
       }
     };
     fetchUploadedFiles();
-  }, );
-  const handleSend = () => {
-    if (!messageTemplates[selectedContact.id] || !selectedContact) {
+  }, );*/
+  const handleSend = async () => {
+    if (!selectedContact || !messageTemplates[selectedContact.id]) {
       console.error('Message template or contact not selected');
       return;
     }
   
-    const newMessage = { sender: 'user', content: messageTemplates[selectedContact.id] };
-    setMessages(prevMessages => ({
-      ...prevMessages,
-      [selectedContact.id]: [...(prevMessages[selectedContact.id] || []), newMessage]
-    }));
+    const newMessage = { content: messageTemplates[selectedContact.id] };
   
-    // Clear the message template after sending
-    setMessageTemplates(prevTemplates => ({
-      ...prevTemplates,
-      [selectedContact.id]: ''  // Clear the message template for the selected contact
-    }));
+    try {
+      const payload = {
+        phoneNumber: selectedContact.id,
+        message: newMessage.content,
+      };
   
-    console.log('Sending message to', selectedContact.first_name, ':', messageTemplates[selectedContact.id]);
+      const response = await axiosInstance.post(
+        'https://whatsappbotserver.azurewebsites.net/send-message',
+        payload,  // Let Axios handle the JSON conversion
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            token: localStorage.getItem('token'),
+          },
+        }
+      );
+  
+      // Update local state with the new message
+      setMessages(prevMessages => ({
+        ...prevMessages,
+        [selectedContact.id]: [...(prevMessages[selectedContact.id] || []), newMessage]
+      }));
+  
+      
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
+  
+
+  
+  
+  
   
 
   const handleMailClick = () => {
@@ -207,13 +277,20 @@ const Chatbot = () => {
     // Add functionality for search click here
   };
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.first_name.toLowerCase().includes(searchText.toLowerCase()) ||
-    contact.last_name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredContacts = [
+    ...contacts,
+    ...firebaseContacts
+  ].filter(contact => {
+    const firstName = contact.first_name?.toLowerCase() || '';
+    const lastName = contact.last_name?.toLowerCase() || '';
+   const firebaseName= contact.name?.toLowerCase() || '';
+    const search = searchText.toLowerCase();
+    return firstName.includes(search) || lastName.includes(search);
+  });
+
 
   const handleContactSelection = async (contact) => {
-    setSelectedContact(contact);
+    setSelectedContact(contact, firebaseContacts);
     if (contact && contact.id) {
       await fetchProfileImage(contact.id);
       if (!messages[contact.id]) {
@@ -225,6 +302,7 @@ const Chatbot = () => {
     } else {
       console.error('Invalid contact:', contact);
     }
+    fetchConversation(contact.id);
   };
 
   const handleToggleSmileys = () => {
@@ -238,8 +316,52 @@ const Chatbot = () => {
       [selectedContact?.id]: newMessageTemplate
     }));
   };
-  
-  
+
+  const handleSendFlowData = async () => {
+    const flowData = {
+      "nodes": [
+        { "id": 0, "type": "button", "body": "Hi user, Welcome to our hospital. How can we help you today?" },
+        { "id": 1, "type": "button_element", "body": "Book an appointment" },
+        { "id": 2, "type": "button_element", "body": "Know Clinic Address" },
+        { "id": 3, "type": "button_element", "body": "Learn about us" },
+        { "id": 4, "type": "Input", "body": "Please share your appointment date." },
+        { "id": 5, "type": "string", "body": "Our Clinic address is" },
+        { "id": 6, "type": "string", "body": "about us" },
+        { "id": 7, "type": "Input", "body": "What time?" },
+        { "id": 8, "type": "Input", "body": "Name of the patient?" },
+        { "id": 9, "type": "button", "body": "Great! choose doctor" },
+        { "id": 10, "type": "button_element", "body": "Dr. Ira" },
+        { "id": 11, "type": "button_element", "body": "Dr. John" },
+        { "id": 12, "type": "string", "body": "Congrats, appointment booked." },
+        { "id": 13, "type": "button", "body": "Do you want to book an appointment?" },
+        { "id": 14, "type": "button_element", "body": "Yes" },
+        { "id": 15, "type": "button_element", "body": "No" },
+        { "id": 16, "type": "button_element", "body": "Talk to AI" },
+        { "id": 17, "type": "AI", "body": "Sure, directing you to AI section." },
+        { "id": 18, "type": "string", "body": "Thank you! Have a great day. Please visit again!" }
+      ],
+      "adjacencyList": [[1, 2, 3], [4], [5], [6], [7], [13], [13], [8], [9], [10, 11], [12], [12], [], [14, 15, 16], [4], [18], [17], [], []]
+    };
+
+    try {
+      // Send flow data to backend
+      await axiosInstance.post('https://whatsappbotserver.azurewebsites.net/flowdata', flowData, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      });
+
+      console.log('Flow data sent successfully');
+    } catch (error) {
+      console.error('Error sending flow data:', error);
+    }
+  };
+
+    const handleRedirect = () => {
+      window.location.href = 'https://www.facebook.com/v18.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https%3A%2F%2Fcrm.nuren.ai%2Fll%2Fchatbot&response_type=code&config_id=1573657073196264&state=pass-through%20value';
+    };
+
+
 
   return (
     <div className="chatbot-container">
@@ -255,6 +377,7 @@ const Chatbot = () => {
           />
           <SearchIcon className="search-icon" style={{ width: '20px', height: '24px' }} />
         </div>
+        <div className="scrollable-contacts">
         <h1 className='chatbot-msg'>All messages</h1>
         {filteredContacts.map(contact => (
           <div
@@ -263,9 +386,10 @@ const Chatbot = () => {
             onClick={() => handleContactSelection(contact)}
             style={{ cursor: 'pointer', padding: '5px' }}
           > 
-            {contact.first_name} {contact.last_name}
+            {contact.first_name} {contact.last_name} {contact.name}
           </div>
         ))}
+      </div>
       </div>
       <div className="chatbot-messages-container1">
         {selectedContact && (
@@ -280,7 +404,7 @@ const Chatbot = () => {
               )}
               </div>
               <div>
-                {selectedContact.first_name} {selectedContact.last_name}
+                {selectedContact.first_name} {selectedContact.last_name}{selectedContact.name}
                 </div>
               </div>
               <div className="chat-header-right">
@@ -295,11 +419,15 @@ const Chatbot = () => {
           </div>
         )}
         <div className="messages">
-          {messages[selectedContact?.id]?.map((message, index) => (
-            <div key={index} className={`message ${message.sender}`}>
-              {message.content}
+        {selectedContact && (
+          <div className="conversation-text">
+            {conversation.map((message, index) => (
+              <div key={index} className={`message ${message.sender === 'user' ? 'user-message' : 'bot-message'}`}>
+                {message.text !== '.' && message.text}
+              </div>
+            ))}
             </div>
-          ))}
+          )}
         </div>
         <div className="chat-input-container">
           <div className="emoji-toggle-container">
@@ -342,7 +470,9 @@ const Chatbot = () => {
         </div>
       </div>
       <div className="chatbot-contact-section">
+      <button className="chatbot-signupbutton" onClick={handleRedirect}>Sign Up</button>
         <h1 className='chatbot-details'>Contact Details</h1>
+        <button className='sendflowdata' onClick={handleSendFlowData}>Send Flow Data</button>
         {selectedContact && (
           <div className="chatbot-contact-details">
             <div className="profile-info">
@@ -352,11 +482,11 @@ const Chatbot = () => {
                 <span className="account-circle">Profile Image</span>
               )}
               <div>
-                <h2>{selectedContact.first_name} {selectedContact.last_name}</h2>
+                <h2>{selectedContact.first_name} {selectedContact.last_name} {selectedContact.name}</h2>
                 
               </div>
                 <div className="chatbot-contacts-details">
-                <p className='chatbot-phone'> <CallRoundedIcon className="header-icon" style={{ width: '20px', height: '20px' }} />{selectedContact.phone}</p>
+                <p className='chatbot-phone'> <CallRoundedIcon className="header-icon" style={{ width: '20px', height: '20px' }} />{selectedContact.phone}{selectedContact.id}</p>
                 <p className='chatbot-mail'><MailIcon className="header-icon" style={{ width: '20px', height: '20px' }} />{selectedContact.email}</p>
                 </div>
             </div>

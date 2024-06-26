@@ -220,7 +220,7 @@ const Campaignform = () => {
 
         </div>
 
-  <div>
+  <div className='campaign-box'>
   <div className="form-group col-md-6 ">
           <label htmlFor="text" className='campaign_name'>Campaign Name :</label>
           <input

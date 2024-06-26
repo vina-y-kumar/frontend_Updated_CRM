@@ -12,6 +12,7 @@ import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 
 import { useAuth } from "../../authContext";
+import { Call } from "@mui/icons-material";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -21,7 +22,10 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
-export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }) => {
+
+
+
+export const CallPage = () => {
 
   const tenantId=getTenantIdFromUrl();
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,6 +33,9 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
   const [viewMode, setViewMode] = useState("table");
   const [meet, setMeet] = useState([]);
   const {userId}=useAuth();
+  const [reminders, setReminders] = useState([]);
+  const [reminderMessage, setReminderMessage] = useState("");
+  const { authenticated,userRole } = useAuth();
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
   
@@ -42,8 +49,72 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
     to_time: "",
     related_to: "",
     createdBy: "",
+    
   });
+  const [callData, setCallData] = useState({
+    subject:"",
+    event_date_time:"",
+    time_trigger:"",
+    createdBy:"",
+    tenant: tenantId,
+    
+  })
 
+  
+
+  const handleScheduleMeeting = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post(
+        "/reminders/",
+        callData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      
+    
+     
+  const timeTrigger = new Date(callData.time_trigger).getTime();
+  
+     
+      const now = new Date().getTime();
+  
+      
+      const timeDifference = timeTrigger - now;
+    if (timeDifference > 0) {
+        setTimeout(() => {
+          const reminderMessage = `Reminder: Scheduled call '${callData.subject}' starting soon!`;
+          setReminderMessage(reminderMessage);
+  
+          const reminder = {
+            id: response.data.id,
+            message: reminderMessage,
+          };
+          setReminders([...reminders, reminder]);
+        }, timeDifference);
+      }
+    } 
+    catch (error) {
+      console.error("Error scheduling meeting:", error);
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      reminders.forEach((reminder) => {
+        if (reminder.triggerTime <= now) {
+          console.log("Reminder:", reminder.message);
+          dismissReminder(reminder.id);
+        }
+      });
+    }, 60000); 
+    return () => clearInterval(interval);
+  }, [reminders]);
+console.log(authenticated)
 
  
   const handleViewModeChange = (mode) => {
@@ -145,6 +216,10 @@ useEffect(() => {
     }
   };
 }, []);
+
+
+
+
 
 const handleCreateMeeting = async (e) => {
   e.preventDefault();
@@ -389,9 +464,9 @@ const handleCreateMeeting = async (e) => {
                 name="subject"
                 id="subject"
                 className="form-input_subjectcall"
-                value={scheduleData.subject}
+                value={callData.subject}
                 onChange={(e) =>
-                  setScheduleData({ ...scheduleData, subject : e.target.value })
+                  setCallData({ ...callData, subject : e.target.value })
                 }
                 required
               />
@@ -403,11 +478,12 @@ const handleCreateMeeting = async (e) => {
                 name="eventDateTime"
                 id="eventDateTime"
                 className="form-input_dateTime"
-                 value={scheduleData.event_date_time}
-                 onChange={(e) => setScheduleData({ ...scheduleData, event_date_time: e.target.value })}
+                 value={callData.event_date_time}
+                 onChange={(e) => setCallData({ ...callData, event_date_time: e.target.value })}
                  required
                 
               />
+            
                           
                           <label className="form-timeTrigeer" htmlFor="timeTrigger">Time Trigger:</label>
               <input
@@ -415,8 +491,8 @@ const handleCreateMeeting = async (e) => {
                 name="timeTrigger"
                 id="timeTrigger"
                 className="form-input_timetrigger"
-                value={scheduleData.time_trigger}
-                onChange={(e) => setScheduleData({ ...scheduleData, time_trigger: e.target.value })}
+                value={callData.time_trigger}
+                onChange={(e) => setCallData({ ...callData, time_trigger: e.target.value })}
                 required
               />
                        <label className="form-CreatedBy" htmlFor="createdBy">Created By : </label>
@@ -425,12 +501,13 @@ const handleCreateMeeting = async (e) => {
                 name="createdBy"
                 id="createdBy"
                 className="form-input_createdBy"
-                value={scheduleData.createdBy}
-                onChange={(e) => setScheduleData({ ...scheduleData, createdBy: e.target.value })}
+                value={callData.createdBy}
+                onChange={(e) => setCallData({ ...callData, createdBy: e.target.value })}
                 required
               />
-              
                 
+               
+             
               
             </fieldset>
             <div className="form-button-container_call">

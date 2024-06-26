@@ -176,6 +176,7 @@ function Form2() {
         ...contactData,
         createdBy: userId, // Pass userId as createdBy
         tenant: tenantId,
+
       };
       const response = await axiosInstance.post('/contacts/',dataToSend);
       const contactId = response.data.id;
@@ -187,6 +188,9 @@ function Form2() {
         notes: `Contact created with id : ${contactId} created by user : ${userId}`,
         interaction_datetime: new Date().toISOString(),
       };
+
+      setShowSuccessPopup(true);
+      setSuccessMessage(true);
 
       try {
           await axiosInstance.post('/interaction/', interactionData);

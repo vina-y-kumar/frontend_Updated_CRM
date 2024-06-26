@@ -4,12 +4,28 @@
   background: #FFFFFF;
   border-radius: 0px;
   box-shadow: 0px 0px 1px #ddd, 0px 0px 2px #ccc;
-  margin-left: 0rem;
+  margin-left: -20rem;
   margin-top: 5rem;
   display: flex;
   flex-direction: row;
+
 }
 
+.search-icon {
+  position: absolute;
+  right: 5px; /* Position the icon inside the input field */
+  
+  width: 20px; /* Adjust as needed */
+  height:30px;/* Adjust as needed */
+  fill: #323743FF; /* Adjust as needed */
+}
+.search-bar{
+  margin-left: -700px;
+  margin-top: 10px;
+  width:500px;
+  height:30px;
+  border-radius: 5px;
+}
 .topNavbar1 {
   margin-left: 125rem;
   margin-top: 20px;

@@ -213,7 +213,7 @@ export const Register = () => {
         </form>
       </div>
     </div>
- 
+    
     <Spline scene="https://prod.spline.design/TwrvDXJ1l0mso3eA/scene.splinecode" className="spline_scene" />
   </div>
 

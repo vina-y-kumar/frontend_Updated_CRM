@@ -185,37 +185,47 @@ const WhatsappFlow = () => {
   [reactFlowInstance]
 );
 
-  const sendDataToBackend = () => {
-    // Transform nodes to the required format
-    const formattedNodes = nodes.map((node) => ({
-      id: parseInt(node.id), // Convert id to integer
-      type: node.type,
-      body: node.data.label,
-    }));
-  
-    // Transform edges to the adjacency list format
-    const adjacencyList = edges.reduce((adjList, edge) => {
-      const { source, target } = edge;
-      if (!adjList[source]) {
-        adjList[parseInt(source)] = [];
-      }
-      adjList[parseInt(source)].push(parseInt(target));
-      return adjList;
-    }, {});
-    const adjacencyListAsList = Object.values(adjacencyList).map(targets => [...targets]);
-  
-    // Log adjacency list and nodes
-    console.log('Formatted Nodes:', JSON.stringify(formattedNodes));
-    console.log('Adjacency List:', JSON.stringify(adjacencyListAsList ));
-    const headers = {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*', // Allow requests from any origin
-    };
-    // Send data to the backend endpoint
-    axios.post('https://69af-14-142-75-54.ngrok-free.app/flowdata', {
-      nodes: formattedNodes,
-      adjacencyList: adjacencyList,
-    } ,{ headers })
+const sendDataToBackend = () => {
+  // Provided data
+  const data = {
+    nodes: [
+      { id: 0, type: "button", body: "Hi user, Welcome to our hospital. How can we help you today?" },
+      { id: 1, type: "button_element", body: "Book an appointment" },
+      { id: 2, type: "button_element", body: "Know Clinic Address" },
+      { id: 3, type: "button_element", body: "Learn about us" },
+      { id: 4, type: "Input", body: "Please share your appointment date." },
+      { id: 5, type: "string", body: "Our Clinic address is" },
+      { id: 6, type: "string", body: "about us" },
+      { id: 7, type: "Input", body: "What time?" },
+      { id: 8, type: "Input", body: "Name of the patient?" },
+      { id: 9, type: "button", body: "Great! choose doctor" },
+      { id: 10, type: "button_element", body: "Dr. Ira" },
+      { id: 11, type: "button_element", body: "Dr. John" },
+      { id: 12, type: "string", body: "Congrats, appointment booked." },
+      { id: 13, type: "button", body: "Do you want to book an appointment?" },
+      { id: 14, type: "button_element", body: "Yes" },
+      { id: 15, type: "button_element", body: "No" },
+      { id: 16, type: "button_element", body: "Talk to AI" },
+      { id: 17, type: "AI", body: "Sure, directing you to AI section." },
+      { id: 18, type: "string", body: "Thank you! Have a great day. Please visit again!" }
+    ],
+    adjacencyList: [
+      [1, 2, 3], [4], [5], [6], [7], [13], [13], [8], [9], [10, 11], [12], [12], [], [14, 15, 16], [4], [18], [17], [], []
+    ]
+  };
+
+  // Log formatted data
+  console.log('Formatted Nodes:', JSON.stringify(data.nodes));
+  console.log('Adjacency List:', JSON.stringify(data.adjacencyList));
+
+  // Headers for the POST request
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+  };
+
+  // Send data to the backend endpoint
+  axios.post('https://whatsappbotserver.azurewebsites.net/flowdata', data, { headers })
     .then((response) => {
       console.log(response.data);
       // Handle response if needed
@@ -223,7 +233,9 @@ const WhatsappFlow = () => {
     .catch((error) => {
       console.error('Error sending data to backend:', error);
     });
-  };
+};
+
+
   
   console.log('Nodes:', nodes); // Log nodes
   console.log('Edges:', edges);

@@ -14,7 +14,7 @@ import { useAuth } from "../../authContext";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
 
-const ReminderPopup = ({ subject }) => {
+export const ReminderPopup = ({ subject }) => {
   return (
       <div className="reminder-popup">
           <p>{subject}</p>

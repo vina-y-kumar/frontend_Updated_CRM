@@ -159,7 +159,7 @@ const getColor = (index) => {
       <div className="content">
       {!showTimeline && (
  <div>
-   <div className="info-box">
+   <div className="oppo-info-box">
     <div className="info-row">
       <div className="info-pair">
         <label htmlFor="name">Name:</label>
@@ -249,7 +249,7 @@ const getColor = (index) => {
     {/* Add more info-row elements with info-pair for additional fields as needed */}
   </div>
 
-  <div className="info-box-custom">
+  <div className="oppo-info-box-custom">
   <div className="info-row">
             <div className="info-pair">
               <label htmlFor="contacts">Contacts:</label>

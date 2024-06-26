@@ -418,7 +418,6 @@ color: #171A1FFF;
   text-align: left;
   font-size: 20px;
   padding: 4rem;
-  /* border: 1px solid #ccc; */
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
  
@@ -2563,7 +2562,7 @@ top: -60px;
     position: relative;
 
     width: 1096px;
-    height: 700px;
+    height:fit-content;
     background: #F8F9FAFF;
     border-radius: 8px;
     border-width: 1px;
@@ -2826,13 +2825,13 @@ left: 60px;
       position: relative;
       margin-top: 10px;
       margin-left: 25px;
-height: 285px;
-background: #F8F9FAFF;
-border-radius: 8px;
-border-width: 1px;
-border-color: #F3F4F6FF;
-border-style: solid;
-box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
+      height:fit-content;
+      background: #F8F9FAFF;
+      border-radius: 8px;
+      border-width: 1px;
+      border-color: #F3F4F6FF;
+      border-style: solid;
+      box-shadow: 0px 2px 5px #171a1f, 0px 0px 2px #171a1f;
     }
     .mailing_cont_street{
       font-family: 'Manrope';

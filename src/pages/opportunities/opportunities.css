@@ -331,7 +331,7 @@ top: 100px;
       margin-top: 90px;
       margin-left: 70px;
       width: 1096px;
-height: 1000px;
+height: fit-content;
 background: #F8F9FAFF;
 border-radius: 8px;
 border-width: 1px;

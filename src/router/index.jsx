@@ -20,6 +20,7 @@ import AccountsPage from "../pages/AccountsInfoPage/AccountInfoPage";
 import ShowLead from "../pages/Lead/ShowLead";
 import AccountForm from "../pages/AccountsSection/AccountForm";
 import TaskTable from "../pages/TasksSection/TaskTable";
+import axiosInstance from "../../src/api.jsx";
 import ConvertLead from "../pages/Lead/ConvertLead";
 import BulkImport from "../pages/BulkImport/BulkImport";
 import axios from "axios";
@@ -45,7 +46,7 @@ import CampaignInfo from "../pages/Campaign/campaigninfo";
 //import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 import Userprofile from "../pages/Userpage/Userprofile";
-
+import Reminder from "../pages/Reminders/Reminder";
 
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
@@ -89,6 +90,14 @@ import { Explore } from "@mui/icons-material";
 import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
 
+const getTenantIdFromUrl = () => {
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; 
+};
+
 
 // import CustomModelForm from "../pages/CustomModel/customform";
 
@@ -98,6 +107,7 @@ export const RouteWrapper = () => {
   const [reminders, setReminders] = useState([]);
   const [reminderMessage, setReminderMessage] = useState("");
   const { authenticated,userRole } = useAuth();
+  const tenantId = getTenantIdFromUrl();
   
   
   const showReminder = (message) => {
@@ -110,6 +120,7 @@ export const RouteWrapper = () => {
     time_trigger: "",
     is_triggered: false,
     createdBy:"",
+    tenant:tenantId
   });
   const Reminder = ({ message, onClose }) => {
     return (
@@ -134,8 +145,8 @@ export const RouteWrapper = () => {
     const handleScheduleMeeting = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post(
-          "https://backendcrmnurenai.azurewebsites.net/reminders/",
+        const response = await axiosInstance.post(
+          "/reminders/",
           scheduleData,
           {
             headers: {

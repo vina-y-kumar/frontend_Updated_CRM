@@ -62,6 +62,7 @@ top: 90px;
  
   margin: 0 auto;
   padding: 20px;
+  margin-bottom: 2rem;
   /* border: 1px solid #ccc; */
   border-radius: 5px;
   margin-top: 641px
@@ -70,7 +71,7 @@ top: 90px;
 
   width: 600px;
   margin: 0 auto;
-height: 741px;
+height: fit-content;
 padding: 20px;
 background: #FAFAFBFF;
 border-radius: 8px;
@@ -372,6 +373,36 @@ top: 40px;
   top: 280px;
   left: -90px;
 }
+.form-label-subject{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 400px;
+  left: -90px;
+}
+.form-label-createdBy{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 450px;
+  left: -90px;
+}
+.form-label-event_date_time{
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #171A1FFF;
+  position: relative;
+  top: 500px;
+  left: -90px;
+}
 
 .meetings-tiles-container {
   display: flex; /* Change from grid to flex */
@@ -427,6 +458,61 @@ top: 40px;
   position: relative;
   left: 20px;
   top: 420px;
+}
+.form-input-subject{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+ left: 10rem;
+  top: 380px;
+}
+.form-input-createdBy{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+ left: 10rem;
+  top: 420px;
+}
+.form-input-event_date_time{
+  width: 260px;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  background: #F3F4F6FF;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #DEE1E645;
+  outline: none;
+  position: relative;
+  left:-180px;
+  top: 480px;
+
 }
 /* Media queries for responsiveness */
 

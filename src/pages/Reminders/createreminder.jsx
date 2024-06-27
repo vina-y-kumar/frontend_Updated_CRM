@@ -46,12 +46,14 @@ const Reminderform = () => {
     const [reminderOptions, setReminderOptions] = useState([]);
 
     const [remindData, setRemindData] = useState({
-      subject: "",
-      trigger_type: "",
-      event_date_time: "",
-      created_at: "",
-      time_trigger: "",     
-      createdBy: "",
+      subject:"",
+      event_date_time:"",
+      time_trigger:"",
+      createdBy:"",
+      trigger_type: "time",
+      tenant: tenantId,
+      is_triggered: false,
+      created_at: "2024-06-25T08:21:33.075616Z",
     });
 
     const handleSubmit = async (e) => {
@@ -160,7 +162,7 @@ const Reminderform = () => {
             />
             <label className='remind_sub' htmlFor="time_trigger">Time Trigger:</label>
             <input 
-              type="text" 
+              type="datetime-local" 
               id="time_trigger"
               className="form-control-remind"
    

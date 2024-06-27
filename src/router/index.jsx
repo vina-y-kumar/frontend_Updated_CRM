@@ -108,34 +108,38 @@ export const RouteWrapper = () => {
   const [reminderMessage, setReminderMessage] = useState("");
   const { authenticated,userRole } = useAuth();
   const tenantId = getTenantIdFromUrl();
-  
-  
-  const showReminder = (message) => {
-    setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
-  };
+  console.log("Tenant ID:", tenantId);
+  const [reminder, setReminder] = useState([]);  
+
   const [scheduleData, setScheduleData] = useState({
-    subject: "",
-    trigger_type: "time",
-    event_date_time: "",
-    time_trigger: "",
-    is_triggered: false,
+    subject:"",
+    event_date_time:"",
+    time_trigger:"",
     createdBy:"",
-    tenant:tenantId
+    trigger_type: "time",
+    tenant: tenantId,
+    is_triggered: false,
+    created_at: "2024-06-25T08:21:33.075616Z",
   });
   const Reminder = ({ message, onClose }) => {
     return (
       <div className="reminder-modal">
         <div className="reminder">
           <p>{message}</p>
-          <button onClick={onClose}>Dismiss</button>
+          <button onClick={handleClose}>Dismiss</button>
         </div>
       </div>
     );
   };
   const scheduleReminder = (reminder) => {
-    const now = new Date().getTime(); 
-    if (reminder.triggerTime > now) {
-      setReminders([...reminders, reminder]);
+    const now = new Date().getTime();
+    const timeDifference = new Date(reminder.time_trigger).getTime() - now;
+
+    if (timeDifference > 0) {
+      setTimeout(() => {
+        setReminderMessage(reminder.message);
+        setReminders((prevReminders) => [...prevReminders, reminder]);
+      }, timeDifference);
     }
   };
   
@@ -145,9 +149,13 @@ export const RouteWrapper = () => {
     const handleScheduleMeeting = async (e) => {
       e.preventDefault();
       try {
+        const updatedScheduleData = {
+          ...scheduleData,
+          tenant: tenantId, // Ensure tenantId is included
+        };
         const response = await axiosInstance.post(
           "/reminders/",
-          scheduleData,
+          updatedScheduleData,
           {
             headers: {
               "Content-Type": "application/json",
@@ -156,16 +164,12 @@ export const RouteWrapper = () => {
           }
         );
         console.log("Meeting scheduled successfully:", response.data);
-      
-       
-    const timeTrigger = new Date(scheduleData.time_trigger).getTime();
     
-       
+        const timeTrigger = new Date(scheduleData.time_trigger).getTime();
         const now = new Date().getTime();
-    
-        
         const timeDifference = timeTrigger - now;
-      if (timeDifference > 0) {
+    
+        if (timeDifference > 0) {
           setTimeout(() => {
             const reminderMessage = `Reminder: Scheduled call '${scheduleData.subject}' starting soon!`;
             setReminderMessage(reminderMessage);
@@ -177,31 +181,84 @@ export const RouteWrapper = () => {
             setReminders([...reminders, reminder]);
           }, timeDifference);
         }
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error scheduling meeting:", error);
       }
     };
+    
+   useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      reminders.forEach((reminder) => {
+        if (new Date(reminder.time_trigger) <= now) {
+          console.log("Reminder:", reminder.message);
+          dismissReminder(reminder.id);
+        }
+      });
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [reminders]);
+  console.log(authenticated)
+
+  useEffect(() => {
+    const fetchReminders = async () => {
+      try {
+        const response = await axiosInstance.get('/reminders/');
+        setReminder(response.data);
+        console.log(reminder)
+      } catch (error) {
+        console.error("Error fetching reminders:", error);
+      }
+    };
+    fetchReminders();
+  }, []);
+
+  useEffect(() => {
+      const storedReminders = JSON.parse(localStorage.getItem('reminders')) || [];
+      setReminders(storedReminders);
+    }, []);
     useEffect(() => {
+
       const interval = setInterval(() => {
-        const now = new Date();
+        const now = new Date().getTime();
         reminders.forEach((reminder) => {
-          if (reminder.triggerTime <= now) {
-            console.log("Reminder:", reminder.message);
-            dismissReminder(reminder.id);
+          if (reminder.time_trigger <= now) {
+            showReminder(true);
+            removeReminder(reminder.id);
           }
         });
-      }, 60000); 
+      }, 60000); // Check every minute
       return () => clearInterval(interval);
     }, [reminders]);
-  console.log(authenticated)
+    const showReminder = (message) => {
+      console.log("Show reminder called with message:", message);
+      setReminderMessage(`Reminder: Scheduled call '${reminder.subject}' starting soon!`);
+      console.log("Reminder Popup: ", message);
+    };
+    const addReminder = (message, triggerTime) => {
+      const newReminder = { id: Date.now(), message, triggerTime };
+      setReminders([...reminders, newReminder]);
+      localStorage.setItem('reminders', JSON.stringify([...reminders, newReminder]));
+    };
+  
+    const removeReminder = (id) => {
+      const updatedReminders = reminders.filter((reminder) => reminder.id !== id);
+      setReminders(updatedReminders);
+      localStorage.setItem('reminders', JSON.stringify(updatedReminders));
+    };
+    const handleClose = () => {
+      setReminderMessage(""); // Clear the reminder message
+    };
+   
+    console.log('*********',reminderMessage)
   return (
     <>
     {reminders.map((reminder) => (
       <Reminder
         key={reminder.id}
-        message={reminder.message}
-        onClose={() => dismissReminder(reminder.id)}
+        message={reminderMessage}
+        
       />
     ))}
     <Routes>
@@ -240,7 +297,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/convert/:id" element={<ConvertLead/>}/>
           <Route path=":tenant_id/addaccount" element={<AccountForm/>} />
           <Route path=":tenant_id/addcontact" element={<Form2/>}/>
-          <Route path=":tenant_id/meetings" element={<Met/>}  />
+          <Route path=":tenant_id/meetings" element={<Met handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
          <Route path="/:tenantId/report" element={<Report />} />
           <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  

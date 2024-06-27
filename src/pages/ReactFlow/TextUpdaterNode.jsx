@@ -187,7 +187,7 @@ export const SendMessage = ({ isConnectable }) => {
         </button>
       </div>
       {contentHistory.map((content) => renderContent(content))}
-      <Handle type="source" position={Position.Right} id="a" style={{}} isConnectable={isConnectable} />
+     
     </div>
   );
 };
@@ -308,7 +308,7 @@ export const AskQuestion = ({ data, isConnectable }) => {
 
   
 
-  return (<div>
+  return (<div className="askQuestion-node">
      <div className="dropdown" style={{ display: 'flex', alignItems:'center'}}>
     <h1 style={{backgroundColor:'orange',height:'30px',fontSize:'18px',textAlign:'center',borderRadius:'5px'}}>Ask Question</h1>
     <p>{data.p}</p>

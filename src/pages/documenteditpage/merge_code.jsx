@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { DndContext, useDraggable, useSensor, useSensors, MouseSensor } from '@dnd-kit/core';
+/*import { DndContext, useDraggable, useSensor, useSensors, MouseSensor } from '@dnd-kit/core';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { restrictToParentElement } from '@dnd-kit/modifiers';
+import { restrictToParentElement } from '@dnd-kit/modifiers';*/
 
 function DraggableComponent({ children, id, initialPosition }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({

@@ -27,10 +27,7 @@
     "cors": "^2.8.5",
     "emoji-mart": "^5.6.0",
     "emoji-picker-react": "^4.9.3",
-<<<<<<< HEAD
-=======
     "file-saver": "^2.0.5",
->>>>>>> a1a4a6485d6a97b201fb1d9397ff7e668407d028
     "firebase": "^10.12.2",
     "googleapis": "^134.0.0",
     "i": "^0.3.7",

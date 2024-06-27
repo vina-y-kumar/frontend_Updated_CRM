@@ -1,512 +1,27 @@
-// import React, { useState } from 'react';
-// import styled from 'styled-components';
-
-// const UserProfileContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   gap: 20px;
-//   font-family: Arial, sans-serif;
-//   ${({ isCardClicked }) =>
-//     isCardClicked &&
-//     `
-//       grid-template-columns: repeat(6, 1fr);
-//       align-items: start;
-//     `}
-// `;
-
-// const UserCard = styled.div`
-//   background-color: ${(props) => props.bgColor};
-//   border-radius: 10px;
-//   padding: 30px 20px;
-//   text-align: center;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   min-height: 200px;
-//   cursor: pointer;
-//   ${({ isCardClicked }) =>
-//     isCardClicked
-//       ? `
-//         transform: scale(0.6);
-//         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-//       `
-//       : ''}
-// `;
-
-// const UserImage = styled.img`
-//   width: 80px;
-//   height: 80px;
-//   border-radius: 50%;
-//   object-fit: cover;
-//   margin-bottom: 10px;
-//   border: 2px solid white;
-// `;
-
-// const UserName = styled.div`
-//   font-size: 16px;
-//   font-weight: bold;
-//   color: #333;
-// `;
-
-// const AssignLeads = () => {
-//   const [isCardClicked, setIsCardClicked] = useState(false);
-//   const [clickedCardIndex, setClickedCardIndex] = useState(null);
-
-//   const userData = [
-//     { name: 'Mark Taylor', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#E6E6FA' },
-//     { name: 'Sarah Walker', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#D8F5D8' },
-//     { name: 'William Davis', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFE6E6' },
-//     { name: 'Matthew Brown', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFE6E6' },
-//     { name: 'Emily Taylor', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFF5E6' },
-//     { name: 'Jennifer Harris', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#E6F5FF' },
-//   ];
-
-//   const handleCardClick = (index) => {
-//     setIsCardClicked(true);
-//     setClickedCardIndex(index);
-//   };
-
-//   return (
-//     <UserProfileContainer isCardClicked={isCardClicked}>
-//       {userData.map((user, index) => (
-//         <UserCard
-//           key={index}
-//           bgColor={user.bgColor}
-//           isCardClicked={clickedCardIndex === index}
-//           onClick={() => handleCardClick(index)}
-//         >
-//           <UserImage src={user.imageUrl} alt={user.name} />
-//           <UserName>{user.name}</UserName>
-//         </UserCard>
-//       ))}
-//     </UserProfileContainer>
-//   );
-// };
-
-// export default AssignLeads;
-
-
-
-// import React, { useState } from 'react';
-// import styled from 'styled-components';
-// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
-// const UserProfileContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   gap: 20px;
-//   font-family: Arial, sans-serif;
-//   ${({ isCardClicked }) =>
-//     isCardClicked &&
-//     `
-//       grid-template-columns: repeat(6, 1fr);
-//       align-items: start;
-//       `}
-//       `;
-      
-//       const UserCard = styled.div`
-//       background-color: ${(props) => props.bgColor};
-//       border-radius: 10px;
-//       padding: 30px 20px;
-//       text-align: center;
-//       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//       display: flex;
-//       flex-direction: column;
-//       justify-content: center;
-//       align-items: center;
-//       min-height: 200px;
-//       cursor: pointer;
-//       ${({ isCardClicked }) =>
-//         isCardClicked
-//       ? `
-//       border:1px green solid;
-//       display: flex;
-//         transform: scale(1.2);
-//         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-//       `
-//       : ''}
-// `;
-
-// const UserImage = styled.img`
-//   width: 80px;
-//   height: 80px;
-//   border-radius: 50%;
-//   object-fit: cover;
-//   margin-bottom: 10px;
-//   border: 2px solid white;
-// `;
-
-// const UserName = styled.div`
-//   font-size: 16px;
-//   font-weight: bold;
-//   color: #333;
-// `;
-
-// const DummyCardsContainer = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   margin-top: 10px;
-//   border: 1px red solid;
-// `;
-
-// const DummyCard = styled.div`
-//   background-color: #f5f5f5;
-//   padding: 10px;
-//   border-radius: 5px;
-//   margin: 5px;
-//   width: 120px;
-//   text-align: left;
-// `;
-
-// const AssignLeads = () => {
-//   const [isCardClicked, setIsCardClicked] = useState(false);
-//   const [clickedCardIndex, setClickedCardIndex] = useState(null);
-//   const [userData, setUserData] = useState([
-//     { id: '1', name: 'Mark Taylor', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#E6E6FA', dummyCards: ['Dummy Card 1', 'Dummy Card 2'] },
-//     { id: '2', name: 'Sarah Walker', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#D8F5D8', dummyCards: ['Dummy Card 3', 'Dummy Card 4'] },
-//     { id: '3', name: 'William Davis', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFE6E6', dummyCards: ['Dummy Card 5', 'Dummy Card 6'] },
-//     { id: '4', name: 'Matthew Brown', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFE6E6', dummyCards: ['Dummy Card 7', 'Dummy Card 8'] },
-//     { id: '5', name: 'Emily Taylor', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFF5E6', dummyCards: ['Dummy Card 9', 'Dummy Card 10'] },
-//     { id: '6', name: 'Jennifer Harris', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#E6F5FF', dummyCards: ['Dummy Card 11', 'Dummy Card 12'] },
-//   ]);
-
-//   const handleCardClick = (index) => {
-//     setIsCardClicked(true);
-//     setClickedCardIndex(index);
-//   };
-
-//   const onDragEnd = (result) => {
-//     const { source, destination } = result;
-//     if (!destination) return;
-
-//     const newUserData = [...userData];
-//     const [movedCard] = newUserData[source.droppableId].dummyCards.splice(source.index, 1);
-//     newUserData[destination.droppableId].dummyCards.splice(destination.index, 0, movedCard);
-
-//     setUserData(newUserData);
-//   };
-
-//   return (
-//     <DragDropContext onDragEnd={onDragEnd}>
-//       <UserProfileContainer isCardClicked={isCardClicked}>
-//         {userData.map((user, index) => (
-//           <React.Fragment key={index}>
-//             <UserCard
-//               bgColor={user.bgColor}
-//               isCardClicked={clickedCardIndex === index}
-//               onClick={() => handleCardClick(index)}
-//             >
-//               <UserImage src={user.imageUrl} alt={user.name} />
-//               <UserName>{user.name}</UserName>
-//             </UserCard>
-//             {clickedCardIndex === index && (
-//               <Droppable droppableId={user.id} type="DUMMY_CARD">
-//                 {(provided) => (
-//                   <DummyCardsContainer ref={provided.innerRef} {...provided.droppableProps}>
-//                     {user.dummyCards.map((dummyCard, index) => (
-//                       <Draggable key={`${user.id}-${index}`} draggableId={`${user.id}-${index}`} index={index}>
-//                         {(provided) => (
-//                           <DummyCard ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-//                             {dummyCard}
-//                           </DummyCard>
-//                         )}
-//                       </Draggable>
-//                     ))}
-//                     {provided.placeholder}
-//                   </DummyCardsContainer>
-//                 )}
-//               </Droppable>
-//             )}
-//           </React.Fragment>
-//         ))}
-//       </UserProfileContainer>
-//     </DragDropContext>
-//   );
-// };
-
-// export default AssignLeads;
-
-
-
-// import React, { useState } from 'react';
-// import styled from 'styled-components';
-// import { DragDropContext } from 'react-beautiful-dnd';
-// import ProfileCard from './ProfileCard';
-// // import DummyCards from './DummyCards';
-// import LeadsCard from './LeadsCard';
-
-// const UserProfileContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   gap: 20px;
-//   font-family: Arial, sans-serif;
-//   ${({ isCardClicked }) =>
-//     isCardClicked &&
-//     `
-//       grid-template-columns: repeat(6, 1fr);
-//       align-items: start;
-//     `}
-// `;
-
-// const ProfileCardsRow = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   margin-bottom: 20px;
-// `;
-
-// const AssignLeads = () => {
-//   const [isCardClicked, setIsCardClicked] = useState(false);
-//   const [clickedCardIndex, setClickedCardIndex] = useState(null);
-//   const [userData, setUserData] = useState([
-//     { id: '1', name: 'Mark Taylor', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#E6E6FA', dummyCards: ['Dummy Card 1', 'Dummy Card 2'] },
-//     { id: '2', name: 'Sarah Walker', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#D8F5D8', dummyCards: ['Dummy Card 3', 'Dummy Card 4'] },
-//     { id: '3', name: 'William Davis', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFE6E6', dummyCards: ['Dummy Card 5', 'Dummy Card 6'] },
-//     { id: '4', name: 'Matthew Brown', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFE6E6', dummyCards: ['Dummy Card 7', 'Dummy Card 8'] },
-//     { id: '5', name: 'Emily Taylor', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#FFF5E6', dummyCards: ['Dummy Card 9', 'Dummy Card 10'] },
-//     { id: '6', name: 'Jennifer Harris', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s', bgColor: '#E6F5FF', dummyCards: ['Dummy Card 11', 'Dummy Card 12'] },
-//   ]);
-
-//   const handleCardClick = (index) => {
-//     setIsCardClicked(true);
-//     setClickedCardIndex(index);
-//   };
-
-//   const onDragEnd = (result) => {
-//     const { source, destination } = result;
-//     if (!destination) return;
-
-//     const newUserData = [...userData];
-//     const [movedCard] = newUserData[source.droppableId].dummyCards.splice(source.index, 1);
-//     newUserData[destination.droppableId].dummyCards.splice(destination.index, 0, movedCard);
-
-//     setUserData(newUserData);
-//   };
-
-//   return (
-//     <DragDropContext onDragEnd={onDragEnd}>
-//       {isCardClicked ? (
-//         <>
-//           <ProfileCardsRow>
-//             {userData.map((user, index) => (
-//               <ProfileCard
-//                 key={user.id}
-//                 user={user}
-//                 isCardClicked={clickedCardIndex === index}
-//                 handleCardClick={() => handleCardClick(index)}
-//               />
-//             ))}
-//           </ProfileCardsRow>
-//           <LeadsCard
-//             userId={userData[clickedCardIndex].id}
-//             dummyCards={userData[clickedCardIndex].dummyCards}
-//             onDragEnd={onDragEnd}
-//           />
-//         </>
-//       ) : (
-//         <UserProfileContainer isCardClicked={isCardClicked}>
-//           {userData.map((user, index) => (
-//             <ProfileCard
-//               key={user.id}
-//               user={user}
-//               isCardClicked={clickedCardIndex === index}
-//               handleCardClick={() => handleCardClick(index)}
-//             />
-//           ))}
-//         </UserProfileContainer>
-//       )}
-//     </DragDropContext>
-//   );
-// };
-
-// export default AssignLeads;
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import styled from 'styled-components';
-// import { DragDropContext } from 'react-beautiful-dnd';
-// import LeadsCard from './LeadsCard';
-
-// // ... styled components remain the same
-
-// const UserProfileContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   gap: 20px;
-//   font-family: Arial, sans-serif;
-//   ${({ isCardClicked }) =>
-//     isCardClicked &&
-//     `
-//       grid-template-columns: repeat(6, 1fr);
-//       align-items: start;
-//     `}
-// `;
-
-// const ProfileCardsRow = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   margin-bottom: 20px;
-// `;
-
-// // Temporary ProfileCard component for debugging
-// const TempProfileCard = ({ user, isCardClicked, handleCardClick }) => (
-//   <div 
-//     onClick={handleCardClick} 
-//     style={{ 
-//       background: user.bgColor, 
-//       padding: '10px', 
-//       margin: '5px', 
-//       borderRadius: '5px',
-//       boxShadow: isCardClicked ? '0 0 10px rgba(0, 0, 0, 0.3)' : 'none',
-//       cursor: 'pointer'
-//     }}
-//   >
-//     <h3>{user.name}</h3>
-//     <p>Username: {user.username}</p>
-//     <p>Role: {user.role}</p>
-//   </div>
-// );
-
-// const AssignLeads = () => {
-//   const [isCardClicked, setIsCardClicked] = useState(false);
-//   const [clickedCardIndex, setClickedCardIndex] = useState(null);
-//   const [userData, setUserData] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchUsers = async () => {
-//       const apiUrl = 'https://webappbaackend.azurewebsites.net/get-all-user/';
-      
-//       const headers = {
-//         'X-Tenant-ID': '3',
-//         // Add any other required headers here
-//       };
-
-//       try {
-//         const response = await fetch(apiUrl, {
-//           method: 'GET',
-//           headers: headers,
-//         });
-
-//         console.log("Response status:", response.status);
-//         console.log("Response headers:", response.headers);
-
-//         if (!response.ok) {
-//           const text = await response.text();
-//           throw new Error(`HTTP error! status: ${response.status}, message: ${text}`);
-//         }
-
-//         const data = await response.json();
-//         console.log("API response:", data);
-
-//         if (!Array.isArray(data)) {
-//           throw new Error("API response is not an array");
-//         }
-
-//         const formattedUserData = data.map((user, index) => ({
-//           id: user.id.toString(),
-//           name: user.name || "No Name",
-//           username: user.username || "No Username",
-//           role: user.role || "No Role",
-//           imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
-//           bgColor: getBgColor(index),
-//           dummyCards: [`Dummy Card ${index * 2 + 1}`, `Dummy Card ${index * 2 + 2}`],
-//         }));
-
-//         console.log("Formatted user data:", formattedUserData);
-//         setUserData(formattedUserData);
-//         setIsLoading(false);
-//       } catch (error) {
-//         console.error('Error fetching users:', error);
-//         setError(error.message);
-//         setIsLoading(false);
-//       }
-//     };
-
-//     fetchUsers();
-//   }, []);
-
-//   const getBgColor = (index) => {
-//     const colors = ['#E6E6FA', '#D8F5D8', '#FFE6E6', '#FFF5E6', '#E6F5FF'];
-//     return colors[index % colors.length];
-//   };
-
-//   const handleCardClick = (index) => {
-//     setIsCardClicked(true);
-//     setClickedCardIndex(index);
-//   };
-
-//   const onDragEnd = (result) => {
-//     const { source, destination } = result;
-//     if (!destination) return;
-
-//     const newUserData = [...userData];
-//     const [movedCard] = newUserData[source.droppableId].dummyCards.splice(source.index, 1);
-//     newUserData[destination.droppableId].dummyCards.splice(destination.index, 0, movedCard);
-
-//     setUserData(newUserData);
-//   };
-
-//   if (isLoading) {
-//     return <div>Loading...</div>;
-//   }
-
-//   if (error) {
-//     return <div>Error: {error}</div>;
-//   }
-
-//   return (
-//     <DragDropContext onDragEnd={onDragEnd}>
-//       {isCardClicked ? (
-//         <>
-//           <ProfileCardsRow>
-//             {userData.map((user, index) => (
-//               <TempProfileCard
-//                 key={user.id}
-//                 user={user}
-//                 isCardClicked={clickedCardIndex === index}
-//                 handleCardClick={() => handleCardClick(index)}
-//               />
-//             ))}
-//           </ProfileCardsRow>
-//           {userData[clickedCardIndex] && (
-//             <LeadsCard
-//               userId={userData[clickedCardIndex].id}
-//               dummyCards={userData[clickedCardIndex].dummyCards}
-//               onDragEnd={onDragEnd}
-//             />
-//           )}
-//         </>
-//       ) : (
-//         <UserProfileContainer isCardClicked={isCardClicked}>
-//           {userData.map((user, index) => (
-//             <TempProfileCard
-//               key={user.id}
-//               user={user}
-//               isCardClicked={clickedCardIndex === index}
-//               handleCardClick={() => handleCardClick(index)}
-//             />
-//           ))}
-//         </UserProfileContainer>
-//       )}
-//     </DragDropContext>
-//   );
-// };
-
-// export default AssignLeads;
-
-
-
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import ProfileCard from './ProfileCard';
 import LeadsCard from './LeadsCard';
+import axiosInstance from "../../../api.jsx";
+import { Sidebar } from '../../../components/Sidebar/index.jsx';
+import TopNavbar from '../../TopNavbar/TopNavbar.jsx';
+
+const MainLeadContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const SidebarContainer = styled.div`
+  width: 100%;
+`;
+
+const LeadsCardContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+`;
 
 const UserProfileContainer = styled.div`
   display: grid;
@@ -527,46 +42,83 @@ const ProfileCardsRow = styled.div`
   margin-bottom: 20px;
 `;
 
+const LeadNav = styled.div`
+  width: 100%;
+  margin-top: -5%;
+  margin-bottom: 3rem;
+`;
+
 const AssignLeads = () => {
   const [isCardClicked, setIsCardClicked] = useState(false);
   const [clickedCardIndex, setClickedCardIndex] = useState(null);
   const [userData, setUserData] = useState([]);
+  const [selectedLeads, setSelectedLeads] = useState([]); // State for selected leads
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const apiUrl = 'https://webappbaackend.azurewebsites.net/get-all-user/';
-      
-      const headers = {
-        'X-Tenant-ID': '3',
-      };
-
+    const fetchUsersAndLeads = async () => {
       try {
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: headers,
+        const usersResponse = await axiosInstance.get('https://webappbaackend.azurewebsites.net/get-all-user/');
+        const users = usersResponse.data;
+
+        const leadsResponse = await axiosInstance.get('/leads/');
+        const leads = leadsResponse.data;
+
+        const userIdMap = new Set(users.map(user => user.id));
+
+        const unassignedLeads = [];
+        const reassignmentRequiredLeads = [];
+        const assignedLeads = {};
+
+        leads.forEach(lead => {
+          if (!lead.assigned_to || lead.assigned_to.length === 0) {
+            unassignedLeads.push(lead);
+          } else if (!lead.assigned_to.some(id => userIdMap.has(id))) {
+            reassignmentRequiredLeads.push(lead);
+          } else {
+            lead.assigned_to.forEach(userId => {
+              if (userIdMap.has(userId)) {
+                if (!assignedLeads[userId]) {
+                  assignedLeads[userId] = [];
+                }
+                assignedLeads[userId].push(lead);
+              } else {
+                reassignmentRequiredLeads.push(lead);
+              }
+            });
+          }
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data)) {
-          throw new Error("API response is not an array");
-        }
-
-        const formattedUserData = data.map((user, index) => ({
+        const formattedUserData = users.map((user, index) => ({
           id: user.id.toString(),
-          name: user.name || "No Name",
+          name: user.name || user.username || "No Name",
           username: user.username || "No Username",
           role: user.role || "No Role",
           imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
           bgColor: getBgColor(index),
-          dummyCards: [`Dummy Card ${index * 2 + 1}`, `Dummy Card ${index * 2 + 2}`],
+          dummyCards: (assignedLeads[user.id] || []).map(formatLead),
         }));
+
+        formattedUserData.unshift({
+          id: 'reassignment-required',
+          name: 'Reassignment Required',
+          username: 'Reassignment Required',
+          role: 'None',
+          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
+          bgColor: '#FFD700',
+          dummyCards: reassignmentRequiredLeads.map(formatLead),
+        });
+
+        formattedUserData.unshift({
+          id: 'unassigned',
+          name: 'Unassigned Leads',
+          username: 'Unassigned',
+          role: 'None',
+          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
+          bgColor: '#FFC0CB',
+          dummyCards: unassignedLeads.map(formatLead),
+        });
 
         setUserData(formattedUserData);
         setIsLoading(false);
@@ -576,8 +128,24 @@ const AssignLeads = () => {
       }
     };
 
-    fetchUsers();
+    fetchUsersAndLeads();
   }, []);
+
+  const formatLead = (lead) => ({
+    id: lead.id.toString(),
+    name: `${lead.first_name} ${lead.last_name}`,
+    email: lead.email,
+    address: lead.address,
+    website: lead.website,
+    status: lead.status,
+    first_name: lead.first_name,
+    last_name: lead.last_name,
+    assigned_to: lead.assigned_to,
+    createdBy: lead.createdBy,
+    enquery_type: lead.enquery_type,
+    tenant: lead.tenant, // Ensure tenant field is included
+    stage: lead.stage
+  });
 
   const getBgColor = (index) => {
     const colors = ['#E6E6FA', '#D8F5D8', '#FFE6E6', '#FFF5E6', '#E6F5FF'];
@@ -589,15 +157,58 @@ const AssignLeads = () => {
     setClickedCardIndex(index);
   };
 
-  const onDragEnd = (result) => {
+  const handleLeadSelection = (leadId) => {
+    setSelectedLeads((prevSelectedLeads) =>
+      prevSelectedLeads.includes(leadId)
+        ? prevSelectedLeads.filter((id) => id !== leadId)
+        : [...prevSelectedLeads, leadId]
+    );
+  };
+
+  const onDragEnd = async (result) => {
     const { source, destination } = result;
     if (!destination) return;
 
-    const newUserData = [...userData];
-    const [movedCard] = newUserData[source.droppableId].dummyCards.splice(source.index, 1);
-    newUserData[destination.droppableId].dummyCards.splice(destination.index, 0, movedCard);
+    if (destination.droppableId === 'unassigned' || destination.droppableId === 'reassignment-required') {
+      // Do not allow dropping into unassigned or reassignment-required
+      return;
+    }
 
-    setUserData(newUserData);
+    const sourceUser = userData.find((user) => user.id === source.droppableId);
+    const destUser = userData.find((user) => user.id === destination.droppableId);
+
+    if (sourceUser && destUser) {
+      const movedCards = sourceUser.dummyCards.filter((card) => selectedLeads.includes(card.id));
+      sourceUser.dummyCards = sourceUser.dummyCards.filter((card) => !selectedLeads.includes(card.id));
+
+      if (destUser.id === 'unassigned' || destUser.id === 'reassignment-required') {
+        movedCards.forEach((card) => (card.assigned_to = []));
+      } else {
+        movedCards.forEach((card) => (card.assigned_to = [parseInt(destUser.id)]));
+      }
+
+      destUser.dummyCards = [
+        ...destUser.dummyCards.slice(0, destination.index),
+        ...movedCards,
+        ...destUser.dummyCards.slice(destination.index),
+      ];
+      setUserData([...userData]);
+      setSelectedLeads([]);
+
+      try {
+        const leadUpdates = movedCards.map((card) =>
+          axiosInstance.put(`leads/${card.id}/`, {
+            ...card,
+            assigned_to: card.assigned_to,
+            tenant: card.tenant,
+            stage: card.stage,
+          })
+        );
+        await Promise.all(leadUpdates);
+      } catch (error) {
+        console.error('Error updating lead assignment:', error);
+      }
+    }
   };
 
   if (isLoading) {
@@ -609,41 +220,353 @@ const AssignLeads = () => {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      {isCardClicked ? (
-        <>
-          <ProfileCardsRow>
-            {userData.map((user, index) => (
-              <ProfileCard
-                key={user.id}
-                user={user}
-                isCardClicked={clickedCardIndex === index}
-                handleCardClick={() => handleCardClick(index)}
-              />
-            ))}
-          </ProfileCardsRow>
-          {userData[clickedCardIndex] && (
-            <LeadsCard
-              userId={userData[clickedCardIndex].id}
-              dummyCards={userData[clickedCardIndex].dummyCards}
-              onDragEnd={onDragEnd}
-            />
+    <MainLeadContainer>
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
+      <LeadsCardContainer>
+        <LeadNav>
+          <TopNavbar />
+        </LeadNav>
+        <h1 style={{ textAlign: 'center', fontWeight: '600', marginBottom: '5rem' }}>Profile Cards</h1>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {isCardClicked ? (
+            <>
+              <ProfileCardsRow>
+                {userData.map((user, index) => (
+                  <ProfileCard
+                    key={user.id}
+                    user={user}
+                    isCardClicked={clickedCardIndex === index}
+                    handleCardClick={() => handleCardClick(index)}
+                  />
+                ))}
+              </ProfileCardsRow>
+              {userData[clickedCardIndex] && (
+                <Droppable droppableId={userData[clickedCardIndex].id}>
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <LeadsCard
+                        userId={userData[clickedCardIndex].id}
+                        dummyCards={userData[clickedCardIndex].dummyCards}
+                        selectedLeads={selectedLeads}
+                        handleLeadSelection={handleLeadSelection}
+                      />
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              )}
+            </>
+          ) : (
+            <UserProfileContainer isCardClicked={isCardClicked}>
+              {userData.map((user, index) => (
+                <Droppable key={user.id} droppableId={user.id}>
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <ProfileCard
+                        user={user}
+                        isCardClicked={clickedCardIndex === index}
+                        handleCardClick={() => handleCardClick(index)}
+                      />
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              ))}
+            </UserProfileContainer>
           )}
-        </>
-      ) : (
-        <UserProfileContainer isCardClicked={isCardClicked}>
-          {userData.map((user, index) => (
-            <ProfileCard
-              key={user.id}
-              user={user}
-              isCardClicked={clickedCardIndex === index}
-              handleCardClick={() => handleCardClick(index)}
-            />
-          ))}
-        </UserProfileContainer>
-      )}
-    </DragDropContext>
+        </DragDropContext>
+      </LeadsCardContainer>
+    </MainLeadContainer>
   );
 };
 
 export default AssignLeads;
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import styled from 'styled-components';
+// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+// import ProfileCard from './ProfileCard';
+// import LeadsCard from './LeadsCard';
+// import axiosInstance from "../../../api.jsx";
+// import { Sidebar } from '../../../components/Sidebar/index.jsx';
+// import TopNavbar from '../../TopNavbar/TopNavbar.jsx';
+
+// const MainLeadContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+// `;
+
+// const SidebarContainer = styled.div`
+//   width: 100%;
+// `;
+
+// const LeadsCardContainer = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 20px;
+// `;
+
+// const UserProfileContainer = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(3, 1fr);
+//   gap: 20px;
+//   font-family: Arial, sans-serif;
+//   ${({ isCardClicked }) =>
+//     isCardClicked &&
+//     `
+//       grid-template-columns: repeat(6, 1fr);
+//       align-items: start;
+//     `}
+// `;
+
+// const ProfileCardsRow = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   margin-bottom: 20px;
+// `;
+
+// const LeadNav = styled.div`
+//   width: 100%;
+//   margin-top: -5%;
+//   margin-bottom: 3rem;
+// `;
+
+// const AssignLeads = () => {
+//   const [isCardClicked, setIsCardClicked] = useState(false);
+//   const [clickedCardIndex, setClickedCardIndex] = useState(null);
+//   const [userData, setUserData] = useState([]);
+//   const [selectedLeads, setSelectedLeads] = useState([]); // State for selected leads
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchUsersAndLeads = async () => {
+//       try {
+//         const usersResponse = await axiosInstance.get('https://webappbaackend.azurewebsites.net/get-all-user/');
+//         const users = usersResponse.data;
+
+//         const leadsResponse = await axiosInstance.get('/leads/');
+//         const leads = leadsResponse.data;
+
+//         const userIdMap = new Set(users.map(user => user.id));
+
+//         const unassignedLeads = [];
+//         const reassignmentRequiredLeads = [];
+//         const assignedLeads = {};
+
+//         leads.forEach(lead => {
+//           if (!lead.assigned_to || lead.assigned_to.length === 0) {
+//             unassignedLeads.push(lead);
+//           } else if (!lead.assigned_to.some(id => userIdMap.has(id))) {
+//             reassignmentRequiredLeads.push(lead);
+//           } else {
+//             lead.assigned_to.forEach(userId => {
+//               if (userIdMap.has(userId)) {
+//                 if (!assignedLeads[userId]) {
+//                   assignedLeads[userId] = [];
+//                 }
+//                 assignedLeads[userId].push(lead);
+//               } else {
+//                 reassignmentRequiredLeads.push(lead);
+//               }
+//             });
+//           }
+//         });
+
+//         const formattedUserData = users.map((user, index) => ({
+//           id: user.id.toString(),
+//           name: user.name || user.username || "No Name",
+//           username: user.username || "No Username",
+//           role: user.role || "No Role",
+//           imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
+//           bgColor: getBgColor(index),
+//           dummyCards: (assignedLeads[user.id] || []).map(formatLead),
+//         }));
+
+//         formattedUserData.unshift({
+//           id: 'reassignment-required',
+//           name: 'Reassignment Required',
+//           username: 'Reassignment Required',
+//           role: 'None',
+//           imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
+//           bgColor: '#FFD700',
+//           dummyCards: reassignmentRequiredLeads.map(formatLead),
+//         });
+
+//         formattedUserData.unshift({
+//           id: 'unassigned',
+//           name: 'Unassigned Leads',
+//           username: 'Unassigned',
+//           role: 'None',
+//           imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchNOQarbjmtb4x_sFAr1dfKN3bLy5I0BSsg&s',
+//           bgColor: '#FFC0CB',
+//           dummyCards: unassignedLeads.map(formatLead),
+//         });
+
+//         setUserData(formattedUserData);
+//         setIsLoading(false);
+//       } catch (error) {
+//         setError(error.message);
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchUsersAndLeads();
+//   }, []);
+
+//   const formatLead = (lead) => ({
+//     id: lead.id.toString(),
+//     name: `${lead.first_name} ${lead.last_name}`,
+//     email: lead.email,
+//     address: lead.address,
+//     website: lead.website,
+//     status: lead.status,
+//     first_name: lead.first_name,
+//     last_name: lead.last_name,
+//     assigned_to: lead.assigned_to,
+//     createdBy: lead.createdBy,
+//     enquery_type: lead.enquery_type,
+//     tenant: lead.tenant, // Ensure tenant field is included
+//     stage: lead.stage
+//   });
+
+//   const getBgColor = (index) => {
+//     const colors = ['#E6E6FA', '#D8F5D8', '#FFE6E6', '#FFF5E6', '#E6F5FF'];
+//     return colors[index % colors.length];
+//   };
+
+//   const handleCardClick = (index) => {
+//     setIsCardClicked(true);
+//     setClickedCardIndex(index);
+//   };
+
+//   const handleLeadSelection = (leadId) => {
+//     setSelectedLeads((prevSelectedLeads) =>
+//       prevSelectedLeads.includes(leadId)
+//         ? prevSelectedLeads.filter((id) => id !== leadId)
+//         : [...prevSelectedLeads, leadId]
+//     );
+//   };
+
+//   const onDragEnd = async (result) => {
+//     const { source, destination } = result;
+//     if (!destination) return;
+
+//     const sourceUser = userData.find((user) => user.id === source.droppableId);
+//     const destUser = userData.find((user) => user.id === destination.droppableId);
+
+//     if (sourceUser && destUser) {
+//       const movedCards = sourceUser.dummyCards.filter((card) => selectedLeads.includes(card.id));
+//       sourceUser.dummyCards = sourceUser.dummyCards.filter((card) => !selectedLeads.includes(card.id));
+
+//       if (destUser.id === 'unassigned' || destUser.id === 'reassignment-required') {
+//         movedCards.forEach((card) => (card.assigned_to = []));
+//       } else {
+//         movedCards.forEach((card) => (card.assigned_to = [parseInt(destUser.id)]));
+//       }
+
+//       destUser.dummyCards = [
+//         ...destUser.dummyCards.slice(0, destination.index),
+//         ...movedCards,
+//         ...destUser.dummyCards.slice(destination.index),
+//       ];
+//       setUserData([...userData]);
+//       setSelectedLeads([]);
+
+//       try {
+//         const leadUpdates = movedCards.map((card) =>
+//           axiosInstance.put(`leads/${card.id}/`, {
+//             ...card,
+//             assigned_to: card.assigned_to,
+//             tenant: card.tenant,
+//             stage: card.stage,
+//           })
+//         );
+//         await Promise.all(leadUpdates);
+//       } catch (error) {
+//         console.error('Error updating lead assignment:', error);
+//       }
+//     }
+//   };
+
+//   if (isLoading) {
+//     return <div>Loading users...</div>;
+//   }
+
+//   if (error) {
+//     return <div>Error loading users: {error}</div>;
+//   }
+
+//   return (
+//     <MainLeadContainer>
+//       <SidebarContainer>
+//         <Sidebar />
+//       </SidebarContainer>
+//       <LeadsCardContainer>
+//         <LeadNav>
+//           <TopNavbar />
+//         </LeadNav>
+//         <h1 style={{ textAlign: 'center', fontWeight: '600', marginBottom: '5rem' }}>Profile Cards</h1>
+//         <DragDropContext onDragEnd={onDragEnd}>
+//           {isCardClicked ? (
+//             <>
+//               <ProfileCardsRow>
+//                 {userData.map((user, index) => (
+//                   <ProfileCard
+//                     key={user.id}
+//                     user={user}
+//                     isCardClicked={clickedCardIndex === index}
+//                     handleCardClick={() => handleCardClick(index)}
+//                   />
+//                 ))}
+//               </ProfileCardsRow>
+//               {userData[clickedCardIndex] && (
+//                 <Droppable droppableId={userData[clickedCardIndex].id}>
+//                   {(provided) => (
+//                     <div ref={provided.innerRef} {...provided.droppableProps}>
+//                       <LeadsCard
+//                         userId={userData[clickedCardIndex].id}
+//                         dummyCards={userData[clickedCardIndex].dummyCards}
+//                         selectedLeads={selectedLeads}
+//                         handleLeadSelection={handleLeadSelection}
+//                       />
+//                       {provided.placeholder}
+//                     </div>
+//                   )}
+//                 </Droppable>
+//               )}
+//             </>
+//           ) : (
+//             <UserProfileContainer isCardClicked={isCardClicked}>
+//               {userData.map((user, index) => (
+//                 <Droppable key={user.id} droppableId={user.id}>
+//                   {(provided) => (
+//                     <div ref={provided.innerRef} {...provided.droppableProps}>
+//                       <ProfileCard
+//                         user={user}
+//                         isCardClicked={clickedCardIndex === index}
+//                         handleCardClick={() => handleCardClick(index)}
+//                       />
+//                       {provided.placeholder}
+//                     </div>
+//                   )}
+//                 </Droppable>
+//               ))}
+//             </UserProfileContainer>
+//           )}
+//         </DragDropContext>
+//       </LeadsCardContainer>
+//     </MainLeadContainer>
+//   );
+// };
+
+// export default AssignLeads;
+
+

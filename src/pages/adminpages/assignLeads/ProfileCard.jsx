@@ -1,5 +1,11 @@
+
+
+
+
+
 import React from 'react';
 import styled from 'styled-components';
+import { Droppable } from 'react-beautiful-dnd';
 
 const UserCard = styled.div`
   background-color: ${(props) => props.bgColor};
@@ -16,7 +22,6 @@ const UserCard = styled.div`
   ${({ isCardClicked }) =>
     isCardClicked
       ? `
-        // border: 1px green solid;
         transform: scale(1.2);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       `
@@ -38,12 +43,24 @@ const UserName = styled.div`
   color: #333;
 `;
 
-const ProfileCard = ({ user, isCardClicked, handleCardClick }) => {
+const ProfileCard = ({ user, isCardClicked, handleCardClick, children }) => {
   return (
-    <UserCard bgColor={user.bgColor} isCardClicked={isCardClicked} onClick={handleCardClick}>
-      <UserImage src={user.imageUrl} alt={user.name} />
-      <UserName>{user.name}</UserName>
-    </UserCard>
+    <Droppable droppableId={user.id}>
+      {(provided) => (
+        <UserCard
+          bgColor={user.bgColor}
+          isCardClicked={isCardClicked}
+          onClick={handleCardClick}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          <UserImage src={user.imageUrl} alt={user.name} />
+          <UserName>{user.name}</UserName>
+          {children}
+          {provided.placeholder}
+        </UserCard>
+      )}
+    </Droppable>
   );
 };
 

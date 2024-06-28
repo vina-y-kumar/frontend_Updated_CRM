@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './chatbot.css';
 import OpenAI from "openai";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; 
 import axiosInstance from "../../api.jsx";
 import MailIcon from '@mui/icons-material/Mail';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,6 +29,7 @@ const getTenantIdFromUrl = () => {
 
 const Chatbot = () => {
   const tenantId=getTenantIdFromUrl();
+  const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -41,7 +42,8 @@ const Chatbot = () => {
   const [file, setFile] = useState(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [conversation, setConversation] = useState(['']);
-
+  const [flows, setFlows] = useState([]);
+  const [selectedFlow, setSelectedFlow] = useState('');
  
 
   
@@ -286,10 +288,6 @@ const Chatbot = () => {
     // Add functionality for voice click here
   };
 
-  const handleSearchClick = () => {
-    console.log('Search icon clicked');
-    // Add functionality for search click here
-  };
 
   const filteredContacts = [
     ...contacts,
@@ -331,7 +329,7 @@ const Chatbot = () => {
     }));
   };
 
-  const handleSendFlowData = async () => {
+  {/*const handleSendFlowData = async () => {
     const flowData = {
       "nodes": [
         { "id": 0, "type": "button", "body": "Hi user, Welcome to our hospital. How can we help you today?" },
@@ -369,12 +367,58 @@ const Chatbot = () => {
     } catch (error) {
       console.error('Error sending flow data:', error);
     }
-  };
+  };*/}
 
     const handleRedirect = () => {
       window.location.href = 'https://www.facebook.com/v18.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https%3A%2F%2Fcrm.nuren.ai%2Fll%2Fchatbot&response_type=code&config_id=1573657073196264&state=pass-through%20value';
     };
 
+    const handleCreateFlow = () => {
+      navigate(`/${tenantId}/flow`); // Use navigate instead of history.push
+    };
+  
+    const fetchFlows = async () => {
+      try {
+        const response = await axiosInstance.get('https://webappbaackend.azurewebsites.net/node-templates/', {
+          headers: { token: localStorage.getItem('token') },
+        });
+        setFlows(response.data);
+        console.log('this is flow',flows);
+      } catch (error) {
+        console.error("Error fetching flows:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchFlows();
+    }, []);
+  
+    const handleFlowChange = (event) => {
+      const selectedValue = event.target.value;
+      console.log("Selected flow ID:", selectedValue);
+      setSelectedFlow(selectedValue);
+    };
+  
+    useEffect(() => {
+      console.log("Selected flow has changed:", selectedFlow);
+    }, [selectedFlow]);
+
+    const handleSendFlowData = async () => {
+      const selectedFlowData = flows.find(flow => flow.id === selectedFlow);
+      console.log('this is selected flow', selectedFlowData);
+      try {
+        await axiosInstance.post('https://whatsappbotserver.azurewebsites.net/flowdata', selectedFlowData, {
+          headers: {
+            'Content-Type': 'application/json',
+            token: localStorage.getItem('token'),
+          },
+        });
+        console.log('this is selected flow', selectedFlowData);
+        console.log('Flow data sent successfully');
+      } catch (error) {
+        console.error('Error sending flow data:', error);
+      }
+    };
 
 
   return (
@@ -486,7 +530,18 @@ const Chatbot = () => {
       <div className="chatbot-contact-section">
       <button className="chatbot-signupbutton" onClick={handleRedirect}>Sign Up</button>
         <h1 className='chatbot-details'>Contact Details</h1>
-        <button className='sendflowdata' onClick={handleSendFlowData}>Send Flow Data</button>
+        <div>
+          <button onClick={handleCreateFlow}>Create Flow</button>
+          <select value={selectedFlow} onChange={handleFlowChange}>
+              <option value="" disabled>Select a flow</option>
+              {flows.map(flow => (
+                <option key={flow.id} value={flow.id}>
+                  {flow.name}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleSendFlowData}>Send Flow Data</button>
+          </div>
         {selectedContact && (
           <div className="chatbot-contact-details">
             <div className="profile-info">

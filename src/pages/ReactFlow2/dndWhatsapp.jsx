@@ -139,51 +139,61 @@ const WhatsappFlow = () => {
   }, []);
 
   const onDrop = useCallback(
-  (event) => {
-    event.preventDefault();
-
-    const type = event.dataTransfer.getData("application/reactflow");
-    console.log(type);
-
-    // check if the dropped element is valid
-    if (typeof type === "undefined" || !type) {
-      return;
-    }
-
-    const position = reactFlowInstance.screenToFlowPosition({
-      x: event.clientX,
-      y: event.clientY,
-    });
-
-    let newData;
-    if (type === "customNode") {
-      newData = {
-        heading: "Custom Node Title", // Set the title for custom nodes
-        content: "Custom Node Content", // Set the content for custom nodes
+    (event) => {
+      event.preventDefault();
+      
+      // Retrieve the node type from the data transfer
+      const type = event.dataTransfer.getData("application/reactflow");
+      
+      // Log the retrieved type to debug
+      console.log("Retrieved type:", type);
+  
+      // Check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        console.log("Invalid type, returning");
+        return;
+      }
+  
+      // Convert screen position to flow position
+      const position = reactFlowInstance.project({
+        x: event.clientX,
+        y: event.clientY,
+      });
+  
+      let newData;
+      if (type === "customNode") {
+        newData = {
+          heading: "Custom Node Title", // Set the title for custom nodes
+          content: "Custom Node Content", // Set the content for custom nodes
+        };
+      } else if (type === "textUpdater") {
+        newData = {
+          heading: "Title", // Set the title for text updater nodes
+          content: "Content", // Set the content for text updater nodes
+        };
+      } else {
+        newData = {
+          label: `${type} node`,
+        };
+      }
+  
+      // Create a new node with the retrieved type and position
+      const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: newData,
       };
-    } 
-    else if (type === "textUpdater") {
-      newData = {
-        heading: "Title", // Set the title for custom nodes
-        content: "tent", // Set the content for custom nodes
-      };
-    } else {
-      newData = {
-        label: `${type} node`,
-      };
-    }
-
-    const newNode = {
-      id: getId(),
-      type,
-      position,
-      data: newData,
-    };
-
-    setNodes((nds) => nds.concat(newNode));
-  },
-  [reactFlowInstance]
-);
+  
+      // Log the new node for debugging
+      console.log("New node:", newNode);
+  
+      // Update the nodes state with the new node
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance, setNodes]
+  );
+  
 
 const sendDataToBackend = () => {
   // Provided data

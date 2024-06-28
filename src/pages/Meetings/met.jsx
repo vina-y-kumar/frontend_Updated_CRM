@@ -29,7 +29,7 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
-const Met = () => {
+const Met = ({handleScheduleMeeting, scheduleData, setScheduleData}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [viewMode, setViewMode] = useState('table');
@@ -47,23 +47,7 @@ const Met = () => {
   const { userId } = useAuth(); // Assuming useAuth is correctly implemented
  
 
-  useEffect(() => {
-    const fetchMeetings = async () => {
-      try {
-        const response = await axiosInstance.get('/meetings/', {
-          headers: {
-            token: localStorage.getItem('token'),
-          },
-        });
-        setMeetings(response.data);
-      } catch (error) {
-        console.error('Error fetching meetings data:', error);
-      }
-    };
-
-    fetchMeetings();
-  }, []);
-
+ 
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
   };
@@ -204,7 +188,7 @@ const Met = () => {
               <div className="modal-overlay">
                 <div className="modal-content_meet">
                   <div className="meeting-form-container">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleScheduleMeeting}>
                       <fieldset className="form-fieldset">
                         <legend className="form-legend">Create A meeting</legend>
                         <label className="form-label-title" htmlFor="title">
@@ -216,7 +200,7 @@ const Met = () => {
                           id="title"
                           className="form-input-title"
                           required
-                          value={formData.title}
+                          value={scheduleData.title}
                           onChange={handleChange}
                         />
                         <label className="form-label-location" htmlFor="location">
@@ -228,7 +212,7 @@ const Met = () => {
                           id="location"
                           className="form-input-location"
                           required
-                          value={formData.location}
+                          value={scheduleData.location}
                           onChange={handleChange}
                         />
                         <label className="form-label-time" htmlFor="from_time">
@@ -240,7 +224,7 @@ const Met = () => {
                           id="from_time"
                           className="form-input-fromtime"
                           required
-                          value={formData.from_time}
+                          value={scheduleData.from_time}
                           onChange={handleChange}
                         />
                         <label className="form-label-to_time" htmlFor="to_time">
@@ -252,7 +236,7 @@ const Met = () => {
                           id="to_time"
                           className="form-input-totime"
                           required
-                          value={formData.to_time}
+                          value={scheduleData.to_time}
                           onChange={handleChange}
                         />
                         <label className="form-label-related_to" htmlFor="related_to">
@@ -264,9 +248,45 @@ const Met = () => {
                           id="related_to"
                           className="form-input-related"
                           required
-                          value={formData.related_to}
+                          value={scheduleData.related_to}
                           onChange={handleChange}
                         />
+                         <input
+                          type="text"
+                          name="subject"
+                          id="subject"
+                          className="form-input-subject"
+                          required
+                          value={scheduleData.subject}
+                          onChange={handleChange}
+                        />
+                        <label className="form-label-subject" htmlFor="location">
+                          Subject:
+                        </label>
+                        <input
+                          type="text"
+                          name="createdBy"
+                          id="createdBy"
+                          className="form-input-createdBy"
+                          required
+                          value={scheduleData.createdBy}
+                          onChange={handleChange}
+                        />
+                        <label className="form-label-createdBy" htmlFor="location">
+                          Created By:
+                        </label>
+                        <input
+                          type="datetime-local"
+                          name="event_date_time"
+                          id="event_date_time"
+                          className="form-input-event_date_time"
+                          required
+                          value={scheduleData.event_date_time}
+                          onChange={handleChange}
+                        />
+                        <label className="form-label-event_date_time" htmlFor="location">
+                          Event Date Time:
+                        </label>
                         {/* <label className="form-label" htmlFor="contactName">Contact Name:</label>
                         <input type="text" name="contactName" id="contactName" className="form-input" required value={formData.contactName} onChange={handleChange} />
                          */}

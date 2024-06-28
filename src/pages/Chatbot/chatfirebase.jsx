@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import { app, db } from '../socialmedia/instagram/firebase';
+import {db} from '../socialmedia/instagram/firebase'
 
 
 

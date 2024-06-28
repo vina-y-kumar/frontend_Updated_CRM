@@ -12,8 +12,10 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import uploadToBlob from "../../azureUpload.jsx";
 import Picker from 'emoji-picker-react';
 import {getdata} from './chatfirebase';
+import axios from 'axios';
 import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore';
-
+import { app, db } from '../socialmedia/instagram/firebase.js';
+import { onSnapshot } from "firebase/firestore";
 
 
 
@@ -56,7 +58,7 @@ const Chatbot = () => {
       console.error("Error fetching contacts data:", error);
     }
   };
-  const fetchFirebaseContacts = async () => {
+ /* const fetchFirebaseContacts = async () => {
     try {
       const dataMap = new Map();
       await getdata(dataMap);
@@ -77,7 +79,7 @@ const Chatbot = () => {
 
   useEffect(() => {
     fetchFirebaseContacts();
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     fetchContacts();
@@ -186,26 +188,36 @@ const Chatbot = () => {
       console.log('No file selected');
     }
   };
-  const fetchConversation = async (contactId) => {
+  const fetchConversation = async () => {
     try {
-      const contact = contacts.find(contact => contact.id === contactId) || firebaseContacts.find(contact => contact.id === contactId);
-      if (contact) {
-        const newConversation = [];
-        for (let i = 0; i < contact.user_replies.length; i++) {
-          if (contact.user_replies[i] !== '.') {
-            newConversation.push({ text: contact.user_replies[i], sender: 'user' });
-          }
-          if (contact.bot_replies[i] !== '.') {
-            newConversation.push({ text: contact.bot_replies[i], sender: 'bot' });
-          }
+      const response = await axios.get(`https://whatsappbotserver.azurewebsites.net/get-map?phone=919643393874`);
+      const { bot_replies, user_replies } = response.data;
+      const newConversation = [];
+      for (let i = 0; i < bot_replies.length; i++) {
+        if (bot_replies[i] !== '.') {
+          newConversation.push({ text: bot_replies[i], sender: 'bot' });
         }
-        setConversation(newConversation);
+        if (user_replies[i] && user_replies[i] !== '.') {
+          newConversation.push({ text: user_replies[i], sender: 'user' });
+        }
       }
+      setConversation(newConversation);
     } catch (error) {
       console.error('Error fetching conversation:', error);
     }
   };
+    useEffect(() => {
+      // Firestore listener setup
+      
+      const unsubscribe = onSnapshot(doc(db, "whatsapp", "919643393874"), (doc) => {
+        fetchConversation();
+        console.log("Current data: ", doc.data());
+    });
+    
 
+      // Clean up listener when component unmounts
+      return () => unsubscribe();
+    }, []);
  /* useEffect(() => {
     const fetchUploadedFiles = async (contactId) => {
       try {
@@ -220,6 +232,7 @@ const Chatbot = () => {
     fetchUploadedFiles();
   }, );*/
   const handleSend = async () => {
+    setMessageTemplates('');
     if (!selectedContact || !messageTemplates[selectedContact.id]) {
       console.error('Message template or contact not selected');
       return;
@@ -229,26 +242,27 @@ const Chatbot = () => {
   
     try {
       const payload = {
-        phoneNumber: selectedContact.id,
+        phoneNumber: selectedContact.phone,
         message: newMessage.content,
       };
   
       const response = await axiosInstance.post(
         'https://whatsappbotserver.azurewebsites.net/send-message',
         payload,  // Let Axios handle the JSON conversion
-        {
+        {/*
           headers: {
             'Content-Type': 'application/json',
             token: localStorage.getItem('token'),
           },
+          */
         }
       );
   
       // Update local state with the new message
-      setMessages(prevMessages => ({
-        ...prevMessages,
-        [selectedContact.id]: [...(prevMessages[selectedContact.id] || []), newMessage]
-      }));
+      setConversation(prevConversation => [
+        ...prevConversation,
+        { text: newMessage.content, sender: 'bot' }
+      ]);
   
       
     } catch (error) {

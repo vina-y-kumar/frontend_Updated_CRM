@@ -25,7 +25,7 @@ const getTenantIdFromUrl = () => {
 
 
 
-export const CallPage = () => {
+export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData}) => {
 
   const tenantId=getTenantIdFromUrl();
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,7 +34,6 @@ export const CallPage = () => {
   const [meet, setMeet] = useState([]);
   const {userId}=useAuth();
   const [reminders, setReminders] = useState([]);
-  const [reminderMessage, setReminderMessage] = useState("");
   const { authenticated,userRole } = useAuth();
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
@@ -51,57 +50,10 @@ export const CallPage = () => {
     createdBy: "",
     
   });
-  const [callData, setCallData] = useState({
-    subject:"",
-    event_date_time:"",
-    time_trigger:"",
-    createdBy:"",
-    tenant: tenantId,
-    
-  })
-
+  
   
 
-  const handleScheduleMeeting = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.post(
-        "/reminders/",
-        callData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token"),
-          },
-        }
-      );
-      
-    
-     
-  const timeTrigger = new Date(callData.time_trigger).getTime();
-  
-     
-      const now = new Date().getTime();
-  
-      
-      const timeDifference = timeTrigger - now;
-    if (timeDifference > 0) {
-        setTimeout(() => {
-          const reminderMessage = `Reminder: Scheduled call '${callData.subject}' starting soon!`;
-          setReminderMessage(reminderMessage);
-  
-          const reminder = {
-            id: response.data.id,
-            message: reminderMessage,
-          };
-          setReminders([...reminders, reminder]);
-        }, timeDifference);
-      }
-    } 
-    catch (error) {
-      console.error("Error scheduling meeting:", error);
-    }
-  };
+ 
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
@@ -452,7 +404,7 @@ const handleCreateMeeting = async (e) => {
   </div>
 </dialog>
               <dialog id="scheduleModal" open={scheduleModalOpen}>
-        <div className="call-form-container">
+        <div className="call-form-container"> 
           <form onSubmit={handleScheduleMeeting} id="schedule-form">
             <fieldset className="form-fieldset">
               <legend className="form-legend-schedule">Schedule Call</legend>
@@ -464,9 +416,9 @@ const handleCreateMeeting = async (e) => {
                 name="subject"
                 id="subject"
                 className="form-input_subjectcall"
-                value={callData.subject}
+                value={scheduleData.subject}
                 onChange={(e) =>
-                  setCallData({ ...callData, subject : e.target.value })
+                  setScheduleData({ ...scheduleData, subject : e.target.value })
                 }
                 required
               />
@@ -478,8 +430,8 @@ const handleCreateMeeting = async (e) => {
                 name="eventDateTime"
                 id="eventDateTime"
                 className="form-input_dateTime"
-                 value={callData.event_date_time}
-                 onChange={(e) => setCallData({ ...callData, event_date_time: e.target.value })}
+                 value={scheduleData.event_date_time}
+                 onChange={(e) => setScheduleData({ ...scheduleData, event_date_time: e.target.value })}
                  required
                 
               />
@@ -491,8 +443,8 @@ const handleCreateMeeting = async (e) => {
                 name="timeTrigger"
                 id="timeTrigger"
                 className="form-input_timetrigger"
-                value={callData.time_trigger}
-                onChange={(e) => setCallData({ ...callData, time_trigger: e.target.value })}
+                value={scheduleData.time_trigger}
+                onChange={(e) => setScheduleData({ ...scheduleData, time_trigger: e.target.value })}
                 required
               />
                        <label className="form-CreatedBy" htmlFor="createdBy">Created By : </label>
@@ -501,8 +453,8 @@ const handleCreateMeeting = async (e) => {
                 name="createdBy"
                 id="createdBy"
                 className="form-input_createdBy"
-                value={callData.createdBy}
-                onChange={(e) => setCallData({ ...callData, createdBy: e.target.value })}
+                value={scheduleData.createdBy}
+                onChange={(e) => setScheduleData({ ...scheduleData, createdBy: e.target.value })}
                 required
               />
                 

@@ -2,11 +2,11 @@ import React from 'react';
 import './sidebar.css';
 import { useMemo } from 'react';
 export default () => {
+  
   const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData('application/reactflow', nodeType);
-    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
   };
-
   return (
     <aside>
       <h2>Add Nodes</h2>

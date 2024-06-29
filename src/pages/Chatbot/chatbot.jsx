@@ -1,3 +1,28 @@
+const flowData = {
+  "nodes": [
+    { "id": 0, "type": "button", "body": "Hi user, Welcome to our hospital. How can we help you today?" },
+    { "id": 1, "type": "button_element", "body": "Book an appointment" },
+    { "id": 2, "type": "button_element", "body": "Know Clinic Address" },
+    { "id": 3, "type": "button_element", "body": "Learn about us" },
+    { "id": 4, "type": "Input", "body": "Please share your appointment date." },
+    { "id": 5, "type": "string", "body": "Our Clinic address is" },
+    { "id": 6, "type": "string", "body": "about us" },
+    { "id": 7, "type": "Input", "body": "What time?" },
+    { "id": 8, "type": "Input", "body": "Name of the patient?" },
+    { "id": 9, "type": "button", "body": "Great! choose doctor" },
+    { "id": 10, "type": "button_element", "body": "Dr. Ira" },
+    { "id": 11, "type": "button_element", "body": "Dr. John" },
+    { "id": 12, "type": "string", "body": "Congrats, appointment booked." },
+    { "id": 13, "type": "button", "body": "Do you want to book an appointment?" },
+    { "id": 14, "type": "button_element", "body": "Yes" },
+    { "id": 15, "type": "button_element", "body": "No" },
+    { "id": 16, "type": "button_element", "body": "Talk to AI" },
+    { "id": 17, "type": "AI", "body": "Sure, directing you to AI section." },
+    { "id": 18, "type": "string", "body": "Thank you! Have a great day. Please visit again!" }
+  ],
+  "adjacencyList": [[1, 2, 3], [4], [5], [6], [7], [13], [13], [8], [9], [10, 11], [12], [12], [], [14, 15, 16], [4], [18], [17], [], []]
+};
+
 import React, { useState, useEffect } from 'react';
 import './chatbot.css';
 import OpenAI from "openai";
@@ -16,7 +41,9 @@ import axios from 'axios';
 import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore';
 import { app, db } from '../socialmedia/instagram/firebase.js';
 import { onSnapshot } from "firebase/firestore";
+import io from 'socket.io-client';
 
+const socket = io('https://hx587qc4-8080.inc1.devtunnels.ms');
 
 
 const getTenantIdFromUrl = () => {
@@ -190,7 +217,7 @@ const Chatbot = () => {
       console.log('No file selected');
     }
   };
-  const fetchConversation = async () => {
+  /*const fetchConversation = async () => {
     try {
       const response = await axios.get(`https://whatsappbotserver.azurewebsites.net/get-map?phone=919643393874`);
       const { bot_replies, user_replies } = response.data;
@@ -207,7 +234,43 @@ const Chatbot = () => {
     } catch (error) {
       console.error('Error fetching conversation:', error);
     }
-  };
+  };*/
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to the server');
+    });
+
+    socket.on('latestMessage', (message) => {
+      if (message) {
+        console.log('Got New Message',message.body);
+        setConversation(prevMessages => [...prevMessages, { text: message.body, sender: 'bot' }]);
+      }
+    });
+    
+
+ socket.on('new-message', (message) => {
+  if (message) {
+    
+    console.log('Got New Message',message);
+    
+    setConversation(prevMessages => [...prevMessages, { text: message.message, sender: 'user' }]);
+  }
+});
+
+socket.on('node-message', (message) => {
+  if (message) {
+    
+    console.log('Got New NOde Message',message);
+    
+    setConversation(prevMessages => [...prevMessages, { text: message.message, sender: 'bot' }]);
+  }
+});
+    return () => {
+      socket.off('latestMessage');
+      socket.off('newMessage');
+    };
+  }, []);
     useEffect(() => {
       // Firestore listener setup
       
@@ -407,7 +470,7 @@ const Chatbot = () => {
       const selectedFlowData = flows.find(flow => flow.id === selectedFlow);
       console.log('this is selected flow', selectedFlowData);
       try {
-        await axiosInstance.post('https://whatsappbotserver.azurewebsites.net/flowdata', selectedFlowData, {
+        await axiosInstance.post('https://hx587qc4-8080.inc1.devtunnels.ms/flowdata', flowData, {
           headers: {
             'Content-Type': 'application/json',
             token: localStorage.getItem('token'),

@@ -43,7 +43,7 @@ import { app, db } from '../socialmedia/instagram/firebase.js';
 import { onSnapshot } from "firebase/firestore";
 import io from 'socket.io-client';
 
-const socket = io('https://hx587qc4-8080.inc1.devtunnels.ms');
+const socket = io('https://whatsappbotserver.azurewebsites.net/');
 
 
 const getTenantIdFromUrl = () => {

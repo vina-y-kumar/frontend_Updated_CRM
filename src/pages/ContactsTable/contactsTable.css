@@ -90,6 +90,9 @@ line-height: 22px;
 font-weight: 400;
 color: #565D6DFF;
 }
+
+
+
 .excel-dropdown-menu1 {
   /* Your custom styles here */
   font-family: 'Manrope';
@@ -105,11 +108,26 @@ color: #565D6DFF;
   justify-content: center;
   padding: 7px 11px 9px 12px;
   margin-left: 1000px;
-
-
-
-  
 }
+.dropdown-menu {
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown Item Styling */
+.dropdown-item {
+  display: flex;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #343a40;
+}
+
+.dropdown-item:hover {
+  background-color: #e9ecef;
+}
+
+
 .meet1{
   display: flex;
 justify-content: flex-end;

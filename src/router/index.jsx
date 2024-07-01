@@ -89,7 +89,9 @@ import Ticket from "../pages/Ticket/TicketPage";
 import { Explore } from "@mui/icons-material";
 import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
+
 import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
+
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {

@@ -474,7 +474,7 @@ socket.on('node-message', (message) => {
           headers: {
             'Content-Type': 'application/json',
             token: localStorage.getItem('token'),
-      
+          },
         });
         console.log('this is selected flow', selectedFlowData);
         console.log('Flow data sent successfully');

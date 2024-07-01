@@ -36,11 +36,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import uploadToBlob from "../../azureUpload.jsx";
 import Picker from 'emoji-picker-react';
-import {getdata} from './chatfirebase';
+//import {getdata} from './chatfirebase';
 import axios from 'axios';
-import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore';
-import { app, db } from '../socialmedia/instagram/firebase.js';
-import { onSnapshot } from "firebase/firestore";
+//import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore';
+//import { app, db } from '../socialmedia/instagram/firebase.js';
+//import { onSnapshot } from "firebase/firestore";
 import io from 'socket.io-client';
 
 const socket = io('https://whatsappbotserver.azurewebsites.net/');
@@ -271,7 +271,7 @@ socket.on('node-message', (message) => {
       socket.off('newMessage');
     };
   }, []);
-    useEffect(() => {
+    /*useEffect(() => {
       // Firestore listener setup
       
       const unsubscribe = onSnapshot(doc(db, "whatsapp", "919643393874"), (doc) => {
@@ -282,7 +282,7 @@ socket.on('node-message', (message) => {
 
       // Clean up listener when component unmounts
       return () => unsubscribe();
-    }, []);
+    }, []);*/
  /* useEffect(() => {
     const fetchUploadedFiles = async (contactId) => {
       try {

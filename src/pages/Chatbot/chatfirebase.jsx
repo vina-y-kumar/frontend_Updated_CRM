@@ -1,13 +1,9 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import {db} from '../socialmedia/instagram/firebase'
 
-const firebaseConfig = {
-  
-};
 
-firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
 
 
 // Example function to retrieve data from Firestore

@@ -81,7 +81,7 @@ import TicketInfo from "../pages/Ticket/TicketInfo";
 import Calendar from "../pages/Calendar/Calendar";
 
 import Calendarform from "../pages/Calendar/Calendarform";
-import PdfEditor from "../pages/documenteditpage/merge_code";
+
 import { DashboardCustomizeSharp } from "@mui/icons-material";
 // import Ticket from "../pages/Ticket/TicketPage";
 
@@ -90,6 +90,7 @@ import { Explore } from "@mui/icons-material";
 import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
 
+import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
 
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
@@ -358,7 +359,8 @@ export const RouteWrapper = () => {
 
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>
-          <Route path=":tenant_id/editdocument"  element= {<PdfEditor/>}/>
+          <Route path=":tenant_id/editdocument"  element= {<IframePage/>}/>
+    
     
         </>
       )}

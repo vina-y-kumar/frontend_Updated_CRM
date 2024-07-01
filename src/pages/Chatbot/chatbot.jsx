@@ -470,11 +470,11 @@ socket.on('node-message', (message) => {
       const selectedFlowData = flows.find(flow => flow.id === selectedFlow);
       console.log('this is selected flow', selectedFlowData);
       try {
-        await axiosInstance.post('https://hx587qc4-8080.inc1.devtunnels.ms/flowdata', flowData, {
+        await axiosInstance.post('https://whatsappbotserver.azurewebsites.net/flowdata', flowData, {
           headers: {
             'Content-Type': 'application/json',
             token: localStorage.getItem('token'),
-          },
+      
         });
         console.log('this is selected flow', selectedFlowData);
         console.log('Flow data sent successfully');

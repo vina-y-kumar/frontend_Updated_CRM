@@ -249,12 +249,16 @@ const InstagramPost = () => {
       <div className="sidebar-container">
         <Sidebar />
       </div>
-      <div className='Instagramauth' style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
-      <h1>Instagram Authentication</h1>
-      
-        <button onClick={handleInstaAuth} style={{padding:'2rem', backgroundColor:'red',borderRadius:'8px',color:'white',fontSize:'20px'}}>Get Instagram Auth</button>
-    
-    </div>
+      {!accessToken ? (
+        <div className='Instagramauth' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h1>Instagram Authentication</h1>
+          <button onClick={handleInstaAuth} style={{ padding: '2rem', backgroundColor: 'red', borderRadius: '8px', color: 'white', fontSize: '20px' }}>
+            Get Instagram Auth
+          </button>
+        </div>
+      ) : (
+        <></> // Optionally, render something else if authenticated
+      )}
       <div className="instagram-post-content">
         <div className="instagram-post-form">
           <h1 className="instagram-post-title">Instagram</h1>

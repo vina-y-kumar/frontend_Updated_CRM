@@ -105,7 +105,7 @@ export const Sidebar = () => {
     }
     return link;
   };
-  const linkTo = accessToken ? '/instagrampost' : '/instagramauth';
+  const linkTo = accessToken ? '../instagrampost' : '/instagramauth';
 
   return (
     <div className="siadebar">

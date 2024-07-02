@@ -83,7 +83,7 @@ const LinkedInPost = () => {
         };
 
         // Make the POST request
-        const result = await postData('https://df28-139-5-197-163.ngrok-free.app/postImage', payload);
+        const result = await postData('https://hx587qc4-3000.inc1.devtunnels.ms/postImage', payload);
         console.log(result);
       };
       reader.readAsBinaryString(file);
@@ -354,7 +354,7 @@ const LinkedInPost = () => {
 
       try {
         // Send code to get access token
-        const response = await fetch('https://969f71281649d6d298116a3e3ed6e6c4.serveo.net/getAccessToken', {
+        const response = await fetch('https://hx587qc4-3000.inc1.devtunnels.ms//getAccessToken', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -511,7 +511,7 @@ const LinkedInPost = () => {
       </div>
       </div> 
     <div className="schedule-post-box">
-      <h2>Schedule a Post</h2>
+      <h2 onclick={handleImageUpload}>Schedule a Post</h2>
       <div className="date-time-box">
         <div className="date-picker-box">
           <label>Date:</label>

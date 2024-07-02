@@ -329,8 +329,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
-          <Route path=":tenant_id/instagramauth"  element= {<InstaAuth/>}/>
-          <Route path="/instagrampost"  element= {<InstagramPost/>}/>
+          <Route path="/instagramauth"  element= {<InstaAuth/>}/>
+          <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
           <Route path=":tenant_id/user_id" element={<Userprofile />} />
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
           <Route path=":tenant_id/linkedinpost"  element= {<LinkedInPost/>}/>

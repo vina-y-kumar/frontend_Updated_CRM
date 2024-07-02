@@ -71,18 +71,26 @@ const InstagramPost = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
   
+    console.log('Form submission started');
+  
     // Step 1: Upload files to Firebase
-    const uploadPromises = files.map(file => uploadFileToFirebase(file));
+    const uploadPromises = files.map(file => {
+      console.log('Uploading file:', file.name);
+      return uploadFileToFirebase(file);
+    });
+  
     try {
       const fileURLs = await Promise.all(uploadPromises);
       console.log('Uploaded file URLs:', fileURLs);
   
       // Step 2: Set the image URL in the state and wait for it to complete
+      console.log('Setting image URL in state:', fileURLs[0]);
       setImageUrl(fileURLs[0]); // Assuming you are using the URL of the first uploaded file
   
       // Use a callback or async function to ensure state is updated before proceeding
       await new Promise(resolve => {
         setImageUrl(fileURLs[0], () => {
+          console.log('Image URL state updated:', fileURLs[0]);
           resolve();
         });
       });
@@ -98,6 +106,8 @@ const InstagramPost = () => {
       access_token: accessToken,
       caption: caption
     };
+  
+    console.log('Posting data to backend:', postData);
   
     try {
       const response = await fetch('https://nuren-insta.vercel.app/postImage', {
@@ -117,7 +127,7 @@ const InstagramPost = () => {
       alert('Image posted successfully!');
       // Optionally, you can reset form fields or perform other actions after successful post
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error posting image:', error);
       alert('Error posting image');
     }
   };

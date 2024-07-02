@@ -39,7 +39,7 @@ const InstagramPost = () => {
   useEffect(() => {
     // Check if the access token is present in local storage
     const storedToken = localStorage.getItem('accessToken');
-
+    setAccessToken(storedToken);
     if (!storedToken) {
       // If token is not present, initiate Instagram authentication
       handleInstaAuth();

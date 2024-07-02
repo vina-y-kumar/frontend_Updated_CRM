@@ -91,7 +91,7 @@ import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
 
 import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
-
+import ImageEditorComponent from "../pages/documenteditpage/imageeditor.jsx";
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
@@ -360,6 +360,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>
           <Route path=":tenant_id/editdocument"  element= {<IframePage/>}/>
+          <Route path=":tenant_id/editImage"  element= {<ImageEditorComponent/>}/>
     
     
         </>

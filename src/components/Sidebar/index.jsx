@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation,useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import PeopleIcon from '@mui/icons-material/People';
@@ -32,10 +32,11 @@ import axiosInstance from '../../api';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
-export const Sidebar = () => {
+export const Sidebar = ({ onSelectModel }) => {
   const { authenticated, setAuthenticated } = useAuth();
   const { pathname } = useLocation();
   const tenantId = getTenantIdFromUrl();
+
 
   function getTenantIdFromUrl() {
     const pathArray = pathname.split('/');
@@ -44,11 +45,14 @@ export const Sidebar = () => {
     }
     return null; // Return null if tenant ID is not found or not in the expected place
   }
-
+  const navigate = useNavigate();
+  const [models, setModels] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [clientsDropdownOpen, setClientsDropdownOpen] = useState(false);
   const [taskDropdownOpen, setTaskDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false); 
   const [socialDropdownOpen, setSocialDropdownOpen] = useState(false);
+  const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -64,6 +68,21 @@ export const Sidebar = () => {
       console.error("Logout error:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchModels = async () => {
+        try {
+            const response = await axiosInstance.get('https://webappbaackend.azurewebsites.net/dynamic-models/');
+            setModels(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching models:', error);
+            setLoading(false);
+        }
+    };
+
+    fetchModels();
+}, []);
 
   const toggleClientsDropdown = () => {
     setClientsDropdownOpen(!clientsDropdownOpen);
@@ -93,12 +112,26 @@ export const Sidebar = () => {
     setClientsDropdownOpen(false);
   };
 
+  const togglemodelDropdown = () => {
+    setIsModelDropdownOpen(!isModelDropdownOpen);
+};
+
+
+const handleModelSelect = (modelName) => {
+  if (onSelectModel) {
+    onSelectModel(modelName);
+  }
+  setIsModelDropdownOpen(false);
+};
+
   const formatLink = (link) => {
     if (tenantId) {
       return `/${tenantId}${link}`;
     }
     return link;
   };
+
+  console.log('Sidebar model:', models);
 
   return (
     <div className="siadebar">
@@ -351,7 +384,16 @@ export const Sidebar = () => {
               </span>
             </NavLink>
           </li>
-       
+          {models.map((model) => (
+            <li key={model.model_name} className="sidebar-item">
+              <NavLink className="sidebar-link" to={formatLink(`/models/${model.model_name}`)}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  {/* Add icon or other relevant UI elements */}
+                  <p className="sidebar-link-text">{model.model_name}</p>
+                </span>
+              </NavLink>
+            </li>
+          ))}
           </div>
               </div>
          

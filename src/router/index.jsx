@@ -89,6 +89,7 @@ import Ticket from "../pages/Ticket/TicketPage";
 import { Explore } from "@mui/icons-material";
 import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
+import Models from "../pages/Model/ModelTable.jsx";
 
 
 const getTenantIdFromUrl = () => {
@@ -111,6 +112,7 @@ export const RouteWrapper = () => {
   const tenantId = getTenantIdFromUrl();
   console.log("Tenant ID:", tenantId);
   const [reminder, setReminder] = useState([]);  
+  const [selectedModel, setSelectedModel] = useState(null);
 
   const [scheduleData, setScheduleData] = useState({
     subject:"",
@@ -253,6 +255,8 @@ export const RouteWrapper = () => {
     };
    
     console.log('*********',reminderMessage)
+
+   
   return (
     <>
     {reminders.map((reminder) => (
@@ -336,6 +340,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/product"  element= {<Product/>}/>
           <Route path=":tenant_id/loyalty"  element= {<Loyalcard/>}/>
           <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
+          <Route path=":tenant_id/models/:modelName"  element= {<Models/>}/>
           {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
 
           

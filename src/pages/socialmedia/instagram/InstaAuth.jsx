@@ -12,12 +12,24 @@ const InstaAuth = () => {
     // Get the access token
     const token = hashParams.get('access_token');
 
-
     if (token) {
       // Store the token in local storage
       localStorage.setItem('accessToken', token);
-      // Redirect to the instapost page
-      navigate('/instapost');
+
+      // Get tenantId from local storage
+      const storedTenantId = localStorage.getItem("tenant_id");
+      const tenantId = storedTenantId ? JSON.parse(storedTenantId) : null;
+
+      if (tenantId) {
+        // Redirect to the tenant-specific instapost page
+        navigate(`/${tenantId}/instagrampost`);
+      } else {
+        // Handle the case where tenantId is not found
+        console.error("Tenant ID not found in local storage");
+        // Optionally, redirect to a default page or show an error message
+      }
+    } else {
+      alert("No Token found");
     }
   }, [navigate]);
 
@@ -27,6 +39,6 @@ const InstaAuth = () => {
       <p>Authenticating...</p>
     </div>
   );
-}
+};
 
 export default InstaAuth;

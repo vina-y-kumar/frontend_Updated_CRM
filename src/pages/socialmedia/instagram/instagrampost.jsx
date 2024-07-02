@@ -11,6 +11,7 @@ import { storage } from './firebase'; // Import the storage from your firebase.j
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MapsUgcOutlinedIcon from '@mui/icons-material/MapsUgcOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const InstagramPost = () => {
   const [text, setText] = useState('');
@@ -32,15 +33,33 @@ const InstagramPost = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [accessToken, setAccessToken] = useState('');
 
+  const history = useNavigate();
+
   useEffect(() => {
-    // Get the fragment identifier (everything after the #)
-    const hash = window.location.hash;
-    // Remove the # at the beginning of the fragment identifier
-    const hashParams = new URLSearchParams(hash.slice(1));
-    // Get the access token
-    const token = hashParams.get('access_token');
-    setAccessToken(token);
-  }, []);
+    // Check if the access token is present in local storage
+    const storedToken = localStorage.getItem('accessToken');
+
+    if (storedToken) {
+      setAccessToken(storedToken);
+    } else {
+      // Get the fragment identifier (everything after the #)
+      const hash = window.location.hash;
+      // Remove the # at the beginning of the fragment identifier
+      const hashParams = new URLSearchParams(hash.slice(1));
+      // Get the access token
+      const token = hashParams.get('access_token');
+
+      if (token) {
+        // Save the token to local storage
+        localStorage.setItem('accessToken', token);
+        setAccessToken(token);
+      } else {
+        // If no token is found, redirect to instagramauth
+        history.push('/instagramauth');
+      }
+    }
+  }, [history]);
+
 
 
   // const handleSubmit = (event) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
@@ -44,12 +44,18 @@ export const Sidebar = () => {
     }
     return null; // Return null if tenant ID is not found or not in the expected place
   }
+ 
+
 
   const [clientsDropdownOpen, setClientsDropdownOpen] = useState(false);
   const [taskDropdownOpen, setTaskDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false); 
   const [socialDropdownOpen, setSocialDropdownOpen] = useState(false);
-
+  const [accessToken, setAccessToken] = useState('');
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setAccessToken(token);
+  }, []);
   const handleLogout = async () => {
     try {
       const response = await axiosInstance.post('/logout/');
@@ -99,6 +105,7 @@ export const Sidebar = () => {
     }
     return link;
   };
+  const linkTo = accessToken ? '/instagrampost' : '/instagramauth';
 
   return (
     <div className="siadebar">

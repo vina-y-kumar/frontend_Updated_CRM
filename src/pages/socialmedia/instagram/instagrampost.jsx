@@ -83,54 +83,56 @@ const InstagramPost = () => {
       const fileURLs = await Promise.all(uploadPromises);
       console.log('Uploaded file URLs:', fileURLs);
   
-      // Step 2: Set the image URL in the state and wait for it to complete
+      // Step 2: Set the image URL in the state
       console.log('Setting image URL in state:', fileURLs[0]);
       setImageUrl(fileURLs[0]); // Assuming you are using the URL of the first uploaded file
-  
-      // Use a callback or async function to ensure state is updated before proceeding
-      await new Promise(resolve => {
-        setImageUrl(fileURLs[0], () => {
-          console.log('Image URL state updated:', fileURLs[0]);
-          resolve();
-        });
-      });
     } catch (error) {
       console.error('Error uploading files:', error);
       alert('Error uploading files');
       return; // Exit early if there's an error
     }
+  };
   
-    // Step 3: Post data to backend
-    const postData = {
-      image_url: imageUrl, // Ensure this has the updated URL
-      access_token: accessToken,
-      caption: caption
+  // useEffect to handle post submission once imageUrl is updated
+  useEffect(() => {
+    if (!imageUrl) return;
+  
+    const postData = async () => {
+      const postData = {
+        image_url: imageUrl,
+        access_token: accessToken,
+        caption: caption
+      };
+  
+      console.log('Posting data to backend:', postData);
+  
+      try {
+        const response = await fetch('https://nuren-insta.vercel.app/postImage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(postData)
+        });
+  
+        if (!response.ok) {
+          throw new Error('Error posting image');
+        }
+  
+        const data = await response.json();
+        console.log('Success:', data);
+        alert('Image posted successfully!');
+        // Optionally, you can reset form fields or perform other actions after successful post
+      } catch (error) {
+        console.error('Error posting image:', error);
+        alert('Error posting image');
+      }
     };
   
-    console.log('Posting data to backend:', postData);
+    postData();
+  }, [imageUrl]);
   
-    try {
-      const response = await fetch('https://nuren-insta.vercel.app/postImage', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(postData)
-      });
   
-      if (!response.ok) {
-        throw new Error('Error posting image');
-      }
-  
-      const data = await response.json();
-      console.log('Success:', data);
-      alert('Image posted successfully!');
-      // Optionally, you can reset form fields or perform other actions after successful post
-    } catch (error) {
-      console.error('Error posting image:', error);
-      alert('Error posting image');
-    }
-  };
   
   const handleDragOver = (event) => {
     event.preventDefault();

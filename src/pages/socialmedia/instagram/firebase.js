@@ -1,13 +1,22 @@
-import { getStorage } from 'firebase/storage';
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore';
+
 const firebaseConfig = {
   
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
+
 const analytics = getAnalytics(app);
 const storage = getStorage(app);
+const db = getFirestore(app);
 
-export {storage};
+export { storage, db,app };

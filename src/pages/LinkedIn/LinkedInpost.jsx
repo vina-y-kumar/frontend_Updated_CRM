@@ -7,6 +7,7 @@ import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import './LinkedInpost.css';
 
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -61,6 +62,7 @@ const LinkedInPost = () => {
   const handleImageUpload = async (e) => {
     const newFiles = Array.from(e.target.files);
     addFiles(newFiles);
+    var code='';
 
     // Iterate over each file to read it as binary data and upload to Firebase
     newFiles.forEach(file => {
@@ -79,7 +81,8 @@ const LinkedInPost = () => {
           imageURL:" imageURL",
           textBody: 'This is a sample text body.',
           title: 'Sample Title',
-          subtitle: 'Sample Subtitle'
+          subtitle: 'Sample Subtitle',
+          code: code
         };
 
         // Make the POST request
@@ -342,7 +345,7 @@ const LinkedInPost = () => {
     const handleAccessToken = async () => {
       // Get authorization code from URL params
       const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');
+      code = urlParams.get('code');
       const state = urlParams.get('state');
       console.log('Authorization code:', code);
       console.log('Authorization state:', state);

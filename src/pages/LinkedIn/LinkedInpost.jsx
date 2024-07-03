@@ -40,6 +40,7 @@ const LinkedInPost = () => {
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [profilePost, setProfilePost] = useState(null);
   const [profileInfo, setProfileInfo] = useState({ name: '', profilePicture: '' });
+  const [authCode, setAuthCode] = useState('');
   
 
   const handleDragOver = (event) => {
@@ -82,7 +83,7 @@ const LinkedInPost = () => {
           textBody: 'This is a sample text body.',
           title: 'Sample Title',
           subtitle: 'Sample Subtitle',
-          code: code
+          code: authCode
         };
 
         // Make the POST request
@@ -355,6 +356,7 @@ const LinkedInPost = () => {
         return;
       }
 
+      setAuthCode(code);
       try {
         // Send code to get access token
         const response = await fetch('https://hx587qc4-3000.inc1.devtunnels.ms//getAccessToken', {

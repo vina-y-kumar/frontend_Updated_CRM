@@ -107,7 +107,7 @@ export const Sidebar = () => {
   };
   const formatmewLink = (accessToken) => {
     if (accessToken) {
-      return '/instagrampost'; // Relative path
+      return `/${tenantId}/instagrampost`; // Relative path
     } else {
       return 'https://crm.nuren.ai/instagramauth'; // External URL
     }

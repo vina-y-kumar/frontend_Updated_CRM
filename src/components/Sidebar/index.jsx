@@ -105,8 +105,14 @@ export const Sidebar = () => {
     }
     return link;
   };
-  const linkTo = accessToken ? '/instagrampost' : '/instagramauth';
-
+  const formatmewLink = (accessToken) => {
+    if (accessToken) {
+      return '/instagrampost'; // Relative path
+    } else {
+      return 'https://crm.nuren.ai/instagramauth'; // External URL
+    }
+  };
+  
   return (
     <div className="siadebar">
       <div className="sidebar_inner">
@@ -226,7 +232,7 @@ export const Sidebar = () => {
             {socialDropdownOpen && (
               <ul className="dropdown_list">
                 <li className="sidebar_item">
-                <NavLink className="sidebar_link" to={formatLink(linkTo)}>
+                <NavLink className="sidebar_link" to={formatmewLink(accessToken)}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <InstagramIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Instagram</p>

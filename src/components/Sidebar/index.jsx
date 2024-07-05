@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation,useNavigate } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import PeopleIcon from '@mui/icons-material/People';
@@ -27,6 +27,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ContactPhoneRoundedIcon from '@mui/icons-material/ContactPhoneRounded';
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import './sidebar.css';
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from '../../authContext';
 import axiosInstance from '../../api';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
@@ -48,12 +49,20 @@ export const Sidebar = ({ onSelectModel }) => {
   const navigate = useNavigate();
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
+ 
+
+
   const [clientsDropdownOpen, setClientsDropdownOpen] = useState(false);
   const [taskDropdownOpen, setTaskDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false); 
   const [socialDropdownOpen, setSocialDropdownOpen] = useState(false);
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
 
+  const [accessToken, setAccessToken] = useState('');
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setAccessToken(token);
+  }, []);
   const handleLogout = async () => {
     try {
       const response = await axiosInstance.post('/logout/');
@@ -130,6 +139,7 @@ const handleModelSelect = (modelName) => {
     }
     return link;
   };
+  const linkTo = accessToken ? '/instagrampost' : '/instagramauth';
 
   console.log('Sidebar model:', models);
 
@@ -252,7 +262,7 @@ const handleModelSelect = (modelName) => {
             {socialDropdownOpen && (
               <ul className="dropdown_list">
                 <li className="sidebar_item">
-                  <NavLink className="sidebar_link" to={formatLink("/instagramauth")}>
+                <NavLink className="sidebar_link" to={formatLink(linkTo)}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <InstagramIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Instagram</p>

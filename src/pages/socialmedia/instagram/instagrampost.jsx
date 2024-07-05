@@ -11,6 +11,7 @@ import { storage } from './firebase'; // Import the storage from your firebase.j
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MapsUgcOutlinedIcon from '@mui/icons-material/MapsUgcOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const InstagramPost = () => {
   const [text, setText] = useState('');
@@ -32,14 +33,18 @@ const InstagramPost = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [accessToken, setAccessToken] = useState('');
 
+  const handleInstaAuth = () => {
+    window.location.href = 'https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://crm.nuren.ai/instagramauth/&scope=pages_show_list,instagram_basic&response_type=token';
+  };
   useEffect(() => {
-    // Get the fragment identifier (everything after the #)
-    const hash = window.location.hash;
-    // Remove the # at the beginning of the fragment identifier
-    const hashParams = new URLSearchParams(hash.slice(1));
-    // Get the access token
-    const token = hashParams.get('access_token');
-    setAccessToken(token);
+    // Check if the access token is present in local storage
+    const storedToken = localStorage.getItem('accessToken');
+    setAccessToken(storedToken);
+    if (!storedToken) {
+      // If token is not present, initiate Instagram authentication
+      handleInstaAuth();
+    }
+    // No need to set state or perform further actions here
   }, []);
 
 
@@ -234,12 +239,26 @@ const InstagramPost = () => {
         const downloadURL = await getDownloadURL(storageRef);
         return downloadURL;
       };
+      
+  
+
+  
 
   return (
     <div className="instagram-post-page">
       <div className="sidebar-container">
         <Sidebar />
       </div>
+      {!accessToken ? (
+        <div className='Instagramauth' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h1>Instagram Authentication</h1>
+          <button onClick={handleInstaAuth} style={{ padding: '2rem', backgroundColor: 'red', borderRadius: '8px', color: 'white', fontSize: '20px' }}>
+            Get Instagram Auth
+          </button>
+        </div>
+      ) : (
+        <></> // Optionally, render something else if authenticated
+      )}
       <div className="instagram-post-content">
         <div className="instagram-post-form">
           <h1 className="instagram-post-title">Instagram</h1>

@@ -27,15 +27,17 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ContactPhoneRoundedIcon from '@mui/icons-material/ContactPhoneRounded';
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import './sidebar.css';
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from '../../authContext';
 import axiosInstance from '../../api';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
-export const Sidebar = () => {
+export const Sidebar = ({ onSelectModel }) => {
   const { authenticated, setAuthenticated } = useAuth();
   const { pathname } = useLocation();
   const tenantId = getTenantIdFromUrl();
+
 
   function getTenantIdFromUrl() {
     const pathArray = pathname.split('/');
@@ -44,6 +46,9 @@ export const Sidebar = () => {
     }
     return null; // Return null if tenant ID is not found or not in the expected place
   }
+  const navigate = useNavigate();
+  const [models, setModels] = useState([]);
+  const [loading, setLoading] = useState(true);
  
 
 
@@ -51,6 +56,8 @@ export const Sidebar = () => {
   const [taskDropdownOpen, setTaskDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false); 
   const [socialDropdownOpen, setSocialDropdownOpen] = useState(false);
+  const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
+
   const [accessToken, setAccessToken] = useState('');
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -70,6 +77,21 @@ export const Sidebar = () => {
       console.error("Logout error:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchModels = async () => {
+        try {
+            const response = await axiosInstance.get('https://webappbaackend.azurewebsites.net/dynamic-models/');
+            setModels(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching models:', error);
+            setLoading(false);
+        }
+    };
+
+    fetchModels();
+}, []);
 
   const toggleClientsDropdown = () => {
     setClientsDropdownOpen(!clientsDropdownOpen);
@@ -99,12 +121,30 @@ export const Sidebar = () => {
     setClientsDropdownOpen(false);
   };
 
+  const togglemodelDropdown = () => {
+    setIsModelDropdownOpen(!isModelDropdownOpen);
+};
+
+
+const handleModelSelect = (modelName) => {
+  if (onSelectModel) {
+    onSelectModel(modelName);
+  }
+  setIsModelDropdownOpen(false);
+};
+
   const formatLink = (link) => {
     if (tenantId) {
       return `/${tenantId}${link}`;
     }
     return link;
   };
+
+  const linkTo = accessToken ? '/instagrampost' : '/instagramauth';
+
+  console.log('Sidebar model:', models);
+
+
   const formatmewLink = (accessToken) => {
     if (accessToken) {
       return `/${tenantId}/instagrampost`; // Relative path
@@ -113,6 +153,7 @@ export const Sidebar = () => {
     }
   };
   
+
   return (
     <div className="siadebar">
       <div className="sidebar_inner">
@@ -364,7 +405,16 @@ export const Sidebar = () => {
               </span>
             </NavLink>
           </li>
-       
+          {models.map((model) => (
+            <li key={model.model_name} className="sidebar-item">
+              <NavLink className="sidebar-link" to={formatLink(`/models/${model.model_name}`)}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  {/* Add icon or other relevant UI elements */}
+                  <p className="sidebar-link-text">{model.model_name}</p>
+                </span>
+              </NavLink>
+            </li>
+          ))}
           </div>
               </div>
          

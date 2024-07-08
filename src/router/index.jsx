@@ -89,7 +89,7 @@ import Ticket from "../pages/Ticket/TicketPage";
 import { Explore } from "@mui/icons-material";
 import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
-
+import Appa from '../components/email.jsx';
 import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
 import ImageEditorComponent from "../pages/documenteditpage/imageeditor.jsx";
 const getTenantIdFromUrl = () => {
@@ -362,7 +362,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/editdocument"  element= {<IframePage/>}/>
           <Route path=":tenant_id/editImage"  element= {<ImageEditorComponent/>}/>
     
-    
+          <Route path=":tenant_id/email_setup" element={<Appa/>}/>
         </>
       )}
 

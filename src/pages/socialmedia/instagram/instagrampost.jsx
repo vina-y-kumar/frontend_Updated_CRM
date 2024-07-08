@@ -12,7 +12,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MapsUgcOutlinedIcon from '@mui/icons-material/MapsUgcOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { useNavigate } from 'react-router-dom';
-
+import LiveChat from './instachat';
 const InstagramPost = () => {
   const [text, setText] = useState('');
   const [dragging, setDragging] = useState(false);
@@ -32,6 +32,8 @@ const InstagramPost = () => {
   const [selectedTime, setSelectedTime] = useState('12:00');
   const [imageUrl, setImageUrl] = useState('');
   const [accessToken, setAccessToken] = useState('');
+  const [showLiveChat, setShowLiveChat] = useState(false);
+
 
   const handleInstaAuth = () => {
     window.location.href = 'https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://crm.nuren.ai/instagramauth/&scope=pages_show_list,instagram_basic&response_type=token';
@@ -40,9 +42,10 @@ const InstagramPost = () => {
     // Check if the access token is present in local storage
     const storedToken = localStorage.getItem('accessToken');
     setAccessToken(storedToken);
+    console.log("tiken is",storedToken);
     if (!storedToken) {
       // If token is not present, initiate Instagram authentication
-      handleInstaAuth();
+      //handleInstaAuth();
     }
     // No need to set state or perform further actions here
   }, []);
@@ -249,7 +252,8 @@ const InstagramPost = () => {
       <div className="sidebar-container">
         <Sidebar />
       </div>
-      {!accessToken ? (
+     <div style={{display:'flex',flexDirection:'column'}}>
+     {accessToken ? (
         <div className='Instagramauth' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h1>Instagram Authentication</h1>
           <button onClick={handleInstaAuth} style={{ padding: '2rem', backgroundColor: 'red', borderRadius: '8px', color: 'white', fontSize: '20px' }}>
@@ -257,9 +261,20 @@ const InstagramPost = () => {
           </button>
         </div>
       ) : (
-        <></> // Optionally, render something else if authenticated
+        <> <button onClick={() => setShowLiveChat(!showLiveChat)}>
+       {showLiveChat ? 'Send Post' : 'Instagram Chat'}
+      </button></> // Optionally, render something else if authenticated
       )}
+    
+    
       <div className="instagram-post-content">
+      {showLiveChat ? (
+        <div>
+          <LiveChat />
+        </div>
+      ) : (<>
+       
+        
         <div className="instagram-post-form">
           <h1 className="instagram-post-title">Instagram</h1>
           <div className="post-container">
@@ -353,29 +368,12 @@ const InstagramPost = () => {
             <button onClick={handleSchedulePost}>Schedule Post</button>
           </div>
               {/* <a href="https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://crm.nuren.ai/ll/instagrampost/&scope=pages_show_list,instagram_basic&response_type=token "> Login via Facebook</a> */}
-              <button
-  style={{
-    marginLeft: '3rem',
-    marginTop: '2rem',
-    padding: '1rem',
-    border: '2px solid blue',
-    backgroundColor: 'blue',
-    color: 'white',
-    fontWeight: '600',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s, color 0.3s',
-  }}
-  onClick={handleSubmit}
-  onMouseOver={(e) => {
-    e.target.style.backgroundColor = 'darkblue';
-  }}
-  onMouseOut={(e) => {
-    e.target.style.backgroundColor = 'blue';
-  }}
->
-  Post
-</button>
+                <button
+                className='post_button'
+                onClick={handleSubmit}
+                >
+                  Post
+                </button>
         </div>
         <div className="instagram-post-preview">
           {/* <h2 className='preview-head'>Preview</h2> */}
@@ -392,13 +390,15 @@ const InstagramPost = () => {
               </div>
             )}
             <div className='insta-icons'>
-<FavoriteBorderIcon style={{fontSize:'30', marginRight:'10',marginBottom:'10'}}/>
-<MapsUgcOutlinedIcon style={{fontSize:'30', marginRight:'10',marginBottom:'10'}}/>
-<SendOutlinedIcon style={{fontSize:'30', marginRight:'10',marginBottom:'10'}}/>
+            <FavoriteBorderIcon style={{fontSize:'30', marginRight:'10',marginBottom:'10'}}/>
+            <MapsUgcOutlinedIcon style={{fontSize:'30', marginRight:'10',marginBottom:'10'}}/>
+            <SendOutlinedIcon style={{fontSize:'30', marginRight:'10',marginBottom:'10'}}/>
             </div>
             <p className="preview-caption"><b>nuren.ai </b>{caption}</p>
           </div>
         </div>
+        </>)}
+      </div>
       </div>
     </div>
   );

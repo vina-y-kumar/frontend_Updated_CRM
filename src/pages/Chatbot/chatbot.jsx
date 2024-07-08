@@ -17,7 +17,7 @@ const flowData = {
     { "id": 14, "type": "button_element", "body": "Yes" },
     { "id": 15, "type": "button_element", "body": "No" },
     { "id": 16, "type": "button_element", "body": "Talk to AI" },
-    { "id": 17, "type": "AI", "body": "Sure, directing you to AI section." },
+    { "id": 17, "type": "Input", "body": "Sure, directing you to AI section." },
     { "id": 18, "type": "string", "body": "Thank you! Have a great day. Please visit again!" }
   ],
   "adjacencyList": [[1, 2, 3], [4], [5], [6], [7], [13], [13], [8], [9], [10, 11], [12], [12], [], [14, 15, 16], [4], [18], [17], [], []]
@@ -71,6 +71,8 @@ const Chatbot = () => {
   const [conversation, setConversation] = useState(['']);
   const [flows, setFlows] = useState([]);
   const [selectedFlow, setSelectedFlow] = useState('');
+  const [previousContact, setPreviousContact] = useState(null);
+  const [newMessages, setNewMessages] = useState(['']);
  
 
   
@@ -241,36 +243,50 @@ const Chatbot = () => {
       console.log('Connected to the server');
     });
 
-    socket.on('latestMessage', (message) => {
+    /*socket.on('latestMessage', (message) => {
       if (message) {
-        console.log('Got New Message',message.body);
+        console.log('Got New hahahahahah',message.body);
         setConversation(prevMessages => [...prevMessages, { text: message.body, sender: 'bot' }]);
       }
-    });
+    });*/
     
 
- socket.on('new-message', (message) => {
-  if (message) {
-    
-    console.log('Got New Message',message);
-    
-    setConversation(prevMessages => [...prevMessages, { text: message.message, sender: 'user' }]);
-  }
-});
+    socket.on('new-message', (message) => {
+      if (message) {
+        console.log('Got New Message', selectedContact.phone);
+       
+  {
+        if (parseInt(message.contactPhone.wa_id) == parseInt(selectedContact.phone)) {
+          console.log("hogyaaaaaaaaaaaaaaaaaaaaaaaaaaaa");  
+          setConversation(prevMessages => [...prevMessages, { text: message.message, sender: 'user'}]);
+          setNewMessages(prevMessages => [...prevMessages, { text: message.message, sender: 'user'}]);
+        }
+      }}
+    });
 
 socket.on('node-message', (message) => {
   if (message) {
     
     console.log('Got New NOde Message',message);
-    
+  {
+    if (message.contactPhone.wa_id === selectedContact.phone) {
     setConversation(prevMessages => [...prevMessages, { text: message.message, sender: 'bot' }]);
+    }}
   }
 });
+/*
+if(previousContact.phone){
+sendDataToBackend(previousContact.phone, conversation);}
+setConversation(['']);
+fetchConversation(selectedContact.phone);*/
+
     return () => {
-      socket.off('latestMessage');
-      socket.off('newMessage');
+      socket.off('node-message');
+      socket.off('new-message');
     };
-  }, []);
+  }, [selectedContact]);
+  
+    
     /*useEffect(() => {
       // Firestore listener setup
       
@@ -328,6 +344,8 @@ socket.on('node-message', (message) => {
         ...prevConversation,
         { text: newMessage.content, sender: 'bot' }
       ]);
+      setNewMessages(prevMessages => [...prevMessages, { text: newMessage.content, sender: 'bot'}]);
+      console.log("hry GPT this is a convo",conversation);
   
       
     } catch (error) {
@@ -362,11 +380,89 @@ socket.on('node-message', (message) => {
     const search = searchText.toLowerCase();
     return firstName.includes(search) || lastName.includes(search);
   });
+  
 
-
+  const sendDataToBackend = async (contactPhone, conversation) => {
+    try {
+      const formattedConversation = conversation
+        .filter(msg => msg.text && msg.text.trim() !== '') // Ensure text exists and is not empty
+        .map(msg => ({
+          text: msg.text,
+          sender: msg.sender,
+        }));
+  
+      if (formattedConversation.length === 0) return; // No valid messages to send
+      // Example POST request using fetch API
+      const response = await fetch(`http://127.0.0.1:8000/whatsapp_convo_post/${contactPhone}/?source=whatsapp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Tenant-Id': tenantId
+        },
+        body: JSON.stringify({
+          contact_id: contactPhone,
+          conversations: formattedConversation,
+          tenant:'ll', // Assuming conversation is the array of messages
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to send data to backend');
+      }
+  
+      console.log('Data sent to backend successfully');
+  
+    } catch (error) {
+      console.error('Error sending data to backend:', error);
+    }
+  };
+  
+  // Function to fetch conversation data for a given contact
+  const fetchConversation = async (contactPhone) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/whatsapp_convo_get/${contactPhone}/?source=whatsapp`,{
+        method: 'GET',
+        headers: {
+          'X-Tenant-Id': tenantId
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch data from backend');
+      }
+  
+      const data = await response.json();
+      setConversation(data); // Update conversation state with fetched data
+  
+      console.log('Data fetched from backend successfully:', data);
+  
+    } catch (error) {
+      console.error('Error fetching data from backend:', error);
+    }
+  };
+  useEffect(() => {
+    if (previousContact) {
+      // Save conversation data for the previous contact
+      console.log("commentsdsdsd::::::::::::::::::::::::::::::::::::",conversation);
+      sendDataToBackend(previousContact.phone, newMessages);
+    }
+    
+    // Clear current conversation
+    setConversation(['']);
+    setNewMessages(['']);
+  
+    // Fetch conversation data for the new selected contact
+    if(selectedContact){
+    fetchConversation(selectedContact.phone);}
+    
+  }, [selectedContact]);
   const handleContactSelection = async (contact) => {
-    setSelectedContact(contact, firebaseContacts);
-    if (contact && contact.id) {
+    if(selectedContact){
+    setPreviousContact(selectedContact);}
+    console.log("contactthatiamsetting",contact);
+    setSelectedContact(contact);
+   
+   /* if (contact && contact.id) {
       await fetchProfileImage(contact.id);
       if (!messages[contact.id]) {
         setMessages(prevMessages => ({
@@ -376,9 +472,39 @@ socket.on('node-message', (message) => {
       }
     } else {
       console.error('Invalid contact:', contact);
-    }
-    fetchConversation(contact.id);
+    }*/
+   // fetchConversation(contact.id);
   };
+ /* const handleContactSelection = async (contact) => {
+    if (selectedContact) {
+      console.log("idhardekjhh",selectedContact.phone);
+      // Store data for the previous contact
+      await sendDataToBackend(selectedContact.phone, conversation);
+      setPreviousContact(selectedContact);
+    }
+  
+    // Set the previous contact to the current selected contact before updating selected contact
+
+  
+    // Update the selected contact
+    setSelectedContact(contact);
+  
+    // Fetch profile image and conversation data for the new contact
+    
+    if (contact && contact.id) {
+      await fetchProfileImage(contact.id);
+      if (!messages[contact.id]) {
+        setMessages(prevMessages => ({
+          ...prevMessages,
+          [contact.id]: []
+        }));
+      }
+      // Fetch conversation data for the new contact
+      //await fetchConversation(contact.phone);
+    } else {
+      console.error('Invalid contact:', contact);
+    }
+  }; */
 
   const handleToggleSmileys = () => {
     setShowSmileys(!showSmileys);

@@ -1,0 +1,96 @@
+/* LiveChat.css */
+
+.live-chat {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .chat-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 400px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 60%;
+  }
+  
+  .message.sent {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+  }
+  
+  .message.received {
+    background-color: #fff;
+    align-self: flex-start;
+    border: 1px solid #ccc;
+  }
+  
+  .input-box {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+  
+  button {
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  .live-chat {
+    padding: 20px;
+  }
+  
+  .chat-box,
+  .comments-box {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .message,
+  .comment {
+    padding: 5px;
+    margin: 5px 0;
+  }
+  
+  .sent {
+    text-align: right;
+    background-color: #e0f7fa;
+  }
+  
+  .received {
+    text-align: left;
+    background-color: #f1f8e9;
+  }
+  
+  .input-box,
+  .comments-box input,
+  .comments-box button {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  

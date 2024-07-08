@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
+import ImageEditorComponent from "../../pages/documenteditpage/imageeditor.jsx";
 import './LinkedInpost.css';
 
 
@@ -41,11 +42,21 @@ const LinkedInPost = () => {
   const [profilePost, setProfilePost] = useState(null);
   const [profileInfo, setProfileInfo] = useState({ name: '', profilePicture: '' });
   const [authCode, setAuthCode] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+
   
 
   const handleDragOver = (event) => {
     event.preventDefault();
     setDragging(true);
+  };
+
+  const openPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
   };
 
   const handleDragLeave = (event) => {
@@ -430,6 +441,27 @@ const LinkedInPost = () => {
           </label>
         </div>
       </div>
+
+      <div className="content">
+      {/* Your existing content here */}
+      <button onClick={openPopup} className="open-popup-button">
+       Image Editor
+      </button>
+
+      {showPopup && (
+        <div className="editimage-popup">
+          <div className="editimage-popup-overlay" onClick={handlePopupClose}></div>
+          <div className="editimage-popup-container">
+            <div className="editimage-popup-content">
+              <ImageEditorComponent onClose={handlePopupClose}/>
+            </div>
+            <button onClick={handlePopupClose} className="close-popup-button">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
 
       {files.length > 0 && (
         <div className="attached-media">

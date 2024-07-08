@@ -29,9 +29,15 @@ const InstaAuth = () => {
         // Optionally, redirect to a default page or show an error message
       }
     } else {
-      alert("No Token found");
+      // No token found, execute handleInstaAuth
+      alert('No Token found');
+      handleInstaAuth();
     }
   }, [navigate]);
+  const handleInstaAuth = () => {
+    window.location.href =
+      'https://www.facebook.com/v20.0/dialog/oauth?client_id=1546607802575879&redirect_uri=https://crm.nuren.ai/instagramauth/&scope=pages_show_list,instagram_basic&response_type=token';
+  };
 
   return (
     <div className='Instagramauth' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>

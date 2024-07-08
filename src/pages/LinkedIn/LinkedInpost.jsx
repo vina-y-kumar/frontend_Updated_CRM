@@ -45,6 +45,49 @@ const LinkedInPost = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   
+  useEffect(() => {
+    const handleAccessToken = async () => {
+      // Get authorization code from URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const state = urlParams.get('state');
+
+      console.log('Authorization code:', code);
+      console.log('Authorization state:', state);
+
+      if (!code) {
+        console.error('Authorization code not found in URL');
+        return;
+      }
+
+      setAuthCode(code);
+
+      try {
+        // Send code to get access token
+        const response = await fetch('https://hx587qc4-3000.inc1.devtunnels.ms/getAccessToken', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code, state }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Access token response:', data);
+          setAuthenticatedUser(data.access_token);
+        } else {
+          console.error('Failed to get access token', response.status, response.statusText);
+          const errorData = await response.json();
+          console.error('Error details:', errorData);
+        }
+      } catch (error) {
+        console.error('Error fetching access token:', error);
+      }
+    };
+
+    handleAccessToken();
+  }, []);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -94,7 +137,9 @@ const LinkedInPost = () => {
           textBody: 'This is a sample text body.',
           title: 'Sample Title',
           subtitle: 'Sample Subtitle',
+          shareText:'this is random text',
           code: authCode
+
         };
 
         // Make the POST request
@@ -352,48 +397,6 @@ const LinkedInPost = () => {
 
  
 
-  useEffect(() => {
-    // Function to handle getting access token after redirect
-    const handleAccessToken = async () => {
-      // Get authorization code from URL params
-      const urlParams = new URLSearchParams(window.location.search);
-      code = urlParams.get('code');
-      const state = urlParams.get('state');
-      console.log('Authorization code:', code);
-      console.log('Authorization state:', state);
-
-      if (!code) {
-        console.error('Authorization code not found in URL');
-        return;
-      }
-
-      setAuthCode(code);
-      try {
-        // Send code to get access token
-        const response = await fetch('https://hx587qc4-3000.inc1.devtunnels.ms//getAccessToken', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ code , state }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Access token response:', data);
-          setAuthenticatedUser(data.access_token);
-        } else {
-          console.error('Failed to get access token', response.status, response.statusText);
-          const errorData = await response.json();
-          console.error('Error details:', errorData);
-        }
-      } catch (error) {
-        console.error('Error fetching access token:', error);
-      }
-    };
-
-    handleAccessToken();
-  }, []);
 
 
   

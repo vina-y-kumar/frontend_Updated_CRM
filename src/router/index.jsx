@@ -93,6 +93,9 @@ import Models from "../pages/Model/ModelTable.jsx";
 
 import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
 import ImageEditorComponent from "../pages/documenteditpage/imageeditor.jsx";
+import Appa from "../pages/Email/Email.jsx";
+import EmailList from "../pages/Email/Email-List.jsx";
+import EmailProviders from "../pages/Email/Email-provider.jsx";
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
@@ -343,7 +346,9 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
           <Route path=":tenant_id/models/:modelName"  element= {<Models/>}/>
           {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
-
+          <Route path=":tenant_id/emailss"  element= {<Appa/>}/>
+          <Route path=":tenant_id/email-list" element={<EmailList/>} />
+          <Route path=":tenant_id/email-provider" element={<EmailProviders/>} />
           
           <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
           <Route path=":tenant_id/chatbot"  element= {<Chatbot/>}/>

@@ -68,7 +68,7 @@ import Vendorsform from "../pages/Vendors/createVendors";
 import VendorInfo from "../pages/Vendors/VendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
 import Report from "../pages/Reports/report";
-import Reportform from "../pages/Reports/reportform";
+
 import Loyalityform from "../pages/LoyaltyProgram/Loyalityform";
 import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
 import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
@@ -79,7 +79,7 @@ import Ticketform from "../pages/Ticket/Ticketform";
 import TicketInfo from "../pages/Ticket/TicketInfo";
 
 import Calendar from "../pages/Calendar/Calendar";
-
+import InstagramMedia from "../pages/socialmedia/instagram/instagramMedia.jsx";
 import Calendarform from "../pages/Calendar/Calendarform";
 
 import { DashboardCustomizeSharp } from "@mui/icons-material";
@@ -90,8 +90,13 @@ import { Explore } from "@mui/icons-material";
 import ExplorePage from "../pages/ExplorePage/Explore";
 import ExploreDetails from "../pages/ExplorePage/readExplore";
 import Appa from '../components/email.jsx';
+import Models from "../pages/Model/ModelTable.jsx";
+
 import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
 import ImageEditorComponent from "../pages/documenteditpage/imageeditor.jsx";
+
+import EmailList from "../pages/Email/Email-List.jsx";
+import EmailProviders from "../pages/Email/Email-provider.jsx";
 const getTenantIdFromUrl = () => {
   const pathArray = window.location.pathname.split('/');
   if (pathArray.length >= 2) {
@@ -99,6 +104,8 @@ const getTenantIdFromUrl = () => {
   }
   return null; 
 };
+
+import PdfUploader from "../pages/PDF";
 
 
 // import CustomModelForm from "../pages/CustomModel/customform";
@@ -112,6 +119,7 @@ export const RouteWrapper = () => {
   const tenantId = getTenantIdFromUrl();
   console.log("Tenant ID:", tenantId);
   const [reminder, setReminder] = useState([]);  
+  const [selectedModel, setSelectedModel] = useState(null);
 
   const [scheduleData, setScheduleData] = useState({
     subject:"",
@@ -254,6 +262,8 @@ export const RouteWrapper = () => {
     };
    
     console.log('*********',reminderMessage)
+
+   
   return (
     <>
     {reminders.map((reminder) => (
@@ -302,7 +312,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/meetings" element={<Met handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
          <Route path="/:tenantId/report" element={<Report />} />
-          <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
+       
           <Route path=":tenant_id/calendar"   element={<Calendar/>}/>  
 
 
@@ -318,6 +328,10 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/interaction" element={<Interaction/>}/>
           <Route path=":tenant_id/addtask" element={<AddTaskForm/>}/>
           <Route path=":tenant_id/loyaltyform" element ={<Loyalityform/>}/>
+         
+          <Route path=":tenant_id/pdf" element ={<PdfUploader/>}/>
+
+
           
 
           <Route path=":tenant_id/compose" element={<EmailComponent/>}/>
@@ -337,8 +351,11 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/product"  element= {<Product/>}/>
           <Route path=":tenant_id/loyalty"  element= {<Loyalcard/>}/>
           <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
+          <Route path=":tenant_id/models/:modelName"  element= {<Models/>}/>
           {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
-
+          <Route path=":tenant_id/emailss"  element= {<Appa/>}/>
+          <Route path=":tenant_id/email-list" element={<EmailList/>} />
+          <Route path=":tenant_id/email-provider" element={<EmailProviders/>} />
           
           <Route path=":tenant_id/loyaltyinfo"  element= {<LoyaltyInfo/>}/>
           <Route path=":tenant_id/chatbot"  element= {<Chatbot/>}/>
@@ -363,6 +380,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/editImage"  element= {<ImageEditorComponent/>}/>
     
           <Route path=":tenant_id/email_setup" element={<Appa/>}/>
+          <Route path=":tenant_id/InstagramMedia"  element= {<InstagramMedia/>}/>
         </>
       )}
 

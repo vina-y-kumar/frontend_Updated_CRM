@@ -4,15 +4,13 @@ import { getStorage } from 'firebase/storage';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB32WlPKuJg_D5xRTQ5BDDHymclWIE8Tss",
-  authDomain: "nurenai-c9cb8.firebaseapp.com",
-  projectId: "nurenai-c9cb8",
-  storageBucket: "nurenai-c9cb8.appspot.com",
-  messagingSenderId: "1092310999688",
-  appId: "1:1092310999688:web:9f969bc630e75aad62b53d",
-  measurementId: "G-EWMN18MQRK"
+  apiKey: "AIzaSyBPsLD_NgSwchMrpG2U81UsH_USQGSiNZU",
+  authDomain: "nurenai.firebaseapp.com",
+  projectId: "nurenai",
+  storageBucket: "nurenai.appspot.com",
+  messagingSenderId: "667498046930",
+  appId: "1:667498046930:web:cb281b053ddc016e18940b"
 };
-
 // Initialize Firebase
 let app;
 if (!getApps().length) {

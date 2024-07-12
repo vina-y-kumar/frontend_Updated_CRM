@@ -36,6 +36,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import uploadToBlob from "../../azureUpload.jsx";
 import Picker from 'emoji-picker-react';
+import ImageEditorComponent from "../../pages/documenteditpage/imageeditor.jsx";
 //import {getdata} from './chatfirebase';
 import axios from 'axios';
 //import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore';
@@ -74,6 +75,16 @@ const Chatbot = () => {
   const [previousContact, setPreviousContact] = useState(null);
   const [newMessages, setNewMessages] = useState(['']);
  
+  const [showPopup, setShowPopup] = useState(false);
+
+
+  const openPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
 
   
   const fetchContacts = async () => {
@@ -718,6 +729,26 @@ fetchConversation(selectedContact.phone);*/
       </div>
       <div className="chatbot-contact-section">
       <button className="chatbot-signupbutton" onClick={handleRedirect}>Sign Up</button>
+      <div className="content">
+      {/* Your existing content here */}
+      <button onClick={openPopup} className="open-popup-button">
+       Image Editor
+      </button>
+
+      {showPopup && (
+        <div className="editimage-popup">
+          <div className="editimage-popup-overlay" onClick={handlePopupClose}></div>
+          <div className="editimage-popup-container">
+            <div className="editimage-popup-content">
+              <ImageEditorComponent onClose={handlePopupClose}/>
+            </div>
+            <button onClick={handlePopupClose} className="close-popup-button">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
         <h1 className='chatbot-details'>Contact Details</h1>
         <div>
           <button onClick={handleCreateFlow}>Create Flow</button>
@@ -743,6 +774,7 @@ fetchConversation(selectedContact.phone);*/
                 <h2>{selectedContact.first_name} {selectedContact.last_name} {selectedContact.name}</h2>
                 
               </div>
+              
                 <div className="chatbot-contacts-details">
                 <p className='chatbot-phone'> <CallRoundedIcon className="header-icon" style={{ width: '20px', height: '20px' }} />{selectedContact.phone}{selectedContact.id}</p>
                 <p className='chatbot-mail'><MailIcon className="header-icon" style={{ width: '20px', height: '20px' }} />{selectedContact.email}</p>

@@ -21,6 +21,8 @@ function Appa() {
         to,
         subject,
         text,
+        host,
+        port,
       });
       setMessage('Email sent successfully');
     } catch (error) {
@@ -34,6 +36,8 @@ function Appa() {
       const response = await axios.post('http://localhost:3001/receive-emails', {
         imapUser,
         imapPass,
+        host,
+        port,
       });
       setEmails(response.data);
       setMessage('Emails received successfully');

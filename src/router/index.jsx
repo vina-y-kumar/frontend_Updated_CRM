@@ -94,7 +94,6 @@ import Models from "../pages/Model/ModelTable.jsx";
 
 import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
 import ImageEditorComponent from "../pages/documenteditpage/imageeditor.jsx";
-
 import EmailList from "../pages/Email/Email-List.jsx";
 import EmailProviders from "../pages/Email/Email-provider.jsx";
 const getTenantIdFromUrl = () => {

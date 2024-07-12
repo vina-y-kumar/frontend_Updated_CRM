@@ -243,25 +243,32 @@ const InstagramPost = ({ uploadedImageUrl }) => {
     const newFiles = Array.from(e.dataTransfer.files);
     addFiles(newFiles);
   };
+  const addFiles = (newFiles) => {
+    if (files.length + newFiles.length > 10) {
+      alert("You can only upload up to 10 files.");
+      return;
+    }
+    if (!Array.isArray(newFiles)) {
+      console.error('addFiles expects an array, received:', newFiles);
+      return;
+    }
+    const validFiles = newFiles.filter(file => 
+      file.type === 'image/png' || 
+      file.type === 'image/jpeg' || 
+      file.type === 'video/mp4' || 
+      file.type === 'video/quicktime' || 
+      file.type === 'video/x-msvideo' || 
+      file.type === 'video/x-ms-wmv'
+    );
+    setFiles([...files, ...validFiles]);
+  };
 
-  const handleImageUpload = async (newFiles = [], uploadedImageUrl) => {
+  const handleImageUpload = async (e) => {
     // Assuming 'addFiles' function is defined in your component
-    const addFiles = async (filesToAdd) => {
-      // Check if total files exceed the limit
-      if (files.length + filesToAdd.length > 10) {
-        alert("You can only upload up to 10 files.");
-        return;
-      }
-  
-      // Filter valid files
-      const validFiles = filesToAdd.filter(file => file.type === 'image/png' || file.type === 'image/jpeg');
-  
-      // Update state with new files
-      setFiles([...files, ...validFiles]);
-    };
-  
+    
+    const newFiles = Array.from(e.target.files);
     // Add new files to the state
-    await addFiles(newFiles);
+    addFiles(newFiles);
   
     // Handle showing the uploaded image or image from editor here
     if (newFiles.length > 0) {
@@ -278,21 +285,7 @@ const InstagramPost = ({ uploadedImageUrl }) => {
     setShowPopup(false); // Close popup or modal after handling upload
   };
   
-  const addFiles = (newFiles) => {
-    if (files.length + newFiles.length > 10) {
-      alert("You can only upload up to 10 files.");
-      return;
-    }
-    const validFiles = newFiles.filter(file => 
-      file.type === 'image/png' || 
-      file.type === 'image/jpeg' || 
-      file.type === 'video/mp4' || 
-      file.type === 'video/quicktime' || 
-      file.type === 'video/x-msvideo' || 
-      file.type === 'video/x-ms-wmv'
-    );
-    setFiles([...files, ...validFiles]);
-  };
+  
 
 
 

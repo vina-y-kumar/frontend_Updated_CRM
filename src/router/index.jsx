@@ -20,6 +20,7 @@ import AccountsPage from "../pages/AccountsInfoPage/AccountInfoPage";
 import ShowLead from "../pages/Lead/ShowLead";
 import AccountForm from "../pages/AccountsSection/AccountForm";
 import TaskTable from "../pages/TasksSection/TaskTable";
+import axiosInstance from "../../src/api.jsx";
 import ConvertLead from "../pages/Lead/ConvertLead";
 import BulkImport from "../pages/BulkImport/BulkImport";
 import axios from "axios";
@@ -38,12 +39,14 @@ import InteractionDetailsPage from "../pages/InteractionPage/InteractionDetailsP
 import FlowGraph2 from "../pages/ReactFlow2/Flowgraph";
 import Campaign from "../pages/Campaign/campaign";
 import Campaignform from "../pages/Campaign/Campaignform";
+
+import InstaAuth from "../pages/socialmedia/instagram/InstaAuth";
 import InstagramPost from "../pages/socialmedia/instagram/instagrampost";
 import CampaignInfo from "../pages/Campaign/campaigninfo";
 //import InstagramFlow from "../pages/ReactFlow2/dndInstagram";
 import WhatsappFlow from "../pages/ReactFlow2/dndWhatsapp";
 import Userprofile from "../pages/Userpage/Userprofile";
-
+import Reminder from "../pages/Reminders/Reminder";
 
 import LinkedInPost from "../pages/LinkedIn/LinkedInpost";
 import OpportunitiesInfo from "../pages/opportunities/opportunitiesinfo";
@@ -55,6 +58,8 @@ import Meetinginfo from "../pages/Meetings/Meetinginfo";
 
 import ProductForm from "../pages/Products/productform";
 import { ProductInfo } from "../pages/Products/productinfo";
+
+import AssignLeads from "../pages/adminpages/assignLeads/assignLeads";
 
 import Remind from "../pages/Reminders/Reminder";
 import Reminderform from "../pages/Reminders/createreminder";
@@ -76,7 +81,25 @@ import TicketInfo from "../pages/Ticket/TicketInfo";
 import Calendar from "../pages/Calendar/Calendar";
 
 import Calendarform from "../pages/Calendar/Calendarform";
+
+import { DashboardCustomizeSharp } from "@mui/icons-material";
+// import Ticket from "../pages/Ticket/TicketPage";
+
 import Ticket from "../pages/Ticket/TicketPage";
+import { Explore } from "@mui/icons-material";
+import ExplorePage from "../pages/ExplorePage/Explore";
+import ExploreDetails from "../pages/ExplorePage/readExplore";
+import Models from "../pages/Model/ModelTable.jsx";
+
+import IframePage from "../pages/documenteditpage/pdfeditor.jsx";
+import ImageEditorComponent from "../pages/documenteditpage/imageeditor.jsx";
+const getTenantIdFromUrl = () => {
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; 
+};
 
 import PdfUploader from "../pages/PDF";
 
@@ -89,33 +112,40 @@ export const RouteWrapper = () => {
   const [reminders, setReminders] = useState([]);
   const [reminderMessage, setReminderMessage] = useState("");
   const { authenticated,userRole } = useAuth();
-  
-  
-  const showReminder = (message) => {
-    setReminderMessage(`Reminder: Scheduled call '${scheduleData.subject}' starting soon!`);
-  };
+  const tenantId = getTenantIdFromUrl();
+  console.log("Tenant ID:", tenantId);
+  const [reminder, setReminder] = useState([]);  
+  const [selectedModel, setSelectedModel] = useState(null);
+
   const [scheduleData, setScheduleData] = useState({
-    subject: "",
-    trigger_type: "time",
-    event_date_time: "",
-    time_trigger: "",
-    is_triggered: false,
+    subject:"",
+    event_date_time:"",
+    time_trigger:"",
     createdBy:"",
+    trigger_type: "time",
+    tenant: tenantId,
+    is_triggered: false,
+    created_at: "2024-06-25T08:21:33.075616Z",
   });
   const Reminder = ({ message, onClose }) => {
     return (
       <div className="reminder-modal">
         <div className="reminder">
           <p>{message}</p>
-          <button onClick={onClose}>Dismiss</button>
+          <button onClick={handleClose}>Dismiss</button>
         </div>
       </div>
     );
   };
   const scheduleReminder = (reminder) => {
-    const now = new Date().getTime(); 
-    if (reminder.triggerTime > now) {
-      setReminders([...reminders, reminder]);
+    const now = new Date().getTime();
+    const timeDifference = new Date(reminder.time_trigger).getTime() - now;
+
+    if (timeDifference > 0) {
+      setTimeout(() => {
+        setReminderMessage(reminder.message);
+        setReminders((prevReminders) => [...prevReminders, reminder]);
+      }, timeDifference);
     }
   };
   
@@ -125,9 +155,13 @@ export const RouteWrapper = () => {
     const handleScheduleMeeting = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post(
-          "https://backendcrmnurenai.azurewebsites.net/reminders/",
-          scheduleData,
+        const updatedScheduleData = {
+          ...scheduleData,
+          tenant: tenantId, // Ensure tenantId is included
+        };
+        const response = await axiosInstance.post(
+          "/reminders/",
+          updatedScheduleData,
           {
             headers: {
               "Content-Type": "application/json",
@@ -136,16 +170,12 @@ export const RouteWrapper = () => {
           }
         );
         console.log("Meeting scheduled successfully:", response.data);
-      
-       
-    const timeTrigger = new Date(scheduleData.time_trigger).getTime();
     
-       
+        const timeTrigger = new Date(scheduleData.time_trigger).getTime();
         const now = new Date().getTime();
-    
-        
         const timeDifference = timeTrigger - now;
-      if (timeDifference > 0) {
+    
+        if (timeDifference > 0) {
           setTimeout(() => {
             const reminderMessage = `Reminder: Scheduled call '${scheduleData.subject}' starting soon!`;
             setReminderMessage(reminderMessage);
@@ -157,31 +187,86 @@ export const RouteWrapper = () => {
             setReminders([...reminders, reminder]);
           }, timeDifference);
         }
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error scheduling meeting:", error);
       }
     };
+    
+   useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      reminders.forEach((reminder) => {
+        if (new Date(reminder.time_trigger) <= now) {
+          console.log("Reminder:", reminder.message);
+          dismissReminder(reminder.id);
+        }
+      });
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [reminders]);
+  console.log(authenticated)
+
+  useEffect(() => {
+    const fetchReminders = async () => {
+      try {
+        const response = await axiosInstance.get('/reminders/');
+        setReminder(response.data);
+        console.log(reminder)
+      } catch (error) {
+        console.error("Error fetching reminders:", error);
+      }
+    };
+    fetchReminders();
+  }, []);
+
+  useEffect(() => {
+      const storedReminders = JSON.parse(localStorage.getItem('reminders')) || [];
+      setReminders(storedReminders);
+    }, []);
     useEffect(() => {
+
       const interval = setInterval(() => {
-        const now = new Date();
+        const now = new Date().getTime();
         reminders.forEach((reminder) => {
-          if (reminder.triggerTime <= now) {
-            console.log("Reminder:", reminder.message);
-            dismissReminder(reminder.id);
+          if (reminder.time_trigger <= now) {
+            showReminder(true);
+            removeReminder(reminder.id);
           }
         });
-      }, 60000); 
+      }, 60000); // Check every minute
       return () => clearInterval(interval);
     }, [reminders]);
-  console.log(authenticated)
+    const showReminder = (message) => {
+      console.log("Show reminder called with message:", message);
+      setReminderMessage(`Reminder: Scheduled call '${reminder.subject}' starting soon!`);
+      console.log("Reminder Popup: ", message);
+    };
+    const addReminder = (message, triggerTime) => {
+      const newReminder = { id: Date.now(), message, triggerTime };
+      setReminders([...reminders, newReminder]);
+      localStorage.setItem('reminders', JSON.stringify([...reminders, newReminder]));
+    };
+  
+    const removeReminder = (id) => {
+      const updatedReminders = reminders.filter((reminder) => reminder.id !== id);
+      setReminders(updatedReminders);
+      localStorage.setItem('reminders', JSON.stringify(updatedReminders));
+    };
+    const handleClose = () => {
+      setReminderMessage(""); // Clear the reminder message
+    };
+   
+    console.log('*********',reminderMessage)
+
+   
   return (
     <>
     {reminders.map((reminder) => (
       <Reminder
         key={reminder.id}
-        message={reminder.message}
-        onClose={() => dismissReminder(reminder.id)}
+        message={reminderMessage}
+        
       />
     ))}
     <Routes>
@@ -203,6 +288,8 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/createVendors" element={<Vendorsform/>}/>
           <Route path=":tenant_id/Vendorsinfo/:id" element={<VendorInfo/>}/>
           <Route path=":tenant_id/topNavbar" element={<TopNavbar/>}/>
+          <Route path=":tenant_id/custom" element={<Custom/>}/>
+
 
 
 
@@ -218,7 +305,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/convert/:id" element={<ConvertLead/>}/>
           <Route path=":tenant_id/addaccount" element={<AccountForm/>} />
           <Route path=":tenant_id/addcontact" element={<Form2/>}/>
-          <Route path=":tenant_id/meetings" element={<Met/>}  />
+          <Route path=":tenant_id/meetings" element={<Met handleScheduleMeeting={handleScheduleMeeting} scheduleData={scheduleData} setScheduleData={setScheduleData} />}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
          <Route path="/:tenantId/report" element={<Report />} />
        
@@ -252,6 +339,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/campaign"  element= {<Campaign/>}/>
           <Route path=":tenant_id/campaignform"  element= {<Campaignform/>}/>
           <Route path=":tenant_id/campaigninfo/:id"  element= {<CampaignInfo/>}/>
+          <Route path="/instagramauth"  element= {<InstaAuth/>}/>
           <Route path=":tenant_id/instagrampost"  element= {<InstagramPost/>}/>
           <Route path=":tenant_id/user_id" element={<Userprofile />} />
           <Route path=":tenant_id/linkedinauth"  element= {<LinkedInAuthPage/>}/>
@@ -259,6 +347,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/product"  element= {<Product/>}/>
           <Route path=":tenant_id/loyalty"  element= {<Loyalcard/>}/>
           <Route path=":tenant_id/CustomModel"  element= {<Custom/>}/>
+          <Route path=":tenant_id/models/:modelName"  element= {<Models/>}/>
           {/* <Route path=":tenant_id/CustomModelForm"  element= {<CustomModelForm/>}/> */}
 
           
@@ -271,10 +360,20 @@ export const RouteWrapper = () => {
 
 
           <Route path=":tenant_id/productform"  element= {<ProductForm/>}/>
-          <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
+
+          <Route path=":tenant_id/productinfo/:id"  element= {<ProductInfo/>}/>
           <Route path=":tenant_id/ticketform"  element= {<Ticketform/>}/>
-          <Route path=":tenant_id/ticketinfo"  element= {<TicketInfo/>}/>
+          <Route path=":tenant_id/ticketinfo/:id"  element= {<TicketInfo/>}/>
           <Route path=":tenant_id/ticket"  element= {<Ticket/>}/>
+          <Route path=":tenant_id/explore"  element= {<ExplorePage/>}/>
+          <Route path=":tenant_id/exploredetails"  element= {<ExploreDetails/>}/>
+
+          <Route path=":tenant_id/productinfo"  element= {<ProductInfo/>}/>
+          <Route path=":tenant_id/assignLeads"  element= {<AssignLeads/>}/>
+          <Route path=":tenant_id/editdocument"  element= {<IframePage/>}/>
+          <Route path=":tenant_id/editImage"  element= {<ImageEditorComponent/>}/>
+    
+    
         </>
       )}
 
@@ -282,7 +381,6 @@ export const RouteWrapper = () => {
     {/*<Route path="*" element={<Login/>} />*/}
     <Route path="*" element={<NotFound />} />
     
-
       
     </Routes>
     </>

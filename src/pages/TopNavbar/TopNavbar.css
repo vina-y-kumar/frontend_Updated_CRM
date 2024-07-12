@@ -1,10 +1,10 @@
 .topNavbar-head {
-  /*width: 1270px;*/
+  width: 100vw;
   height: 76px;
   background: #FFFFFF;
   border-radius: 0px;
   box-shadow: 0px 0px 1px #ddd, 0px 0px 2px #ccc;
-  margin-left: 0rem;
+  margin-left: -20rem;
   margin-top: 5rem;
   display: flex;
   flex-direction: row;
@@ -27,7 +27,7 @@
   border-radius: 5px;
 }
 .topNavbar1 {
-  margin-left: 112rem;
+  margin-left: 125rem;
   margin-top: 20px;
 }
 

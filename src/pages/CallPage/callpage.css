@@ -6,7 +6,7 @@
 .call-form-container {
   
   width: 499px;
-  height: 610px;
+  height: fit-content;
   background: #FAFAFBFF;
   border-radius: 6px;
   border-width: 1px;
@@ -256,14 +256,14 @@ gap: 6px;
   top: 30px;
   left: 60px;
 }
-.form-subject,.form-DateTime,.form-timeTrigeer,.form-CreatedBy{
+.form-subject,.form-DateTime,.form-timeTrigeer,.form-CreatedBy, .form-trigger_type{
   font-family: 'Manrope';
 font-size: 16px;
 line-height: 26px;
 font-weight: 700;
 color: #171A1FFF;
 }
-.form-input_subjectcall,.form-input_dateTime,.form-input_timetrigger,.form-input_createdBy{
+.form-input_subjectcall,.form-input_dateTime,.form-input_timetrigger,.form-input_createdBy,.form-input_trigger_type{
   width: 260px;
 height: 36px;
 padding-left: 12px;
@@ -317,6 +317,16 @@ outline: none;
   position: relative;
   top: 50px;
   left: 170px;
+}
+.form-trigger_type{
+  position: relative;
+  top: 280px;
+  left: -100px;
+}
+.form-input_trigger_type{
+  position: relative;
+  top: 300px;
+  left: 80px;
 }
 .form-legend_log{
   font-family: 'Manrope';
@@ -603,9 +613,7 @@ display: flex;
     
 
 }
-.call-info{
-  
-}
+
 .button-edit3{
   font-family: 'Lexend';
   font-size: 20px;

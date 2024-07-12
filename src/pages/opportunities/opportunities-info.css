@@ -27,7 +27,7 @@
 }
 
 .opportunities-info h1 {
-  margin: 0;
+  margin-bottom: 5rem;
   font-size: 2em;
 }
 
@@ -39,8 +39,8 @@
   gap: 20px;
 }
 
-.info-box,
-.info-box-custom {
+.oppo-info-box,
+.oppo-info-box-custom {
   background-color: #F3F4F6FF;
   border: 1px solid #dee2e6;
   border-radius: 5px;
@@ -94,7 +94,7 @@
 }
 .opportunity-button {
   padding: 10px 15px;
-  margin-left: 70rem;
+  margin-left: 80rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;

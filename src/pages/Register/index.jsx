@@ -3,6 +3,18 @@ import "./register.css";
 import Spline from "@splinetool/react-spline";
 import { useState, useEffect } from "react";
 
+
+const PopupCard = ({ message, onClose }) => {
+  return (
+    <div className="popup-card-overlay">
+      <div className="popup-card">
+        <h2>{message}</h2>
+        <button onClick={onClose}>OK</button>
+      </div>
+    </div>
+  );
+};
+
 export const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -17,6 +29,7 @@ export const Register = () => {
   const [newOrganisationTenantId, setNewOrganisationTenantId] = useState("");
   const [newOrganisationPassword, setNewOrganisationPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); 
 
   useEffect(() => {
     // Fetch organisation names from the backend when component mounts
@@ -64,7 +77,7 @@ export const Register = () => {
       }
   
       const data = await response.json();
-      alert(data.msg);
+      setShowPopup(true);
   
       
         // Perform navigation only if registration is successful
@@ -107,6 +120,11 @@ export const Register = () => {
       .catch((error) =>
         console.error("Error creating new organisation:", error)
       );
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+    navigate(`/login`);
   };
 
   return (
@@ -196,7 +214,7 @@ export const Register = () => {
       </div>
     </div>
     
-    <Spline scene="https://prod.spline.design/TwrvDXJ1l0mso3eA/scene.splinecode" className="spline_scene" />
+    <Spline scene="https://prod.spline.design/8skP0r1LWfUTUgMX/scene.splinecode" className="spline_scene" />
   </div>
 
   {showNewOrgForm && (
@@ -245,6 +263,7 @@ export const Register = () => {
           Create New Organisation
         </button>
       </div>
+      {showPopup && <PopupCard message={`Login successful as ${role}`} onClose={handlePopupClose} />}
     </div>
   )}
 </div>

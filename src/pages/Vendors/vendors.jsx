@@ -3,10 +3,13 @@ import './vendors.css';
 import React, { useEffect, useState } from "react";
 import { Link,NavLink } from "react-router-dom";
 import { Sidebar } from "../../components/Sidebar";
-import { Dropdown, Card, ListGroup } from "react-bootstrap";
+import { Dropdown} from "react-bootstrap";
 import axiosInstance from "../../api";
 import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 
 
 const getTenantIdFromUrl = () => {
@@ -40,6 +43,46 @@ const Vendors = () => {
       XLSX.utils.book_append_sheet(wb, ws, "Vendor");
       XLSX.writeFile(wb, "vendor.xlsx");
     };
+
+    const handleDownloadPDF = () => {
+      const unit = "pt";
+      const size = "A4"; // Use A4 size for simplicity
+      const orientation = "landscape"; // Landscape orientation for table format
+    
+      const doc = new jsPDF(orientation, unit, size);
+    
+      const title = "Vendors Report";
+      const headers = [
+        [
+          "Vendor Name",
+          "Email",
+          "Phone",
+          "Website",
+          "Vendor Owner",
+          "Action"
+        ]
+      ];
+    
+      const data = vendors.map(vendor => [
+        vendor.vendor_name,
+        vendor.email,
+        vendor.phone,
+        vendor.website,
+        vendor.vendor_owner,
+        vendor.action
+      ]);
+    
+      doc.setFontSize(15);
+      doc.text(title, 40, 30);
+    
+      doc.autoTable({
+        startY: 40,
+        head: headers,
+        body: data,
+      });
+    
+      doc.save("vendors_report.pdf");
+    };
     
 
 
@@ -70,8 +113,11 @@ const Vendors = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item>
-                <button onClick={handleDownloadExcel}>Download Excel</button>
+                <button onClick={handleDownloadExcel}><FaFileExcel/>Download Excel</button>
               </Dropdown.Item>
+              <Dropdown.Item>
+              <button onClick={handleDownloadPDF}><FaFilePdf/>Download PDF</button>
+            </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

@@ -560,3 +560,14 @@ margin-left: 10rem;
     font-size: 15px;
 
   }
+  .convert-lead-button{
+    background-color: purple; /* Green background color */
+  color: white; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  text-decoration: none; /* No underline */
+  cursor: pointer; /* Pointer cursor on hover */
+  height: 3rem;
+  margin-left: 42%;
+  margin-top: 5rem;
+  }

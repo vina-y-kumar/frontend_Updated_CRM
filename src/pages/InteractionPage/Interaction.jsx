@@ -5,6 +5,9 @@ import { Card, ListGroup , Dropdown } from "react-bootstrap";
 import './InteractionPage.css';
 import InteractionDetailsPage from "./InteractionDetailsPage";  
 import axiosInstance from "../../api";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -53,6 +56,23 @@ export const InteractionTable = () => {
     XLSX.writeFile(wb, "interactions.xlsx");
   };
 
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ['Entity ID', 'Type', 'Interaction Type', 'Interaction Datetime', 'Notes']
+      ],
+      body: filteredInteractions.map(interaction => [
+        interaction.entity_id,
+        entityTypeNames[interaction.entity_type] || interaction.entity_type,
+        interaction.interaction_type,
+        interaction.interaction_datetime,
+        interaction.notes
+      ]),
+    });
+    doc.save('interactions.pdf');
+  };
+
   return (
     <div className="interaction-table">
 
@@ -76,13 +96,16 @@ export const InteractionTable = () => {
                           <Dropdown.Menu>
                             <Dropdown.Item>
                               <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
-                                Import Excel
+                              <FaFileExcel/>  Import Excel
                               </Link>
                             </Dropdown.Item>
                             <Dropdown.Item>
                               <button onClick={handleDownloadExcel} className="excel-download-btn1">
-                                Excel
+                              <FaFileExcel/>  Excel
                               </button>
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                            <button onClick={handleDownloadPdf} className="pdf-download-btn"><FaFilePdf/>Download PDF</button>
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>

@@ -4,8 +4,11 @@ import { Sidebar } from "../../components/Sidebar";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
-
+import './contactsTable.css';
 import * as XLSX from "xlsx"; // Importing xlsx library
+import jsPDF from "jspdf"; // Importing jsPDF library
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
+import "jspdf-autotable";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -117,6 +120,23 @@ export const ContactsTable = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Contacts");
     XLSX.writeFile(wb, "contacts.xlsx");
+  };
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ["First Name", "Last Name", "Email", "Phone", "Address"],
+      ],
+      body: filteredContacts.map((contact) => [
+        contact.first_name,
+        contact.last_name,
+        contact.email,
+        contact.phone,
+        contact.address,
+      ]),
+    });
+    doc.save("contacts.pdf");
   };
 
   const handleAllCalls1 = (event) => {
@@ -326,7 +346,7 @@ export const ContactsTable = () => {
             <div>
             <Dropdown>
               <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
-                Excel File
+               Excel File
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item>
@@ -334,7 +354,7 @@ export const ContactsTable = () => {
                     to={`/${tenantId}/bulk-import/?model=${modelName}`}
                     className="import-excel-btn5"
                   >
-                    Import Excel
+                  <FaFileExcel />  Import Excel
                   </Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
@@ -342,9 +362,12 @@ export const ContactsTable = () => {
                     onClick={handleDownloadExcel}
                     className="excel-download-btn1"
                   >
-                    Excel
+                  <FaFileExcel />  Excel
                   </button>
                 </Dropdown.Item>
+                <Dropdown.Item onClick={handleDownloadPDF}>
+                <FaFilePdf />  PDF
+                      </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             </div>

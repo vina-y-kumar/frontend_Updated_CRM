@@ -13,6 +13,8 @@ import { CustomNode, TextUpdaterNode,ButtonNode,SendMessage,AskQuestion,SetCondi
 import axios from 'axios';
 import './dnd.css';
 import e from 'cors';
+import { useParams, useNavigate } from "react-router-dom"; 
+
 import { useMemo } from 'react';
 
 const lastNode = initialNodes[initialNodes.length - 1];
@@ -22,6 +24,7 @@ import "./dnd.css";
 import initialNodes from "./nodes.jsx";
 
 import initialEdges from "./edges.jsx";
+import axiosInstance from "../../api.jsx";
 
 // Extract the id property from the last node
 let id = parseInt(lastNode.id) +1;
@@ -29,8 +32,18 @@ let id = parseInt(lastNode.id) +1;
 
 const getId = () => `${id++}`;
 
+const getTenantIdFromUrl = () => {
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1]; // Assumes tenant_id is the first part of the path
+  }
+  return null; 
+};
+
 const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
+  const tenantId=getTenantIdFromUrl();
+  const navigate = useNavigate();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -188,45 +201,56 @@ const DnDFlow = () => {
   [reactFlowInstance]
 );
 
-  const sendDataToBackend = () => {
-    // Transform nodes to the required format
-    const formattedNodes = nodes.map((node) => ({
-      id: parseInt(node.id), // Convert id to integer
-      type: node.type,
-      body: node.data.label,
-    }));
-  
-    // Transform edges to the adjacency list format
-    const adjacencyList = edges.reduce((adjList, edge) => {
-      const { source, target } = edge;
-      if (!adjList[source]) {
-        adjList[parseInt(source)] = [];
-      }
-      adjList[parseInt(source)].push(parseInt(target));
-      return adjList;
-    }, {});
-    const adjacencyListAsList = Object.values(adjacencyList).map(targets => [...targets]);
-  
-    // Log adjacency list and nodes
-    console.log('Formatted Nodes:', JSON.stringify(formattedNodes));
-    console.log('Adjacency List:', JSON.stringify(adjacencyListAsList ));
-    const headers = {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*', // Allow requests from any origin
-    };
-    // Send data to the backend endpoint
-    axios.post('https://69af-14-142-75-54.ngrok-free.app/flowdata', {
-      nodes: formattedNodes,
-      adjacencyList: adjacencyList,
-    } ,{ headers })
+const sendDataToBackend = () => {
+  const formattedNodes = nodes.map((node) => ({
+    id: parseInt(node.id),
+    type: node.type,
+    data: node.data,
+  }));
+
+  const adjacencyList = edges.reduce((adjList, edge) => {
+    const { source, target } = edge;
+    if (!adjList[source]) {
+      adjList[parseInt(source)] = [];
+    }
+    adjList[parseInt(source)].push(parseInt(target));
+    return adjList;
+  }, {});
+
+  const adjacencyListAsList = Object.values(adjacencyList).map((targets) => [
+    ...targets,
+  ]);
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": 'GET,PUT,POST,DELETE,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With, Accept'
+  };
+
+  axiosInstance
+    .post(
+      "https://webappbaackend.azurewebsites.net/node-templates/",
+      {
+        name: "Flow Template Name",
+        description: "Description of the flow template",
+        category: "Category",
+        createdBy: 1, // Replace with the actual user ID if needed
+        node_data: {
+          nodes: formattedNodes,
+          adjacencyList: adjacencyListAsList,
+        },
+      },
+      { headers }
+    )
     .then((response) => {
-      console.log(response.data);
-      // Handle response if needed
+      console.log('this is flow response',response.data);
+      navigate(`/${tenantId}/chatbot`)
     })
     .catch((error) => {
-      console.error('Error sending data to backend:', error);
+      console.error("Error sending data to backend:", error);
     });
-  };
+};
   
   console.log('Nodes:', nodes); // Log nodes
   console.log('Edges:', edges);

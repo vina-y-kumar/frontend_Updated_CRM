@@ -1,28 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import PeopleIcon from '@mui/icons-material/People';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import BusinessIcon from '@mui/icons-material/Business';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import EmailIcon from '@mui/icons-material/Email';
+import AlarmIcon from '@mui/icons-material/Alarm';
 import LayersIcon from '@mui/icons-material/Layers';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import CallIcon from '@mui/icons-material/Call';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import ContactPhoneRoundedIcon from '@mui/icons-material/ContactPhoneRounded';
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import './sidebar.css';
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from '../../authContext';
 import axiosInstance from '../../api';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
-export const Sidebar = () => {
+export const Sidebar = ({ onSelectModel }) => {
   const { authenticated, setAuthenticated } = useAuth();
   const { pathname } = useLocation();
   const tenantId = getTenantIdFromUrl();
+
 
   function getTenantIdFromUrl() {
     const pathArray = pathname.split('/');
@@ -31,12 +46,23 @@ export const Sidebar = () => {
     }
     return null; // Return null if tenant ID is not found or not in the expected place
   }
+  const navigate = useNavigate();
+  const [models, setModels] = useState([]);
+  const [loading, setLoading] = useState(true);
+ 
+
 
   const [clientsDropdownOpen, setClientsDropdownOpen] = useState(false);
   const [taskDropdownOpen, setTaskDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false); 
   const [socialDropdownOpen, setSocialDropdownOpen] = useState(false);
+  const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
 
+  const [accessToken, setAccessToken] = useState('');
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setAccessToken(token);
+  }, []);
   const handleLogout = async () => {
     try {
       const response = await axiosInstance.post('/logout/');
@@ -51,6 +77,21 @@ export const Sidebar = () => {
       console.error("Logout error:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchModels = async () => {
+        try {
+            const response = await axiosInstance.get('https://webappbaackend.azurewebsites.net/dynamic-models/');
+            setModels(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching models:', error);
+            setLoading(false);
+        }
+    };
+
+    fetchModels();
+}, []);
 
   const toggleClientsDropdown = () => {
     setClientsDropdownOpen(!clientsDropdownOpen);
@@ -80,12 +121,38 @@ export const Sidebar = () => {
     setClientsDropdownOpen(false);
   };
 
+  const togglemodelDropdown = () => {
+    setIsModelDropdownOpen(!isModelDropdownOpen);
+};
+
+
+const handleModelSelect = (modelName) => {
+  if (onSelectModel) {
+    onSelectModel(modelName);
+  }
+  setIsModelDropdownOpen(false);
+};
+
   const formatLink = (link) => {
     if (tenantId) {
       return `/${tenantId}${link}`;
     }
     return link;
   };
+
+  const linkTo = accessToken ? '/instagrampost' : '/instagramauth';
+
+  console.log('Sidebar model:', models);
+
+
+  const formatmewLink = (accessToken) => {
+    if (accessToken) {
+      return `/${tenantId}/instagrampost`; // Relative path
+    } else {
+      return 'https://crm.nuren.ai/instagramauth'; // External URL
+    }
+  };
+  
 
   return (
     <div className="siadebar">
@@ -105,7 +172,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/home")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <DashboardIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Dashboard</p>
               </span>
             </NavLink>
@@ -167,7 +234,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <div className="sidebar_link" onClick={toggleTaskDropdown}>
               <span style={{ display: 'flex', alignItems: 'center' }}>
-                <FormatListNumberedIcon style={{fontSize:'2rem'}}/>
+                <ListAltIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Task Management</p>
                 <i className={`bx ${taskDropdownOpen ? 'bx-chevron-up' : 'bx-chevron-down'}`} style={{ fontSize: '1.5rem', marginLeft: 'auto' }}></i>
               </span>
@@ -206,9 +273,9 @@ export const Sidebar = () => {
             {socialDropdownOpen && (
               <ul className="dropdown_list">
                 <li className="sidebar_item">
-                  <NavLink className="sidebar_link" to={formatLink("/instagrampost")}>
+                <NavLink className="sidebar_link" to={formatmewLink(accessToken)}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <InstagramIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Instagram</p>
                     </span>
                   </NavLink>
@@ -216,7 +283,7 @@ export const Sidebar = () => {
                   <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/chatbot")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <WhatsAppIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Chatbot</p>
                     </span>
                   </NavLink>
@@ -224,7 +291,7 @@ export const Sidebar = () => {
                   <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/email")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <MeetingRoomIcon style={{fontSize:'2rem'}}/>
+                      <EmailIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">Email</p>
                     </span>
                   </NavLink>
@@ -232,7 +299,7 @@ export const Sidebar = () => {
                 <li className="sidebar_item">
                   <NavLink className="sidebar_link" to={formatLink("/linkedinauth")}>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <CallIcon style={{fontSize:'2rem'}}/>
+                      <LinkedInIcon style={{fontSize:'2rem'}}/>
                       <p className="sidebar_link_text">LinkedIn</p>
                     </span>
                   </NavLink>
@@ -244,7 +311,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/calendar")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <CalendarMonthRoundedIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Calendar</p>
               </span>
             </NavLink>
@@ -273,7 +340,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/vendors")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                    <BusinessIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Vendors</p>
                   </span>
                 </NavLink>
@@ -281,7 +348,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/product")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <CampaignRoundedIcon style={{fontSize:'2rem'}}/>
+                    <ShoppingBagIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Products</p>
                   </span>
                 </NavLink>
@@ -289,7 +356,7 @@ export const Sidebar = () => {
               <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/loyalty")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <LoyaltyIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Loyalty Program</p>
               </span>
             </NavLink>
@@ -297,7 +364,7 @@ export const Sidebar = () => {
           <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/report")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <ViewWeekIcon style={{fontSize:'2rem'}}/>
+                <BarChartIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Reports</p>
               </span>
             </NavLink>
@@ -309,7 +376,7 @@ export const Sidebar = () => {
               <li className="dropdown_item">
                 <NavLink className="sidebar_link" to={formatLink("/interaction")}>
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <LayersIcon style={{fontSize:'2rem'}}/>
+                    <HandshakeIcon style={{fontSize:'2rem'}}/>
                     <p className="sidebar_link_text">Interaction</p>
                   </span>
                 </NavLink>
@@ -325,20 +392,29 @@ export const Sidebar = () => {
               <li className="sidebar_item">
             <NavLink className="sidebar_link" to={formatLink("/reminder")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <AlarmIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Reminder</p>
               </span>
             </NavLink>
           </li>
           <li className="sidebar_item">
-            <NavLink className="sidebar_link" to={formatLink("/ticketinfo")}>
+            <NavLink className="sidebar_link" to={formatLink("/ticket")}>
               <span style={{ display: 'flex', alignItems:'center' }}>
-                <RocketLaunchIcon style={{fontSize:'2rem'}}/>
+                <CardMembershipIcon style={{fontSize:'2rem'}}/>
                 <p className="sidebar_link_text">Tickets</p>
               </span>
             </NavLink>
           </li>
-       
+          {models.map((model) => (
+            <li key={model.model_name} className="sidebar-item">
+              <NavLink className="sidebar-link" to={formatLink(`/models/${model.model_name}`)}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  {/* Add icon or other relevant UI elements */}
+                  <p className="sidebar-link-text">{model.model_name}</p>
+                </span>
+              </NavLink>
+            </li>
+          ))}
           </div>
               </div>
          

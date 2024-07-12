@@ -10,6 +10,7 @@ import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfie
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
 import axiosInstance from "../../api";
 import { useAuth } from "../../authContext";
+import { useNavigate } from "react-router-dom";
 import "./contactsTable.css";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
 
@@ -22,7 +23,32 @@ const getTenantIdFromUrl = () => {
   return null; // Return null if tenant ID is not found or not in the expected place
 };
 
+const Popup = ({ errors, onClose }) => (
+  <div className="product-popup">
+    <div className="product-popup-content">
+      <h2>Error</h2>
+      <button className="product-popup-close" onClick={onClose}>Ok</button>
+      <ul>
+        {Object.entries(errors).map(([field, errorList]) => (
+          <li key={field}>
+            {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+const SuccessPopup = ({ message, onClose }) => (
+  <div className="product-popup2">
+    <div className="product-popup-content2">
+      <h2>Contact Created Sucessfully</h2>
+      <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
+
 function Form2() {
+  const navigate = useNavigate();
   const tenantId = getTenantIdFromUrl();
   const style = {
     position: "absolute",
@@ -75,6 +101,11 @@ function Form2() {
   const [accountOptions, setAccountOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const { userId } = useAuth();
+  const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorFields, setErrorFields] = useState({});
 
   const [photoColor, setPhotoColor] = useState(""); // Declare photoColor state variable
 
@@ -103,6 +134,9 @@ function Form2() {
   const handleChange = (event) => {
     if (event && event.target) {
       const { name, value } = event.target;
+      const updatedErrorFields = { ...errorFields };
+      delete updatedErrorFields[name];
+      setErrorFields(updatedErrorFields);
       setContactData({
         ...contactData,
         [name]: value,
@@ -125,6 +159,15 @@ function Form2() {
     }
   };
 
+  useEffect(() => {
+    // Set initial error fields based on formErrors
+    const initialErrorFields = {};
+    Object.keys(formErrors).forEach(field => {
+      initialErrorFields[field] = true;
+    });
+    setErrorFields(initialErrorFields);
+  }, [formErrors]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -133,6 +176,7 @@ function Form2() {
         ...contactData,
         createdBy: userId, // Pass userId as createdBy
         tenant: tenantId,
+
       };
       const response = await axiosInstance.post('/contacts/',dataToSend);
       const contactId = response.data.id;
@@ -144,6 +188,9 @@ function Form2() {
         notes: `Contact created with id : ${contactId} created by user : ${userId}`,
         interaction_datetime: new Date().toISOString(),
       };
+
+      setShowSuccessPopup(true);
+      setSuccessMessage(true);
 
       try {
           await axiosInstance.post('/interaction/', interactionData);
@@ -182,6 +229,14 @@ function Form2() {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
+      if (error.response) {
+        // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+        setFormErrors(error.response.data || error.message);
+      } else {
+        // Network or other generic error
+        setFormErrors({ networkError: 'Network Error. Please try again later.' });
+      }
+      setShowPopup(true);
     }
   };
 
@@ -216,6 +271,16 @@ function Form2() {
   const handleSubmitForm = (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     handleSubmit(event);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    navigate(`/${tenantId}/contacts`);
+
   };
 
   return (
@@ -256,6 +321,7 @@ function Form2() {
               value={contactData.ContactOwner}
               onChange={handleChange}
               placeholder="Enter contact Owner"
+              style={{ borderColor: errorFields.ContactOwner ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -268,6 +334,7 @@ function Form2() {
               value={contactData.first_name}
               onChange={handleChange}
               placeholder="Enter First Name"
+              style={{ borderColor: errorFields.first_name ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -280,6 +347,7 @@ function Form2() {
               value={contactData.last_name}
               onChange={handleChange}
               placeholder="Enter last Name"
+              style={{ borderColor: errorFields.last_name ? 'red' : '' }}
             />
           </div>
 
@@ -293,6 +361,7 @@ function Form2() {
               value={contactData.email}
               onChange={handleChange}
               placeholder="Enter email"
+              style={{ borderColor: errorFields.email ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -339,6 +408,7 @@ function Form2() {
               value={contactData.phone}
               onChange={handleChange}
               placeholder="Enter phone"
+              style={{ borderColor: errorFields.phone ? 'red' : '' }}
             />
           </div>
           
@@ -352,18 +422,20 @@ function Form2() {
               value={contactData.Mobile}
               onChange={handleChange}
               placeholder="Enter Mobile "
+              style={{ borderColor: errorFields.Mobile ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="address" className="other_addres">Address:</label>
             <input
               type="text"
-              className="form-control-other-address"
+              className="form-control-address"
               id="address"
               name="address"
               value={contactData.address}
               onChange={handleChange}
               placeholder="Enter address"
+              style={{ borderColor: errorFields.address ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -376,6 +448,7 @@ function Form2() {
               value={contactData.description}
               onChange={handleChange}
               placeholder="Enter description"
+              style={{ borderColor: errorFields.description ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -388,6 +461,7 @@ function Form2() {
               value={contactData.Assistant}
               onChange={handleChange}
               placeholder="Enter Assistant "
+              style={{ borderColor: errorFields.Assistant ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -400,6 +474,7 @@ function Form2() {
               value={contactData.Currency1}
               onChange={handleChange}
               placeholder="Enter Currency1 "
+              style={{ borderColor: errorFields.Currency1 ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -412,6 +487,7 @@ function Form2() {
               value={contactData.Fax}
               onChange={handleChange}
               placeholder="Enter Fax "
+              style={{ borderColor: errorFields.Fax ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -424,6 +500,7 @@ function Form2() {
               value={contactData.DateOfBirth}
               onChange={handleChange}
               placeholder="Enter DateOfBirth "
+              style={{ borderColor: errorFields.DateOfBirth ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -436,6 +513,7 @@ function Form2() {
               value={contactData.AsstPhone}
               onChange={handleChange}
               placeholder="Enter AsstPhone "
+              style={{ borderColor: errorFields.AsstPhone ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -448,6 +526,7 @@ function Form2() {
               value={contactData.SkypeId}
               onChange={handleChange}
               placeholder="Enter SkypeId "
+              style={{ borderColor: errorFields.SkypeId ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -460,6 +539,7 @@ function Form2() {
               value={contactData.SecondaryEmail}
               onChange={handleChange}
               placeholder="Enter SecondaryEmail "
+              style={{ borderColor: errorFields.SecondaryEmail ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -472,6 +552,7 @@ function Form2() {
               value={contactData.Twitter}
               onChange={handleChange}
               placeholder="Enter Twitter "
+              style={{ borderColor: errorFields.Twitter ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -484,6 +565,7 @@ function Form2() {
               value={contactData.createdBy}
               onChange={handleChange}
               placeholder="Enter Created By "
+              style={{ borderColor: errorFields.createdBy ? 'red' : '' }}
             />
           </div>
          
@@ -506,6 +588,7 @@ function Form2() {
               value={contactData.MailingStreet}
               onChange={handleChange}
               placeholder="Enter  mailing street"
+              style={{ borderColor: errorFields.MailingStreet ? 'red' : '' }}
             />
           </div>
 
@@ -519,6 +602,7 @@ function Form2() {
               value={contactData.MailingCity}
               onChange={handleChange}
               placeholder="Enter Mailing City "
+              style={{ borderColor: errorFields.MailingCity ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -531,6 +615,7 @@ function Form2() {
               value={contactData.MailingState}
               onChange={handleChange}
               placeholder="Enter Mailing state "
+              style={{ borderColor: errorFields.MailingState ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -543,6 +628,7 @@ function Form2() {
               value={contactData.MailingZip}
               onChange={handleChange}
               placeholder="Enter Mailing zip "
+              style={{ borderColor: errorFields.MailingZip ? 'red' : '' }}
             />
           </div>
           <div className="form-group col-md-6">
@@ -555,6 +641,7 @@ function Form2() {
               value={contactData.MailingCountry}
               onChange={handleChange}
               placeholder="Enter Mailing country "
+              style={{ borderColor: errorFields.MailingCountry ? 'red' : '' }}
             />
           </div>
         </div>
@@ -570,6 +657,8 @@ function Form2() {
       </form>
       </div>
     </div>
+    {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+      {showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
    </div>
   );
 }

@@ -63,7 +63,7 @@ import Vendorsform from "../pages/Vendors/createVendors";
 import VendorInfo from "../pages/Vendors/VendorInfo";
 import TopNavbar from "../pages/TopNavbar/TopNavbar";
 import Report from "../pages/Reports/report";
-import Reportform from "../pages/Reports/reportform";
+
 import Loyalityform from "../pages/LoyaltyProgram/Loyalityform";
 import Loyalcard from "../pages/LoyaltyProgram/loyalcard";
 import LoyaltyInfo from "../pages/LoyaltyProgram/loyaltyinfo";
@@ -221,7 +221,7 @@ export const RouteWrapper = () => {
           <Route path=":tenant_id/meetings" element={<Met/>}  />
           <Route path=":tenant_id/meetings/:id" element={<Meetinginfo/>}  />
          <Route path="/:tenantId/report" element={<Report />} />
-          <Route path=":tenant_id/reportform"   element={<Reportform/>}/>  
+       
           <Route path=":tenant_id/calendar"   element={<Calendar/>}/>  
 
 

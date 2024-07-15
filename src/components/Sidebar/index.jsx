@@ -151,7 +151,7 @@ export const Sidebar = ({ onSelectModel }) => {
   return (
     <div className="siadebar">
       <div className="sidebar_inner">
-        <a href="/home" className="sidebar_logo">
+        <a href={`/${tenantId}/home`} className="sidebar_logo">
           <img
             src={Logo}
             alt="logo"

@@ -6,6 +6,7 @@ import GoDaddyLogo from '../../pages/Email/GoDaddy-Black-Logo.wine.png';
 import ZohoLogo from '../../pages/Email/zoho-logo-512.png';
 import HostingerLogo from '../../pages/Email/Hostinger.png';
 import OutlookLogo from '../../pages/Email/OutlookLogo.png';
+import './Emailss.css';
 
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');

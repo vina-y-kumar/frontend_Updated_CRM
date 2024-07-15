@@ -65,7 +65,7 @@
     resize: vertical;
   }
   
-  button {
+  .sendemail {
     background-color: #007BFF;
     color: white;
     border: none;
@@ -75,7 +75,7 @@
     transition: background-color 0.2s;
   }
   
-  button:hover {
+  .sendemail:hover {
     background-color: #0056b3;
   }
   

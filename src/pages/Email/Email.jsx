@@ -167,7 +167,7 @@ function Appa() {
                             <label>Text:</label>
                             <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
                         </div>
-                        <button type="submit">Send Email</button>
+                        <button classname="sendemail" type="submit">Send Email</button>
                     </form>
                     {message && <p>{message}</p>}
 

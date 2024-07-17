@@ -251,6 +251,22 @@ function Form2() {
     return color;
   };
 
+  const handleCancel = () => {
+    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
+    if (isConfirmed) {
+      console.log("Cancel button clicked");
+      localStorage.removeItem('contactDraft'); // Clear draft data
+      window.location.href = `../${tenantId}/contacts`;
+    }
+  };
+  
+  const handleSubmitForm = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    localStorage.removeItem('contactDraft'); // Clear draft data
+    handleSubmit(event);
+  };
+  
+
   const generateSmiley4 = (color) => (
     <div className="colored-circle4" style={{ backgroundColor: color, color: "white" }}>
       <SentimentSatisfiedRoundedIcon style={{ fontSize: "50px" }} />
@@ -269,6 +285,9 @@ function Form2() {
       };
   
       console.log('Data to send:', dataToSend);
+  
+      // Save draft data to localStorage
+      localStorage.setItem('contactDraft', JSON.stringify(dataToSend));
   
       // Assuming axiosInstance is your Axios instance configured with baseURL
       await axiosInstance.post('/contacts/', dataToSend); // POST request to save draft
@@ -290,32 +309,14 @@ function Form2() {
       setIsSavingDraft(false); // Reset loading state regardless of success or failure
     }
   };
-    
-  const handleCancel = () => {
-    const isConfirmed = window.confirm("Are you sure you want to cancel? Any unsaved data will be lost.");
-    if (isConfirmed) {
-      console.log("Cancel button clicked");
-      window.location.href = `../${tenantId}/contacts`;
+
+  useEffect(() => {
+    const draftData = localStorage.getItem('contactDraft');
+    if (draftData) {
+      setContactData(JSON.parse(draftData));
     }
-  };
-
-
-
-  const handleSubmitForm = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    handleSubmit(event);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
-  };
-
-  const closeSuccessPopup = () => {
-    setShowSuccessPopup(false);
-    navigate(`/${tenantId}/contacts`);
-
-  };
-
+  }, []);
+  
   return (
    <div>
      <div className="contact_nav">

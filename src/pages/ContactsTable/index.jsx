@@ -578,7 +578,7 @@ export const ContactsTable = () => {
                 <tr className="contacttablerow" key={contact.id}>
                   <td>
                     {generateSmiley(generateRandomColor())}
-                    <div className="cont-first_name" onClick={handleContactClick}>
+                    <div className="cont-first_name" onClick={handleRowClick}>
                       
                         {contact.first_name}
                       

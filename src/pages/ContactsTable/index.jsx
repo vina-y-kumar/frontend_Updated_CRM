@@ -4,8 +4,12 @@ import { Sidebar } from "../../components/Sidebar";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import axiosInstance from "../../api";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
-
+import './contactsTable.css';
 import * as XLSX from "xlsx"; // Importing xlsx library
+import jsPDF from "jspdf"; // Importing jsPDF library
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
+import "jspdf-autotable";
+import { useNavigate } from "react-router-dom";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -20,6 +24,7 @@ export const ContactsTable = () => {
   const [viewMode, setViewMode] = useState("table");
   const tenantId=getTenantIdFromUrl();
   const [activeContacts, setActiveContacts] = useState([]);
+  const navigate = useNavigate();
 
   const [inactiveContacts, setInactiveContacts] = useState([]);
   const [recentContacts, setRecentContacts] = useState([]); // New state for recent contacts
@@ -38,6 +43,7 @@ export const ContactsTable = () => {
   const [searchAccountTerm, setSearchAccountTerm] = useState(""); // New state for account dropdown search
   const modelName = "contacts";
   const [activeButton, setActiveButton] = useState("All Contacts");
+  const [draftContacts, setDraftContacts] = useState([]);
 
   const handleButtonClick = (status) => {
     console.log("Clicked:", status);
@@ -55,6 +61,8 @@ export const ContactsTable = () => {
       const data = response.data;
       setContacts(data);
       setFilteredContacts(data);
+      const drafts = data.filter(contact => contact.status === "Draft");
+      setDraftContacts(drafts);
     } catch (error) {
       console.error("Error fetching contacts:", error);
     }
@@ -83,6 +91,14 @@ export const ContactsTable = () => {
       }
     } catch (error) {
       console.error("Error fetching active contacts:", error);
+    }
+  };
+
+  const handleRowClick = (contact) => {
+    if (contact.status === 'Draft') {
+      navigate(`/${tenantId}/addcontact`, { state: { contact } });
+    } else {
+      navigate(`/${tenantId}/contactinfo/${contact.id}`);
     }
   };
   
@@ -117,6 +133,23 @@ export const ContactsTable = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Contacts");
     XLSX.writeFile(wb, "contacts.xlsx");
+  };
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ["First Name", "Last Name", "Email", "Phone", "Address"],
+      ],
+      body: filteredContacts.map((contact) => [
+        contact.first_name,
+        contact.last_name,
+        contact.email,
+        contact.phone,
+        contact.address,
+      ]),
+    });
+    doc.save("contacts.pdf");
   };
 
   const handleAllCalls1 = (event) => {
@@ -279,6 +312,25 @@ export const ContactsTable = () => {
             <td className="cont_phone">{contact.address}</td>
           </tr>
         ));
+        case "Draft":
+          return draftContacts.map((contact, index) => (
+            <tr className="contacttablerow" key={contact.id}>
+              <td>
+                {generateSmiley(generateRandomColor())}
+                <div className="cont-first_name">
+                  <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                    {contact.first_name}
+                  </Link>
+                </div>
+              </td>
+              <td className="contlast_name">{contact.last_name}</td>
+              <td className="cont_email">
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </td>
+              <td className="cont_phone">{contact.phone}</td>
+              <td className="cont_phone">{contact.address}</td>
+            </tr>
+          ));
       case "Recent":
         return recentContacts.map((contact, index) => (
           <tr className="contacttablerow" key={contact.id}>
@@ -303,6 +355,8 @@ export const ContactsTable = () => {
     }
   };
 
+
+
   
   return (
  <div>
@@ -326,7 +380,7 @@ export const ContactsTable = () => {
             <div>
             <Dropdown>
               <Dropdown.Toggle variant="primary" id="payments-dropdown1" className="excel-dropdown-menu1">
-                Excel File
+               Excel File
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item>
@@ -334,7 +388,7 @@ export const ContactsTable = () => {
                     to={`/${tenantId}/bulk-import/?model=${modelName}`}
                     className="import-excel-btn5"
                   >
-                    Import Excel
+                  <FaFileExcel />  Import Excel
                   </Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
@@ -342,9 +396,12 @@ export const ContactsTable = () => {
                     onClick={handleDownloadExcel}
                     className="excel-download-btn1"
                   >
-                    Excel
+                  <FaFileExcel />  Excel
                   </button>
                 </Dropdown.Item>
+                <Dropdown.Item onClick={handleDownloadPDF}>
+                <FaFilePdf />  PDF
+                      </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             </div>
@@ -437,6 +494,16 @@ export const ContactsTable = () => {
             Recent
           </button>
         </div>
+        <div className="activeInactivebtn5">
+        <button
+                        className={`button ${
+                          activeButton === "Draft" ? "active" : ""
+                        }`}
+                        onClick={() => setActiveButton("Draft")}
+                      >
+                        Draft
+                      </button>
+        </div>
             
                 
       </div>
@@ -491,12 +558,11 @@ export const ContactsTable = () => {
           {activeButton === "All Accounts"
             ? contacts.map((contact, index) => (
                 <tr className="contacttablerow" key={contact.id}>
-                  <td>
+                  <td onClick={() => handleRowClick(contact)}>
                     {generateSmiley(generateRandomColor())}
                     <div className="cont-first_name">
-                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
                         {contact.first_name}
-                      </Link>
+                     
                     </div>
                   </td>
                   <td className="contlast_name">{contact.last_name}</td>
@@ -512,10 +578,10 @@ export const ContactsTable = () => {
                 <tr className="contacttablerow" key={contact.id}>
                   <td>
                     {generateSmiley(generateRandomColor())}
-                    <div className="cont-first_name">
-                      <Link to={`/${tenantId}/contactinfo/${contact.id}`}>
+                    <div className="cont-first_name" onClick={handleRowClick}>
+                      
                         {contact.first_name}
-                      </Link>
+                      
                     </div>
                   </td>
                   <td className="contlast_name">{contact.last_name}</td>

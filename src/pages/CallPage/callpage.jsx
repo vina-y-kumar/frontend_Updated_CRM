@@ -5,11 +5,15 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
 import * as XLSX from "xlsx"; 
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import axiosInstance from "../../api";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 
 
 import { useAuth } from "../../authContext";
+import { Call } from "@mui/icons-material";
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -19,7 +23,10 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
-export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }) => {
+
+
+
+export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData}) => {
 
   const tenantId=getTenantIdFromUrl();
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,6 +34,8 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
   const [viewMode, setViewMode] = useState("table");
   const [meet, setMeet] = useState([]);
   const {userId}=useAuth();
+  const [reminders, setReminders] = useState([]);
+  const { authenticated,userRole } = useAuth();
 
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false); 
   
@@ -40,8 +49,25 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
     to_time: "",
     related_to: "",
     createdBy: "",
+    
   });
+  
+  
 
+ 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      reminders.forEach((reminder) => {
+        if (reminder.triggerTime <= now) {
+          console.log("Reminder:", reminder.message);
+          dismissReminder(reminder.id);
+        }
+      });
+    }, 60000); 
+    return () => clearInterval(interval);
+  }, [reminders]);
+console.log(authenticated)
 
  
   const handleViewModeChange = (mode) => {
@@ -58,6 +84,33 @@ export const CallPage = ({handleScheduleMeeting, scheduleData, setScheduleData }
     XLSX.utils.book_append_sheet(wb, ws, "calls");
     XLSX.writeFile(wb, "callls.xlsx");
   };
+
+  const handleDownloadPDF = () => {
+    const unit = "pt";
+    const size = "A4"; // Use A4 size for simplicity
+    const orientation = "landscape"; // Landscape orientation for table format
+
+    const doc = new jsPDF(orientation, unit, size);
+
+    const title = "Calls Report";
+    const headers = [
+      ["Contact Name", "Call Type", "Call Start Time", "Call Duration", "Related To", "Location", "Recording"]
+    ];
+
+    const data = calls.map(call => [call.call_to, call.call_type, call.start_time, call.call_duration, call.related_to, call.location, call.voice_recording]);
+
+    doc.setFontSize(15);
+    doc.text(title, 40, 30);
+
+    doc.autoTable({
+      startY: 40,
+      head: headers,
+      body: data,
+    });
+
+    doc.save("calls_report.pdf");
+  };
+
 
   
   const handleDropDownChange = (e) => {
@@ -116,6 +169,10 @@ useEffect(() => {
     }
   };
 }, []);
+
+
+
+
 
 const handleCreateMeeting = async (e) => {
   e.preventDefault();
@@ -217,7 +274,7 @@ const handleCreateMeeting = async (e) => {
                 to={`/bulk-import?model=${modelName}`}
                 className="import-excel-btn5"
               >
-                Import Excel
+              <FaFileExcel/>  Import Excel
               </Link>
             </Dropdown.Item>
             <Dropdown.Item>
@@ -225,9 +282,14 @@ const handleCreateMeeting = async (e) => {
                 onClick={handleDownloadExcel}
                 className="excel-download-btn1"
               >
-                Excel
+               <FaFileExcel/> Excel
               </button>
             </Dropdown.Item>
+            <Dropdown.Item>
+            <button onClick={handleDownloadPDF} className="pdf-download-btn">
+            <FaFilePdf/>  Download PDF
+            </button>
+          </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         </div>
@@ -343,7 +405,7 @@ const handleCreateMeeting = async (e) => {
   </div>
 </dialog>
               <dialog id="scheduleModal" open={scheduleModalOpen}>
-        <div className="call-form-container">
+        <div className="call-form-container"> 
           <form onSubmit={handleScheduleMeeting} id="schedule-form">
             <fieldset className="form-fieldset">
               <legend className="form-legend-schedule">Schedule Call</legend>
@@ -374,6 +436,7 @@ const handleCreateMeeting = async (e) => {
                  required
                 
               />
+            
                           
                           <label className="form-timeTrigeer" htmlFor="timeTrigger">Time Trigger:</label>
               <input
@@ -395,8 +458,9 @@ const handleCreateMeeting = async (e) => {
                 onChange={(e) => setScheduleData({ ...scheduleData, createdBy: e.target.value })}
                 required
               />
-              
                 
+               
+             
               
             </fieldset>
             <div className="form-button-container_call">

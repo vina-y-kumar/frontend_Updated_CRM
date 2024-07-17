@@ -2,17 +2,21 @@ import './campaign.css';
 import { NavLink, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
-
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 
 import { Dropdown,Card, ListGroup } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
+
 
 import { Sidebar } from "../../components/Sidebar";
-import FacebookIcon from '@mui/icons-material/Facebook';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import axiosInstance from '../../api';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -23,6 +27,7 @@ const getTenantIdFromUrl = () => {
 };
 const Campaign = () => {
   const tenantId=getTenantIdFromUrl();
+  const navigate = useNavigate();
   const modelName = "campaigns";
   const [campaign, setCampaigns] = useState([]);
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
@@ -67,6 +72,60 @@ const Campaign = () => {
     XLSX.writeFile(wb, "campaigns.xlsx");
   };
 
+  const handleDownloadPDF = () => {
+    const unit = "pt";
+    const size = "A4"; // Use A4 size for simplicity
+    const orientation = "landscape"; // Landscape orientation for table format
+  
+    const doc = new jsPDF(orientation, unit, size);
+  
+    const title = "Campaigns Report";
+    const headers = [
+      [
+        "Campaign Name",
+        "Campaign Owner",
+        "Channel",
+        "Created On",
+        "Status",
+        "Est. Revenue"
+      ]
+    ];
+  
+    const data = filteredCampaigns.map(campaign => [
+      campaign.campaign_name,
+      campaign.campaign_owner,
+      campaign.type,
+      campaign.start_date,
+      campaign.status,
+      campaign.expected_revenue
+    ]);
+  
+    doc.setFontSize(15);
+    doc.text(title, 40, 30);
+  
+    doc.autoTable({
+      startY: 40,
+      head: headers,
+      body: data,
+    });
+  
+    doc.save("campaigns_report.pdf");
+  };
+
+  const handleInstagramButtonClick = () => {
+    navigate(`/${tenantId}/instagrampost`)
+  };
+  const handleWhatsappButtonClick = () => {
+    navigate(`/${tenantId}/chatbot`)
+  };
+  const handleEmailClick = () => {
+    navigate(`/${tenantId}/email`)
+  };
+  const handleLinkedInClick = () => {
+    navigate(`/${tenantId}/linkedinpost`)
+  };
+  
+
 
   return (
    <div>
@@ -94,7 +153,7 @@ const Campaign = () => {
                             to={`/bulk-import?model=${modelName}`}
                             className="import-excel-btn5"
                           >
-                            Import Excel
+                          <FaFileExcel/>  Import Excel
                           </Link>
                         </Dropdown.Item>
                         <Dropdown.Item>
@@ -102,9 +161,13 @@ const Campaign = () => {
                             onClick={handleDownloadExcel}
                             className="excel-download-btn1"
                           >
-                            Excel
+                          <FaFileExcel/>  Excel
                           </button>
                         </Dropdown.Item>
+                        <Dropdown.Item>
+                    <button onClick={handleDownloadPDF}><FaFilePdf/>Download PDF</button>
+                  </Dropdown.Item>
+
                       </Dropdown.Menu>
                     </Dropdown>
               </div>
@@ -135,20 +198,17 @@ const Campaign = () => {
         </div>
         <div className='campaign_filter_btn'>
                <div className='social_btn'> 
-                    <button className="campanign_btn1"   onClick={() => window.open("https://www.facebook.com/")}>
-                      <FacebookIcon />
+                    <button className="campanign_btn1"   onClick={handleLinkedInClick}>
+                      <LinkedInIcon />
                     </button>
-                    <button  className="campaign_btn2"    onClick={() => window.open("https://www.instagram.com/")}>
+                    <button  className="campaign_btn2"    onClick={handleInstagramButtonClick}>
                       <InstagramIcon />
                     </button>
-                    <button  className="campaign_btn3"      onClick={() => window.open("https://web.whatsapp.com/")}>
+                    <button  className="campaign_btn3"      onClick={handleWhatsappButtonClick}>
                       <WhatsAppIcon />
                     </button>
-                    <button   className="campaign_btn4"       onClick={() => window.open("mailto:youremail@example.com")}>
+                    <button   className="campaign_btn4"       onClick={handleEmailClick}>
                       <EmailIcon />
-                    </button>
-                    <button   className="campaign_btn5"         onClick={() => {/* Handle messaging */}}>
-                      <ChatBubbleOutlineIcon />
                     </button>
               </div>
               <div className='filter_campaign'>

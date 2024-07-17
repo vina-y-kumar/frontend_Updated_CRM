@@ -1,19 +1,21 @@
+
+
 import React, { useState, useEffect } from 'react';
 import './report.css';
+import GraphPage from './GraphPage.jsx'; // Import the new GraphPage component
 import axiosInstance from "../../api.jsx";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx";
-
 import { Dropdown } from "react-bootstrap";
 import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Line, BarChart, Bar, LabelList, PieChart, Pie, Cell } from 'recharts';
 import { useAuth } from "../../authContext";
 import { Link, NavLink } from 'react-router-dom';
 
 const getTenantIdFromUrl = () => {
-    const pathArray = window.location.pathname.split('/');
-    if (pathArray.length >= 2) {
-        return pathArray[1]; 
-    }
-    return null;
+  const pathArray = window.location.pathname.split('/');
+  if (pathArray.length >= 2) {
+    return pathArray[1];
+  }
+  return null;
 };
 
 const Report = () => {

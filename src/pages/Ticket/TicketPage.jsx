@@ -4,6 +4,8 @@ import './TicketPage.css';
 import { Sidebar } from "../../components/Sidebar";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx";
 import { MdCheckCircle, MdClose, MdArchive } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from "../../api.jsx";
 
 const getTenantIdFromUrl = () => {
     const pathArray = window.location.pathname.split('/');
@@ -13,61 +15,46 @@ const getTenantIdFromUrl = () => {
     return null; 
 };
 
-const sampleTickets = [
-    { id: 1321, heading: 'Login Issue', description: 'Unable to login with correct credentials.', status: 'notSolved' },
-    { id: 2145, heading: 'Page not loading', description: 'The dashboard page is not loading properly.', status: 'solved' },
-    { id: 3678, heading: 'Error in payment gateway', description: 'Receiving error while processing payment.', status: 'archived' },
-    { id: 4353, heading: 'Feature request', description: 'Request to add a new feature for reports.', status: 'notSolved' },
-    { id: 5345, heading: 'Bug in profile section', description: 'The profile section is not saving changes.', status: 'solved' },
-];
-
 const Ticket = () => {
     const tenantId = getTenantIdFromUrl();
-
+    const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('all');
-    const [filteredTickets, setFilteredTickets] = useState(sampleTickets);
+    const [filteredTickets, setFilteredTickets] = useState([]);
     const [selectedTicket, setSelectedTicket] = useState(null);
+    const [tickets, setTickets] = useState([]);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
     useEffect(() => {
-        filterTickets(selectedOption);
-    }, [selectedOption]);
+        const fetchTickets = async () => {
+            try {
+                const response = await axiosInstance.get(`/tickets/`);
+                const fetchedTickets = response.data;
+                setTickets(fetchedTickets);
+                console.log(tickets);
+                filterTickets(selectedOption, fetchedTickets); // Initial filter after fetching
+            } catch (error) {
+                console.error('Error fetching tickets:', error);
+                // Handle error (e.g., show an error message)
+            }
+        };
 
-    const filterTickets = (option) => {
+        fetchTickets();
+    }, [tenantId, selectedOption]); // Fetch tickets when tenantId or selectedOption changes
+
+    const filterTickets = (option, ticketsToFilter) => {
         if (option === 'all') {
-            setFilteredTickets(sampleTickets);
+            setFilteredTickets(ticketsToFilter);
         } else {
-            setFilteredTickets(sampleTickets.filter(ticket => ticket.status === option));
+            setFilteredTickets(ticketsToFilter.filter(ticket => ticket.status === option));
         }
     };
 
-    const getTicketCount = (status) => {
-        return sampleTickets.filter(ticket => status === 'all' ? true : ticket.status === status).length;
-    };
-
-    const handleMarkAsSolved = (ticket) => {
-        const updatedTickets = sampleTickets.map(t => 
-            t.id === ticket.id ? { ...t, status: 'solved' } : t
-        );
-        setFilteredTickets(updatedTickets);
-    };
-
-    const handleMarkAsUnsolved = (ticket) => {
-        const updatedTickets = sampleTickets.map(t => 
-            t.id === ticket.id ? { ...t, status: 'notSolved' } : t
-        );
-        setFilteredTickets(updatedTickets);
-    };
-
-    const handleArchive = (ticket) => {
-        const updatedTickets = sampleTickets.map(t => 
-            t.id === ticket.id ? { ...t, status: 'archived' } : t
-        );
-        setFilteredTickets(updatedTickets);
+    const handleClick = () => {
+        navigate(`/${tenantId}/ticketform`);
     };
 
     const handleDragStart = (e, ticket) => {
@@ -76,7 +63,7 @@ const Ticket = () => {
 
     const handleDrop = (e, newStatus) => {
         const ticketId = e.dataTransfer.getData("ticketId");
-        const updatedTickets = sampleTickets.map(t => 
+        const updatedTickets = tickets.map(t => 
             t.id === parseInt(ticketId) ? { ...t, status: newStatus } : t
         );
         setFilteredTickets(updatedTickets);
@@ -86,10 +73,29 @@ const Ticket = () => {
         e.preventDefault();
     };
 
-    useEffect(() => {
-        filterTickets(selectedOption);
-    }, [selectedOption]);
+    const handleMarkAsSolved = (ticketToUpdate) => {
+        const updatedTickets = tickets.map(t =>
+            t.id === ticketToUpdate.id ? { ...t, status: 'solved' } : t
+        );
+        setTickets(updatedTickets);
+        filterTickets(selectedOption, updatedTickets); // Re-filter after status update
+    };
 
+    const handleMarkAsUnsolved = (ticketToUpdate) => {
+        const updatedTickets = tickets.map(t =>
+            t.id === ticketToUpdate.id ? { ...t, status: 'notSolved' } : t
+        );
+        setTickets(updatedTickets);
+        filterTickets(selectedOption, updatedTickets); // Re-filter after status update
+    };
+
+    const handleArchive = (ticketToUpdate) => {
+        const updatedTickets = tickets.map(t =>
+            t.id === ticketToUpdate.id ? { ...t, status: 'archived' } : t
+        );
+        setTickets(updatedTickets);
+        filterTickets(selectedOption, updatedTickets); // Re-filter after status update
+    };
 
     return (
         <div className="ticket-page">
@@ -111,7 +117,9 @@ const Ticket = () => {
                                 <option value="solved">Solved</option>
                                 <option value="archived">Archived</option>
                             </select>
-                            <button className="ticket-create_button">Create New</button>
+                            <button className="ticket-create_button" onClick={handleClick}>
+                               + Create New
+                            </button>
                             <div className="ticket-dropdown">
                                 <button className="dropbtn" onClick={toggleDropdown}>⋮</button>
                                 {dropdownOpen && (
@@ -126,16 +134,16 @@ const Ticket = () => {
                     </div>
                     <div className="ticket_heading">
                         <button onClick={() => setSelectedOption('all')}>
-                            All Tickets <span className="ticket_count_badge">{getTicketCount('all')}</span>
+                            All Tickets <span className="ticket_count_badge">{filteredTickets.length}</span>
                         </button>
                         <button onClick={() => setSelectedOption('notSolved')}>
-                            Not Solved <span className="ticket_count_badge">{getTicketCount('notSolved')}</span>
+                            Not Solved <span className="ticket_count_badge">{filteredTickets.filter(ticket => ticket.status === 'notSolved').length}</span>
                         </button>
                         <button onClick={() => setSelectedOption('solved')}>
-                            Solved <span className="ticket_count_badge">{getTicketCount('solved')}</span>
+                            Solved <span className="ticket_count_badge">{filteredTickets.filter(ticket => ticket.status === 'solved').length}</span>
                         </button>
                         <button onClick={() => setSelectedOption('archived')}>
-                            Archived <span className="ticket_count_badge">{getTicketCount('archived')}</span>
+                            Archived <span className="ticket_count_badge">{filteredTickets.filter(ticket => ticket.status === 'archived').length}</span>
                         </button>
                     </div>
                     <div className="ticket_list">
@@ -150,8 +158,8 @@ const Ticket = () => {
                                 onClick={() => setSelectedTicket(ticket)}
                             >
                                 <div className="ticket_heading_number">
-                                    <span>{ticket.heading}</span>
-                                    <span className="ticket-id-number">#{ticket.id}</span>
+                                    <span>{ticket.case_reason}</span>
+                                    <span className="ticket-id-number">#{ticket.casenumber}</span>
                                 </div>
                                 <div className="ticket_description">
                                     {ticket.description}
@@ -206,14 +214,14 @@ const Ticket = () => {
                                             </button>
                                         </>
                                     )}
-                                    <Link to="#" onClick={(e) => e.stopPropagation()}>View Ticket Info</Link>
+                                     <Link to={`/${tenantId}/ticketinfo/${ticket.id}`} onClick={(e) => e.stopPropagation()}>View Ticket Info</Link>
                                 </div>
                             </div>
                         ))}
                     </div>
                     {selectedTicket && (
                         <div className="ticket_details">
-                            <h2>{selectedTicket.heading}</h2>
+                            <h2>{selectedTicket.case_reason}</h2>
                             <p>{selectedTicket.description}</p>
                             <button onClick={() => handleMarkAsSolved(selectedTicket)}><MdCheckCircle /> Mark as Solved</button>
                             <button onClick={() => handleMarkAsUnsolved(selectedTicket)}><MdClose /> Mark as Unsolved</button>

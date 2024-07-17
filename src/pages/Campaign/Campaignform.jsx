@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from "../../components/Sidebar";
 import axios from 'axios';
 
@@ -10,6 +10,8 @@ import EmailIcon from '@mui/icons-material/Email';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import axiosInstance from "../../api";
 import { useAuth } from "../../authContext";
+import { useNavigate } from "react-router-dom";
+
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
   const pathArray = window.location.pathname.split('/');
@@ -18,7 +20,33 @@ const getTenantIdFromUrl = () => {
   }
   return null; // Return null if tenant ID is not found or not in the expected place
 };
+
+const Popup = ({ errors, onClose }) => (
+  <div className="product-popup">
+    <div className="product-popup-content">
+      <h2>Error</h2>
+      <button className="product-popup-close" onClick={onClose}>Ok</button>
+      <ul>
+        {Object.entries(errors).map(([field, errorList]) => (
+          <li key={field}>
+            {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+const SuccessPopup = ({ message, onClose }) => (
+  <div className="product-popup2">
+    <div className="product-popup-content2">
+      <h2>Product Created Sucessfully</h2>
+      <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
+
 const Campaignform = () => {
+  const navigate = useNavigate();
   const tenantId = getTenantIdFromUrl();
   const {userId}=useAuth();
   const [campaignData, setCampaignData] = useState({
@@ -36,20 +64,41 @@ const Campaignform = () => {
     description: "",
     campaign_owner: ""
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorFields, setErrorFields] = useState({});
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    const updatedErrorFields = { ...errorFields };
+    delete updatedErrorFields[name];
+    setErrorFields(updatedErrorFields);
     setCampaignData(prevState => ({
       ...prevState,
       [name]: value,
     }));
   };
+  useEffect(() => {
+    // Set initial error fields based on formErrors
+    const initialErrorFields = {};
+    Object.keys(formErrors).forEach(field => {
+      initialErrorFields[field] = true;
+    });
+    setErrorFields(initialErrorFields);
+  }, [formErrors]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axiosInstance.post('/campaign/', campaignData);
       const campaignId = response.data.id;
+      setSuccessMessage(response.data.message);
+      setShowSuccessPopup(true);
+
           const interactionData = {
             entity_type: "campaign",
             entity_id: campaignId,
@@ -83,8 +132,29 @@ const Campaignform = () => {
       });
     } catch (error) {
       console.error('Error submitting form:', error);
+      if (error.response) {
+        // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+        setFormErrors(error.response.data || error.message);
+      } else {
+        // Network or other generic error
+        setFormErrors({ networkError: 'Network Error. Please try again later.' });
+      }
+      setShowPopup(true);
     }
   };
+
+  
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    navigate(`/${tenantId}/campaign`);
+
+  };
+
   const handleSocialButtonClick = (type) => {
     setCampaignData(prevState => ({
       ...prevState,
@@ -104,6 +174,7 @@ const Campaignform = () => {
     
   
     if (isConfirmed) {
+      localStorage.removeItem('campaignDraft'); 
       console.log("Cancel button clicked");
      
       window.location.href = `../${tenantId}/campaign`;
@@ -111,14 +182,49 @@ const Campaignform = () => {
   };
   
   
-  const handleSaveAsDraft = () => {
-    // Implement save as draft logic here
-    console.log("Save as Draft button clicked");
-  
+  const handleSaveAsDraft = async () => {
+    setIsSavingDraft(true);
+    try {
+      const dataToSend = {
+        ...campaignData,
+        createdBy: userId,
+        tenant: tenantId,
+        status: 'Draft',
+      };
+
+      console.log('Data to send:', dataToSend);
+
+      // Save draft locally (optional)
+      localStorage.setItem('campaignDraft', JSON.stringify(dataToSend));
+
+      // Save draft on backend
+      await axiosInstance.post('/campaign/', dataToSend);
+
+      console.log('Draft saved successfully');
+
+      // Navigate to campaign list or wherever appropriate
+      navigate(`/${tenantId}/campaign`);
+    } catch (error) {
+      console.error('Error saving draft:', error);
+      if (error.response) {
+        setFormErrors(error.response.data || error.message);
+      } else {
+        setFormErrors({ networkError: 'Network Error. Please try again later.' });
+      }
+    } finally {
+      setIsSavingDraft(false);
+    }
   };
+
+  useEffect(() => {
+    const draftData = localStorage.getItem('campaignDraft');
+    if (draftData) {
+      setOppourtunityData(JSON.parse(draftData));
+    }
+  }, []);
   const handleSubmitForm = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    // Call your submit logic here
+    event.preventDefault(); 
+    localStorage.removeItem('campaignDraft'); 
     handleSubmit(event);
   };
   return (
@@ -153,7 +259,7 @@ const Campaignform = () => {
 
         </div>
 
-  <div>
+  <div className='campaign-box'>
   <div className="form-group col-md-6 ">
           <label htmlFor="text" className='campaign_name'>Campaign Name :</label>
           <input
@@ -164,6 +270,7 @@ const Campaignform = () => {
             value={campaignData.campaign_name}
             onChange={handleChange}
             placeholder="Enter Campaign Name"
+            style={{ borderColor: errorFields.campaign_name ? 'red' : '' }}
           />
         </div>
         <div className="form-group col-md-6">
@@ -176,6 +283,7 @@ const Campaignform = () => {
             value={campaignData.campaign_owner}
             onChange={handleChange}
             placeholder="Enter campaign Owner"
+            style={{ borderColor: errorFields.campaign_owner ? 'red' : '' }}
           />
         </div>
         <div className="form-group col-md-6">
@@ -188,6 +296,7 @@ const Campaignform = () => {
                     value={campaignData.start_date}
                     onChange={handleChange}
                     placeholder="Enter start date"
+                    style={{ borderColor: errorFields.start_date ? 'red' : '' }}
                   />
                 </div>
                 <div className="form-group col-md-6">
@@ -200,6 +309,7 @@ const Campaignform = () => {
                     value={campaignData.end_date}
                     onChange={handleChange}
                     placeholder="Enter end date"
+                    style={{ borderColor: errorFields.end_date ? 'red' : '' }}
                   />
                 </div>
 
@@ -213,6 +323,7 @@ const Campaignform = () => {
                     value={campaignData.expected_revenue}
                     onChange={handleChange}
                     placeholder="Enter expected revenue"
+                    style={{ borderColor: errorFields.expected_revenue ? 'red' : '' }}
                   />
                 </div>
 
@@ -226,6 +337,7 @@ const Campaignform = () => {
                     value={campaignData.message}
                     onChange={handleChange}
                     placeholder="Enter message"
+                    style={{ borderColor: errorFields.message ? 'red' : '' }}
                   />
                 </div>
         <div>
@@ -245,6 +357,7 @@ const Campaignform = () => {
                     value={campaignData.expected_count}
                     onChange={handleChange}
                     placeholder="Enter expected count"
+                    style={{ borderColor: errorFields.expected_count ? 'red' : '' }}
                   />
                 </div>
        
@@ -277,6 +390,7 @@ const Campaignform = () => {
                     value={campaignData.expected_response}
                     onChange={handleChange}
                     placeholder="Enter expected response"
+                    style={{ borderColor: errorFields.expected_response ? 'red' : '' }}
                   />
                 </div>
 
@@ -305,6 +419,8 @@ const Campaignform = () => {
         
  </form> 
    </div>
+   {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+      {showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
     </div>
     
   )

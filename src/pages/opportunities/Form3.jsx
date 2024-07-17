@@ -11,6 +11,34 @@ import "./index.jsx";
 import axiosInstance from "../../api.jsx";
 import { useAuth } from "../../authContext.jsx";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import { useNavigate } from "react-router-dom";
+
+
+
+
+const Popup = ({ errors, onClose }) => (
+  <div className="product-popup">
+    <div className="product-popup-content">
+      <h2>Error</h2>
+      <button className="product-popup-close" onClick={onClose}>Ok</button>
+      <ul>
+        {Object.entries(errors).map(([field, errorList]) => (
+          <li key={field}>
+            {field.replace(/_/g, ' ')}: {errorList[0]} {/* Assuming single error message per field */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+const SuccessPopup = ({ message, onClose }) => (
+  <div className="product-popup2">
+    <div className="product-popup-content2">
+      <h2>Opportunity Created Sucessfully</h2>
+      <button className="product-popup-ok-button2" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
 
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -22,6 +50,7 @@ const getTenantIdFromUrl = () => {
 };
 
 const Form3 = () => {
+  const navigate = useNavigate();
     const style = {
         position: "absolute",
         top: "50%",
@@ -42,6 +71,13 @@ const Form3 = () => {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [formErrors, setFormErrors] = useState({});
+    const [showPopup, setShowPopup] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorFields, setErrorFields] = useState({});
+    const [isSavingDraft, setIsSavingDraft] = useState(false);
 
     const [oppourtunityData, setOppourtunityData] = useState({
         name: "",
@@ -117,13 +153,57 @@ const Form3 = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+        const updatedErrorFields = { ...errorFields };
+        delete updatedErrorFields[name];
+        setErrorFields(updatedErrorFields);
         setOppourtunityData({ ...oppourtunityData, [name]: value });
     };
 
-    
+    useEffect(() => {
+      // Set initial error fields based on formErrors
+      const initialErrorFields = {};
+      Object.keys(formErrors).forEach(field => {
+        initialErrorFields[field] = true;
+      });
+      setErrorFields(initialErrorFields);
+    }, [formErrors]);
+  
+
+    const handleSaveAsDraft = async () => {
+      setIsSavingDraft(true);
+      try {
+        const dataToSend = {
+          ...oppourtunityData,
+          createdBy: userId,
+          tenant: tenantId,
+          status: "Draft",
+        };
+  
+        console.log('Data to send:', dataToSend);
+  
+        localStorage.setItem('opportunityDraft', JSON.stringify(dataToSend));
+  
+        await axiosInstance.post('/opportunities/', dataToSend);
+  
+        console.log("Draft saved successfully");
+  
+        navigate(`/${tenantId}/opportunities`);
+      } catch (error) {
+        console.error("Error saving draft:", error);
+  
+        if (error.response) {
+          setFormErrors(error.response.data || error.message);
+        } else {
+          setFormErrors({ networkError: 'Network Error. Please try again later.' });
+        }
+      } finally {
+        setIsSavingDraft(false);
+      }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         try {
           const dataToSend = {
             ...oppourtunityData,
@@ -165,6 +245,14 @@ const Form3 = () => {
             });
         } catch (error) {
             console.error("Error submitting form:", error);
+            if (error.response) {
+              // API error (e.g., 400 Bad Request, 500 Internal Server Error)
+              setFormErrors(error.response.data || error.message);
+            } else {
+              // Network or other generic error
+              setFormErrors({ networkError: 'Network Error. Please try again later.' });
+            }
+            setShowPopup(true);
         }
     };
 
@@ -191,6 +279,7 @@ const handleCancel = () => {
   
 
   if (isConfirmed) {
+    localStorage.removeItem('opportunityDraft'); 
     console.log("Cancel button clicked");
    
     window.location.href = `../${tenantId}/opportunities`;
@@ -198,16 +287,30 @@ const handleCancel = () => {
 };
 
 
-const handleSaveAsDraft = () => {
-  // Implement save as draft logic here
-  console.log("Save as Draft button clicked");
 
-};
 const handleSubmitForm = (event) => {
-  event.preventDefault(); // Prevent default form submission behavior
-  // Call your submit logic here
+  event.preventDefault(); 
+  localStorage.removeItem('opportunityDraft'); 
   handleSubmit(event);
 };
+
+const closePopup = () => {
+  setShowPopup(false);
+};
+
+const closeSuccessPopup = () => {
+  setShowSuccessPopup(false);
+  navigate(`/${tenantId}/opportunties`);
+
+};
+
+useEffect(() => {
+  const draftData = localStorage.getItem('opportunityDraft');
+  if (draftData) {
+    setOppourtunityData(JSON.parse(draftData));
+  }
+}, []);
+
 
 
     return (
@@ -228,7 +331,7 @@ const handleSubmitForm = (event) => {
       <div className="Oppo_contain_form">
         <div className="flex-container_oppo">
           <div>
-            <h1 className="oppo_form">Create Opportunity</h1>
+            
           </div>
           <div className='btnsss_oopo'>
             <button type="cancel" onClick={handleCancel} className="btn-submit_cancel">Cancel</button>
@@ -236,7 +339,9 @@ const handleSubmitForm = (event) => {
             <button type="submit" onClick={handleSubmitForm}  className="btn-submit_submit">Submit</button>
           </div>
         </div>
+        <h1 className="oppo_form">Create Opportunity</h1>
         <div className='oppo_form_contain'>
+          
           <form onSubmit={handleSubmit} className="oppo_form_fill">
             <div className="form-row">
               <div className="form-group col-md-6">
@@ -249,6 +354,7 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.name}
                   onChange={handleInputChange}
                   placeholder="Enter contact Owner"
+                  style={{ borderColor: errorFields.name ? 'red' : '' }}
                 />
               </div>
 
@@ -262,6 +368,7 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.contacts}
                   onChange={handleInputChange}
                   placeholder="Enter contacts"
+                  style={{ borderColor: errorFields.contacts ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -271,6 +378,7 @@ const handleSubmitForm = (event) => {
                   name="lead_source"
                   value={oppourtunityData.lead_source}
                   onChange={handleInputChange}
+                  style={{ borderColor: errorFields.lead_source ? 'red' : '' }}
                   className="form-control"
                 >
                   <option value="">Select Lead Source</option>
@@ -291,6 +399,7 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.isActive}
                   onChange={handleInputChange}
                   placeholder="Enter isActive"
+                  style={{ borderColor: errorFields.isActive ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -303,6 +412,7 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.createdOn}
                   onChange={handleInputChange}
                   placeholder="Enter created On"
+                  style={{ borderColor: errorFields.createdOn ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -315,6 +425,7 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.amount}
                   onChange={handleInputChange}
                   placeholder="Enter amount"
+                  style={{ borderColor: errorFields.amount ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -327,6 +438,7 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.probability}
                   onChange={handleInputChange}
                   placeholder="Enter probability"
+                  style={{ borderColor: errorFields.probability ? 'red' : '' }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -337,6 +449,7 @@ const handleSubmitForm = (event) => {
     name="stage"
     value={oppourtunityData.stage}
     onChange={handleInputChange}
+    style={{ borderColor: errorFields.stage ? 'red' : '' }}
   >
     <option value="">Select Lead Source</option>
                   {STAGES.map((option) => (
@@ -419,6 +532,20 @@ const handleSubmitForm = (event) => {
                   value={oppourtunityData.closedOn}
                   onChange={handleInputChange}
                   placeholder="Enter time"
+                  style={{ borderColor: errorFields.closedOn ? 'red' : '' }}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="description" className="oppo_form_description">Description</label>
+                <input
+                  type="text"
+                  className="form-control_oopo_desc"
+                  id="description"
+                  name="description"
+                  value={oppourtunityData.description}
+                  onChange={handleInputChange}
+                  placeholder="Enter description"
+                  style={{ borderColor: errorFields.description ? 'red' : '' }}
                 />
               </div>
               {/* <div className="form-group col-md-6">
@@ -458,18 +585,7 @@ const handleSubmitForm = (event) => {
                 />
               </div> */}
              
-              <div className="form-group col-md-6">
-                <label htmlFor="description" className="oppo_form_description">description</label>
-                <input
-                  type="text"
-                  className="form-control_oopo_desc"
-                  id="description"
-                  name="description"
-                  value={oppourtunityData.description}
-                  onChange={handleInputChange}
-                  placeholder="Enter description"
-                />
-              </div>
+              
             </div>
 
             <div className="oppo_submit">
@@ -481,6 +597,9 @@ const handleSubmitForm = (event) => {
         </div>
       </div>
     </div>
+    {showPopup && <Popup errors={formErrors} onClose={closePopup} />}
+
+{showSuccessPopup && <SuccessPopup message={successMessage} onClose={closeSuccessPopup} />}
     </div>
         );
       };

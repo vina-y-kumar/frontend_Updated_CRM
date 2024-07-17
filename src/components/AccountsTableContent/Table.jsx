@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Dropdown, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import call from "../../assets/call.jpg";
 import mail from "../../assets/mail.webp";
 import person from "../../assets/person.png";
@@ -11,6 +13,7 @@ import msg from "../../assets/msg.webp";
 import "./accountsTableContent.css";
 import axiosInstance from '../../api';
 import { useAuth } from "../../authContext";
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -111,6 +114,21 @@ const AccountsTable1 = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "accounts");
     XLSX.writeFile(wb, "accounts.xlsx");
+  };
+
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [['Account Name', 'Phone Number', 'Industry', 'Account Owner', 'Email']],
+      body: accounts.map(account => [
+        account.company,
+        account.phone,
+        account.industry,
+        account.Name,
+        account.email
+      ]),
+    });
+    doc.save('accounts.pdf');
   };
 
   const getCircleColor = (letter) => {
@@ -268,7 +286,7 @@ const renderTableRows = () => {
                                   to={`/bulk-import?model=${modelName}`}
                                   className="import-excel-btn4"
                                 >
-                                  Import Excel
+                                 <FaFileExcel/> Import Excel
                                 </Link>
                               </Dropdown.Item>
                               <Dropdown.Item>
@@ -276,9 +294,12 @@ const renderTableRows = () => {
                                   onClick={handleDownloadExcel}
                                   className="excel-download-btn1"
                                 >
-                                  Excel
+                                 <FaFileExcel/> Excel
                                 </button>
                               </Dropdown.Item>
+                              <Dropdown.Item onClick={handleDownloadPdf}>
+                       <FaFilePdf/> PDF
+                      </Dropdown.Item>
                             </Dropdown.Menu>
                           </Dropdown>
                     </div>

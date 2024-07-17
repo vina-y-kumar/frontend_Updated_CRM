@@ -5,11 +5,14 @@ import { Card, ListGroup } from "react-bootstrap";
 import { NavLink,Link } from 'react-router-dom';
 import { Dropdown  } from "react-bootstrap";
 import TopNavbar from "../TopNavbar/TopNavbar.jsx"; // Adjust the import path
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 
 
 import axios from "axios";
 import "./task.css";
 import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import axiosInstance from "../../api.jsx";
 const getTenantIdFromUrl = () => {
   // Example: Extract tenant_id from "/3/home"
@@ -65,6 +68,24 @@ export const TaskTable = () => {
     XLSX.writeFile(wb, "tasks.xlsx");
   };
 
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ['Subject', 'Status', 'Due Date', 'Priority', 'Description', 'Contact']
+      ],
+      body: tasks.map(task => [
+        task.subject,
+        task.status,
+        task.due_date,
+        task.priority,
+        task.description,
+        task.contact
+      ]),
+    });
+    doc.save('tasks.pdf');
+  };
+
 
 
 
@@ -96,13 +117,16 @@ export const TaskTable = () => {
                 <Dropdown.Menu>
                   <Dropdown.Item>
                     <Link to={`/bulk-import?model=${modelName}`} className="import-excel-btn5">
-                      Import Excel
+                    <FaFileExcel/>  Import Excel
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <button onClick={handleDownloadExcel} className="excel-download-btn1">
-                      Excel
+                    <FaFileExcel/>  Excel
                     </button>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                  <button onClick={handleDownloadPdf} className="pdf-download-btn"><FaFilePdf/>PDF</button>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
